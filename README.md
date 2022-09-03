@@ -1,3 +1,7 @@
+<div align="center" style="margin-top: 1em; margin-bottom: 3em;">
+  <h1>ethereum.nix = Ethereum + Nix 🫶</h1>
+</div>
+
 <p align="center">
   <a href="https://ethereum.org/">
     <img src="https://img.shields.io/static/v1?label=&labelColor=1B1E36&color=1B1E36&message=ethereum%20ecosystem&style=for-the-badge&logo=data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiB2aWV3Qm94PSIwIDAgNDAgNDAiIGZpbGw9Im5vbmUiIHZlcnNpb249IjEuMiIgYmFzZVByb2ZpbGU9InRpbnktcHMiPjx0aXRsZT5FdGhlcmV1bSBsb2dvPC90aXRsZT48cGF0aCBkPSJNOSAyMi4xMTZMMTkuOTk5OSAyOS4wNDI0VjM4LjAwMDIiIGZpbGw9IiM1M0QzRTAiPjwvcGF0aD48cGF0aCBkPSJNMzAuOTk5OSAyMi4xMTZMMjAgMjkuMDQyNFYzOC4wMDAyIiBmaWxsPSIjNUE5REVEIj48L3BhdGg+PHBhdGggZD0iTTkgMTkuODc3NUwxOS45OTk5IDEzLjY5ODVWMUw5IDE5Ljg3NzVaIiBmaWxsPSIjRkZFOTREIj48L3BhdGg+PHBhdGggZD0iTTE5Ljk5OTkgMjYuODAzOVYxMy42OTg1TDkgMTkuODc3NUwxOS45OTk5IDI2LjgwMzlaIiBmaWxsPSIjQTdERjdFIj48L3BhdGg+PHBhdGggZD0iTTIwIDFWMTMuNjk4NUwzMC45OTk5IDE5Ljg3NzVMMjAgMVoiIGZpbGw9IiNGRjlDOTIiPjwvcGF0aD48cGF0aCBkPSJNMjAgMTMuNjk4NVYyNi44MDM5TDMwLjk5OTkgMTkuODc3NUwyMCAxMy42OTg1WiIgZmlsbD0iI0Q3OTdEMSI+PC9wYXRoPjwvc3ZnPg==" alt="Ethereum Ecosystem"/>
@@ -10,10 +14,6 @@
   </a>
 </p>
 
-<div align="center" style="margin-top: 1em; margin-bottom: 3em;">
-  <h1>ethereum.nix = Ethereum + Nix 🫶</h1>
-</div>
-
 This is an experimental Nix project for integrating the most interesting / important projects in the Ethereum ecosystem as Nix packages / NixOS modules.
 
 This project is developed entirely in [Nix Flakes](https://nixos.wiki/wiki/Flakes).
@@ -23,7 +23,7 @@ This project is developed entirely in [Nix Flakes](https://nixos.wiki/wiki/Flake
 We're kickstarting the tires, so there are a couple of tasks that need love and attention:
 
 - [ ] Fix compilation issues with `lighthouse`.
-- [ ] Fix compilation issues with `prysm`.
+- [x] Fix compilation issues with `prysm`.
 - [ ] Add `nixosModules` for `clients` apps.
 - [ ] Support more architectures besides `x86_64-linux`.
 - [ ] Better integration with CI to automate releases.

@@ -68,18 +68,18 @@
     # nix run .#<app>
     apps = with pkgs; {
       # consensus clients
-      # beacon-chain = l.mkApp {
-      #   name = "beacon-chain";
-      #   drv = prysm;
-      # };
-      # client-stats = l.mkApp {
-      #   name = "client-stats";
-      #   drv = prysm;
-      # };
-      # validator = l.mkApp {
-      #   name = "validator";
-      #   drv = prysm;
-      # };
+      beacon-chain = l.mkApp {
+        name = "beacon-chain";
+        drv = prysm;
+      };
+      client-stats = l.mkApp {
+        name = "client-stats";
+        drv = prysm;
+      };
+      validator = l.mkApp {
+        name = "validator";
+        drv = prysm;
+      };
       teku = l.mkApp {
         drv = teku;
       };

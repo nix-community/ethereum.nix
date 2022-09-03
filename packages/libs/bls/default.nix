@@ -20,6 +20,9 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [cmake];
   buildInputs = [gmp];
 
+  # ETH2.0 spec 
+  CFLAGS = [''-DBLS_ETH''];
+
   meta = {
     description = "BLS threshold signature";
     homepage = "https://github.com/herumi/bls";
