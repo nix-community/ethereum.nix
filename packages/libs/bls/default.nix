@@ -3,7 +3,6 @@
   fetchFromGitHub,
   gmp,
   stdenv,
-  ...
 }:
 stdenv.mkDerivation rec {
   pname = "bls";
@@ -20,7 +19,7 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [cmake];
   buildInputs = [gmp];
 
-  # ETH2.0 spec 
+  # ETH2.0 spec
   CFLAGS = [''-DBLS_ETH''];
 
   meta = {
