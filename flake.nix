@@ -83,9 +83,9 @@
       teku = l.mkApp {
         drv = teku;
       };
-      # lighthouse = l.mkApp {
-      #   drv = lighthouse;
-      # };
+      lighthouse = l.mkApp {
+        drv = lighthouse;
+      };
 
       # execution clients
       besu = l.mkApp {

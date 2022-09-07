@@ -1,0 +1,13 @@
+diff --git a/testing/web3signer_tests/build.rs b/testing/web3signer_tests/build.rs
+index f62dff0b..9333024f 100644
+--- a/testing/web3signer_tests/build.rs
++++ b/testing/web3signer_tests/build.rs
+@@ -14,7 +14,7 @@ const FIXED_VERSION_STRING: Option<&str> = None;
+ 
+ #[tokio::main]
+ async fn main() {
+-    let out_dir = env::var("OUT_DIR").unwrap();
++    let out_dir = env::var("LIGHTHOUSE_WEB3SIGNER_BIN").unwrap();
+     download_binary(out_dir.into()).await;
+ }
+ 

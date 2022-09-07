@@ -16,13 +16,15 @@
 
 This is an experimental Nix project for integrating the most interesting / important projects in the Ethereum ecosystem as Nix packages / NixOS modules.
 
+Many of the packages found here will be added to `nixpkgs` repository once they're stable / mature enough. But for some others, more experimental ones, they can reside here.
+
 This project is developed entirely in [Nix Flakes](https://nixos.wiki/wiki/Flakes).
 
 ## TO-DO
 
 We're kickstarting the tires, so there are a couple of tasks that need love and attention:
 
-- [ ] Fix compilation issues with `lighthouse`.
+- [x] Fix compilation issues with `lighthouse`.
 - [x] Fix compilation issues with `prysm`.
 - [ ] Add `nixosModules` for `clients` apps.
 - [ ] Support more architectures besides `x86_64-linux`.
@@ -45,10 +47,10 @@ We're kickstarting the tires, so there are a couple of tasks that need love and 
 
   outputs = { self, ethereum-nix, nixpkgs }: {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-      system = x86_64-linux;
+      system = "x86_64-linux";
       modules = [
         ({ pkgs, ... }: {
-          nixpkgs.overlays = [ ethereum-nix.overlay ];
+          nixpkgs.overlays = [ ethereum-nix.overlays.default ];
         })
       ];
     };
