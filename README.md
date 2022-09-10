@@ -139,6 +139,7 @@ just fmt
 - [prysm](https://github.com/prysmaticlabs/prysm):
   - beacon-chain: `nix run .#beacon-chain`
   - client-stats: `nix run .#client-stats`
+  - prysmctl: `nix run .#prysmctl`
   - validator: `nix run .#validator`
 - [teku](https://github.com/ConsenSys/teku): `nix run .#teku`
 - [lighthouse](https://github.com/sigp/lighthouse): `nix run .#lighthouse`
@@ -147,7 +148,19 @@ just fmt
 
 - [besu](https://github.com/hyperledger/besu): `nix run .#besu`
 - [erigon](https://github.com/ledgerwatch/erigon): `nix run .#erigon`
-- [geth](https://github.com/ethereum/go-ethereum): `nix run .#geth`
+- [geth](https://github.com/ethereum/go-ethereum):
+  - abidump: `nix run .#abidump`
+  - abigen: `nix run .#abigen`
+  - bootnode: `nix run .#bootnode`
+  - clef: `nix run .#clef`
+  - devp2p: `nix run .#devp2p`
+  - ethkey: `nix run .#ethkey`
+  - evm: `nix run .#evm`
+  - faucet: `nix run .#faucet`
+  - geth: `nix run .#geth`
+  - rlpdump: `nix run .#rlpdump`
+- [mev-geth](https://github.com/flashbots/mev-geth): `nix run .#mev-geth`
+- [mev-boost](https://github.com/flashbots/mev-boost/): `nix run .#mev-boost`
 
 #### Utilities / Tools / Other
 

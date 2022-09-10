@@ -17,9 +17,11 @@
   };
 
   inputs = {
+    # packages
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixlib.url = github:nix-community/nixpkgs.lib;
 
+    # libraries
     fu.url = "github:numtide/flake-utils";
     fup = {
       url = "github:gytis-ivaskevicius/flake-utils-plus";
@@ -67,22 +69,26 @@
   in {
     # nix run .#<app>
     apps = with pkgs; {
-      # consensus clients
+      # consensus clients / prysm
       beacon-chain = l.mkApp {
         name = "beacon-chain";
-        drv = prysm;
-      };
-      client-stats = l.mkApp {
-        name = "client-stats";
         drv = prysm;
       };
       validator = l.mkApp {
         name = "validator";
         drv = prysm;
       };
+      client-stats = l.mkApp {
+        name = "client-stats";
+        drv = prysm;
+      };
+
+      # consensus / teku
       teku = l.mkApp {
         drv = teku;
       };
+
+      # consensus / lighthouse
       lighthouse = l.mkApp {
         drv = lighthouse;
       };
@@ -95,13 +101,67 @@
         drv = erigon;
       };
       geth = l.mkApp {
+        drv = geth;
+      };
+      mev-boost = l.mkApp {
+        drv = mev-boost;
+      };
+      mev-geth = l.mkApp {
         name = "geth";
-        drv = go-ethereum;
+        drv = mev-geth;
       };
 
-      # utils
+      # utils / ethdo
       ethdo = l.mkApp {
         drv = ethdo;
+      };
+
+      # utils / geth
+      abidump = l.mkApp {
+        name = "abidump";
+        drv = geth;
+      };
+      abigen = l.mkApp {
+        name = "abigen";
+        drv = geth;
+      };
+      bootnode = l.mkApp {
+        name = "bootnode";
+        drv = geth;
+      };
+      clef = l.mkApp {
+        name = "clef";
+        drv = geth;
+      };
+      devp2p = l.mkApp {
+        name = "devp2p";
+        drv = geth;
+      };
+      ethkey = l.mkApp {
+        name = "ethkey";
+        drv = geth;
+      };
+      evm = l.mkApp {
+        name = "evm";
+        drv = geth;
+      };
+      faucet = l.mkApp {
+        name = "faucet";
+        drv = geth;
+      };
+      rlpdump = l.mkApp {
+        name = "rlpdump";
+        drv = geth;
+      };
+
+      # utils / prysm
+      keystores = l.mkApp {
+        name = "keystores";
+        drv = prysm;
+      };
+      prysmctl = l.mkApp {
+        name = "prysmctl";
+        drv = prysm;
       };
     };
 
