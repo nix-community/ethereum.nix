@@ -17,9 +17,11 @@
   };
 
   inputs = {
+    # packages
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixlib.url = github:nix-community/nixpkgs.lib;
 
+    # libraries
     fu.url = "github:numtide/flake-utils";
     fup = {
       url = "github:gytis-ivaskevicius/flake-utils-plus";
@@ -95,8 +97,14 @@
         drv = erigon;
       };
       geth = l.mkApp {
+        drv = geth;
+      };
+      mev-boost = l.mkApp {
+        drv = mev-boost;
+      };
+      mev-geth = l.mkApp {
         name = "geth";
-        drv = go-ethereum;
+        drv = mev-geth;
       };
 
       # utils

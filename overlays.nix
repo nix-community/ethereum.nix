@@ -6,6 +6,13 @@ _: prev: {
 
   # execution clients
   erigon = prev.callPackage ./packages/clients/execution/erigon {};
+  inherit
+    (prev.callPackage ./packages/clients/execution/geth {})
+    buildGeth
+    geth
+    mev-boost
+    mev-geth
+    ;
 
   # utils
   ethdo = prev.callPackage ./packages/utils/ethdo {};
