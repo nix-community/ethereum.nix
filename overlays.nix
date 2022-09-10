@@ -12,6 +12,7 @@ _: prev: {
     geth
     mev-boost
     mev-geth
+    plugeth
     ;
 
   # utils
