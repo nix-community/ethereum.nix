@@ -4,7 +4,6 @@
   buildGoModule,
   fetchFromGitHub,
   libelf,
-  lib,
 }:
 buildGoModule rec {
   pname = "prysm";
