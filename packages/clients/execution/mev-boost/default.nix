@@ -11,5 +11,5 @@ mkGeth {
   vendorSha256 = "sha256-HKp3zCOOiRmn25cSKlAo6/S/bqKFBmMzRbyDDwdQkzc=";
   subPackages = ["cmd/mev-boost"];
   buildInputs = [blst];
-  bins = ["mev-boost"];
+  bins = [];
 }

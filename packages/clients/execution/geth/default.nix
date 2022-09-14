@@ -2,7 +2,6 @@
   buildGoModule,
   fetchFromGitHub,
   lib,
-  plugeth-plugins,
 }: let
   mkGeth = {
     name,

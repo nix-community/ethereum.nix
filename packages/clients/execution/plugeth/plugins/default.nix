@@ -2,7 +2,6 @@
   buildGoModule,
   fetchFromGitHub,
   lib,
-  gcc,
 }: let
   mkPluGethPlugin =
     lib.makeOverridable
@@ -39,72 +38,72 @@
           # Keep the attributes around for later consumption
           passthru = attrs;
         });
-in
-  {inherit mkPluGethPlugin;}
-  // {
-    blocktracer = mkPluGethPlugin rec {
-      name = "blockupdates";
-      owner = "openrelayxyz";
-      repo = "plugeth-plugins";
-      version = "0.0.18";
-      rev = "v${version}";
-      sha256 = "sha256-3J6euzZxVJTf0N5ON6S1EVk2dLsNRRkrX1OcIl8Xi6g=";
-      vendorSha256 = "sha256-igK0YJWgT0KXS3LRiRBzUrnU+cylnnLQQTxsChCsZ5w=";
-      subPackages = ["packages/blockTracer"];
-    };
+in {
+  inherit mkPluGethPlugin;
 
-    blockupdates = mkPluGethPlugin rec {
-      name = "blockupdates";
-      owner = "openrelayxyz";
-      repo = "plugeth-plugins";
-      version = "0.0.18";
-      rev = "v${version}";
-      sha256 = "sha256-3J6euzZxVJTf0N5ON6S1EVk2dLsNRRkrX1OcIl8Xi6g=";
-      vendorSha256 = "sha256-igK0YJWgT0KXS3LRiRBzUrnU+cylnnLQQTxsChCsZ5w=";
-      subPackages = ["packages/blockupdates"];
-    };
+  blocktracer = mkPluGethPlugin rec {
+    name = "blockupdates";
+    owner = "openrelayxyz";
+    repo = "plugeth-plugins";
+    version = "0.0.18";
+    rev = "v${version}";
+    sha256 = "sha256-3J6euzZxVJTf0N5ON6S1EVk2dLsNRRkrX1OcIl8Xi6g=";
+    vendorSha256 = "sha256-igK0YJWgT0KXS3LRiRBzUrnU+cylnnLQQTxsChCsZ5w=";
+    subPackages = ["packages/blockTracer"];
+  };
 
-    plugeth-parity = mkPluGethPlugin rec {
-      name = "blockupdates";
-      owner = "openrelayxyz";
-      repo = "plugeth-plugins";
-      version = "0.0.18";
-      rev = "v${version}";
-      sha256 = "sha256-3J6euzZxVJTf0N5ON6S1EVk2dLsNRRkrX1OcIl8Xi6g=";
-      vendorSha256 = "sha256-igK0YJWgT0KXS3LRiRBzUrnU+cylnnLQQTxsChCsZ5w=";
-      subPackages = ["packages/plugeth-parity"];
-    };
+  blockupdates = mkPluGethPlugin rec {
+    name = "blockupdates";
+    owner = "openrelayxyz";
+    repo = "plugeth-plugins";
+    version = "0.0.18";
+    rev = "v${version}";
+    sha256 = "sha256-3J6euzZxVJTf0N5ON6S1EVk2dLsNRRkrX1OcIl8Xi6g=";
+    vendorSha256 = "sha256-igK0YJWgT0KXS3LRiRBzUrnU+cylnnLQQTxsChCsZ5w=";
+    subPackages = ["packages/blockupdates"];
+  };
 
-    is-synced = mkPluGethPlugin rec {
-      name = "blockupdates";
-      owner = "openrelayxyz";
-      repo = "plugeth-plugins";
-      version = "0.0.18";
-      rev = "v${version}";
-      sha256 = "sha256-3J6euzZxVJTf0N5ON6S1EVk2dLsNRRkrX1OcIl8Xi6g=";
-      vendorSha256 = "sha256-igK0YJWgT0KXS3LRiRBzUrnU+cylnnLQQTxsChCsZ5w=";
-      subPackages = ["packages/isSynced"];
-    };
+  plugeth-parity = mkPluGethPlugin rec {
+    name = "blockupdates";
+    owner = "openrelayxyz";
+    repo = "plugeth-plugins";
+    version = "0.0.18";
+    rev = "v${version}";
+    sha256 = "sha256-3J6euzZxVJTf0N5ON6S1EVk2dLsNRRkrX1OcIl8Xi6g=";
+    vendorSha256 = "sha256-igK0YJWgT0KXS3LRiRBzUrnU+cylnnLQQTxsChCsZ5w=";
+    subPackages = ["packages/plugeth-parity"];
+  };
 
-    get-rpc-calls = mkPluGethPlugin rec {
-      name = "blockupdates";
-      owner = "openrelayxyz";
-      repo = "plugeth-plugins";
-      version = "0.0.18";
-      rev = "v${version}";
-      sha256 = "sha256-3J6euzZxVJTf0N5ON6S1EVk2dLsNRRkrX1OcIl8Xi6g=";
-      vendorSha256 = "sha256-igK0YJWgT0KXS3LRiRBzUrnU+cylnnLQQTxsChCsZ5w=";
-      subPackages = ["packages/getRPCCalls"];
-    };
+  is-synced = mkPluGethPlugin rec {
+    name = "blockupdates";
+    owner = "openrelayxyz";
+    repo = "plugeth-plugins";
+    version = "0.0.18";
+    rev = "v${version}";
+    sha256 = "sha256-3J6euzZxVJTf0N5ON6S1EVk2dLsNRRkrX1OcIl8Xi6g=";
+    vendorSha256 = "sha256-igK0YJWgT0KXS3LRiRBzUrnU+cylnnLQQTxsChCsZ5w=";
+    subPackages = ["packages/isSynced"];
+  };
 
-    shutdown = mkPluGethPlugin rec {
-      name = "blockupdates";
-      owner = "openrelayxyz";
-      repo = "plugeth-plugins";
-      version = "0.0.18";
-      rev = "v${version}";
-      sha256 = "sha256-3J6euzZxVJTf0N5ON6S1EVk2dLsNRRkrX1OcIl8Xi6g=";
-      vendorSha256 = "sha256-igK0YJWgT0KXS3LRiRBzUrnU+cylnnLQQTxsChCsZ5w=";
-      subPackages = ["packages/shutdown"];
-    };
-  }
+  get-rpc-calls = mkPluGethPlugin rec {
+    name = "blockupdates";
+    owner = "openrelayxyz";
+    repo = "plugeth-plugins";
+    version = "0.0.18";
+    rev = "v${version}";
+    sha256 = "sha256-3J6euzZxVJTf0N5ON6S1EVk2dLsNRRkrX1OcIl8Xi6g=";
+    vendorSha256 = "sha256-igK0YJWgT0KXS3LRiRBzUrnU+cylnnLQQTxsChCsZ5w=";
+    subPackages = ["packages/getRPCCalls"];
+  };
+
+  shutdown = mkPluGethPlugin rec {
+    name = "blockupdates";
+    owner = "openrelayxyz";
+    repo = "plugeth-plugins";
+    version = "0.0.18";
+    rev = "v${version}";
+    sha256 = "sha256-3J6euzZxVJTf0N5ON6S1EVk2dLsNRRkrX1OcIl8Xi6g=";
+    vendorSha256 = "sha256-igK0YJWgT0KXS3LRiRBzUrnU+cylnnLQQTxsChCsZ5w=";
+    subPackages = ["packages/shutdown"];
+  };
+}
