@@ -20,16 +20,6 @@ Many of the packages found here will be added to `nixpkgs` repository once they'
 
 This project is developed entirely in [Nix Flakes](https://nixos.wiki/wiki/Flakes).
 
-## TO-DO
-
-We're kickstarting the tires, so there are a couple of tasks that need love and attention:
-
-- [x] Fix compilation issues with `lighthouse`.
-- [x] Fix compilation issues with `prysm`.
-- [ ] Add `nixosModules` for `clients` apps.
-- [ ] Support more architectures besides `x86_64-linux`.
-- [ ] Better integration with CI to automate releases.
-
 ## Usage
 
 <details>
@@ -72,6 +62,7 @@ We're kickstarting the tires, so there are a couple of tasks that need love and 
   environment.systemPackages = with pkgs; [
     teku
     lighthouse
+    # <...>
   ];
 }
 ```
