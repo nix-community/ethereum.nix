@@ -19,6 +19,7 @@ _: prev: {
   ethdo = prev.callPackage ./packages/utils/ethdo {};
 
   # libs
+  evmc = prev.callPackage ./packages/libs/evmc {};
   mcl = prev.callPackage ./packages/libs/mcl {};
   bls = prev.callPackage ./packages/libs/bls {};
   blst = prev.callPackage ./packages/libs/blst {};

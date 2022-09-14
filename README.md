@@ -172,6 +172,7 @@ Some crypto projects may need specific libraries to be available to compile prop
 
 ### Libraries provided
 
+- [evmc](https://github.com/ethereum/evmc/)
 - [bls](https://github.com/herumi/bls)
 - [blst](https://github.com/supranational/blst)
 - [mcl](https://github.com/herumi/mcl)
