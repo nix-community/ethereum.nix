@@ -10,6 +10,7 @@ _: prev: {
   mev-boost = prev.callPackage ./packages/clients/execution/mev-boost {};
   mev-geth = prev.callPackage ./packages/clients/execution/mev-geth {};
   plugeth = prev.callPackage ./packages/clients/execution/plugeth {};
+  plugeth-plugins = prev.lib.recurseIntoAttrs (prev.callPackage ./packages/clients/execution/plugeth/plugins {});
 
   # utils
   ethdo = prev.callPackage ./packages/utils/ethdo {};
