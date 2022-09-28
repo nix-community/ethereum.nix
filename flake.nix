@@ -70,6 +70,11 @@
           drv = lighthouse;
         };
 
+        # consensus / nimbus-eth2
+        nimbus-eth2 = mkApp {
+          drv = nimbus-eth2;
+        };
+
         # execution clients
         besu = mkApp {
           drv = besu;
