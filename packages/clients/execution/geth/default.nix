@@ -77,10 +77,10 @@ in {
 
   geth = mkGeth {
     name = "geth";
-    version = "1.10.23";
+    version = "1.10.25";
     owner = "ethereum";
     repo = "go-ethereum";
-    sha256 = "sha256-1fEmtbHKrjuyIVrGr/vTudZ99onkNjEMvyBJt4I8KK4=";
+    sha256 = "sha256-mnf0kMfQEEQMricZJfyF7ZB/2F1dyPBx9iT2v/rGh1U=";
     vendorSha256 = "sha256-Dj+xN8lr98LJyYr2FwJ7yUIJkUeUrr1fkcbj4hShJI0=";
   };
 }
