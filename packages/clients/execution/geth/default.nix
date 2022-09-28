@@ -1,10 +1,9 @@
 {
-  blst,
   buildGoModule,
   fetchFromGitHub,
   lib,
 }: let
-  buildGeth = {
+  mkGeth = {
     name,
     version,
     owner,
@@ -74,47 +73,14 @@
       }
       // attrs');
 in {
-  inherit buildGeth;
+  inherit mkGeth;
 
-  geth = buildGeth {
+  geth = mkGeth {
     name = "geth";
     version = "1.10.23";
     owner = "ethereum";
     repo = "go-ethereum";
     sha256 = "sha256-1fEmtbHKrjuyIVrGr/vTudZ99onkNjEMvyBJt4I8KK4=";
     vendorSha256 = "sha256-Dj+xN8lr98LJyYr2FwJ7yUIJkUeUrr1fkcbj4hShJI0=";
-  };
-
-  mev-boost = buildGeth {
-    name = "mev-boost";
-    version = "0.8.2";
-    owner = "flashbots";
-    repo = "mev-boost";
-    sha256 = "sha256-Cx5BL8ZR54MsuAvfVgUpC4+VMDS6gLUGgRa+sT+x3nw=";
-    vendorSha256 = "sha256-HKp3zCOOiRmn25cSKlAo6/S/bqKFBmMzRbyDDwdQkzc=";
-    subPackages = ["cmd/mev-boost"];
-    buildInputs = [blst];
-    bins = [];
-  };
-
-  mev-geth = buildGeth {
-    name = "mev-geth";
-    version = "1.10.19-mev0.6.1";
-    owner = "flashbots";
-    repo = "mev-geth";
-    sha256 = "sha256-8czmwlbUHx2yR4qBlmABO/ywXGUZYYmL5wXlhxUxAqk=";
-    vendorSha256 = "sha256-yOR/XLY54R2w5Dz/xDZ9mDzvYOobUxuxu355jqVPm2k=";
-    bins = ["geth"];
-  };
-
-  plugeth = buildGeth {
-    name = "plugeth";
-    version = "1.10.18.0.0";
-    owner = "openrelayxyz";
-    repo = "plugeth";
-    sha256 = "sha256-FhQe3WIzc35zgtE10cHpif2f7bJcz/rYo9SzT5FCZqk=";
-    vendorSha256 = "sha256-JtBWNMbRtJnwTVcwBXwmKV+6OeghFxs2GQVJike5BbQ=";
-    bins = ["geth"];
-    subPackages = ["cmd/geth"];
   };
 }

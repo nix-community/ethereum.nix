@@ -110,6 +110,10 @@
         name = "geth";
         drv = mev-geth;
       };
+      plugeth = l.mkApp {
+        name = "geth";
+        drv = plugeth;
+      };
 
       # utils / ethdo
       ethdo = l.mkApp {
