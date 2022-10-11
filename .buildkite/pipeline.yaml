@@ -1,0 +1,5 @@
+# https://buildkite.com/docs
+
+steps:
+  - label: ":nix: Nix Build"
+    command: nix flake check
