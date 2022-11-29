@@ -19,7 +19,6 @@ in {
     packages = with pkgs; [
       alejandra # https://github.com/kamadorueda/alejandra
       just # https://github.com/casey/just
-      nix
       nodePackages.prettier # https://prettier.io/
       treefmt # https://github.com/numtide/treefmt
     ];
