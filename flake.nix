@@ -14,16 +14,16 @@
 
   inputs = {
     # packages
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = github:nixos/nixpkgs/nixpkgs-unstable;
 
     # libraries
-    fu.url = "github:numtide/flake-utils";
+    fu.url = github:numtide/flake-utils;
     fup = {
-      url = "github:gytis-ivaskevicius/flake-utils-plus";
+      url = github:gytis-ivaskevicius/flake-utils-plus;
       inputs.flake-utils.follows = "fu";
     };
     devshell = {
-      url = "github:numtide/devshell";
+      url = github:numtide/devshell;
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "fu";
     };
