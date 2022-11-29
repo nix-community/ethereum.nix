@@ -1,12 +1,20 @@
-{pkgs}: let
-  # Creates a devshell category paired with a given pkg
+{
+  inputs,
+  pkgs,
+}: let
+  inherit (pkgs) system;
+
+  # devshell
+  devshell = import inputs.devshell {inherit system;};
+
+  # devshell utilities
   pkgWithCategory = category: package: {inherit package category;};
 
-  # Categories
+  # devshell categories
   formatter = pkgWithCategory "formatters";
   util = pkgWithCategory "utils";
 in {
-  default = pkgs.devshell.mkShell {
+  default = devshell.mkShell {
     name = "ethereum.nix";
     packages = with pkgs; [
       alejandra # https://github.com/kamadorueda/alejandra

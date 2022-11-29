@@ -49,7 +49,6 @@
     pkgs = import nixpkgs {
       inherit system;
       overlays = [
-        devshell.overlay
         self.overlays.default
       ];
     };
@@ -158,7 +157,7 @@
 
     # generic shell:  nix develop
     # specific shell: nix develop .#<devShells.${system}.default>
-    devShells = import ./devshell.nix {inherit pkgs;};
+    devShells = import ./devshell.nix {inherit pkgs inputs;};
 
     # nix flake check
     checks = import ./checks.nix {
