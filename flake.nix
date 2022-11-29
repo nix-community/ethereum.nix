@@ -37,12 +37,12 @@
     nixpkgs,
     ...
   } @ inputs: let
-    l = nixpkgs.lib // fu.lib // {inherit (fup.lib) exportPackages;} // builtins;
+    lib = nixpkgs.lib // fu.lib // {inherit (fup.lib) exportPackages;} // builtins;
 
     supportedSystems = ["x86_64-linux"];
-    mkFlake = f: l.eachSystem supportedSystems f // {overlays.default = import ./overlays.nix;};
+    mkFlake = f: lib.eachSystem supportedSystems f // {overlays.default = import ./overlays.nix;};
 
-    mkPackages = overlay: pkgs: l.exportPackages overlay {inherit pkgs;};
+    mkPackages = overlay: pkgs: lib.exportPackages overlay {inherit pkgs;};
   in (mkFlake (system: let
     pkgs = import nixpkgs {
       inherit system;
@@ -54,100 +54,100 @@
     # nix run .#<app>
     apps = with pkgs; {
       # consensus clients / prysm
-      beacon-chain = l.mkApp {
+      beacon-chain = lib.mkApp {
         name = "beacon-chain";
         drv = prysm;
       };
-      validator = l.mkApp {
+      validator = lib.mkApp {
         name = "validator";
         drv = prysm;
       };
-      client-stats = l.mkApp {
+      client-stats = lib.mkApp {
         name = "client-stats";
         drv = prysm;
       };
 
       # consensus / teku
-      teku = l.mkApp {
+      teku = lib.mkApp {
         drv = teku;
       };
 
       # consensus / lighthouse
-      lighthouse = l.mkApp {
+      lighthouse = lib.mkApp {
         drv = lighthouse;
       };
 
       # execution clients
-      besu = l.mkApp {
+      besu = lib.mkApp {
         drv = besu;
       };
-      erigon = l.mkApp {
+      erigon = lib.mkApp {
         drv = erigon;
       };
-      geth = l.mkApp {
+      geth = lib.mkApp {
         drv = geth;
       };
-      mev-boost = l.mkApp {
+      mev-boost = lib.mkApp {
         drv = mev-boost;
       };
-      mev-geth = l.mkApp {
+      mev-geth = lib.mkApp {
         name = "geth";
         drv = mev-geth;
       };
-      plugeth = l.mkApp {
+      plugeth = lib.mkApp {
         name = "geth";
         drv = plugeth;
       };
 
       # utils / ethdo
-      ethdo = l.mkApp {
+      ethdo = lib.mkApp {
         drv = ethdo;
       };
 
       # utils / geth
-      abidump = l.mkApp {
+      abidump = lib.mkApp {
         name = "abidump";
         drv = geth;
       };
-      abigen = l.mkApp {
+      abigen = lib.mkApp {
         name = "abigen";
         drv = geth;
       };
-      bootnode = l.mkApp {
+      bootnode = lib.mkApp {
         name = "bootnode";
         drv = geth;
       };
-      clef = l.mkApp {
+      clef = lib.mkApp {
         name = "clef";
         drv = geth;
       };
-      devp2p = l.mkApp {
+      devp2p = lib.mkApp {
         name = "devp2p";
         drv = geth;
       };
-      ethkey = l.mkApp {
+      ethkey = lib.mkApp {
         name = "ethkey";
         drv = geth;
       };
-      evm = l.mkApp {
+      evm = lib.mkApp {
         name = "evm";
         drv = geth;
       };
-      faucet = l.mkApp {
+      faucet = lib.mkApp {
         name = "faucet";
         drv = geth;
       };
-      rlpdump = l.mkApp {
+      rlpdump = lib.mkApp {
         name = "rlpdump";
         drv = geth;
       };
 
       # utils / prysm
-      keystores = l.mkApp {
+      keystores = lib.mkApp {
         name = "keystores";
         drv = prysm;
       };
-      prysmctl = l.mkApp {
+      prysmctl = lib.mkApp {
         name = "prysmctl";
         drv = prysm;
       };
@@ -159,7 +159,7 @@
 
     # nix flake check
     checks = import ./checks.nix {
-      inherit inputs system;
+      inherit self inputs system pkgs;
       packages = self.packages.${system};
     };
 
