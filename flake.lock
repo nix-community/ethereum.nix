@@ -58,21 +58,6 @@
         "type": "github"
       }
     },
-    "nixlib": {
-      "locked": {
-        "lastModified": 1661648408,
-        "narHash": "sha256-EYTUe3i0qJB02yV87ohQjSL0VXIGEyFjfYqtJX09KWo=",
-        "owner": "nix-community",
-        "repo": "nixpkgs.lib",
-        "rev": "d199f9f8cab305f23fa3928aea84d37c53fd675a",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "repo": "nixpkgs.lib",
-        "type": "github"
-      }
-    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1661353537,
@@ -94,7 +79,6 @@
         "devshell": "devshell",
         "fu": "fu",
         "fup": "fup",
-        "nixlib": "nixlib",
         "nixpkgs": "nixpkgs"
       }
     }

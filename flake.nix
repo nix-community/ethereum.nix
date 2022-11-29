@@ -15,7 +15,6 @@
   inputs = {
     # packages
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    nixlib.url = github:nix-community/nixpkgs.lib;
 
     # libraries
     fu.url = "github:numtide/flake-utils";
@@ -35,11 +34,10 @@
     devshell,
     fu,
     fup,
-    nixlib,
     nixpkgs,
     ...
   } @ inputs: let
-    l = nixlib.lib // fu.lib // {inherit (fup.lib) exportPackages;} // builtins;
+    l = nixpkgs.lib // fu.lib // {inherit (fup.lib) exportPackages;} // builtins;
 
     supportedSystems = ["x86_64-linux"];
     mkFlake = f: l.eachSystem supportedSystems f // {overlays.default = import ./overlays.nix;};
