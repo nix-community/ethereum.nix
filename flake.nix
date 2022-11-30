@@ -18,10 +18,6 @@
 
     # libraries
     fu.url = github:numtide/flake-utils;
-    fup = {
-      url = github:gytis-ivaskevicius/flake-utils-plus;
-      inputs.flake-utils.follows = "fu";
-    };
     devshell = {
       url = github:numtide/devshell;
       inputs.nixpkgs.follows = "nixpkgs";
@@ -32,14 +28,11 @@
   outputs = {
     self,
     fu,
-    fup,
     nixpkgs,
     ...
   } @ inputs: let
     inherit (fu.lib) eachSystem mkApp system;
-    inherit (fup.lib) exportPackages;
-
-    mkPackages = overlay: pkgs: exportPackages overlay {inherit pkgs;};
+    inherit (import ./lib/exportPackages.nix {inherit inputs;}) exportPackages;
 
     supportedSystems = with system; [x86_64-linux];
   in
@@ -154,7 +147,7 @@
       };
 
       # nix build .#<app>
-      packages = mkPackages self.overlays pkgs;
+      packages = exportPackages pkgs self.overlays;
 
       # nix flake check
       checks = import ./checks.nix {
