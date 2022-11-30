@@ -31,139 +31,144 @@
 
   outputs = {
     self,
-    devshell,
     fu,
     fup,
     nixpkgs,
     ...
   } @ inputs: let
-    lib = nixpkgs.lib // fu.lib // {inherit (fup.lib) exportPackages;} // builtins;
+    inherit (fu.lib) eachSystem mkApp system;
+    inherit (fup.lib) exportPackages;
 
-    supportedSystems = ["x86_64-linux"];
-    mkFlake = f: lib.eachSystem supportedSystems f // {overlays.default = import ./overlays.nix;};
+    mkPackages = overlay: pkgs: exportPackages overlay {inherit pkgs;};
 
-    mkPackages = overlay: pkgs: lib.exportPackages overlay {inherit pkgs;};
-  in (mkFlake (system: let
-    pkgs = import nixpkgs {
-      inherit system;
-      overlays = [
-        self.overlays.default
-      ];
+    supportedSystems = with system; [x86_64-linux];
+  in
+    (eachSystem supportedSystems (system: let
+      pkgs = import nixpkgs {
+        inherit system;
+        overlays = [
+          self.overlays.default
+        ];
+      };
+    in {
+      # nix run .#<app>
+      apps = with (self.packages.${system}); {
+        # consensus clients / prysm
+        beacon-chain = mkApp {
+          name = "beacon-chain";
+          drv = prysm;
+        };
+        validator = mkApp {
+          name = "validator";
+          drv = prysm;
+        };
+        client-stats = mkApp {
+          name = "client-stats";
+          drv = prysm;
+        };
+
+        # consensus / teku
+        teku = mkApp {
+          drv = teku;
+        };
+
+        # consensus / lighthouse
+        lighthouse = mkApp {
+          drv = lighthouse;
+        };
+
+        # execution clients
+        besu = mkApp {
+          drv = besu;
+        };
+        erigon = mkApp {
+          drv = erigon;
+        };
+        geth = mkApp {
+          drv = geth;
+        };
+        mev-boost = mkApp {
+          drv = mev-boost;
+        };
+        mev-geth = mkApp {
+          name = "geth";
+          drv = mev-geth;
+        };
+        plugeth = mkApp {
+          name = "geth";
+          drv = plugeth;
+        };
+
+        # utils / ethdo
+        ethdo = mkApp {
+          drv = ethdo;
+        };
+
+        # utils / geth
+        abidump = mkApp {
+          name = "abidump";
+          drv = geth;
+        };
+        abigen = mkApp {
+          name = "abigen";
+          drv = geth;
+        };
+        bootnode = mkApp {
+          name = "bootnode";
+          drv = geth;
+        };
+        clef = mkApp {
+          name = "clef";
+          drv = geth;
+        };
+        devp2p = mkApp {
+          name = "devp2p";
+          drv = geth;
+        };
+        ethkey = mkApp {
+          name = "ethkey";
+          drv = geth;
+        };
+        evm = mkApp {
+          name = "evm";
+          drv = geth;
+        };
+        faucet = mkApp {
+          name = "faucet";
+          drv = geth;
+        };
+        rlpdump = mkApp {
+          name = "rlpdump";
+          drv = geth;
+        };
+
+        # utils / prysm
+        keystores = mkApp {
+          name = "keystores";
+          drv = prysm;
+        };
+        prysmctl = mkApp {
+          name = "prysmctl";
+          drv = prysm;
+        };
+      };
+
+      # nix build .#<app>
+      packages = mkPackages self.overlays pkgs;
+
+      # nix flake check
+      checks = import ./checks.nix {
+        inherit self pkgs;
+        selfPkgs = self.packages.${system};
+      };
+
+      # generic shell:  nix develop
+      # specific shell: nix develop .#<devShells.${system}.default>
+      devShells = import ./devshell.nix {
+        inherit inputs pkgs;
+      };
+    }))
+    // {
+      overlays.default = import ./overlays.nix;
     };
-  in {
-    # nix run .#<app>
-    apps = with pkgs; {
-      # consensus clients / prysm
-      beacon-chain = lib.mkApp {
-        name = "beacon-chain";
-        drv = prysm;
-      };
-      validator = lib.mkApp {
-        name = "validator";
-        drv = prysm;
-      };
-      client-stats = lib.mkApp {
-        name = "client-stats";
-        drv = prysm;
-      };
-
-      # consensus / teku
-      teku = lib.mkApp {
-        drv = teku;
-      };
-
-      # consensus / lighthouse
-      lighthouse = lib.mkApp {
-        drv = lighthouse;
-      };
-
-      # execution clients
-      besu = lib.mkApp {
-        drv = besu;
-      };
-      erigon = lib.mkApp {
-        drv = erigon;
-      };
-      geth = lib.mkApp {
-        drv = geth;
-      };
-      mev-boost = lib.mkApp {
-        drv = mev-boost;
-      };
-      mev-geth = lib.mkApp {
-        name = "geth";
-        drv = mev-geth;
-      };
-      plugeth = lib.mkApp {
-        name = "geth";
-        drv = plugeth;
-      };
-
-      # utils / ethdo
-      ethdo = lib.mkApp {
-        drv = ethdo;
-      };
-
-      # utils / geth
-      abidump = lib.mkApp {
-        name = "abidump";
-        drv = geth;
-      };
-      abigen = lib.mkApp {
-        name = "abigen";
-        drv = geth;
-      };
-      bootnode = lib.mkApp {
-        name = "bootnode";
-        drv = geth;
-      };
-      clef = lib.mkApp {
-        name = "clef";
-        drv = geth;
-      };
-      devp2p = lib.mkApp {
-        name = "devp2p";
-        drv = geth;
-      };
-      ethkey = lib.mkApp {
-        name = "ethkey";
-        drv = geth;
-      };
-      evm = lib.mkApp {
-        name = "evm";
-        drv = geth;
-      };
-      faucet = lib.mkApp {
-        name = "faucet";
-        drv = geth;
-      };
-      rlpdump = lib.mkApp {
-        name = "rlpdump";
-        drv = geth;
-      };
-
-      # utils / prysm
-      keystores = lib.mkApp {
-        name = "keystores";
-        drv = prysm;
-      };
-      prysmctl = lib.mkApp {
-        name = "prysmctl";
-        drv = prysm;
-      };
-    };
-
-    # generic shell:  nix develop
-    # specific shell: nix develop .#<devShells.${system}.default>
-    devShells = import ./devshell.nix {inherit pkgs inputs;};
-
-    # nix flake check
-    checks = import ./checks.nix {
-      inherit self inputs system pkgs;
-      packages = self.packages.${system};
-    };
-
-    # nix build .#<app>
-    packages = mkPackages self.overlays pkgs;
-  }));
 }
