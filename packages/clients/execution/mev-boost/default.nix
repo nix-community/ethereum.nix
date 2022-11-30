@@ -4,11 +4,11 @@
 }:
 mkGeth {
   name = "mev-boost";
-  version = "1.3.2";
+  version = "1.4.0";
   owner = "flashbots";
   repo = "mev-boost";
-  sha256 = "sha256-tqiu5wJsgwdFJH1gvbCqgCstMMWA/As7tSNBwv9rMdA=";
-  vendorSha256 = "sha256-qKlltwacgCNfuMcnkCwhOZtIRqDJTarOd1Vf9C6oIk4=";
+  sha256 = "sha256-rtjo7h4NyBYYyR3wJG9YIIxojyPy2is/EDalDbIJV10=";
+  vendorSha256 = "sha256-w6ysybC3i3p/UZJbF7hL9ZycmRoGbeQNJWle5zfDg3M=";
   subPackages = ["cmd/mev-boost"];
   buildInputs = [blst];
   bins = [];
