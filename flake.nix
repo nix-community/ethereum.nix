@@ -156,6 +156,12 @@
       # nix build .#<app>
       packages = exportPackages pkgs self.overlays;
 
+      nixosModules = {...}: {
+        imports = [
+          ./modules
+        ];
+      };
+
       # nix flake check
       checks = import ./checks.nix {
         inherit self pkgs;

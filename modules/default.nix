@@ -1,0 +1,6 @@
+{
+  imports = [
+    ./geth.nix
+    ./prysm
+  ];
+}
