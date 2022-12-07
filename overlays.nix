@@ -9,6 +9,7 @@ _: prev: {
   inherit (prev.callPackage ./packages/clients/execution/geth {}) mkGeth geth;
   mev-geth = prev.callPackage ./packages/clients/execution/mev-geth {};
   plugeth = prev.callPackage ./packages/clients/execution/plugeth {};
+  nethermind = prev.callPackage ./packages/clients/execution/nethermind {};
 
   # signers
   web3signer = prev.callPackage ./packages/signers/web3signer {};
