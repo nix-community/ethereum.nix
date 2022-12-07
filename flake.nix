@@ -47,16 +47,20 @@
       # nix run .#<app>
       apps = with (self.packages.${system}); {
         # consensus clients / prysm
-        beacon-chain = mkApp {
+        prysm-beacon-chain = mkApp {
           name = "beacon-chain";
           drv = prysm;
         };
-        validator = mkApp {
+        prysm-validator = mkApp {
           name = "validator";
           drv = prysm;
         };
-        client-stats = mkApp {
+        prysm-client-stats = mkApp {
           name = "client-stats";
+          drv = prysm;
+        };
+        prysm-ctl = mkApp {
+          name = "prysmctl";
           drv = prysm;
         };
 
@@ -134,16 +138,6 @@
         rlpdump = mkApp {
           name = "rlpdump";
           drv = geth;
-        };
-
-        # utils / prysm
-        keystores = mkApp {
-          name = "keystores";
-          drv = prysm;
-        };
-        prysmctl = mkApp {
-          name = "prysmctl";
-          drv = prysm;
         };
       };
 
