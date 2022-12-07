@@ -128,10 +128,10 @@ just fmt
 #### Consensus Clients
 
 - [prysm](https://github.com/prysmaticlabs/prysm):
-  - beacon-chain: `nix run .#beacon-chain`
-  - client-stats: `nix run .#client-stats`
-  - prysmctl: `nix run .#prysmctl`
-  - validator: `nix run .#validator`
+  - beacon-chain: `nix run .#prysm-beacon-chain`
+  - client-stats: `nix run .#prysm-client-stats`
+  - prysmctl: `nix run .#prysm-ctl`
+  - validator: `nix run .#prysm-validator`
 - [teku](https://github.com/ConsenSys/teku): `nix run .#teku`
 - [lighthouse](https://github.com/sigp/lighthouse): `nix run .#lighthouse`
 
