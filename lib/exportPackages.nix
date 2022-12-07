@@ -3,31 +3,31 @@
   # overlays: self.overlays
   exportPackages = pkgs: overlays:
   /*
-   *
-    Synopsis: exportPackagesBuilder _channels_
-    channels: builder `channels` argument
-    Returns valid packges that have been defined within an overlay so they
-    can be shared via _self.packages_ with the world. This is especially useful
-    over sharing one's art via _self.overlays_ in case you have a binary cache
-    running from which third parties could benefit.
-    Steps:
-    1. merge all channels into one nixpkgs attribute set
-    2. collect all overlays' packages' keys into one flat list
-    3. pick out each package from the nixpkgs set into one packages set
-    $. flatten package set and filter out disallowed packages - by flake check requirements
-    example input and output:
-    ```
-    overlays = {
-      "unstable/firefox" = prev: final: {
-        firefox = prev.override { privacySupport = true; };
-      };
-    }
-    self.packages = {
-      firefox = *firefox derivation with privacySupport*;
-    }
-    ```
-   *
-   */
+  *
+   Synopsis: exportPackagesBuilder _channels_
+   channels: builder `channels` argument
+   Returns valid packges that have been defined within an overlay so they
+   can be shared via _self.packages_ with the world. This is especially useful
+   over sharing one's art via _self.overlays_ in case you have a binary cache
+   running from which third parties could benefit.
+   Steps:
+   1. merge all channels into one nixpkgs attribute set
+   2. collect all overlays' packages' keys into one flat list
+   3. pick out each package from the nixpkgs set into one packages set
+   $. flatten package set and filter out disallowed packages - by flake check requirements
+   example input and output:
+   ```
+   overlays = {
+     "unstable/firefox" = prev: final: {
+       firefox = prev.override { privacySupport = true; };
+     };
+   }
+   self.packages = {
+     firefox = *firefox derivation with privacySupport*;
+   }
+   ```
+  *
+  */
   let
     inherit (inputs.fu.lib) flattenTree filterPackages;
     inherit
@@ -42,7 +42,6 @@
       any
       head
       ;
-    nameValuePair = name: value: {inherit name value;};
 
     # flatten all overlays' packages' keys into a single list
     flattenedOverlaysNames = let

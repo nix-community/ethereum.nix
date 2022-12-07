@@ -71,9 +71,10 @@
         };
 
         # execution clients
-        besu = mkApp {
-          drv = besu;
-        };
+        # TODO: Backport Besu to ethereum.nix
+        # besu = mkApp {
+        #   drv = besu;
+        # };
         erigon = mkApp {
           drv = erigon;
         };
