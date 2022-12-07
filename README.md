@@ -9,7 +9,7 @@
   <a href="https://nixos.org/">
     <img src="https://img.shields.io/static/v1?logo=nixos&logoColor=white&label=&message=Built%20with%20Nix&color=41439a&style=for-the-badge" alt="Built with nix" />
   </a>
-  <a href="https://github.com/41north/ethereum.nix/blob/main/LICENSE">
+  <a href="https://github.com/nix-community/ethereum.nix/blob/main/LICENSE">
     <img src="https://img.shields.io/badge/license-MIT%20v3.0-brightgreen.svg?style=for-the-badge" alt="License" />
   </a>
 </p>
@@ -29,7 +29,7 @@ This project is developed entirely in [Nix Flakes](https://nixos.wiki/wiki/Flake
 {
   inputs = {
     ethereum-nix = {
-      url = "github:41north/ethereum.nix";
+      url = "github:nix-community/ethereum.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs.url = "nixpkgs/nixos-unstable";
@@ -57,7 +57,7 @@ This project is developed entirely in [Nix Flakes](https://nixos.wiki/wiki/Flake
 # configuration.nix
 { pkgs, ... }: {
   nixpkgs.overlays = [
-    (import "${fetchTarball "https://github.com/41north/ethereum.nix/archive/main.tar.gz"}/overlays.nix")
+    (import "${fetchTarball "https://github.com/nix-community/ethereum.nix/archive/main.tar.gz"}/overlays.nix")
   ];
   environment.systemPackages = with pkgs; [
     teku
@@ -119,9 +119,9 @@ just fmt
 >
 > Local: nix run .#my-app-name
 >
-> Remote: nix run github:41north/ethereum.nix#my-app-name
+> Remote: nix run github:nix-community/ethereum.nix#my-app-name
 >
-> For brevity and consistenc,y all the commands are listed in the local variant
+> For brevity and consistency, all the commands are listed in the local variant
 
 ### Executables provided
 
@@ -176,7 +176,7 @@ We welcome any kind of contribution or support to this project but before to do 
 
 In addition you can always:
 
-- Add a [GitHub Star 🌟](https://github.com/41north/ethereum.nix/stargazers) to the project.
+- Add a [GitHub Star 🌟](https://github.com/nix-community/ethereum.nix/stargazers) to the project.
 - Tweet about this project.
 
 ## Acknowledgements
