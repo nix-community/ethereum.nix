@@ -3,3 +3,6 @@
 
 # Nix build output
 /result*
+
+# IDE
+.idea/
