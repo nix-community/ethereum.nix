@@ -9,7 +9,8 @@ _: prev: {
   inherit (prev.callPackage ./packages/clients/execution/geth {}) mkGeth geth;
   mev-boost = prev.callPackage ./packages/clients/execution/mev-boost {};
   mev-geth = prev.callPackage ./packages/clients/execution/mev-geth {};
-  plugeth = prev.callPackage ./packages/clients/execution/plugeth {};
+  inherit (prev.callPackage ./packages/clients/execution/plugeth {}) plugeth mkPlugeth;
+  plugeth-plugins = prev.callPackage ./packages/clients/execution/plugeth/plugins.nix {};
 
   # utils
   ethdo = prev.callPackage ./packages/utils/ethdo {};

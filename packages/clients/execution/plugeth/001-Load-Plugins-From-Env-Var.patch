@@ -1,0 +1,36 @@
+diff --git a/cmd/geth/main.go b/cmd/geth/main.go
+index 65f2dd4c0..7be747837 100644
+--- a/cmd/geth/main.go
++++ b/cmd/geth/main.go
+@@ -20,11 +20,11 @@ package main
+ import (
+ 	"fmt"
+ 	"os"
+-	"path"
+ 	"sort"
+ 	"strconv"
+ 	"strings"
+ 	"time"
++	"errors"
+ 
+ 	"github.com/ethereum/go-ethereum/accounts"
+ 	"github.com/ethereum/go-ethereum/accounts/keystore"
+@@ -345,8 +345,17 @@ func prepare(ctx *cli.Context) {
+ // It creates a default node based on the command line arguments and runs it in
+ // blocking mode, waiting for it to be shut down.
+ func geth(ctx *cli.Context) error {
++	// load plugins from env variable instead
++	pluginsDir, ok := os.LookupEnv("PLUGETH_PLUGIN_DIR")
++	if !ok || pluginsDir == "" {
++		return errors.New("invalid PLUGETH_PLUGIN_DIR variable specified")
++	}
++	pluginsDirInfo, err := os.Stat(pluginsDir)
++	if err != nil || !pluginsDirInfo.IsDir() {
++		return fmt.Errorf("plugins dir %q is not a directory", pluginsDirInfo.Name())
++	}
+ 	//begin PluGeth code injection
+-	if err := plugins.Initialize(path.Join(ctx.String(utils.DataDirFlag.Name), "plugins"), ctx); err != nil {
++	if err := plugins.Initialize(pluginsDir, ctx); err != nil {
+ 		return err
+ 	}
+ 	prepare(ctx)
