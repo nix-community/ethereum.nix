@@ -11,6 +11,9 @@ _: prev: {
   mev-geth = prev.callPackage ./packages/clients/execution/mev-geth {};
   plugeth = prev.callPackage ./packages/clients/execution/plugeth {};
 
+  # signers
+  web3signer = prev.callPackage ./packages/signers/web3signer {};
+
   # utils
   ethdo = prev.callPackage ./packages/utils/ethdo {};
 
