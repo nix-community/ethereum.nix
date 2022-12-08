@@ -153,6 +153,10 @@ just fmt
 - [mev-geth](https://github.com/flashbots/mev-geth): `nix run .#mev-geth`
 - [mev-boost](https://github.com/flashbots/mev-boost/): `nix run .#mev-boost`
 
+#### Signers
+
+- [web3signer](https://github.com/ConsenSys/web3signer): `nix run .#web3signer`
+
 #### Utilities / Tools / Other
 
 - [ethdo](https://github.com/wealdtech/ethdo): `nix run .#ethdo`
