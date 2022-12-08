@@ -18,6 +18,7 @@
 
     # libraries
     fu.url = github:numtide/flake-utils;
+    treefmt-nix.url = github:numtide/treefmt-nix;
     devshell = {
       url = github:numtide/devshell;
       inputs.nixpkgs.follows = "nixpkgs";
@@ -29,6 +30,7 @@
     self,
     fu,
     nixpkgs,
+    treefmt-nix,
     ...
   } @ inputs: let
     inherit (fu.lib) eachSystem mkApp system;
@@ -42,6 +44,14 @@
         overlays = [
           self.overlays.default
         ];
+      };
+
+      treefmt = treefmt-nix.lib.mkWrapper pkgs {
+        projectRootFile = ".git/config";
+        programs = {
+          alejandra.enable = true;
+          prettier.enable = true;
+        };
       };
     in {
       # nix run .#<app>
@@ -155,6 +165,8 @@
       devShells = import ./devshell.nix {
         inherit inputs pkgs;
       };
+
+      formatter = treefmt;
     }))
     // {
       overlays.default = import ./overlays.nix;
