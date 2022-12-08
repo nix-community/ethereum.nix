@@ -58,7 +58,23 @@
       "inputs": {
         "devshell": "devshell",
         "fu": "fu",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "treefmt-nix": "treefmt-nix"
+      }
+    },
+    "treefmt-nix": {
+      "locked": {
+        "lastModified": 1669546209,
+        "narHash": "sha256-JqWTMyZTJcxExJJRrXwNx/nrmFJAXusRpEElDIiLVwc=",
+        "owner": "numtide",
+        "repo": "treefmt-nix",
+        "rev": "11c31677c45957fb1de0a9102912cf6462730884",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "treefmt-nix",
+        "type": "github"
       }
     }
   },

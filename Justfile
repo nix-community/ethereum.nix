@@ -8,7 +8,7 @@ default:
 
 # Format the code
 fmt:
-  treefmt
+  nix fmt
 alias f := fmt
 
 # Cleans any result produced by Nix or associated tools
