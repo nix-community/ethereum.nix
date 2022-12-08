@@ -95,9 +95,6 @@
         geth = mkApp {
           drv = geth;
         };
-        mev-boost = mkApp {
-          drv = mev-boost;
-        };
         mev-geth = mkApp {
           name = "geth";
           drv = mev-geth;
@@ -105,6 +102,11 @@
         plugeth = mkApp {
           name = "geth";
           drv = plugeth;
+        };
+
+        # mev
+        mev-boost = mkApp {
+          drv = mev-boost;
         };
 
         # utils / ethdo
