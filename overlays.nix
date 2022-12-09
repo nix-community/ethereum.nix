@@ -7,12 +7,14 @@ _: prev: {
   # execution clients
   erigon = prev.callPackage ./packages/clients/execution/erigon {};
   inherit (prev.callPackage ./packages/clients/execution/geth {}) mkGeth geth;
-  mev-boost = prev.callPackage ./packages/clients/execution/mev-boost {};
   mev-geth = prev.callPackage ./packages/clients/execution/mev-geth {};
   plugeth = prev.callPackage ./packages/clients/execution/plugeth {};
 
   # signers
   web3signer = prev.callPackage ./packages/signers/web3signer {};
+
+  # mev
+  mev-boost = prev.callPackage ./packages/mev/mev-boost {};
 
   # utils
   ethdo = prev.callPackage ./packages/utils/ethdo {};

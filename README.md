@@ -151,6 +151,9 @@ just fmt
   - geth: `nix run .#geth`
   - rlpdump: `nix run .#rlpdump`
 - [mev-geth](https://github.com/flashbots/mev-geth): `nix run .#mev-geth`
+
+### MEV Utilities
+
 - [mev-boost](https://github.com/flashbots/mev-boost/): `nix run .#mev-boost`
 
 #### Signers
