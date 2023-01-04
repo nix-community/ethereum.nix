@@ -4,17 +4,13 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mdDoc flatten nameValuePair mapAttrs' mapAttrsToList;
+  inherit (lib) mdDoc flatten nameValuePair mapAttrs' mapAttrsToList optionalString;
   inherit (lib) literalExpression mkEnableOption mkIf mkOption types;
+  inherit (lib.lists) optionals;
 
   eachBeacon = config.services.prysm.beacon;
 
   beaconOpts = {
-    config,
-    lib,
-    name,
-    ...
-  }: {
     options = {
       enable = mkEnableOption (mdDoc "Ethereum Beacon Chain Node from Prysmatic Labs");
 
@@ -94,7 +90,7 @@ in {
   config = mkIf (eachBeacon != {}) {
     # collect packages and add them to the system
     environment.systemPackages = flatten (mapAttrsToList
-      (beaconName: cfg: [
+      (_: cfg: [
         cfg.package
       ])
       eachBeacon);
@@ -102,13 +98,13 @@ in {
     # add a group for each instance
     users.groups =
       mapAttrs'
-      (beaconName: cfg: nameValuePair "prysm-beacon-${beaconName}" {})
+      (beaconName: _: nameValuePair "prysm-beacon-${beaconName}" {})
       eachBeacon;
 
     # add a system user for each instance
     users.users =
       mapAttrs'
-      (beaconName: cfg:
+      (beaconName: _:
         nameValuePair "prysm-beacon-${beaconName}" {
           isSystemUser = true;
           group = "prysm-beacon-${beaconName}";
@@ -130,58 +126,58 @@ in {
 
     systemd.services =
       mapAttrs'
-      (beaconName: cfg: let
-        inherit (lib) optionalString;
-        inherit (lib.lists) optionals;
-        stateDir = "prysm-beacon-${beaconName}";
-        dataDir = "/var/lib/${stateDir}";
-      in (
-        nameValuePair "prysm-beacon-${beaconName}" (mkIf cfg.enable {
-          description = "Prysm Beacon Node (${beaconName})";
-          wantedBy = ["multi-user.target"];
-          after = ["network.target"];
+      (
+        beaconName: let
+          stateDir = "prysm-beacon-${beaconName}";
+          dataDir = "/var/lib/${stateDir}";
+        in
+          cfg:
+            nameValuePair "prysm-beacon-${beaconName}" (mkIf cfg.enable {
+              description = "Prysm Beacon Node (${beaconName})";
+              wantedBy = ["multi-user.target"];
+              after = ["network.target"];
 
-          unitConfig = {
-            RequiresMountsFor = optionals (cfg.dataDir != null) [
-              cfg.dataDir
-            ];
-          };
+              unitConfig = {
+                RequiresMountsFor = optionals (cfg.dataDir != null) [
+                  cfg.dataDir
+                ];
+              };
 
-          serviceConfig = {
-            User = "prysm-beacon-${beaconName}";
-            Group = "prysm-beacon-${beaconName}";
+              serviceConfig = {
+                User = "prysm-beacon-${beaconName}";
+                Group = "prysm-beacon-${beaconName}";
 
-            Restart = "always";
-            StateDirectory = stateDir;
-            SupplementaryGroups = cfg.service.supplementaryGroups;
+                Restart = "always";
+                StateDirectory = stateDir;
+                SupplementaryGroups = cfg.service.supplementaryGroups;
 
-            # bind custom data dir to /var/lib/... if provided
-            BindPaths = lib.lists.optionals (cfg.dataDir != null) [
-              "${cfg.dataDir}:${dataDir}"
-            ];
+                # bind custom data dir to /var/lib/... if provided
+                BindPaths = lib.lists.optionals (cfg.dataDir != null) [
+                  "${cfg.dataDir}:${dataDir}"
+                ];
 
-            # Hardening measures
-            RemoveIPC = "true";
-            PrivateTmp = "true";
-            ProtectSystem = "full";
-            NoNewPrivileges = "true";
-            PrivateDevices = "true";
-            RestrictSUIDSGID = "true";
-            # MemoryDenyWriteExecute = "true";   causes a library loading error
-          };
+                # Hardening measures
+                RemoveIPC = "true";
+                PrivateTmp = "true";
+                ProtectSystem = "full";
+                NoNewPrivileges = "true";
+                PrivateDevices = "true";
+                RestrictSUIDSGID = "true";
+                # MemoryDenyWriteExecute = "true";   causes a library loading error
+              };
 
-          script = ''
-            ${cfg.package}/bin/beacon-chain \
-              --accept-terms-of-use \
-              ${optionalString (cfg.network != null) ''--${cfg.network}''} \
-              ${optionalString (cfg.jwt-secret != null) ''--jwt-secret=${cfg.jwt-secret}''} \
-              ${optionalString (cfg.checkpoint.sync-url != null) ''--checkpoint-sync-url=${cfg.checkpoint.sync-url}''} \
-              ${optionalString (cfg.genesis.beacon-api-url != null) ''--genesis-beacon-api-url=${cfg.genesis.beacon-api-url}''} \
-              ${lib.escapeShellArgs cfg.extraArgs} \
-              --datadir ${dataDir}
-          '';
-        })
-      ))
+              script = ''
+                ${cfg.package}/bin/beacon-chain \
+                  --accept-terms-of-use \
+                  ${optionalString (cfg.network != null) ''--${cfg.network}''} \
+                  ${optionalString (cfg.jwt-secret != null) ''--jwt-secret=${cfg.jwt-secret}''} \
+                  ${optionalString (cfg.checkpoint.sync-url != null) ''--checkpoint-sync-url=${cfg.checkpoint.sync-url}''} \
+                  ${optionalString (cfg.genesis.beacon-api-url != null) ''--genesis-beacon-api-url=${cfg.genesis.beacon-api-url}''} \
+                  ${lib.escapeShellArgs cfg.extraArgs} \
+                  --datadir ${dataDir}
+              '';
+            })
+      )
       eachBeacon;
   };
 }
