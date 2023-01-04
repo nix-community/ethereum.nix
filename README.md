@@ -164,6 +164,48 @@ just fmt
 
 - [ethdo](https://github.com/wealdtech/ethdo): `nix run .#ethdo`
 
+## NixOS Modules
+
+We provide modules for configuring and running various services. Some process arguments have been nix'ified. For those
+which aren't there is typically and an `extraArgs` array that can be passed to the process.
+
+### Geth
+
+```nix
+services.geth.mainnet = {
+    enable = true;
+    service.supplementaryGroups = [users.groups.keys.name];
+};
+
+services.geth.goerli = {
+    enable = true;
+    network = "goerli";
+    dataDir = "/data/ethereum/goerli/geth";
+    authrpc.jwtsecret = sops.secrets.geth_jwt_secret.path;
+    service.supplementaryGroups = [users.groups.keys.name];
+};
+```
+
+### Prysm Beacon Chain
+
+```nix
+services.prysm.beacon.mainnet = {
+    enable = true;
+    jwt-secret = secrets.prysm_jwt_secret.path;
+    service.supplementaryGroups = [users.groups.keys.name];
+};
+
+services.prysm.beacon.goerli = {
+    enable = true;
+    network = "goerli";
+    dataDir = "/data/ethereum/goerli/prysm-beacon";
+    jwt-secret = secrets.prysm_jwt_secret.path;
+    service.supplementaryGroups = [users.groups.keys.name];
+    checkpoint.sync-url = "https://goerli.checkpoint-sync.ethpandaops.io";
+    genesis.beacon-api-url = "https://goerli.checkpoint-sync.ethpandaops.io";
+};
+```
+
 ## Libraries
 
 Some crypto projects may need specific libraries to be available to compile properly. Below you can find the list of included ones:
