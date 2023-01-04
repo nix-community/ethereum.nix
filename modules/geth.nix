@@ -7,17 +7,13 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mdDoc flatten nameValuePair mapAttrs mapAttrs' mapAttrsToList;
+  inherit (lib) mdDoc flatten nameValuePair mapAttrs mapAttrs' mapAttrsToList optionalString;
   inherit (lib) literalExpression mkEnableOption mkIf mkOption types;
+  inherit (lib.lists) optionals;
 
   eachGeth = config.services.geth;
 
   gethOpts = {
-    config,
-    lib,
-    name,
-    ...
-  }: {
     options = {
       enable = mkEnableOption (mdDoc "Go Ethereum Node");
 
@@ -186,7 +182,7 @@ in {
   config = mkIf (eachGeth != {}) {
     # collect packages and add them to the system
     environment.systemPackages = flatten (mapAttrsToList
-      (gethName: cfg: [
+      (_: cfg: [
         cfg.package
       ])
       eachGeth);
@@ -194,13 +190,13 @@ in {
     # add a group for each instance
     users.groups =
       mapAttrs'
-      (gethName: cfg: nameValuePair "geth-${gethName}" {})
+      (gethName: _: nameValuePair "geth-${gethName}" {})
       eachGeth;
 
     # add a system user for each instance
     users.users =
       mapAttrs'
-      (gethName: cfg:
+      (gethName: _:
         nameValuePair "geth-${gethName}" {
           isSystemUser = true;
           group = "geth-${gethName}";
@@ -222,80 +218,80 @@ in {
 
     systemd.services =
       mapAttrs'
-      (gethName: cfg: let
-        inherit (lib) optionalString;
-        inherit (lib.lists) optionals;
-        stateDir = "geth-${gethName}";
-        dataDir = "/var/lib/${stateDir}";
-      in (
-        nameValuePair "geth-${gethName}" (mkIf cfg.enable {
-          description = "Go Ethereum node (${gethName})";
-          wantedBy = ["multi-user.target"];
-          after = ["network.target"];
+      (
+        gethName: let
+          stateDir = "geth-${gethName}";
+          dataDir = "/var/lib/${stateDir}";
+        in
+          cfg:
+            nameValuePair "geth-${gethName}" (mkIf cfg.enable {
+              description = "Go Ethereum node (${gethName})";
+              wantedBy = ["multi-user.target"];
+              after = ["network.target"];
 
-          unitConfig = {
-            RequiresMountsFor = optionals (cfg.dataDir != null) [
-              cfg.dataDir
-            ];
-          };
+              unitConfig = {
+                RequiresMountsFor = optionals (cfg.dataDir != null) [
+                  cfg.dataDir
+                ];
+              };
 
-          serviceConfig = {
-            User = "geth-${gethName}";
-            Group = "geth-${gethName}";
+              serviceConfig = {
+                User = "geth-${gethName}";
+                Group = "geth-${gethName}";
 
-            Restart = "always";
-            StateDirectory = stateDir;
-            SupplementaryGroups = cfg.service.supplementaryGroups;
+                Restart = "always";
+                StateDirectory = stateDir;
+                SupplementaryGroups = cfg.service.supplementaryGroups;
 
-            # bind custom data dir to /var/lib/... if provided
-            BindPaths = lib.lists.optionals (cfg.dataDir != null) [
-              "${cfg.dataDir}:${dataDir}"
-            ];
+                # bind custom data dir to /var/lib/... if provided
+                BindPaths = lib.lists.optionals (cfg.dataDir != null) [
+                  "${cfg.dataDir}:${dataDir}"
+                ];
 
-            # Hardening measures
-            RemoveIPC = "true";
-            PrivateTmp = "true";
-            ProtectSystem = "full";
-            ProtectHome = "read-only";
-            NoNewPrivileges = "true";
-            PrivateDevices = "true";
-            RestrictSUIDSGID = "true";
-            MemoryDenyWriteExecute = "true";
-          };
+                # Hardening measures
+                RemoveIPC = "true";
+                PrivateTmp = "true";
+                ProtectSystem = "full";
+                ProtectHome = "read-only";
+                NoNewPrivileges = "true";
+                PrivateDevices = "true";
+                RestrictSUIDSGID = "true";
+                MemoryDenyWriteExecute = "true";
+              };
 
-          script = ''
-            ${cfg.package}/bin/geth \
-            --nousb \
-            --ipcdisable \
-            ${optionalString (cfg.network != null) ''--${cfg.network}''} \
-            --syncmode ${cfg.syncmode} \
-            --gcmode ${cfg.gcmode} \
-            --port ${toString cfg.port} \
-            --maxpeers ${toString cfg.maxpeers} \
-            ${
-              if cfg.http.enable
-              then ''--http --http.addr ${cfg.http.address} --http.port ${toString cfg.http.port}''
-              else ""
-            } \
-            ${optionalString (cfg.http.apis != null) ''--http.api ${lib.concatStringsSep "," cfg.http.apis}''} \
-            ${
-              if cfg.websocket.enable
-              then ''--ws --ws.addr ${cfg.websocket.address} --ws.port ${toString cfg.websocket.port}''
-              else ""
-            } \
-            ${optionalString (cfg.websocket.apis != null) ''--ws.api ${lib.concatStringsSep "," cfg.websocket.apis}''} \
-            ${optionalString cfg.metrics.enable ''--metrics --metrics.addr ${cfg.metrics.address} --metrics.port ${toString cfg.metrics.port}''} \
-            --authrpc.addr ${cfg.authrpc.address} --authrpc.port ${toString cfg.authrpc.port} --authrpc.vhosts ${lib.concatStringsSep "," cfg.authrpc.vhosts} \
-            ${
-              if (cfg.authrpc.jwtsecret != "")
-              then ''--authrpc.jwtsecret ${cfg.authrpc.jwtsecret}''
-              else ''--authrpc.jwtsecret ${stateDir}/jwtsecret''
-            } \
-            ${lib.escapeShellArgs cfg.extraArgs} \
-            --datadir ${dataDir}
-          '';
-        })
-      ))
+              script = ''
+                ${cfg.package}/bin/geth \
+                --nousb \
+                --ipcdisable \
+                ${optionalString (cfg.network != null) ''--${cfg.network}''} \
+                --syncmode ${cfg.syncmode} \
+                --gcmode ${cfg.gcmode} \
+                --port ${toString cfg.port} \
+                --maxpeers ${toString cfg.maxpeers} \
+                ${
+                  if cfg.http.enable
+                  then ''--http --http.addr ${cfg.http.address} --http.port ${toString cfg.http.port}''
+                  else ""
+                } \
+                ${optionalString (cfg.http.apis != null) ''--http.api ${lib.concatStringsSep "," cfg.http.apis}''} \
+                ${
+                  if cfg.websocket.enable
+                  then ''--ws --ws.addr ${cfg.websocket.address} --ws.port ${toString cfg.websocket.port}''
+                  else ""
+                } \
+                ${optionalString (cfg.websocket.apis != null) ''--ws.api ${lib.concatStringsSep "," cfg.websocket.apis}''} \
+                ${optionalString cfg.metrics.enable ''--metrics --metrics.addr ${cfg.metrics.address} --metrics.port ${toString cfg.metrics.port}''} \
+                --authrpc.addr ${cfg.authrpc.address} --authrpc.port ${toString cfg.authrpc.port} --authrpc.vhosts ${lib.concatStringsSep "," cfg.authrpc.vhosts} \
+                ${
+                  if (cfg.authrpc.jwtsecret != "")
+                  then ''--authrpc.jwtsecret ${cfg.authrpc.jwtsecret}''
+                  else ''--authrpc.jwtsecret ${stateDir}/jwtsecret''
+                } \
+                ${lib.escapeShellArgs cfg.extraArgs} \
+                --datadir ${dataDir}
+              '';
+            })
+      )
       eachGeth;
   };
 }
