@@ -14,7 +14,7 @@
 
   inputs = {
     # packages
-    nixpkgs.url = github:nixos/nixpkgs/nixpkgs-unstable;
+    nixpkgs.url = github:nixos/nixpkgs/22.11;
 
     # utils
     fu.url = github:numtide/flake-utils;
