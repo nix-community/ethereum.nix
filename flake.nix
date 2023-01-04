@@ -16,7 +16,7 @@
     # packages
     nixpkgs.url = github:nixos/nixpkgs/nixpkgs-unstable;
 
-    # libraries
+    # utils
     fu.url = github:numtide/flake-utils;
     treefmt-nix.url = github:numtide/treefmt-nix;
     devshell = {
@@ -99,6 +99,14 @@
           name = "geth";
           drv = mev-geth;
         };
+        nethermind-cli = mkApp {
+          name = "Nethermind.Cli";
+          drv = nethermind;
+        };
+        nethermind-runner = mkApp {
+          name = "Nethermind.Runner";
+          drv = nethermind;
+        };
         plugeth = mkApp {
           name = "geth";
           drv = plugeth;
@@ -165,7 +173,6 @@
       # nix flake check
       checks = import ./checks.nix {
         inherit self pkgs;
-        selfPkgs = self.packages.${system};
       };
 
       # generic shell:  nix develop
