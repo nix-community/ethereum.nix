@@ -95,6 +95,10 @@
         geth = mkApp {
           drv = geth;
         };
+        geth-sealer = mkApp {
+          name = "geth";
+          drv = geth-sealer;
+        };
         mev-geth = mkApp {
           name = "geth";
           drv = mev-geth;

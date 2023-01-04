@@ -31,7 +31,7 @@
 
         src = fetchFromGitHub {
           inherit owner repo sha256;
-          rev = "v${version}";
+          rev = "${version}";
         };
 
         ldflags = ["-s" "-w"];
@@ -77,7 +77,7 @@ in {
 
   geth = mkGeth {
     name = "geth";
-    version = "1.10.26";
+    version = "v1.10.26";
     owner = "ethereum";
     repo = "go-ethereum";
     sha256 = "sha256-eefQEOeKb6gZIJdK9cq20WnhwZE1qbyd8Cl0Hqh2+u8=";
