@@ -38,6 +38,29 @@
         "type": "github"
       }
     },
+    "nix-update": {
+      "inputs": {
+        "flake-utils": [
+          "fu"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1672845198,
+        "narHash": "sha256-xV1p6VtrpRvrHB3yZYPSf6nsPZEw6tYmaBNk2LUbUGo=",
+        "owner": "mic92",
+        "repo": "nix-update",
+        "rev": "bd1b4353f82c985b34cd78b9b83a9115444f33c8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mic92",
+        "repo": "nix-update",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1669750745,
@@ -58,6 +81,7 @@
       "inputs": {
         "devshell": "devshell",
         "fu": "fu",
+        "nix-update": "nix-update",
         "nixpkgs": "nixpkgs",
         "treefmt-nix": "treefmt-nix"
       }

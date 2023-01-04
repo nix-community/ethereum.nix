@@ -17,9 +17,11 @@ in {
     name = "ethereum.nix";
     packages = with pkgs; [
       just # https://github.com/casey/just
+      nix-update
     ];
     commands = with pkgs; [
       (util just)
+      (util nix-update)
     ];
   };
 }

@@ -24,6 +24,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "fu";
     };
+    nix-update = {
+      url = github:mic92/nix-update;
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "fu";
+    };
   };
 
   outputs = {
