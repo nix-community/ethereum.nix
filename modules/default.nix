@@ -1,7 +1,9 @@
-{
-  imports = [
-    ./geth.nix
-    ./prysm
-    ./erigon.nix
-  ];
+{...}: {
+  flake.nixosModules.default = {...}: {
+    imports = [
+      ./geth.nix
+      ./prysm
+      ./erigon.nix
+    ];
+  };
 }
