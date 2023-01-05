@@ -130,6 +130,9 @@ in {
         beaconName: let
           stateDir = "prysm-beacon-${beaconName}";
           dataDir = "/var/lib/${stateDir}";
+
+          inherit (import ../lib.nix lib) script;
+          inherit (script) flag arg optionalArg joinArgs;
         in
           cfg:
             nameValuePair "prysm-beacon-${beaconName}" (mkIf cfg.enable {
@@ -166,16 +169,17 @@ in {
                 # MemoryDenyWriteExecute = "true";   causes a library loading error
               };
 
-              script = ''
-                ${cfg.package}/bin/beacon-chain \
-                  --accept-terms-of-use \
-                  ${optionalString (cfg.network != null) ''--${cfg.network}''} \
-                  ${optionalString (cfg.jwt-secret != null) ''--jwt-secret=${cfg.jwt-secret}''} \
-                  ${optionalString (cfg.checkpoint.sync-url != null) ''--checkpoint-sync-url=${cfg.checkpoint.sync-url}''} \
-                  ${optionalString (cfg.genesis.beacon-api-url != null) ''--genesis-beacon-api-url=${cfg.genesis.beacon-api-url}''} \
-                  ${lib.escapeShellArgs cfg.extraArgs} \
-                  --datadir ${dataDir}
-              '';
+              script = with cfg;
+                joinArgs [
+                  "${package}/bin/beacon-chain"
+                  "--accept-terms-of-use"
+                  (flag network (network != null))
+                  (optionalArg "jwt-secret" (jwt-secret != null) jwt-secret)
+                  (optionalArg "checkpoint-sync-url" (checkpoint.sync-url != null) checkpoint.sync-url)
+                  (optionalArg "genesis-beacon-api-url" (genesis.beacon-api-url != null) genesis.beacon-api-url)
+                  (lib.escapeShellArgs extraArgs)
+                  (arg "datadir" dataDir)
+                ];
             })
       )
       eachBeacon;
