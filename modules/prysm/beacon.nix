@@ -150,7 +150,7 @@ in {
                 User = "prysm-beacon-${beaconName}";
                 Group = "prysm-beacon-${beaconName}";
 
-                Restart = "always";
+                Restart = "on-failure";
                 StateDirectory = stateDir;
                 SupplementaryGroups = cfg.service.supplementaryGroups;
 
@@ -160,12 +160,26 @@ in {
                 ];
 
                 # Hardening measures
+                CapabilityBoundingSet = "";
                 RemoveIPC = "true";
                 PrivateTmp = "true";
                 ProtectSystem = "full";
+                ProtectHome = "read-only";
+                ProtectClock = true;
+                ProtectProc = "noaccess";
+                ProcSubset = "pid";
+                ProtectKernelLogs = true;
+                ProtectKernelModules = true;
+                ProtectKernelTunables = true;
+                ProtectControlGroups = true;
+                ProtectHostname = true;
                 NoNewPrivileges = "true";
                 PrivateDevices = "true";
                 RestrictSUIDSGID = "true";
+                RestrictRealtime = true;
+                RestrictNamespaces = true;
+                LockPersonality = true;
+                SystemCallFilter = ["@system-service" "~@privileged"];
                 # MemoryDenyWriteExecute = "true";   causes a library loading error
               };
 
