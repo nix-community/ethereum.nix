@@ -7,8 +7,8 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mdDoc flatten nameValuePair mapAttrs mapAttrs' mapAttrsToList optionalString;
-  inherit (lib) literalExpression mkEnableOption mkIf mkOption types;
+  inherit (lib) mdDoc flatten nameValuePair filterAttrs mapAttrs mapAttrs' mapAttrsToList;
+  inherit (lib) optionalString literalExpression mkEnableOption mkIf mkOption types;
   inherit (lib.lists) optionals;
 
   eachGeth = config.services.geth;
@@ -161,6 +161,12 @@
           description = mdDoc "Additional groups for the systemd service e.g. sops-nix group for secret access";
         };
       };
+
+      openFirewall = mkOption {
+        type = types.bool;
+        default = false;
+        description = lib.mdDoc "Open ports in the firewall for any enabled networking services";
+      };
     };
   };
 in {
@@ -216,6 +222,23 @@ in {
         )
         eachGeth);
 
+    # configure the firewall for each service
+    networking.firewall.allowedTCPPorts = let
+      openFirewall = filterAttrs (_: cfg: cfg.openFirewall) eachGeth;
+      perService =
+        mapAttrsToList
+        (
+          _: cfg:
+            [cfg.port cfg.authrpc.port]
+            ++ (optionals cfg.http.enable [cfg.http.port])
+            ++ (optionals cfg.websocket.enable [cfg.websocket.port])
+            ++ (optionals cfg.metrics.enable [cfg.metrics.port])
+        )
+        openFirewall;
+    in
+      flatten perService;
+
+    # create a service for each instance
     systemd.services =
       mapAttrs'
       (
