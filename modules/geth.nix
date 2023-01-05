@@ -7,9 +7,10 @@
   pkgs,
   ...
 }: let
+  inherit (lib.lists) optionals;
+  inherit (lib.attrsets) zipAttrsWith;
   inherit (lib) mdDoc flatten nameValuePair filterAttrs mapAttrs mapAttrs' mapAttrsToList;
   inherit (lib) optionalString literalExpression mkEnableOption mkIf mkOption types concatStringsSep;
-  inherit (lib.lists) optionals;
 
   eachGeth = config.services.geth;
 
@@ -99,7 +100,6 @@
       };
 
       authrpc = {
-        enable = mkEnableOption (mdDoc "Go Ethereum Auth RPC API");
         address = mkOption {
           type = types.str;
           default = "127.0.0.1";
@@ -248,20 +248,23 @@ in {
         eachGeth);
 
     # configure the firewall for each service
-    networking.firewall.allowedTCPPorts = let
+    networking.firewall = let
       openFirewall = filterAttrs (_: cfg: cfg.openFirewall) eachGeth;
       perService =
         mapAttrsToList
         (
-          _: cfg:
-            [cfg.port cfg.authrpc.port]
-            ++ (optionals cfg.http.enable [cfg.http.port])
-            ++ (optionals cfg.websocket.enable [cfg.websocket.port])
-            ++ (optionals cfg.metrics.enable [cfg.metrics.port])
+          _: cfg: {
+            allowedUDPPorts = [cfg.port];
+            allowedTCPPorts =
+              [cfg.port cfg.authrpc.port]
+              ++ (optionals cfg.http.enable [cfg.http.port])
+              ++ (optionals cfg.websocket.enable [cfg.websocket.port])
+              ++ (optionals cfg.metrics.enable [cfg.metrics.port]);
+          }
         )
         openFirewall;
     in
-      flatten perService;
+      zipAttrsWith (name: vals: flatten vals) perService;
 
     # create a service for each instance
     systemd.services =
@@ -290,7 +293,7 @@ in {
                 User = "geth-${gethName}";
                 Group = "geth-${gethName}";
 
-                Restart = "always";
+                Restart = "on-failure";
                 StateDirectory = stateDir;
                 SupplementaryGroups = cfg.service.supplementaryGroups;
 
@@ -300,14 +303,27 @@ in {
                 ];
 
                 # Hardening measures
+                CapabilityBoundingSet = "";
                 RemoveIPC = "true";
                 PrivateTmp = "true";
                 ProtectSystem = "full";
                 ProtectHome = "read-only";
+                ProtectClock = true;
+                ProtectProc = "noaccess";
+                ProcSubset = "pid";
+                ProtectKernelLogs = true;
+                ProtectKernelModules = true;
+                ProtectKernelTunables = true;
+                ProtectControlGroups = true;
+                ProtectHostname = true;
                 NoNewPrivileges = "true";
                 PrivateDevices = "true";
                 RestrictSUIDSGID = "true";
+                RestrictRealtime = true;
+                RestrictNamespaces = true;
+                LockPersonality = true;
                 MemoryDenyWriteExecute = "true";
+                SystemCallFilter = ["@system-service" "~@privileged"];
               };
 
               script = with cfg; let
