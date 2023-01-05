@@ -8,7 +8,7 @@
   ...
 }: let
   inherit (lib) mdDoc flatten nameValuePair filterAttrs mapAttrs mapAttrs' mapAttrsToList;
-  inherit (lib) optionalString literalExpression mkEnableOption mkIf mkOption types;
+  inherit (lib) optionalString literalExpression mkEnableOption mkIf mkOption types concatStringsSep;
   inherit (lib.lists) optionals;
 
   eachGeth = config.services.geth;
@@ -31,10 +31,11 @@
 
       http = {
         enable = mkEnableOption (mdDoc "Go Ethereum HTTP API");
+
         address = mkOption {
           type = types.str;
           default = "127.0.0.1";
-          description = mdDoc "Listen address of Go Ethereum HTTP API.";
+          description = mdDoc "HTTP-RPC server listening interface";
         };
 
         port = mkOption {
@@ -46,8 +47,32 @@
         apis = mkOption {
           type = types.nullOr (types.listOf types.str);
           default = null;
-          description = mdDoc "APIs to enable over HTTP";
+          description = mdDoc "API's offered over the HTTP-RPC interface";
           example = ["net" "eth"];
+        };
+
+        corsdomain = mkOption {
+          type = types.nullOr (types.listOf types.str);
+          default = null;
+          description = mdDoc "List of domains from which to accept cross origin requests";
+          example = ["*"];
+        };
+
+        rpcprefix = mkOption {
+          type = types.nullOr types.str;
+          default = null;
+          description = mdDoc "HTTP path path prefix on which JSON-RPC is served. Use '/' to serve on all paths.";
+          example = "/";
+        };
+
+        vhosts = mkOption {
+          type = types.listOf types.str;
+          default = ["localhost"];
+          description = mdDoc ''
+            Comma separated list of virtual hostnames from which to accept requests (server enforced).
+            Accepts '*' wildcard.
+          '';
+          example = ["localhost" "geth.example.org"];
         };
       };
 
@@ -88,7 +113,7 @@
         };
 
         vhosts = mkOption {
-          type = types.nullOr (types.listOf types.str);
+          type = types.listOf types.str;
           default = ["localhost"];
           description = mdDoc "List of virtual hostnames from which to accept requests.";
           example = ["localhost" "geth.example.org"];
@@ -245,6 +270,9 @@ in {
         gethName: let
           stateDir = "geth-${gethName}";
           dataDir = "/var/lib/${stateDir}";
+
+          inherit (import ./lib.nix lib) script;
+          inherit (script) flag arg optionalArg joinArgs;
         in
           cfg:
             nameValuePair "geth-${gethName}" (mkIf cfg.enable {
@@ -282,37 +310,53 @@ in {
                 MemoryDenyWriteExecute = "true";
               };
 
-              script = ''
-                ${cfg.package}/bin/geth \
-                --nousb \
-                --ipcdisable \
-                ${optionalString (cfg.network != null) ''--${cfg.network}''} \
-                --syncmode ${cfg.syncmode} \
-                --gcmode ${cfg.gcmode} \
-                --port ${toString cfg.port} \
-                --maxpeers ${toString cfg.maxpeers} \
-                ${
-                  if cfg.http.enable
-                  then ''--http --http.addr ${cfg.http.address} --http.port ${toString cfg.http.port}''
-                  else ""
-                } \
-                ${optionalString (cfg.http.apis != null) ''--http.api ${lib.concatStringsSep "," cfg.http.apis}''} \
-                ${
-                  if cfg.websocket.enable
-                  then ''--ws --ws.addr ${cfg.websocket.address} --ws.port ${toString cfg.websocket.port}''
-                  else ""
-                } \
-                ${optionalString (cfg.websocket.apis != null) ''--ws.api ${lib.concatStringsSep "," cfg.websocket.apis}''} \
-                ${optionalString cfg.metrics.enable ''--metrics --metrics.addr ${cfg.metrics.address} --metrics.port ${toString cfg.metrics.port}''} \
-                --authrpc.addr ${cfg.authrpc.address} --authrpc.port ${toString cfg.authrpc.port} --authrpc.vhosts ${lib.concatStringsSep "," cfg.authrpc.vhosts} \
-                ${
-                  if (cfg.authrpc.jwtsecret != "")
-                  then ''--authrpc.jwtsecret ${cfg.authrpc.jwtsecret}''
-                  else ''--authrpc.jwtsecret ${stateDir}/jwtsecret''
-                } \
-                ${lib.escapeShellArgs cfg.extraArgs} \
-                --datadir ${dataDir}
-              '';
+              script = with cfg; let
+                httpArgs = optionals http.enable [
+                  "--http"
+                  (arg "http.addr" http.address)
+                  (arg "http.port" (toString http.port))
+                  (arg "http.vhosts" (concatStringsSep "," http.vhosts))
+                  (optionalArg "http.api" (http.apis != null) (concatStringsSep "," http.apis))
+                  (optionalArg "http.corsdoman" (http.corsdomain != null) (concatStringsSep "," http.corsdomain))
+                  (optionalArg "http.rpcprefix" (http.rpcprefix != null) (concatStringsSep "," http.rpcprefix))
+                ];
+
+                websocketArgs = optionals websocket.enable [
+                  "--ws"
+                  (arg "ws.addr" websocket.address)
+                  (arg "ws.port" (toString websocket.port))
+                  (optionalArg "ws.api" (concatStringsSep "," websocket.apis))
+                ];
+
+                metricsArgs = optionals metrics.enable [
+                  "--metrics"
+                  (arg "metrics.addr" metrics.address)
+                  (arg "metrics.port" (toString metrics.port))
+                ];
+              in
+                joinArgs [
+                  "${cfg.package}/bin/geth"
+                  "--ipcdisable"
+                  (flag network (network != null))
+                  (arg "syncmode" syncmode)
+                  (arg "gcmode" gcmode)
+                  (arg "port" port)
+                  (arg "maxpeers" maxpeers)
+                  (arg "authrpc.addr" authrpc.address)
+                  (arg "authrpc.port" authrpc.port)
+                  (arg "authrpc.vhosts" (concatStringsSep "," authrpc.vhosts))
+                  (arg "authrpc.jwtsecret"
+                    (
+                      if (authrpc.jwtsecret != "")
+                      then authrpc.jwtsecret
+                      else "${stateDir}/jwtsecret"
+                    ))
+                  httpArgs
+                  websocketArgs
+                  metricsArgs
+                  (lib.escapeShellArgs cfg.extraArgs)
+                  (arg "datadir" dataDir)
+                ];
             })
       )
       eachGeth;
