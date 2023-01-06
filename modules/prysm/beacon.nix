@@ -131,7 +131,7 @@ in {
           stateDir = "prysm-beacon-${beaconName}";
           dataDir = "/var/lib/${stateDir}";
 
-          inherit (import ../lib.nix lib) script;
+          inherit (import ../lib.nix {inherit lib pkgs;}) script;
           inherit (script) flag arg optionalArg joinArgs;
         in
           cfg:
