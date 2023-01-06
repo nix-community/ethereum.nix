@@ -295,7 +295,7 @@ in {
 
               script = with cfg; let
                 # filter null values and merge with extra settings
-                settings = (filterAttrsRecursive (_: v: v != null) cfg.settings) // cfg.extraSettings;
+                settings = lib.recursiveUpdate (filterAttrsRecursive (_: v: v != null) cfg.settings) cfg.extraSettings;
                 # generate the yaml config file
                 configFile = settingsFormat.generate "config.yaml" settings;
               in ''
