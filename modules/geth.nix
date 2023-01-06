@@ -18,152 +18,154 @@
     options = {
       enable = mkEnableOption (mdDoc "Go Ethereum Node");
 
-      dataDir = mkOption {
-        type = types.nullOr types.path;
-        default = null;
-        description = mdDoc "Data directory to use for storing Geth state";
-      };
-
-      port = mkOption {
-        type = types.port;
-        default = 30303;
-        description = mdDoc "Port number Go Ethereum will be listening on, both TCP and UDP.";
-      };
-
-      http = {
-        enable = mkEnableOption (mdDoc "Go Ethereum HTTP API");
-
-        address = mkOption {
-          type = types.str;
-          default = "127.0.0.1";
-          description = mdDoc "HTTP-RPC server listening interface";
+      args = {
+        datadir = mkOption {
+          type = types.nullOr types.path;
+          default = null;
+          description = mdDoc "Data directory to use for storing Geth state";
         };
 
         port = mkOption {
           type = types.port;
-          default = 8545;
-          description = mdDoc "Port number of Go Ethereum HTTP API.";
+          default = 30303;
+          description = mdDoc "Port number Go Ethereum will be listening on, both TCP and UDP.";
         };
 
-        apis = mkOption {
-          type = types.nullOr (types.listOf types.str);
+        http = {
+          enable = mkEnableOption (mdDoc "Go Ethereum HTTP API");
+
+          address = mkOption {
+            type = types.str;
+            default = "127.0.0.1";
+            description = mdDoc "HTTP-RPC server listening interface";
+          };
+
+          port = mkOption {
+            type = types.port;
+            default = 8545;
+            description = mdDoc "Port number of Go Ethereum HTTP API.";
+          };
+
+          apis = mkOption {
+            type = types.nullOr (types.listOf types.str);
+            default = null;
+            description = mdDoc "API's offered over the HTTP-RPC interface";
+            example = ["net" "eth"];
+          };
+
+          corsdomain = mkOption {
+            type = types.nullOr (types.listOf types.str);
+            default = null;
+            description = mdDoc "List of domains from which to accept cross origin requests";
+            example = ["*"];
+          };
+
+          rpcprefix = mkOption {
+            type = types.nullOr types.str;
+            default = null;
+            description = mdDoc "HTTP path path prefix on which JSON-RPC is served. Use '/' to serve on all paths.";
+            example = "/";
+          };
+
+          vhosts = mkOption {
+            type = types.listOf types.str;
+            default = ["localhost"];
+            description = mdDoc ''
+              Comma separated list of virtual hostnames from which to accept requests (server enforced).
+              Accepts '*' wildcard.
+            '';
+            example = ["localhost" "geth.example.org"];
+          };
+        };
+
+        websocket = {
+          enable = mkEnableOption (mdDoc "Go Ethereum WebSocket API");
+          address = mkOption {
+            type = types.str;
+            default = "127.0.0.1";
+            description = mdDoc "Listen address of Go Ethereum WebSocket API.";
+          };
+
+          port = mkOption {
+            type = types.port;
+            default = 8546;
+            description = mdDoc "Port number of Go Ethereum WebSocket API.";
+          };
+
+          apis = mkOption {
+            type = types.nullOr (types.listOf types.str);
+            default = null;
+            description = mdDoc "APIs to enable over WebSocket";
+            example = ["net" "eth"];
+          };
+        };
+
+        authrpc = {
+          address = mkOption {
+            type = types.str;
+            default = "127.0.0.1";
+            description = mdDoc "Listen address of Go Ethereum Auth RPC API.";
+          };
+
+          port = mkOption {
+            type = types.port;
+            default = 8551;
+            description = mdDoc "Port number of Go Ethereum Auth RPC API.";
+          };
+
+          vhosts = mkOption {
+            type = types.listOf types.str;
+            default = ["localhost"];
+            description = mdDoc "List of virtual hostnames from which to accept requests.";
+            example = ["localhost" "geth.example.org"];
+          };
+
+          jwtsecret = mkOption {
+            type = types.str;
+            default = "";
+            description = mdDoc "Path to a JWT secret for authenticated RPC endpoint.";
+            example = "/var/run/geth/jwtsecret";
+          };
+        };
+
+        metrics = {
+          enable = mkEnableOption (mdDoc "Go Ethereum prometheus metrics");
+          address = mkOption {
+            type = types.str;
+            default = "127.0.0.1";
+            description = mdDoc "Listen address of Go Ethereum metrics service.";
+          };
+
+          port = mkOption {
+            type = types.port;
+            default = 6060;
+            description = mdDoc "Port number of Go Ethereum metrics service.";
+          };
+        };
+
+        network = mkOption {
+          type = types.nullOr (types.enum ["goerli" "rinkeby" "yolov2" "ropsten"]);
           default = null;
-          description = mdDoc "API's offered over the HTTP-RPC interface";
-          example = ["net" "eth"];
+          description = mdDoc "The network to connect to. Mainnet (null) is the default ethereum network.";
         };
 
-        corsdomain = mkOption {
-          type = types.nullOr (types.listOf types.str);
-          default = null;
-          description = mdDoc "List of domains from which to accept cross origin requests";
-          example = ["*"];
+        syncmode = mkOption {
+          type = types.enum ["snap" "fast" "full" "light"];
+          default = "snap";
+          description = mdDoc "Blockchain sync mode.";
         };
 
-        rpcprefix = mkOption {
-          type = types.nullOr types.str;
-          default = null;
-          description = mdDoc "HTTP path path prefix on which JSON-RPC is served. Use '/' to serve on all paths.";
-          example = "/";
+        gcmode = mkOption {
+          type = types.enum ["full" "archive"];
+          default = "full";
+          description = mdDoc "Blockchain garbage collection mode.";
         };
 
-        vhosts = mkOption {
-          type = types.listOf types.str;
-          default = ["localhost"];
-          description = mdDoc ''
-            Comma separated list of virtual hostnames from which to accept requests (server enforced).
-            Accepts '*' wildcard.
-          '';
-          example = ["localhost" "geth.example.org"];
+        maxpeers = mkOption {
+          type = types.int;
+          default = 50;
+          description = mdDoc "Maximum peers to connect to.";
         };
-      };
-
-      websocket = {
-        enable = mkEnableOption (mdDoc "Go Ethereum WebSocket API");
-        address = mkOption {
-          type = types.str;
-          default = "127.0.0.1";
-          description = mdDoc "Listen address of Go Ethereum WebSocket API.";
-        };
-
-        port = mkOption {
-          type = types.port;
-          default = 8546;
-          description = mdDoc "Port number of Go Ethereum WebSocket API.";
-        };
-
-        apis = mkOption {
-          type = types.nullOr (types.listOf types.str);
-          default = null;
-          description = mdDoc "APIs to enable over WebSocket";
-          example = ["net" "eth"];
-        };
-      };
-
-      authrpc = {
-        address = mkOption {
-          type = types.str;
-          default = "127.0.0.1";
-          description = mdDoc "Listen address of Go Ethereum Auth RPC API.";
-        };
-
-        port = mkOption {
-          type = types.port;
-          default = 8551;
-          description = mdDoc "Port number of Go Ethereum Auth RPC API.";
-        };
-
-        vhosts = mkOption {
-          type = types.listOf types.str;
-          default = ["localhost"];
-          description = mdDoc "List of virtual hostnames from which to accept requests.";
-          example = ["localhost" "geth.example.org"];
-        };
-
-        jwtsecret = mkOption {
-          type = types.str;
-          default = "";
-          description = mdDoc "Path to a JWT secret for authenticated RPC endpoint.";
-          example = "/var/run/geth/jwtsecret";
-        };
-      };
-
-      metrics = {
-        enable = mkEnableOption (mdDoc "Go Ethereum prometheus metrics");
-        address = mkOption {
-          type = types.str;
-          default = "127.0.0.1";
-          description = mdDoc "Listen address of Go Ethereum metrics service.";
-        };
-
-        port = mkOption {
-          type = types.port;
-          default = 6060;
-          description = mdDoc "Port number of Go Ethereum metrics service.";
-        };
-      };
-
-      network = mkOption {
-        type = types.nullOr (types.enum ["goerli" "rinkeby" "yolov2" "ropsten"]);
-        default = null;
-        description = mdDoc "The network to connect to. Mainnet (null) is the default ethereum network.";
-      };
-
-      syncmode = mkOption {
-        type = types.enum ["snap" "fast" "full" "light"];
-        default = "snap";
-        description = mdDoc "Blockchain sync mode.";
-      };
-
-      gcmode = mkOption {
-        type = types.enum ["full" "archive"];
-        default = "full";
-        description = mdDoc "Blockchain garbage collection mode.";
-      };
-
-      maxpeers = mkOption {
-        type = types.int;
-        default = 50;
-        description = mdDoc "Maximum peers to connect to.";
       };
 
       extraArgs = mkOption {
@@ -241,8 +243,8 @@ in {
       (mapAttrsToList
         (
           gethName: cfg:
-            lib.lists.optionals (cfg.dataDir != null) [
-              "d ${cfg.dataDir} 0700 geth-${gethName} geth-${gethName} - -"
+            lib.lists.optionals (cfg.args.datadir != null) [
+              "d ${cfg.args.datadir} 0700 geth-${gethName} geth-${gethName} - -"
             ]
         )
         eachGeth);
@@ -253,13 +255,13 @@ in {
       perService =
         mapAttrsToList
         (
-          _: cfg: {
-            allowedUDPPorts = [cfg.port];
+          _: cfg: with cfg.args; {
+            allowedUDPPorts = [port];
             allowedTCPPorts =
-              [cfg.port cfg.authrpc.port]
-              ++ (optionals cfg.http.enable [cfg.http.port])
-              ++ (optionals cfg.websocket.enable [cfg.websocket.port])
-              ++ (optionals cfg.metrics.enable [cfg.metrics.port]);
+              [port authrpc.port]
+              ++ (optionals http.enable [http.port])
+              ++ (optionals websocket.enable [websocket.port])
+              ++ (optionals metrics.enable [metrics.port]);
           }
         )
         openFirewall;
@@ -271,8 +273,8 @@ in {
       mapAttrs'
       (
         gethName: let
-          stateDir = "geth-${gethName}";
-          dataDir = "/var/lib/${stateDir}";
+          statedir = "geth-${gethName}";
+          datadir = "/var/lib/${statedir}";
 
           inherit (import ./lib.nix {inherit lib pkgs;}) script;
           inherit (script) flag arg optionalArg joinArgs;
@@ -284,8 +286,8 @@ in {
               after = ["network.target"];
 
               unitConfig = {
-                RequiresMountsFor = optionals (cfg.dataDir != null) [
-                  cfg.dataDir
+                RequiresMountsFor = optionals (cfg.args.datadir != null) [
+                  cfg.args.datadir
                 ];
               };
 
@@ -294,12 +296,12 @@ in {
                 Group = "geth-${gethName}";
 
                 Restart = "on-failure";
-                StateDirectory = stateDir;
+                StateDirectory = statedir;
                 SupplementaryGroups = cfg.service.supplementaryGroups;
 
                 # bind custom data dir to /var/lib/... if provided
-                BindPaths = lib.lists.optionals (cfg.dataDir != null) [
-                  "${cfg.dataDir}:${dataDir}"
+                BindPaths = lib.lists.optionals (cfg.args.datadir != null) [
+                  "${cfg.args.datadir}:${datadir}"
                 ];
 
                 # Hardening measures
@@ -326,7 +328,7 @@ in {
                 SystemCallFilter = ["@system-service" "~@privileged"];
               };
 
-              script = with cfg; let
+              script = with cfg.args; let
                 httpArgs = optionals http.enable [
                   "--http"
                   (arg "http.addr" http.address)
@@ -365,13 +367,13 @@ in {
                     (
                       if (authrpc.jwtsecret != "")
                       then authrpc.jwtsecret
-                      else "${stateDir}/jwtsecret"
+                      else "${statedir}/jwtsecret"
                     ))
                   httpArgs
                   websocketArgs
                   metricsArgs
                   (lib.escapeShellArgs cfg.extraArgs)
-                  (arg "datadir" dataDir)
+                  (arg "datadir" datadir)
                 ];
             })
       )
