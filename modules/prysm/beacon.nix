@@ -4,9 +4,11 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mdDoc flatten nameValuePair mapAttrs' mapAttrsToList optionalString;
-  inherit (lib) literalExpression mkEnableOption mkIf mkOption types;
+  inherit (lib) literalExpression mkEnableOption mkIf mkOption types optionalString;
+  inherit (lib) mdDoc flatten nameValuePair mapAttrs' filterAttrsRecursive mapAttrsToList;
   inherit (lib.lists) optionals;
+
+  settingsFormat = pkgs.formats.yaml {};
 
   eachBeacon = config.services.prysm.beacon;
 
@@ -14,42 +16,46 @@
     options = {
       enable = mkEnableOption (mdDoc "Ethereum Beacon Chain Node from Prysmatic Labs");
 
-      dataDir = mkOption {
-        type = types.nullOr types.path;
-        default = null;
-        description = mdDoc "Data directory for the databases";
-        example = "/data/ethereum/goerli/prysm-beacon";
-      };
+      settings = {
+        datadir = mkOption {
+          type = types.nullOr types.path;
+          default = null;
+          description = mdDoc "Data directory for the databases";
+          example = "/data/ethereum/goerli/prysm-beacon";
+        };
 
-      network = mkOption {
-        type = types.nullOr (types.enum ["goerli" "prater" "ropsten" "sepolia"]);
-        default = null;
-        description = mdDoc "The network to connect to. Mainnet (null) is the default ethereum network.";
-      };
+        network = mkOption {
+          type = types.nullOr (types.enum ["goerli" "prater" "ropsten" "sepolia"]);
+          default = null;
+          description = mdDoc "The network to connect to. Mainnet (null) is the default ethereum network.";
+        };
 
-      jwt-secret = mkOption {
-        type = types.str;
-        default = null;
-        description = mdDoc "Path to a file containing a hex-encoded string representing a 32 byte secret used for authentication with an execution node via HTTP";
-        example = "/var/run/prysm/jwtsecret";
-      };
+        jwt-secret = mkOption {
+          type = types.str;
+          default = null;
+          description = mdDoc "Path to a file containing a hex-encoded string representing a 32 byte secret used for authentication with an execution node via HTTP";
+          example = "/var/run/prysm/jwtsecret";
+        };
 
-      checkpoint = {
-        sync-url = mkOption {
+        checkpoint-sync-url = mkOption {
           type = types.nullOr types.str;
           default = null;
           description = "URL of a synced beacon node to trust in obtaining checkpoint sync data. As an additional safety measure, it is strongly recommended to only use this option in conjunction with --weak-subjectivity-checkpoint flag";
           example = "https://goerli.checkpoint-sync.ethpandaops.io";
         };
-      };
 
-      genesis = {
-        beacon-api-url = mkOption {
+        genesis-beacon-api-url = mkOption {
           type = types.nullOr types.str;
           default = null;
           description = "URL of a synced beacon node to trust for obtaining genesis state. As an additional safety measure, it is strongly recommended to only use this option in conjunction with --weak-subjectivity-checkpoint flag";
           example = "https://goerli.checkpoint-sync.ethpandaops.io";
         };
+      };
+
+      extraSettings = mkOption {
+        type = settingsFormat.type;
+        default = {};
+        description = mdDoc "Additional settings to pass to Prysm Beacon Chain.";
       };
 
       extraArgs = mkOption {
@@ -118,8 +124,8 @@ in {
       (mapAttrsToList
         (
           beaconName: cfg:
-            lib.lists.optionals (cfg.dataDir != null) [
-              "d ${cfg.dataDir} 0700 prysm-beacon-${beaconName} prysm-beacon-${beaconName} - -"
+            lib.lists.optionals (cfg.settings.datadir != null) [
+              "d ${cfg.settings.datadir} 0700 prysm-beacon-${beaconName} prysm-beacon-${beaconName} - -"
             ]
         )
         eachBeacon);
@@ -129,7 +135,7 @@ in {
       (
         beaconName: let
           stateDir = "prysm-beacon-${beaconName}";
-          dataDir = "/var/lib/${stateDir}";
+          datadir = "/var/lib/${stateDir}";
 
           inherit (import ../lib.nix {inherit lib pkgs;}) script;
           inherit (script) flag arg optionalArg joinArgs;
@@ -141,8 +147,8 @@ in {
               after = ["network.target"];
 
               unitConfig = {
-                RequiresMountsFor = optionals (cfg.dataDir != null) [
-                  cfg.dataDir
+                RequiresMountsFor = optionals (cfg.settings.datadir != null) [
+                  cfg.settings.datadir
                 ];
               };
 
@@ -155,8 +161,8 @@ in {
                 SupplementaryGroups = cfg.service.supplementaryGroups;
 
                 # bind custom data dir to /var/lib/... if provided
-                BindPaths = lib.lists.optionals (cfg.dataDir != null) [
-                  "${cfg.dataDir}:${dataDir}"
+                BindPaths = lib.lists.optionals (cfg.settings.datadir != null) [
+                  "${cfg.settings.datadir}:${datadir}"
                 ];
 
                 # Hardening measures
@@ -183,17 +189,18 @@ in {
                 # MemoryDenyWriteExecute = "true";   causes a library loading error
               };
 
-              script = with cfg;
-                joinArgs [
-                  "${package}/bin/beacon-chain"
-                  "--accept-terms-of-use"
-                  (flag network (network != null))
-                  (optionalArg "jwt-secret" (jwt-secret != null) jwt-secret)
-                  (optionalArg "checkpoint-sync-url" (checkpoint.sync-url != null) checkpoint.sync-url)
-                  (optionalArg "genesis-beacon-api-url" (genesis.beacon-api-url != null) genesis.beacon-api-url)
-                  (lib.escapeShellArgs extraArgs)
-                  (arg "datadir" dataDir)
-                ];
+              script = with cfg; let
+                # filter null values and merge with extra settings
+                settings = (filterAttrsRecursive (_: v: v != null) cfg.settings) // cfg.extraSettings;
+                # generate the yaml config file
+                configFile = settingsFormat.generate "config.yaml" settings;
+              in ''
+                ${cfg.package}/bin/beacon-chain \
+                    --accept-terms-of-use \
+                    --${settings.network} \
+                    --config-file ${configFile} \
+                    ${lib.escapeShellArgs extraArgs}
+              '';
             })
       )
       eachBeacon;

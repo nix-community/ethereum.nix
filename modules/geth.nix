@@ -255,14 +255,15 @@ in {
       perService =
         mapAttrsToList
         (
-          _: cfg: with cfg.args; {
-            allowedUDPPorts = [port];
-            allowedTCPPorts =
-              [port authrpc.port]
-              ++ (optionals http.enable [http.port])
-              ++ (optionals websocket.enable [websocket.port])
-              ++ (optionals metrics.enable [metrics.port]);
-          }
+          _: cfg:
+            with cfg.args; {
+              allowedUDPPorts = [port];
+              allowedTCPPorts =
+                [port authrpc.port]
+                ++ (optionals http.enable [http.port])
+                ++ (optionals websocket.enable [websocket.port])
+                ++ (optionals metrics.enable [metrics.port]);
+            }
         )
         openFirewall;
     in
