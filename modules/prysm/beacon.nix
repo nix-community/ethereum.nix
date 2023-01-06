@@ -5,7 +5,7 @@
   ...
 }: let
   inherit (lib) literalExpression mkEnableOption mkIf mkOption types optionalString;
-  inherit (lib) mdDoc flatten nameValuePair mapAttrs' filterAttrsRecursive mapAttrsToList;
+  inherit (lib) mdDoc flatten nameValuePair zipAttrsWith mapAttrs' filterAttrsRecursive mapAttrsToList filterAttrs;
   inherit (lib.lists) optionals;
 
   settingsFormat = pkgs.formats.yaml {};
@@ -40,15 +40,93 @@
         checkpoint-sync-url = mkOption {
           type = types.nullOr types.str;
           default = null;
-          description = "URL of a synced beacon node to trust in obtaining checkpoint sync data. As an additional safety measure, it is strongly recommended to only use this option in conjunction with --weak-subjectivity-checkpoint flag";
+          description = mdDoc "URL of a synced beacon node to trust in obtaining checkpoint sync data. As an additional safety measure, it is strongly recommended to only use this option in conjunction with --weak-subjectivity-checkpoint flag";
           example = "https://goerli.checkpoint-sync.ethpandaops.io";
         };
 
         genesis-beacon-api-url = mkOption {
           type = types.nullOr types.str;
           default = null;
-          description = "URL of a synced beacon node to trust for obtaining genesis state. As an additional safety measure, it is strongly recommended to only use this option in conjunction with --weak-subjectivity-checkpoint flag";
+          description = mdDoc "URL of a synced beacon node to trust for obtaining genesis state. As an additional safety measure, it is strongly recommended to only use this option in conjunction with --weak-subjectivity-checkpoint flag";
           example = "https://goerli.checkpoint-sync.ethpandaops.io";
+        };
+
+        p2p-udp-port = mkOption {
+          type = types.port;
+          default = 12000;
+          description = mdDoc "The port used by discv5.";
+        };
+
+        p2p-tcp-port = mkOption {
+          type = types.port;
+          default = 13000;
+          description = mdDoc "The port used by libp2p.";
+        };
+
+        disable-monitoring = mkOption {
+          type = types.bool;
+          default = false;
+          description = mdDoc "Disable monitoring service.";
+        };
+
+        monitoring-host = mkOption {
+          type = types.str;
+          default = "127.0.0.1";
+          description = mdDoc "Host used to listen and respond with metrics for prometheus.";
+        };
+
+        monitoring-port = mkOption {
+          type = types.port;
+          default = 8080;
+          description = mdDoc "Port used to listen and respond with metrics for prometheus.";
+        };
+
+        disable-grpc-gateway = mkOption {
+          type = types.bool;
+          default = false;
+          description = mdDoc "Disable the gRPC gateway for JSON-HTTP requests ";
+        };
+
+        grpc-gateway-host = mkOption {
+          type = types.str;
+          default = "127.0.0.1";
+          description = mdDoc "The host on which the gateway server runs on.";
+        };
+
+        grpc-gateway-port = mkOption {
+          type = types.port;
+          default = 3500;
+          description = mdDoc "The port on which the gateway server runs.";
+        };
+
+        rpc-host = mkOption {
+          type = types.str;
+          default = "127.0.0.1";
+          description = mdDoc "Host on which the RPC server should listen.";
+        };
+
+        rpc-port = mkOption {
+          type = types.port;
+          default = 4000;
+          description = mdDoc "RPC port exposed by a beacon node.";
+        };
+
+        pprof = mkOption {
+          type = types.bool;
+          default = false;
+          description = mdDoc "Enable the pprof HTTP server.";
+        };
+
+        pprofhost = mkOption {
+          type = types.str;
+          default = "127.0.0.1";
+          description = mdDoc "pprof HTTP server listening interface.";
+        };
+
+        pprofport = mkOption {
+          type = types.port;
+          default = 6060;
+          description = mdDoc "pprof HTTP server listening port.";
         };
       };
 
@@ -69,6 +147,12 @@
         defaultText = literalExpression "pkgs.prysm";
         type = types.package;
         description = mdDoc "Package to use for Prysm binary";
+      };
+
+      openFirewall = mkOption {
+        type = types.bool;
+        default = false;
+        description = lib.mdDoc "Open ports in the firewall for any enabled networking services";
       };
 
       service = {
@@ -129,6 +213,26 @@ in {
             ]
         )
         eachBeacon);
+
+    # configure the firewall for each service
+    networking.firewall = let
+      openFirewall = filterAttrs (_: cfg: cfg.openFirewall) eachBeacon;
+      perService =
+        mapAttrsToList
+        (
+          _: cfg:
+            with cfg.settings; {
+              allowedUDPPorts = [p2p-udp-port];
+              allowedTCPPorts =
+                [rpc-port p2p-tcp-port]
+                ++ (optionals (disable-monitoring == false) [monitoring-port])
+                ++ (optionals (disable-grpc-gateway == false) [grpc-gateway-port])
+                ++ (optionals pprof [pprofport]);
+            }
+        )
+        openFirewall;
+    in
+      zipAttrsWith (name: vals: flatten vals) perService;
 
     systemd.services =
       mapAttrs'
