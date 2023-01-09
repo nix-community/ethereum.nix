@@ -112,7 +112,7 @@
           };
         };
 
-        websocket = {
+        ws = {
           enable = mkEnableOption (mdDoc "Erigon WebSocket API");
           compression = mkEnableOption (mdDoc "Enable compression over HTTP-RPC.");
         };
