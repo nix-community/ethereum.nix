@@ -18,7 +18,7 @@
     options = {
       enable = mkEnableOption (mdDoc "Erigon Ethereum Node.");
 
-      settings = {
+      args = {
         datadir = mkOption {
           type = types.nullOr types.path;
           default = null;
@@ -41,10 +41,40 @@
 
         externalcl = mkEnableOption (mdDoc "enables external consensus");
 
-        http = {
-          enable = mkEnableOption (mdDoc "Erigon HTTP API.");
+        chain = mkOption {
+          type = types.enum [
+            "mainnet"
+            "rinkeby"
+            "goerli"
+            "sokol"
+            "fermion"
+            "mumbai"
+            "bor-mainnet"
+            "bor-devnet"
+            "sepolia"
+            "gnosis"
+            "chiado"
+          ];
+          default = "mainnet";
+          description = mdDoc "Name of the network to join. If null the network is mainnet.";
+        };
 
-          addr = mkOption {
+        torrent = {
+          port = mkOption {
+            type = types.port;
+            default = 42069;
+            description = mdDoc "Port to listen and serve BitTorrent protocol .";
+          };
+        };
+
+        http = {
+          enable = mkOption {
+            type = types.bool;
+            default = true;
+            description = mdDoc "Enable HTTP-RPC server";
+          };
+
+          address = mkOption {
             type = types.str;
             default = "127.0.0.1";
             description = mdDoc "HTTP-RPC server listening interface.";
@@ -57,13 +87,6 @@
           };
 
           compression = mkEnableOption (mdDoc "Enable compression over HTTP-RPC.");
-
-          api = mkOption {
-            type = types.listOf types.str;
-            default = ["eth" "erigon" "engine"];
-            description = mdDoc "API's offered over the HTTP-RPC interface.";
-            example = ["net" "eth"];
-          };
 
           corsdomain = mkOption {
             type = types.nullOr (types.listOf types.str);
@@ -80,6 +103,13 @@
               Accepts '*' wildcard.
             '';
             example = ["localhost" "erigon.example.org"];
+          };
+
+          apis = mkOption {
+            type = types.listOf types.str;
+            default = ["eth" "erigon" "engine"];
+            description = mdDoc "API's offered over the HTTP-RPC interface.";
+            example = ["net" "eth"];
           };
 
           trace = mkEnableOption (mdDoc "Trace HTTP requests with INFO level");
@@ -112,13 +142,13 @@
           };
         };
 
-        ws = {
+        websocket = {
           enable = mkEnableOption (mdDoc "Erigon WebSocket API");
           compression = mkEnableOption (mdDoc "Enable compression over HTTP-RPC.");
         };
 
         authrpc = {
-          addr = mkOption {
+          address = mkOption {
             type = types.str;
             default = "127.0.0.1";
             description = mdDoc "HTTP-RPC server listening interface for the Engine API.";
@@ -176,7 +206,7 @@
         };
 
         private.api = {
-          addr = mkOption {
+          address = mkOption {
             type = types.str;
             default = "127.0.0.1:9090";
             description = mdDoc ''
@@ -195,7 +225,7 @@
         metrics = {
           enable = mkEnableOption (mdDoc "Enable metrics collection and reporting.");
 
-          addr = mkOption {
+          address = mkOption {
             type = types.str;
             default = "127.0.0.1";
             description = mdDoc "Enable stand-alone metrics HTTP server listening interface.";
@@ -207,44 +237,6 @@
             description = mdDoc "Metrics HTTP server listening port";
           };
         };
-
-        torrent = {
-          port = mkOption {
-            type = types.port;
-            default = 42069;
-            description = mdDoc "Port to listen and serve BitTorrent protocol";
-          };
-        };
-
-        chain = mkOption {
-          type = types.enum [
-            "mainnet"
-            "rinkeby"
-            "goerli"
-            "sokol"
-            "fermion"
-            "mumbai"
-            "bor-mainnet"
-            "bor-devnet"
-            "sepolia"
-            "gnosis"
-            "chiado"
-          ];
-          default = "mainnet";
-          description = mdDoc "Name of the network to join. If null the network is mainnet.";
-        };
-
-        networkid = mkOption {
-          type = types.nullOr types.int;
-          default = 1;
-          description = mdDoc "Explicitly set network id (integer)(For testnets: use --chain <testnet_name> instead)";
-        };
-      };
-
-      extraSettings = mkOption {
-        type = settingsFormat.type;
-        default = {};
-        description = mdDoc "Additional settings to pass to Erigon.";
       };
 
       extraArgs = mkOption {
@@ -322,8 +314,8 @@ in {
       (mapAttrsToList
         (
           erigonName: cfg:
-            lib.lists.optionals (cfg.settings.datadir != null) [
-              "d ${cfg.settings.datadir} 0700 erigon-${erigonName} erigon-${erigonName} - -"
+            lib.lists.optionals (cfg.args.datadir != null) [
+              "d ${cfg.args.datadir} 0700 erigon-${erigonName} erigon-${erigonName} - -"
             ]
         )
         eachErigon);
@@ -335,7 +327,7 @@ in {
         mapAttrsToList
         (
           _: cfg:
-            with cfg.settings; {
+            with cfg.args; {
               allowedUDPPorts = [port torrent.port];
               allowedTCPPorts =
                 [port authrpc.port torrent.port]
@@ -355,6 +347,9 @@ in {
         erigonName: let
           stateDir = "erigon-${erigonName}";
           datadir = "/var/lib/${stateDir}";
+
+          inherit (import ./lib.nix {inherit lib pkgs;}) script;
+          inherit (script) flag arg optionalArg joinArgs;
         in
           cfg:
             nameValuePair "erigon-${erigonName}" (mkIf cfg.enable {
@@ -363,8 +358,8 @@ in {
               after = ["network.target"];
 
               unitConfig = {
-                RequiresMountsFor = optionals (cfg.settings.datadir != null) [
-                  cfg.settings.datadir
+                RequiresMountsFor = optionals (cfg.args.datadir != null) [
+                  cfg.args.datadir
                 ];
               };
 
@@ -377,8 +372,8 @@ in {
                 SupplementaryGroups = cfg.service.supplementaryGroups;
 
                 # bind custom data dir to /var/lib/... if provided
-                BindPaths = lib.lists.optionals (cfg.settings.datadir != null) [
-                  "${cfg.settings.datadir}:${datadir}"
+                BindPaths = lib.lists.optionals (cfg.args.datadir != null) [
+                  "${cfg.args.datadir}:${datadir}"
                 ];
 
                 # Hardening measures
@@ -405,12 +400,62 @@ in {
                 SystemCallFilter = ["@system-service" "~@privileged"];
               };
 
-              script = with cfg; let
-                # filter null values and merge with extra settings
-                settings = lib.recursiveUpdate (filterAttrsRecursive (_: v: v != null) cfg.settings) cfg.extraSettings;
-                # generate the yaml config file
-                configFile = settingsFormat.generate "config.yaml" settings;
-              in "${cfg.package}/bin/erigon --config ${configFile} ${lib.escapeShellArgs extraArgs}";
+              script = with cfg.args; let
+                httpArgs = optionals http.enable [
+                  "--http"
+                  (arg "http.addr" http.address)
+                  (arg "http.port" (toString http.port))
+                  (flag "http.compression" http.compression)
+                  (optionalArg "http.corsdoman" (http.corsdomain != null) (concatStringsSep "," http.corsdomain))
+                  (arg "http.vhosts" (concatStringsSep "," http.vhosts))
+                  (optionalArg "http.api" (http.apis != null) (concatStringsSep "," http.apis))
+                  (flag "http.trace" http.trace)
+                  (arg "http.timeouts.read" http.timeouts.read)
+                  (arg "http.timeouts.write" http.timeouts.write)
+                  (arg "http.timeouts.idle" http.timeouts.idle)
+                ];
+
+                authrpcArgs = [
+                  (arg "authrpc.addr" authrpc.address)
+                  (arg "authrpc.port" (toString authrpc.port))
+                  (arg "authrpc.vhosts" (concatStringsSep "," authrpc.vhosts))
+                  (optionalArg "authrpc.jwtsecret" (authrpc.jwtsecret != null) authrpc.jwtsecret)
+                  (arg "authrpc.timeouts.read" authrpc.timeouts.read)
+                  (arg "authrpc.timeouts.write" authrpc.timeouts.write)
+                  (arg "authrpc.timeouts.idle" authrpc.timeouts.idle)
+                ];
+
+                privateApiArgs = [
+                  (arg "private.api.addr" private.api.address)
+                  (arg "private.api.ratelimit" private.api.ratelimit)
+                ];
+
+                websocketArgs = optionals websocket.enable [
+                  "--ws"
+                  (flag "ws.compression" websocket.compression)
+                ];
+
+                metricsArgs = optionals metrics.enable [
+                  "--metrics"
+                  (arg "metrics.addr" metrics.address)
+                  (arg "metrics.port" (toString metrics.port))
+                ];
+              in
+                joinArgs [
+                  "${cfg.package}/bin/erigon"
+                  (flag "snapshots" snapshots)
+                  (arg "port" port)
+                  (flag "externalcl" externalcl)
+                  (arg "chain" chain)
+                  (arg "torrent.port" torrent.port)
+                  httpArgs
+                  websocketArgs
+                  authrpcArgs
+                  metricsArgs
+                  privateApiArgs
+                  (lib.escapeShellArgs cfg.extraArgs)
+                  (arg "datadir" datadir)
+                ];
             })
       )
       eachErigon;
