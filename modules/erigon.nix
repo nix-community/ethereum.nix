@@ -44,7 +44,7 @@
         http = {
           enable = mkEnableOption (mdDoc "Erigon HTTP API.");
 
-          address = mkOption {
+          addr = mkOption {
             type = types.str;
             default = "127.0.0.1";
             description = mdDoc "HTTP-RPC server listening interface.";
@@ -58,7 +58,7 @@
 
           compression = mkEnableOption (mdDoc "Enable compression over HTTP-RPC.");
 
-          apis = mkOption {
+          api = mkOption {
             type = types.listOf types.str;
             default = ["eth" "erigon" "engine"];
             description = mdDoc "API's offered over the HTTP-RPC interface.";
@@ -70,13 +70,6 @@
             default = null;
             description = mdDoc "List of domains from which to accept cross origin requests.";
             example = ["*"];
-          };
-
-          rpcprefix = mkOption {
-            type = types.nullOr types.str;
-            default = null;
-            description = mdDoc "HTTP path path prefix on which JSON-RPC is served. Use '/' to serve on all paths.";
-            example = "/";
           };
 
           vhosts = mkOption {
@@ -125,7 +118,7 @@
         };
 
         authrpc = {
-          address = mkOption {
+          addr = mkOption {
             type = types.str;
             default = "127.0.0.1";
             description = mdDoc "HTTP-RPC server listening interface for the Engine API.";
@@ -183,7 +176,7 @@
         };
 
         private.api = {
-          address = mkOption {
+          addr = mkOption {
             type = types.str;
             default = "127.0.0.1:9090";
             description = mdDoc ''
@@ -202,7 +195,7 @@
         metrics = {
           enable = mkEnableOption (mdDoc "Enable metrics collection and reporting.");
 
-          address = mkOption {
+          addr = mkOption {
             type = types.str;
             default = "127.0.0.1";
             description = mdDoc "Enable stand-alone metrics HTTP server listening interface.";
