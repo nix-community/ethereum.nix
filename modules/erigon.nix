@@ -126,13 +126,13 @@
             };
             read = mkOption {
               type = types.str;
-              default = "2m0s";
+              default = "30s";
               description = "Maximum duration for reading the entire request, including the body.";
               example = "30s";
             };
             write = mkOption {
               type = types.str;
-              default = "2m0s";
+              default = "30m0s";
               description = ''
                 Maximum duration before timing out writes of the response. It is reset whenever a new request's
                 header is read.
@@ -189,13 +189,13 @@
             };
             read = mkOption {
               type = types.str;
-              default = "2m0s";
+              default = "30s";
               description = "Maximum duration for reading the entire request, including the body.";
               example = "30s";
             };
             write = mkOption {
               type = types.str;
-              default = "2m0s";
+              default = "30m0s";
               description = ''
                 Maximum duration before timing out writes of the response. It is reset whenever a new request's
                 header is read.
