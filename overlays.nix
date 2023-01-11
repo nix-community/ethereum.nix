@@ -1,6 +1,7 @@
 _: prev: {
   # consensus clients
   lighthouse = prev.callPackage ./packages/clients/consensus/lighthouse {};
+  nimbus-eth2 = prev.callPackage ./packages/clients/consensus/nimbus-eth2 {};
   prysm = prev.callPackage ./packages/clients/consensus/prysm {};
   teku = prev.callPackage ./packages/clients/consensus/teku {};
 
