@@ -1,6 +1,6 @@
 {
   buildDotnetModule,
-  dotnet-sdk_6,
+  dotnet-sdk_7,
   dotnetCorePackages,
   fetchFromGitHub,
   lib,
@@ -12,13 +12,13 @@
 }:
 buildDotnetModule rec {
   pname = "nethermind";
-  version = "1.15.0";
+  version = "1.16.0";
 
   src = fetchFromGitHub {
     owner = "NethermindEth";
     repo = pname;
     rev = version;
-    sha256 = "sha256-oBWCsXDWjw9PzukZVa4sdwIXEHUVqeHe30QAswYkq4w=";
+    sha256 = "sha256-Gp+Aqk8s0jb4hbvWBg4nXKmDXJakfYBa+dzuWGSSccc=";
     fetchSubmodules = true;
   };
 
@@ -45,9 +45,9 @@ buildDotnetModule rec {
     "Nethermind.Runner"
   ];
 
-  dotnet-sdk = dotnetCorePackages.sdk_6_0;
-  dotnet-test-sdk = dotnet-sdk_6;
-  dotnet-runtime = dotnetCorePackages.aspnetcore_6_0;
+  dotnet-sdk = dotnetCorePackages.sdk_7_0;
+  dotnet-test-sdk = dotnet-sdk_7;
+  dotnet-runtime = dotnetCorePackages.aspnetcore_7_0;
 
   meta = with lib; {
     description = "Our flagship Ethereum client for Linux, Windows, and macOS—full and actively developed";
