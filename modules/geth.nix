@@ -7,7 +7,7 @@
   pkgs,
   ...
 }: let
-  inherit (lib.lists) optionals;
+  inherit (lib.lists) optionals findFirst;
   inherit (lib.attrsets) zipAttrsWith;
   inherit (lib) mdDoc flatten nameValuePair filterAttrs mapAttrs mapAttrs' mapAttrsToList;
   inherit (lib) optionalString literalExpression mkEnableOption mkIf mkOption types concatStringsSep;
@@ -34,7 +34,7 @@
         http = {
           enable = mkEnableOption (mdDoc "Go Ethereum HTTP API");
 
-          address = mkOption {
+          addr = mkOption {
             type = types.str;
             default = "127.0.0.1";
             description = mdDoc "HTTP-RPC server listening interface";
@@ -46,7 +46,7 @@
             description = mdDoc "Port number of Go Ethereum HTTP API.";
           };
 
-          apis = mkOption {
+          api = mkOption {
             type = types.nullOr (types.listOf types.str);
             default = null;
             description = mdDoc "API's offered over the HTTP-RPC interface";
@@ -78,9 +78,9 @@
           };
         };
 
-        websocket = {
+        ws = {
           enable = mkEnableOption (mdDoc "Go Ethereum WebSocket API");
-          address = mkOption {
+          addr = mkOption {
             type = types.str;
             default = "127.0.0.1";
             description = mdDoc "Listen address of Go Ethereum WebSocket API.";
@@ -92,7 +92,7 @@
             description = mdDoc "Port number of Go Ethereum WebSocket API.";
           };
 
-          apis = mkOption {
+          api = mkOption {
             type = types.nullOr (types.listOf types.str);
             default = null;
             description = mdDoc "APIs to enable over WebSocket";
@@ -101,7 +101,7 @@
         };
 
         authrpc = {
-          address = mkOption {
+          addr = mkOption {
             type = types.str;
             default = "127.0.0.1";
             description = mdDoc "Listen address of Go Ethereum Auth RPC API.";
@@ -121,8 +121,8 @@
           };
 
           jwtsecret = mkOption {
-            type = types.str;
-            default = "";
+            type = types.nullOr types.str;
+            default = null;
             description = mdDoc "Path to a JWT secret for authenticated RPC endpoint.";
             example = "/var/run/geth/jwtsecret";
           };
@@ -130,7 +130,7 @@
 
         metrics = {
           enable = mkEnableOption (mdDoc "Go Ethereum prometheus metrics");
-          address = mkOption {
+          addr = mkOption {
             type = types.str;
             default = "127.0.0.1";
             description = mdDoc "Listen address of Go Ethereum metrics service.";
@@ -261,7 +261,7 @@ in {
               allowedTCPPorts =
                 [port authrpc.port]
                 ++ (optionals http.enable [http.port])
-                ++ (optionals websocket.enable [websocket.port])
+                ++ (optionals ws.enable [ws.port])
                 ++ (optionals metrics.enable [metrics.port]);
             }
         )
@@ -277,8 +277,8 @@ in {
           statedir = "geth-${gethName}";
           datadir = "/var/lib/${statedir}";
 
-          inherit (import ./lib.nix {inherit lib pkgs;}) script;
-          inherit (script) flag arg optionalArg joinArgs;
+          modulesLib = import ./lib.nix {inherit lib pkgs;};
+          inherit (modulesLib.flags) mkFlags;
         in
           cfg:
             nameValuePair "geth-${gethName}" (mkIf cfg.enable {
@@ -313,7 +313,6 @@ in {
                 ProtectHome = "read-only";
                 ProtectClock = true;
                 ProtectProc = "noaccess";
-                ProcSubset = "pid";
                 ProtectKernelLogs = true;
                 ProtectKernelModules = true;
                 ProtectKernelTunables = true;
@@ -329,53 +328,37 @@ in {
                 SystemCallFilter = ["@system-service" "~@privileged"];
               };
 
-              script = with cfg.args; let
-                httpArgs = optionals http.enable [
-                  "--http"
-                  (arg "http.addr" http.address)
-                  (arg "http.port" (toString http.port))
-                  (arg "http.vhosts" (concatStringsSep "," http.vhosts))
-                  (optionalArg "http.api" (http.apis != null) (concatStringsSep "," http.apis))
-                  (optionalArg "http.corsdoman" (http.corsdomain != null) (concatStringsSep "," http.corsdomain))
-                  (optionalArg "http.rpcprefix" (http.rpcprefix != null) (concatStringsSep "," http.rpcprefix))
-                ];
+              script = let
+                # replace enable flags like --http.enable with just --http
+                pathReducer = path: let
+                  arg = concatStringsSep "." (lib.lists.remove "enable" path);
+                in "--${arg}";
 
-                websocketArgs = optionals websocket.enable [
-                  "--ws"
-                  (arg "ws.addr" websocket.address)
-                  (arg "ws.port" (toString websocket.port))
-                  (optionalArg "ws.api" (concatStringsSep "," websocket.apis))
-                ];
+                # filter out certain args which need to be treated differently
+                specialArgs = ["network" "datadir"];
+                isNormalArg = name: (findFirst (a: a == name) null specialArgs) == null;
 
-                metricsArgs = optionals metrics.enable [
-                  "--metrics"
-                  (arg "metrics.addr" metrics.address)
-                  (arg "metrics.port" (toString metrics.port))
-                ];
-              in
-                joinArgs [
-                  "${cfg.package}/bin/geth"
-                  "--ipcdisable"
-                  (flag network (network != null))
-                  (arg "syncmode" syncmode)
-                  (arg "gcmode" gcmode)
-                  (arg "port" port)
-                  (arg "maxpeers" maxpeers)
-                  (arg "authrpc.addr" authrpc.address)
-                  (arg "authrpc.port" authrpc.port)
-                  (arg "authrpc.vhosts" (concatStringsSep "," authrpc.vhosts))
-                  (arg "authrpc.jwtsecret"
-                    (
-                      if (authrpc.jwtsecret != "")
-                      then authrpc.jwtsecret
-                      else "${statedir}/jwtsecret"
-                    ))
-                  httpArgs
-                  websocketArgs
-                  metricsArgs
-                  (lib.escapeShellArgs cfg.extraArgs)
-                  (arg "datadir" datadir)
-                ];
+                filteredOpts = filterAttrs (n: v: isNormalArg n) gethOpts.options.args;
+
+                # generate flags
+                flags = mkFlags {
+                  opts = filteredOpts;
+                  pathReducer = pathReducer;
+                  args = cfg.args;
+                };
+
+                networkFlag =
+                  if cfg.args.network != null
+                  then "--${cfg.args.network} \\"
+                  else "";
+              in ''
+                ${cfg.package}/bin/geth \
+                    --ipcdisable \
+                    ${concatStringsSep " \\\n" flags} \
+                    ${networkFlag}
+                    --datadir ${datadir} \
+                    ${lib.escapeShellArgs cfg.extraArgs}
+              '';
             })
       )
       eachGeth;
