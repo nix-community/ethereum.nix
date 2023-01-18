@@ -79,21 +79,6 @@ in {
   flags = {
     inherit mkFlag mkFlags defaultPathReducer dotPathReducer;
   };
-
-  generateToml = name: opts: cfg: let
-    inherit (lib) traceVal traceSeq;
-    optLeaves = filterAttrsRecursive (path: opt: isOption opt) opts;
-    settings =
-      mapAttrsRecursive (
-        path: _:
-          if (hasAttrByPath path cfg)
-          then getAttrByPath path cfg
-          else null
-      )
-      opts;
-  in
-    tomlGenerator.generate name settings;
-
   script = {
     inherit flag arg optionalArg joinArgs;
   };
