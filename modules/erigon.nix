@@ -5,7 +5,7 @@
   pkgs,
   ...
 }: let
-  inherit (lib.lists) optionals;
+  inherit (lib.lists) optionals findFirst;
   inherit (lib) mdDoc flatten nameValuePair;
   inherit (lib) zipAttrsWith filterAttrsRecursive filterAttrs mapAttrs mapAttrs' mapAttrsToList;
   inherit (lib) optionalString literalExpression mkEnableOption mkIf mkOption types concatStringsSep;
@@ -74,7 +74,7 @@
             description = mdDoc "Enable HTTP-RPC server";
           };
 
-          address = mkOption {
+          addr = mkOption {
             type = types.str;
             default = "127.0.0.1";
             description = mdDoc "HTTP-RPC server listening interface.";
@@ -105,9 +105,8 @@
             example = ["localhost" "erigon.example.org"];
           };
 
-          apis = mkOption {
-            type = types.listOf types.str;
-            default = ["eth" "erigon" "engine"];
+          api = mkOption {
+            type = types.nullOr (types.listOf types.str);
             description = mdDoc "API's offered over the HTTP-RPC interface.";
             example = ["net" "eth"];
           };
@@ -142,13 +141,13 @@
           };
         };
 
-        websocket = {
+        ws = {
           enable = mkEnableOption (mdDoc "Erigon WebSocket API");
           compression = mkEnableOption (mdDoc "Enable compression over HTTP-RPC.");
         };
 
         authrpc = {
-          address = mkOption {
+          addr = mkOption {
             type = types.str;
             default = "127.0.0.1";
             description = mdDoc "HTTP-RPC server listening interface for the Engine API.";
@@ -206,7 +205,7 @@
         };
 
         private.api = {
-          address = mkOption {
+          addr = mkOption {
             type = types.str;
             default = "127.0.0.1:9090";
             description = mdDoc ''
@@ -225,7 +224,7 @@
         metrics = {
           enable = mkEnableOption (mdDoc "Enable metrics collection and reporting.");
 
-          address = mkOption {
+          addr = mkOption {
             type = types.str;
             default = "127.0.0.1";
             description = mdDoc "Enable stand-alone metrics HTTP server listening interface.";
@@ -332,7 +331,7 @@ in {
               allowedTCPPorts =
                 [port authrpc.port torrent.port]
                 ++ (optionals http.enable [http.port])
-                ++ (optionals websocket.enable [websocket.port])
+                ++ (optionals ws.enable [ws.port])
                 ++ (optionals metrics.enable [metrics.port]);
             }
         )
@@ -348,8 +347,8 @@ in {
           stateDir = "erigon-${erigonName}";
           datadir = "/var/lib/${stateDir}";
 
-          inherit (import ./lib.nix {inherit lib pkgs;}) script;
-          inherit (script) flag arg optionalArg joinArgs;
+          modulesLib = import ./lib.nix {inherit lib pkgs;};
+          inherit (modulesLib.flags) mkFlags;
         in
           cfg:
             nameValuePair "erigon-${erigonName}" (mkIf cfg.enable {
@@ -400,62 +399,30 @@ in {
                 SystemCallFilter = ["@system-service" "~@privileged"];
               };
 
-              script = with cfg.args; let
-                httpArgs = optionals http.enable [
-                  "--http"
-                  (arg "http.addr" http.address)
-                  (arg "http.port" (toString http.port))
-                  (flag "http.compression" http.compression)
-                  (optionalArg "http.corsdoman" (http.corsdomain != null) (concatStringsSep "," http.corsdomain))
-                  (arg "http.vhosts" (concatStringsSep "," http.vhosts))
-                  (optionalArg "http.api" (http.apis != null) (concatStringsSep "," http.apis))
-                  (flag "http.trace" http.trace)
-                  (arg "http.timeouts.read" http.timeouts.read)
-                  (arg "http.timeouts.write" http.timeouts.write)
-                  (arg "http.timeouts.idle" http.timeouts.idle)
-                ];
+              script = let
+                # replace enable flags like --http.enable with just --http
+                pathReducer = path: let
+                  arg = concatStringsSep "." (lib.lists.remove "enable" path);
+                in "--${arg}";
 
-                authrpcArgs = [
-                  (arg "authrpc.addr" authrpc.address)
-                  (arg "authrpc.port" (toString authrpc.port))
-                  (arg "authrpc.vhosts" (concatStringsSep "," authrpc.vhosts))
-                  (optionalArg "authrpc.jwtsecret" (authrpc.jwtsecret != null) authrpc.jwtsecret)
-                  (arg "authrpc.timeouts.read" authrpc.timeouts.read)
-                  (arg "authrpc.timeouts.write" authrpc.timeouts.write)
-                  (arg "authrpc.timeouts.idle" authrpc.timeouts.idle)
-                ];
+                # filter out certain args which need to be treated differently
+                specialArgs = ["datadir"];
+                isNormalArg = name: (findFirst (a: a == name) null specialArgs) == null;
 
-                privateApiArgs = [
-                  (arg "private.api.addr" private.api.address)
-                  (arg "private.api.ratelimit" private.api.ratelimit)
-                ];
+                filteredOpts = filterAttrs (n: v: isNormalArg n) erigonOpts.options.args;
 
-                websocketArgs = optionals websocket.enable [
-                  "--ws"
-                  (flag "ws.compression" websocket.compression)
-                ];
-
-                metricsArgs = optionals metrics.enable [
-                  "--metrics"
-                  (arg "metrics.addr" metrics.address)
-                  (arg "metrics.port" (toString metrics.port))
-                ];
-              in
-                joinArgs [
-                  "${cfg.package}/bin/erigon"
-                  (flag "snapshots" snapshots)
-                  (arg "port" port)
-                  (flag "externalcl" externalcl)
-                  (arg "chain" chain)
-                  (arg "torrent.port" torrent.port)
-                  httpArgs
-                  websocketArgs
-                  authrpcArgs
-                  metricsArgs
-                  privateApiArgs
-                  (lib.escapeShellArgs cfg.extraArgs)
-                  (arg "datadir" datadir)
-                ];
+                # generate flags
+                flags = mkFlags {
+                  opts = filteredOpts;
+                  pathReducer = pathReducer;
+                  args = cfg.args;
+                };
+              in ''
+                ${cfg.package}/bin/erigon \
+                    ${concatStringsSep " \\\n" flags} \
+                    --datadir ${datadir} \
+                    ${lib.escapeShellArgs cfg.extraArgs}
+              '';
             })
       )
       eachErigon;
