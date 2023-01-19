@@ -35,6 +35,21 @@
         "type": "github"
       }
     },
+    "flake-utils": {
+      "locked": {
+        "lastModified": 1667395993,
+        "narHash": "sha256-nuEHfE/LcWyuSWnS8t12N1wc105Qtau+/OdUAjtQ0rA=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "5aed5285a952e0b949eb3ba02c12fa4fcfef535f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
     "mission-control": {
       "inputs": {
         "nixpkgs": "nixpkgs"
@@ -50,6 +65,27 @@
       "original": {
         "owner": "Platonic-Systems",
         "repo": "mission-control",
+        "type": "github"
+      }
+    },
+    "nix-update": {
+      "inputs": {
+        "flake-utils": "flake-utils",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1673201017,
+        "narHash": "sha256-7kIHMGtsbC7CIlJPA7F1HwAXlqHf61mfjvnvA/v1Uno=",
+        "owner": "mic92",
+        "repo": "nix-update",
+        "rev": "18b0f84ce5671b33515735fc8feaf17678630844",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mic92",
+        "repo": "nix-update",
         "type": "github"
       }
     },
@@ -71,11 +107,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1673606088,
-        "narHash": "sha256-wdYD41UwNwPhTdMaG0AIe7fE1bAdyHe6bB4HLUqUvck=",
+        "lastModified": 1673947312,
+        "narHash": "sha256-xx/2nRwRy3bXrtry6TtydKpJpqHahjuDB5sFkQ/XNDE=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "37b97ae3dd714de9a17923d004a2c5b5543dfa6d",
+        "rev": "2d38b664b4400335086a713a0036aafaa002c003",
         "type": "github"
       },
       "original": {
@@ -90,6 +126,7 @@
         "flake-parts": "flake-parts",
         "flake-root": "flake-root",
         "mission-control": "mission-control",
+        "nix-update": "nix-update",
         "nixpkgs": "nixpkgs_2",
         "treefmt-nix": "treefmt-nix"
       }
