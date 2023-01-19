@@ -16,17 +16,15 @@ in {
   in {
     checks =
       {
-        # TODO: Switch to statix instead
-        # nix-lint =
-        #   pkgs.runCommand "nix-linter" {
-        #     nativeBuildInputs = with pkgs; [nix-linter];
-        #   } ''
-        #     cp --no-preserve=mode -r ${self} source
-        #     rm -rf source/.direnv # delete .direnv cache so nix-linter don't recurse it
-        #     cd source
-        #     HOME=$TMPDIR nix-linter --recursive
-        #     touch $out
-        #   '';
+        nix-lint =
+          pkgs.runCommand "nix-lint" {
+            nativeBuildInputs = with pkgs; [statix];
+          } ''
+            cp --no-preserve=mode -r ${self} source
+            cd source
+            HOME=$TMPDIR statix check
+            touch $out
+          '';
       }
       # merge in the package derivations to force a build of all packages during a `nix flake check`
       // packages;
