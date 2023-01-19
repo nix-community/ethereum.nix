@@ -9,7 +9,9 @@
   in {
     devShells.default = installToDevShell (mkShellNoCC {
       name = "ethereum.nix";
-      packages = with pkgs; [];
+      packages = with pkgs; [
+        nix-update
+      ];
     });
   };
 }

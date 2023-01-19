@@ -26,6 +26,11 @@
 
     # utils
     treefmt-nix.url = github:numtide/treefmt-nix;
+
+    nix-update = {
+      url = github:mic92/nix-update;
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs @ {
