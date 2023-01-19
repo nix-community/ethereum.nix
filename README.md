@@ -152,6 +152,10 @@ just fmt
   - rlpdump: `nix run .#rlpdump`
 - [mev-geth](https://github.com/flashbots/mev-geth): `nix run .#mev-geth`
 
+#### Validators
+
+- [vouch](https://github.com/attestantio/vouch): `nix run .#vouch`
+
 ### MEV Utilities
 
 - [mev-boost](https://github.com/flashbots/mev-boost/): `nix run .#mev-boost`
@@ -159,6 +163,7 @@ just fmt
 #### Signers
 
 - [web3signer](https://github.com/ConsenSys/web3signer): `nix run .#web3signer`
+- [dirk](https://github.com/attestantio/dirk): `nix run .#dirk`
 
 #### Utilities / Tools / Other
 
