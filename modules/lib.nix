@@ -59,27 +59,8 @@
       (path: opt: mkFlag {inherit path opt args pathReducer;})
       opts
     );
-
-  flag = name: pred:
-    if pred
-    then "--${name}"
-    else "";
-  optionalArg = name: pred: value:
-    if pred
-    then "--${name} ${toString value}"
-    else "";
-  arg = name: value: (optionalArg name true value);
-
-  joinArgs = args: let
-    flattened = flatten args;
-    filtered = builtins.filter (arg: arg != "") flattened;
-  in
-    concatStringsSep " \\\n" filtered;
 in {
   flags = {
     inherit mkFlag mkFlags defaultPathReducer dotPathReducer;
-  };
-  script = {
-    inherit flag arg optionalArg joinArgs;
   };
 }
