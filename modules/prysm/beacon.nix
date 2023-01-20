@@ -6,7 +6,8 @@
 }: let
   inherit (lib) literalExpression mkEnableOption mkIf mkOption types optionalString;
   inherit (lib) mdDoc flatten nameValuePair zipAttrsWith mapAttrs' filterAttrsRecursive mapAttrsToList filterAttrs;
-  inherit (lib.lists) optionals;
+  inherit (lib.lists) optionals findFirst;
+  inherit (builtins) concatStringsSep;
 
   settingsFormat = pkgs.formats.yaml {};
 
@@ -16,7 +17,7 @@
     options = {
       enable = mkEnableOption (mdDoc "Ethereum Beacon Chain Node from Prysmatic Labs");
 
-      settings = {
+      args = {
         datadir = mkOption {
           type = types.nullOr types.path;
           default = null;
@@ -117,7 +118,7 @@
           description = mdDoc "Enable the pprof HTTP server.";
         };
 
-        pprofhost = mkOption {
+        pprofaddr = mkOption {
           type = types.str;
           default = "127.0.0.1";
           description = mdDoc "pprof HTTP server listening interface.";
@@ -128,12 +129,6 @@
           default = 6060;
           description = mdDoc "pprof HTTP server listening port.";
         };
-      };
-
-      extraSettings = mkOption {
-        type = settingsFormat.type;
-        default = {};
-        description = mdDoc "Additional settings to pass to Prysm Beacon Chain.";
       };
 
       extraArgs = mkOption {
@@ -208,8 +203,8 @@ in {
       (mapAttrsToList
         (
           beaconName: cfg:
-            lib.lists.optionals (cfg.settings.datadir != null) [
-              "d ${cfg.settings.datadir} 0700 prysm-beacon-${beaconName} prysm-beacon-${beaconName} - -"
+            lib.lists.optionals (cfg.args.datadir != null) [
+              "d ${cfg.args.datadir} 0700 prysm-beacon-${beaconName} prysm-beacon-${beaconName} - -"
             ]
         )
         eachBeacon);
@@ -221,7 +216,7 @@ in {
         mapAttrsToList
         (
           _: cfg:
-            with cfg.settings; {
+            with cfg.args; {
               allowedUDPPorts = [p2p-udp-port];
               allowedTCPPorts =
                 [rpc-port p2p-tcp-port]
@@ -241,8 +236,8 @@ in {
           stateDir = "prysm-beacon-${beaconName}";
           datadir = "/var/lib/${stateDir}";
 
-          inherit (import ../lib.nix {inherit lib pkgs;}) script;
-          inherit (script) flag arg optionalArg joinArgs;
+          modulesLib = import ../lib.nix {inherit lib pkgs;};
+          inherit (modulesLib.flags) mkFlags;
         in
           cfg:
             nameValuePair "prysm-beacon-${beaconName}" (mkIf cfg.enable {
@@ -251,8 +246,8 @@ in {
               after = ["network.target"];
 
               unitConfig = {
-                RequiresMountsFor = optionals (cfg.settings.datadir != null) [
-                  cfg.settings.datadir
+                RequiresMountsFor = optionals (cfg.args.datadir != null) [
+                  cfg.args.datadir
                 ];
               };
 
@@ -265,8 +260,8 @@ in {
                 SupplementaryGroups = cfg.service.supplementaryGroups;
 
                 # bind custom data dir to /var/lib/... if provided
-                BindPaths = lib.lists.optionals (cfg.settings.datadir != null) [
-                  "${cfg.settings.datadir}:${datadir}"
+                BindPaths = lib.lists.optionals (cfg.args.datadir != null) [
+                  "${cfg.args.datadir}:${datadir}"
                 ];
 
                 # Hardening measures
@@ -293,17 +288,30 @@ in {
                 # MemoryDenyWriteExecute = "true";   causes a library loading error
               };
 
-              script = with cfg; let
-                # filter null values and merge with extra settings
-                settings = lib.recursiveUpdate (filterAttrsRecursive (_: v: v != null) cfg.settings) cfg.extraSettings;
-                # generate the yaml config file
-                configFile = settingsFormat.generate "config.yaml" settings;
+              script = let
+                # filter out certain args which need to be treated differently
+                specialArgs = ["network" "datadir"];
+                isNormalArg = name: (findFirst (a: a == name) null specialArgs) == null;
+
+                filteredOpts = filterAttrs (n: v: isNormalArg n) beaconOpts.options.args;
+
+                # generate flags
+                flags = mkFlags {
+                  opts = filteredOpts;
+                  args = cfg.args;
+                };
+
+                networkFlag =
+                  if cfg.args.network != null
+                  then "--${cfg.args.network} \\"
+                  else "";
               in ''
                 ${cfg.package}/bin/beacon-chain \
                     --accept-terms-of-use \
-                    --${settings.network} \
-                    --config-file ${configFile} \
-                    ${lib.escapeShellArgs extraArgs}
+                    ${concatStringsSep " \\\n" flags} \
+                    ${networkFlag}
+                    --datadir ${datadir} \
+                    ${lib.escapeShellArgs cfg.extraArgs}
               '';
             })
       )

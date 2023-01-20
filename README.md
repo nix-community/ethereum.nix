@@ -179,15 +179,19 @@ which aren't there is typically and an `extraArgs` array that can be passed to t
 ```nix
 services.geth.mainnet = {
     enable = true;
+    openFirewall = true;
     service.supplementaryGroups = [users.groups.keys.name];
 };
 
 services.geth.goerli = {
     enable = true;
-    network = "goerli";
-    dataDir = "/data/ethereum/goerli/geth";
-    authrpc.jwtsecret = sops.secrets.geth_jwt_secret.path;
-    service.supplementaryGroups = [users.groups.keys.name];
+    openFirewall = true;
+    args = {
+      network = "goerli";
+      dataDir = "/data/ethereum/goerli/geth";
+      authrpc.jwtsecret = sops.secrets.geth_jwt_secret.path;
+      service.supplementaryGroups = [users.groups.keys.name];
+    }
 };
 ```
 
@@ -196,18 +200,41 @@ services.geth.goerli = {
 ```nix
 services.prysm.beacon.mainnet = {
     enable = true;
-    jwt-secret = secrets.prysm_jwt_secret.path;
-    service.supplementaryGroups = [users.groups.keys.name];
+    args = {
+      jwt-secret = secrets.prysm_jwt_secret.path;
+      service.supplementaryGroups = [users.groups.keys.name];
+    };
 };
 
 services.prysm.beacon.goerli = {
     enable = true;
-    network = "goerli";
-    dataDir = "/data/ethereum/goerli/prysm-beacon";
-    jwt-secret = secrets.prysm_jwt_secret.path;
-    service.supplementaryGroups = [users.groups.keys.name];
-    checkpoint.sync-url = "https://goerli.checkpoint-sync.ethpandaops.io";
-    genesis.beacon-api-url = "https://goerli.checkpoint-sync.ethpandaops.io";
+    args = {
+      network = "goerli";
+      dataDir = "/data/ethereum/goerli/prysm-beacon";
+      jwt-secret = secrets.prysm_jwt_secret.path;
+      service.supplementaryGroups = [users.groups.keys.name];
+      checkpoint.sync-url = "https://goerli.checkpoint-sync.ethpandaops.io";
+      genesis.beacon-api-url = "https://goerli.checkpoint-sync.ethpandaops.io";
+    };
+};
+```
+
+### Erigon
+
+```nix
+services.erigon.sepolia = {
+  enable = true;
+  openFirewall = true;
+  args = {
+    chain = "sepolia";
+    datadir = "/data/ethereum/sepolia/erigon";
+    http = {
+      enable = true;
+      addr = "0.0.0.0";
+      api = ["eth" "erigon" "engine" "sealer" "net"];
+      vhosts = ["localhost" "dione"];
+    };
+  };
 };
 ```
 
