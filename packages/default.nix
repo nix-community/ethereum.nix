@@ -33,6 +33,10 @@ in {
 
       # Signers
       web3signer = pkgs.callPackage ./signers/web3signer {};
+      dirk = pkgs.callPackage ./signers/dirk {inherit bls mcl;};
+
+      # Validators
+      vouch = pkgs.callPackage ./validators/vouch {inherit bls mcl;};
 
       # MEV
       mev-boost = pkgs.callPackage ./mev/mev-boost {inherit blst;};
@@ -151,6 +155,16 @@ in {
         drv = mev-boost;
       };
 
+      # Signers
+      dirk = mkApp {
+        drv = dirk;
+      };
+
+      # Validators
+      vouch = mkApp {
+        drv = vouch;
+      };
+
       # utils
       ethdo = mkApp {
         drv = ethdo;
@@ -176,6 +190,8 @@ in {
         prysm
         teku
         web3signer
+        dirk
+        vouch
         ;
     };
   };
