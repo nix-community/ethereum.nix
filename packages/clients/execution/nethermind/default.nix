@@ -31,6 +31,7 @@ buildDotnetModule rec {
 
   runtimeDeps = [
     rocksdb
+    snappy
   ];
 
   patches = [
