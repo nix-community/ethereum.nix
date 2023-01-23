@@ -40,6 +40,7 @@ in {
 
       # MEV
       mev-boost = pkgs.callPackage ./mev/mev-boost {inherit blst;};
+      mev-rs = pkgs.callPackage ./mev/mev-rs {};
 
       # Utils
       ethdo = pkgs.callPackage ./utils/ethdo {inherit bls mcl;};
@@ -154,6 +155,10 @@ in {
       mev-boost = mkApp {
         drv = mev-boost;
       };
+      mev-rs = mkApp {
+        name = "mev";
+        drv = mev-rs;
+      };
 
       # Signers
       dirk = mkApp {
@@ -184,6 +189,7 @@ in {
         lighthouse
         mcl
         mev-boost
+        mev-rs
         mev-geth
         nethermind
         plugeth
