@@ -220,14 +220,14 @@ in {
               allowedUDPPorts = [p2p-udp-port];
               allowedTCPPorts =
                 [rpc-port p2p-tcp-port]
-                ++ (optionals (disable-monitoring == false) [monitoring-port])
-                ++ (optionals (disable-grpc-gateway == false) [grpc-gateway-port])
+                ++ (optionals (!disable-monitoring) [monitoring-port])
+                ++ (optionals (!disable-grpc-gateway) [grpc-gateway-port])
                 ++ (optionals pprof [pprofport]);
             }
         )
         openFirewall;
     in
-      zipAttrsWith (name: vals: flatten vals) perService;
+      zipAttrsWith (name: flatten) perService;
 
     systemd.services =
       mapAttrs'
@@ -297,8 +297,8 @@ in {
 
                 # generate flags
                 flags = mkFlags {
+                  inherit (cfg) args;
                   opts = filteredOpts;
-                  args = cfg.args;
                 };
 
                 networkFlag =

@@ -1,5 +1,5 @@
-{...}: {
-  flake.nixosModules.default = {...}: {
+_: {
+  flake.nixosModules.default = {
     imports = [
       ./geth.nix
       ./prysm

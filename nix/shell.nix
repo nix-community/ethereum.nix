@@ -11,6 +11,7 @@
       name = "ethereum.nix";
       packages = with pkgs; [
         nix-update
+        statix
       ];
     });
   };

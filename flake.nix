@@ -14,21 +14,24 @@
 
   inputs = {
     # packages
-    nixpkgs.url = github:nixos/nixpkgs/nixpkgs-unstable;
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
     # flake-parts
     flake-parts = {
-      url = github:hercules-ci/flake-parts;
+      url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
-    flake-root.url = github:srid/flake-root;
-    mission-control.url = github:Platonic-Systems/mission-control;
+    flake-root.url = "github:srid/flake-root";
+    mission-control.url = "github:Platonic-Systems/mission-control";
 
     # utils
-    treefmt-nix.url = github:numtide/treefmt-nix;
-
+    treefmt-nix.url = "github:numtide/treefmt-nix";
+    statix = {
+      url = "github:nerdypepper/statix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nix-update = {
-      url = github:mic92/nix-update;
+      url = "github:mic92/nix-update";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -38,7 +41,7 @@
     nixpkgs,
     ...
   }: let
-    lib = import ./nix/lib {lib = nixpkgs.lib;} // nixpkgs.lib;
+    lib = import ./nix/lib {inherit (nixpkgs) lib;} // nixpkgs.lib;
   in
     (flake-parts.lib.evalFlakeModule
       {

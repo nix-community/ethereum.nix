@@ -337,7 +337,7 @@ in {
         )
         openFirewall;
     in
-      zipAttrsWith (name: vals: flatten vals) perService;
+      zipAttrsWith (name: flatten) perService;
 
     # create a service for each instance
     systemd.services =
@@ -413,9 +413,9 @@ in {
 
                 # generate flags
                 flags = mkFlags {
+                  inherit pathReducer;
+                  inherit (cfg) args;
                   opts = filteredOpts;
-                  pathReducer = pathReducer;
-                  args = cfg.args;
                 };
               in ''
                 ${cfg.package}/bin/erigon \
