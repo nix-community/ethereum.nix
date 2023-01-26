@@ -42,6 +42,7 @@ in {
 
       # Utils
       ethdo = pkgs.callPackage ./utils/ethdo {inherit bls mcl;};
+      sedge = pkgs.callPackage ./utils/sedge {inherit bls mcl;};
 
       # Libs
       evmc = pkgs.callPackage ./libs/evmc {};
@@ -172,6 +173,9 @@ in {
       ethdo = mkApp {
         drv = ethdo;
       };
+      sedge = mkApp {
+        drv = sedge;
+      };
     };
 
     overlayAttrs = {
@@ -179,6 +183,7 @@ in {
         (config.packages)
         bls
         blst
+        dirk
         erigon
         ethdo
         evmc
@@ -192,10 +197,10 @@ in {
         nethermind
         plugeth
         prysm
+        sedge
         teku
-        web3signer
-        dirk
         vouch
+        web3signer
         ;
     };
   };
