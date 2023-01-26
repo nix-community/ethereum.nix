@@ -15,9 +15,7 @@ in {
     pkgs,
     ...
   }: {
-    packages = let
-      mkGeth = pkgs.callPackage ./clients/execution/geth/builder.nix {};
-    in rec {
+    packages = rec {
       # Consensus Clients
       lighthouse = pkgs.callPackage ./clients/consensus/lighthouse {};
       prysm = pkgs.callPackage ./clients/consensus/prysm {inherit bls blst;};
@@ -25,10 +23,10 @@ in {
 
       # Execution Clients
       erigon = pkgs.callPackage ./clients/execution/erigon {};
-      geth = pkgs.callPackage ./clients/execution/geth {inherit mkGeth;};
-      mev-geth = pkgs.callPackage ./clients/execution/mev-geth {inherit mkGeth;};
-      plugeth = pkgs.callPackage ./clients/execution/plugeth {inherit mkGeth;};
-      geth-sealer = pkgs.callPackage ./clients/execution/geth-sealer {inherit mkGeth;};
+      geth = pkgs.callPackage ./clients/execution/geth {};
+      mev-geth = pkgs.callPackage ./clients/execution/mev-geth {};
+      plugeth = pkgs.callPackage ./clients/execution/plugeth {};
+      geth-sealer = pkgs.callPackage ./clients/execution/geth-sealer {};
       nethermind = pkgs.callPackage ./clients/execution/nethermind {};
 
       # Signers
@@ -40,6 +38,7 @@ in {
 
       # MEV
       mev-boost = pkgs.callPackage ./mev/mev-boost {inherit blst;};
+      mev-rs = pkgs.callPackage ./mev/mev-rs {};
 
       # Utils
       ethdo = pkgs.callPackage ./utils/ethdo {inherit bls mcl;};
@@ -155,6 +154,10 @@ in {
       mev-boost = mkApp {
         drv = mev-boost;
       };
+      mev-rs = mkApp {
+        name = "mev";
+        drv = mev-rs;
+      };
 
       # Signers
       dirk = mkApp {
@@ -189,6 +192,7 @@ in {
         lighthouse
         mcl
         mev-boost
+        mev-rs
         mev-geth
         nethermind
         plugeth
