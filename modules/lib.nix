@@ -27,7 +27,7 @@
     arg = concatStringsSep "." path;
   in "--${arg}";
 
-  mkFlag = {
+  mkArg = {
     path,
     opt,
     args,
@@ -48,7 +48,7 @@
         else "${arg} ${argReducer value}"
       else "";
 
-  mkFlags = {
+  mkArgs = {
     opts,
     args,
     pathReducer ? defaultPathReducer,
@@ -56,11 +56,35 @@
     collect (v: (isString v) && v != "") (
       mapAttrsRecursiveCond
       (as: !isOption as)
-      (path: opt: mkFlag {inherit path opt args pathReducer;})
+      (path: opt: mkArg {inherit path opt args pathReducer;})
       opts
     );
-in {
-  flags = {
-    inherit mkFlag mkFlags defaultPathReducer dotPathReducer;
+
+  baseServiceConfig = {
+    Restart = "on-failure";
+    CapabilityBoundingSet = "";
+    RemoveIPC = "true";
+    PrivateTmp = "true";
+    ProtectSystem = "full";
+    ProtectHome = "read-only";
+    ProtectClock = true;
+    ProtectProc = "noaccess";
+    ProtectKernelLogs = true;
+    ProtectKernelModules = true;
+    ProtectKernelTunables = true;
+    ProtectControlGroups = true;
+    ProtectHostname = true;
+    NoNewPrivileges = "true";
+    PrivateDevices = "true";
+    RestrictSUIDSGID = "true";
+    RestrictRealtime = true;
+    RestrictNamespaces = true;
+    LockPersonality = true;
+    MemoryDenyWriteExecute = "true";
+    SystemCallFilter = ["@system-service" "~@privileged"];
   };
+in {
+  inherit baseServiceConfig;
+  inherit mkArg mkArgs defaultPathReducer dotPathReducer;
+  foldListToAttrs = lib.fold (a: b: a // b) {};
 }

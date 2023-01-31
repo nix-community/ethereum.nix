@@ -4,10 +4,11 @@
   pkgs,
   ...
 }: let
-  inherit (lib) literalExpression mkEnableOption mkIf mkOption types optionalString;
-  inherit (lib) mdDoc flatten nameValuePair zipAttrsWith mapAttrs' filterAttrsRecursive mapAttrsToList filterAttrs;
   inherit (lib.lists) optionals findFirst;
-  inherit (builtins) concatStringsSep;
+  inherit (lib.strings) hasPrefix;
+  inherit (lib.attrsets) zipAttrsWith mapAttrsRecursive optionalAttrs;
+  inherit (lib) mdDoc flatten nameValuePair filterAttrs mapAttrs mapAttrs' mapAttrsToList;
+  inherit (lib) optionalString literalExpression mkEnableOption mkIf mkOption types concatStringsSep;
 
   settingsFormat = pkgs.formats.yaml {};
 
@@ -18,13 +19,6 @@
       enable = mkEnableOption (mdDoc "Ethereum Beacon Chain Node from Prysmatic Labs");
 
       args = {
-        datadir = mkOption {
-          type = types.nullOr types.path;
-          default = null;
-          description = mdDoc "Data directory for the databases";
-          example = "/data/ethereum/goerli/prysm-beacon";
-        };
-
         network = mkOption {
           type = types.nullOr (types.enum ["goerli" "prater" "ropsten" "sepolia"]);
           default = null;
@@ -180,35 +174,6 @@ in {
       ])
       eachBeacon);
 
-    # add a group for each instance
-    users.groups =
-      mapAttrs'
-      (beaconName: _: nameValuePair "prysm-beacon-${beaconName}" {})
-      eachBeacon;
-
-    # add a system user for each instance
-    users.users =
-      mapAttrs'
-      (beaconName: _:
-        nameValuePair "prysm-beacon-${beaconName}" {
-          isSystemUser = true;
-          group = "prysm-beacon-${beaconName}";
-          description = "System user for prysm beacon chain ${beaconName} instance";
-        })
-      eachBeacon;
-
-    # ensure data directories are created and have the correct permissions for any instances that specify one
-    systemd.tmpfiles.rules =
-      lib.lists.flatten
-      (mapAttrsToList
-        (
-          beaconName: cfg:
-            lib.lists.optionals (cfg.args.datadir != null) [
-              "d ${cfg.args.datadir} 0700 prysm-beacon-${beaconName} prysm-beacon-${beaconName} - -"
-            ]
-        )
-        eachBeacon);
-
     # configure the firewall for each service
     networking.firewall = let
       openFirewall = filterAttrs (_: cfg: cfg.openFirewall) eachBeacon;
@@ -233,85 +198,59 @@ in {
       mapAttrs'
       (
         beaconName: let
-          stateDir = "prysm-beacon-${beaconName}";
-          datadir = "/var/lib/${stateDir}";
+          serviceName = "prysm-beacon-${beaconName}";
 
           modulesLib = import ../lib.nix {inherit lib pkgs;};
-          inherit (modulesLib.flags) mkFlags;
+          inherit (modulesLib) mkArgs baseServiceConfig foldListToAttrs;
         in
           cfg:
-            nameValuePair "prysm-beacon-${beaconName}" (mkIf cfg.enable {
-              description = "Prysm Beacon Node (${beaconName})";
-              wantedBy = ["multi-user.target"];
+            nameValuePair serviceName (mkIf cfg.enable {
               after = ["network.target"];
+              wantedBy = ["multi-user.target"];
+              description = "Prysm Beacon Node (${beaconName})";
 
-              unitConfig = {
-                RequiresMountsFor = optionals (cfg.args.datadir != null) [
-                  cfg.args.datadir
-                ];
-              };
+              # create service config by merging with the base config
+              serviceConfig = foldListToAttrs [
+                baseServiceConfig
+                {
+                  DynamicUser = true;
+                  User = serviceName;
+                  StateDirectory = serviceName;
+                  MemoryDenyWriteExecute = "false"; # causes a library loading error
+                }
+                (optionalAttrs (cfg.args.jwt-secret != null) {
+                  LoadCredential = "jwt-secret:${cfg.args.jwt-secret}";
+                })
+              ];
 
-              serviceConfig = {
-                User = "prysm-beacon-${beaconName}";
-                Group = "prysm-beacon-${beaconName}";
+              script = "${cfg.package}/bin/beacon-chain $@";
 
-                Restart = "on-failure";
-                StateDirectory = stateDir;
-                SupplementaryGroups = cfg.service.supplementaryGroups;
-
-                # bind custom data dir to /var/lib/... if provided
-                BindPaths = lib.lists.optionals (cfg.args.datadir != null) [
-                  "${cfg.args.datadir}:${datadir}"
-                ];
-
-                # Hardening measures
-                CapabilityBoundingSet = "";
-                RemoveIPC = "true";
-                PrivateTmp = "true";
-                ProtectSystem = "full";
-                ProtectHome = "read-only";
-                ProtectClock = true;
-                ProtectProc = "noaccess";
-                ProcSubset = "pid";
-                ProtectKernelLogs = true;
-                ProtectKernelModules = true;
-                ProtectKernelTunables = true;
-                ProtectControlGroups = true;
-                ProtectHostname = true;
-                NoNewPrivileges = "true";
-                PrivateDevices = "true";
-                RestrictSUIDSGID = "true";
-                RestrictRealtime = true;
-                RestrictNamespaces = true;
-                LockPersonality = true;
-                SystemCallFilter = ["@system-service" "~@privileged"];
-                # MemoryDenyWriteExecute = "true";   causes a library loading error
-              };
-
-              script = let
-                # filter out certain args which need to be treated differently
-                specialArgs = ["network" "datadir"];
-                isNormalArg = name: (findFirst (a: a == name) null specialArgs) == null;
-
-                filteredOpts = filterAttrs (n: v: isNormalArg n) beaconOpts.options.args;
-
-                # generate flags
-                flags = mkFlags {
+              scriptArgs = let
+                # generate args
+                args = mkArgs {
                   inherit (cfg) args;
-                  opts = filteredOpts;
+                  opts = beaconOpts.options.args;
                 };
 
-                networkFlag =
+                # filter out certain args which need to be treated differently
+                specialArgs = ["--network" "--jwt-secret"];
+                isNormalArg = name: (findFirst (arg: hasPrefix arg name) null specialArgs) == null;
+                filteredArgs = builtins.filter isNormalArg args;
+
+                network =
                   if cfg.args.network != null
-                  then "--${cfg.args.network} \\"
+                  then "--${cfg.args.network}"
+                  else "";
+
+                jwtSecret =
+                  if cfg.args.jwt-secret != null
+                  then "--jwt-secret %d/jwt-secret"
                   else "";
               in ''
-                ${cfg.package}/bin/beacon-chain \
-                    --accept-terms-of-use \
-                    ${concatStringsSep " \\\n" flags} \
-                    ${networkFlag}
-                    --datadir ${datadir} \
-                    ${lib.escapeShellArgs cfg.extraArgs}
+                --accept-terms-of-use ${network} ${jwtSecret} \
+                --datadir %S/${serviceName} \
+                ${concatStringsSep " \\\n" filteredArgs} \
+                ${lib.escapeShellArgs cfg.extraArgs}
               '';
             })
       )

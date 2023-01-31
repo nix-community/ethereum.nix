@@ -5,26 +5,24 @@
   config,
   lib,
   pkgs,
+  modulesPath,
   ...
 }: let
   inherit (lib.lists) optionals findFirst;
-  inherit (lib.attrsets) zipAttrsWith;
+  inherit (lib.strings) hasPrefix;
+  inherit (lib.attrsets) zipAttrsWith mapAttrsRecursive optionalAttrs;
   inherit (lib) mdDoc flatten nameValuePair filterAttrs mapAttrs mapAttrs' mapAttrsToList;
   inherit (lib) optionalString literalExpression mkEnableOption mkIf mkOption types concatStringsSep;
 
+  # capture config for all configured geths
   eachGeth = config.services.geth;
 
+  # submodule options
   gethOpts = {
-    options = {
+    options = rec {
       enable = mkEnableOption (mdDoc "Go Ethereum Node");
 
       args = {
-        datadir = mkOption {
-          type = types.nullOr types.path;
-          default = null;
-          description = mdDoc "Data directory to use for storing Geth state";
-        };
-
         port = mkOption {
           type = types.port;
           default = 30303;
@@ -181,14 +179,6 @@
         description = mdDoc "Package to use as Go Ethereum node.";
       };
 
-      service = {
-        supplementaryGroups = mkOption {
-          default = [];
-          type = types.listOf types.str;
-          description = mdDoc "Additional groups for the systemd service e.g. sops-nix group for secret access";
-        };
-      };
-
       openFirewall = mkOption {
         type = types.bool;
         default = false;
@@ -220,35 +210,6 @@ in {
       ])
       eachGeth);
 
-    # add a group for each instance
-    users.groups =
-      mapAttrs'
-      (gethName: _: nameValuePair "geth-${gethName}" {})
-      eachGeth;
-
-    # add a system user for each instance
-    users.users =
-      mapAttrs'
-      (gethName: _:
-        nameValuePair "geth-${gethName}" {
-          isSystemUser = true;
-          group = "geth-${gethName}";
-          description = "System user for geth ${gethName} instance";
-        })
-      eachGeth;
-
-    # ensure data directories are created and have the correct permissions for any instances that specify one
-    systemd.tmpfiles.rules =
-      lib.lists.flatten
-      (mapAttrsToList
-        (
-          gethName: cfg:
-            lib.lists.optionals (cfg.args.datadir != null) [
-              "d ${cfg.args.datadir} 0700 geth-${gethName} geth-${gethName} - -"
-            ]
-        )
-        eachGeth);
-
     # configure the firewall for each service
     networking.firewall = let
       openFirewall = filterAttrs (_: cfg: cfg.openFirewall) eachGeth;
@@ -274,90 +235,65 @@ in {
       mapAttrs'
       (
         gethName: let
-          statedir = "geth-${gethName}";
-          datadir = "/var/lib/${statedir}";
+          serviceName = "geth-${gethName}";
 
           modulesLib = import ./lib.nix {inherit lib pkgs;};
-          inherit (modulesLib.flags) mkFlags;
+          inherit (modulesLib) mkArgs baseServiceConfig foldListToAttrs;
         in
           cfg:
-            nameValuePair "geth-${gethName}" (mkIf cfg.enable {
-              description = "Go Ethereum node (${gethName})";
-              wantedBy = ["multi-user.target"];
+            nameValuePair serviceName (mkIf cfg.enable {
               after = ["network.target"];
+              wantedBy = ["multi-user.target"];
+              description = "Go Ethereum node (${gethName})";
 
-              unitConfig = {
-                RequiresMountsFor = optionals (cfg.args.datadir != null) [
-                  cfg.args.datadir
-                ];
-              };
+              # create service config by merging with the base config
+              serviceConfig = foldListToAttrs [
+                baseServiceConfig
+                {
+                  DynamicUser = true;
+                  User = serviceName;
+                  StateDirectory = serviceName;
+                }
+                (optionalAttrs (cfg.args.authrpc.jwtsecret != null) {
+                  LoadCredential = "jwtsecret:${cfg.args.authrpc.jwtsecret}";
+                })
+              ];
 
-              serviceConfig = {
-                User = "geth-${gethName}";
-                Group = "geth-${gethName}";
+              script = "${cfg.package}/bin/geth $@";
 
-                Restart = "on-failure";
-                StateDirectory = statedir;
-                SupplementaryGroups = cfg.service.supplementaryGroups;
-
-                # bind custom data dir to /var/lib/... if provided
-                BindPaths = lib.lists.optionals (cfg.args.datadir != null) [
-                  "${cfg.args.datadir}:${datadir}"
-                ];
-
-                # Hardening measures
-                CapabilityBoundingSet = "";
-                RemoveIPC = "true";
-                PrivateTmp = "true";
-                ProtectSystem = "full";
-                ProtectHome = "read-only";
-                ProtectClock = true;
-                ProtectProc = "noaccess";
-                ProtectKernelLogs = true;
-                ProtectKernelModules = true;
-                ProtectKernelTunables = true;
-                ProtectControlGroups = true;
-                ProtectHostname = true;
-                NoNewPrivileges = "true";
-                PrivateDevices = "true";
-                RestrictSUIDSGID = "true";
-                RestrictRealtime = true;
-                RestrictNamespaces = true;
-                LockPersonality = true;
-                MemoryDenyWriteExecute = "true";
-                SystemCallFilter = ["@system-service" "~@privileged"];
-              };
-
-              script = let
+              scriptArgs = let
                 # replace enable flags like --http.enable with just --http
                 pathReducer = path: let
                   arg = concatStringsSep "." (lib.lists.remove "enable" path);
                 in "--${arg}";
 
-                # filter out certain args which need to be treated differently
-                specialArgs = ["network" "datadir"];
-                isNormalArg = name: (findFirst (a: a == name) null specialArgs) == null;
-
-                filteredOpts = filterAttrs (n: v: isNormalArg n) gethOpts.options.args;
-
                 # generate flags
-                flags = mkFlags {
+                args = mkArgs {
                   inherit pathReducer;
                   inherit (cfg) args;
-                  opts = filteredOpts;
+                  opts = gethOpts.options.args;
                 };
 
-                networkFlag =
+                # filter out certain args which need to be treated differently
+                specialArgs = ["--network" "--authrpc.jwtsecret"];
+                isNormalArg = name: (findFirst (arg: hasPrefix arg name) null specialArgs) == null;
+
+                filteredArgs = builtins.filter isNormalArg args;
+
+                network =
                   if cfg.args.network != null
-                  then "--${cfg.args.network} \\"
+                  then "--${cfg.args.network}"
+                  else "";
+
+                jwtSecret =
+                  if cfg.args.authrpc.jwtsecret != null
+                  then "--authrpc.jwtsecret %d/jwtsecret"
                   else "";
               in ''
-                ${cfg.package}/bin/geth \
-                    --ipcdisable \
-                    ${concatStringsSep " \\\n" flags} \
-                    ${networkFlag}
-                    --datadir ${datadir} \
-                    ${lib.escapeShellArgs cfg.extraArgs}
+                --ipcdisable ${network} ${jwtSecret} \
+                --datadir %S/${serviceName} \
+                ${concatStringsSep " \\\n" filteredArgs} \
+                ${lib.escapeShellArgs cfg.extraArgs}
               '';
             })
       )

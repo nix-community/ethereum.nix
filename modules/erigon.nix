@@ -7,10 +7,8 @@
 }: let
   inherit (lib.lists) optionals findFirst;
   inherit (lib) mdDoc flatten nameValuePair;
-  inherit (lib) zipAttrsWith filterAttrsRecursive filterAttrs mapAttrs mapAttrs' mapAttrsToList;
+  inherit (lib) zipAttrsWith filterAttrsRecursive optionalAttrs filterAttrs mapAttrs mapAttrs' mapAttrsToList;
   inherit (lib) optionalString literalExpression mkEnableOption mkIf mkOption types concatStringsSep;
-
-  settingsFormat = pkgs.formats.yaml {};
 
   eachErigon = config.services.erigon;
 
@@ -19,12 +17,6 @@
       enable = mkEnableOption (mdDoc "Erigon Ethereum Node.");
 
       args = {
-        datadir = mkOption {
-          type = types.nullOr types.path;
-          default = null;
-          description = mdDoc "Data directory for the databases.";
-        };
-
         port = mkOption {
           type = types.port;
           default = 30303;
@@ -290,35 +282,6 @@ in {
       ])
       eachErigon);
 
-    # add a group for each instance
-    users.groups =
-      mapAttrs'
-      (erigonName: _: nameValuePair "erigon-${erigonName}" {})
-      eachErigon;
-
-    # add a system user for each instance
-    users.users =
-      mapAttrs'
-      (erigonName: _:
-        nameValuePair "erigon-${erigonName}" {
-          isSystemUser = true;
-          group = "erigon-${erigonName}";
-          description = "System user for erigon ${erigonName} instance";
-        })
-      eachErigon;
-
-    # ensure data directories are created and have the correct permissions for any instances that specify one
-    systemd.tmpfiles.rules =
-      lib.lists.flatten
-      (mapAttrsToList
-        (
-          erigonName: cfg:
-            lib.lists.optionals (cfg.args.datadir != null) [
-              "d ${cfg.args.datadir} 0700 erigon-${erigonName} erigon-${erigonName} - -"
-            ]
-        )
-        eachErigon);
-
     # configure the firewall for each service
     networking.firewall = let
       openFirewall = filterAttrs (_: cfg: cfg.openFirewall) eachErigon;
@@ -344,84 +307,45 @@ in {
       mapAttrs'
       (
         erigonName: let
-          stateDir = "erigon-${erigonName}";
-          datadir = "/var/lib/${stateDir}";
+          serviceName = "erigon-${erigonName}";
 
           modulesLib = import ./lib.nix {inherit lib pkgs;};
-          inherit (modulesLib.flags) mkFlags;
+          inherit (modulesLib) baseServiceConfig mkArgs foldListToAttrs;
         in
           cfg:
-            nameValuePair "erigon-${erigonName}" (mkIf cfg.enable {
+            nameValuePair serviceName (mkIf cfg.enable {
               description = "Erigon Ethereum node (${erigonName})";
               wantedBy = ["multi-user.target"];
               after = ["network.target"];
 
-              unitConfig = {
-                RequiresMountsFor = optionals (cfg.args.datadir != null) [
-                  cfg.args.datadir
-                ];
-              };
+              # create service config by merging with the base config
+              serviceConfig = foldListToAttrs [
+                baseServiceConfig
+                {
+                  DynamicUser = true;
+                  User = serviceName;
+                  StateDirectory = serviceName;
+                }
+              ];
 
-              serviceConfig = {
-                User = "erigon-${erigonName}";
-                Group = "erigon-${erigonName}";
+              script = "${cfg.package}/bin/erigon $@";
 
-                Restart = "always";
-                StateDirectory = stateDir;
-                SupplementaryGroups = cfg.service.supplementaryGroups;
-
-                # bind custom data dir to /var/lib/... if provided
-                BindPaths = lib.lists.optionals (cfg.args.datadir != null) [
-                  "${cfg.args.datadir}:${datadir}"
-                ];
-
-                # Hardening measures
-                CapabilityBoundingSet = "";
-                RemoveIPC = "true";
-                PrivateTmp = "true";
-                ProtectSystem = "full";
-                ProtectHome = "read-only";
-                ProtectClock = true;
-                ProtectProc = "noaccess";
-                ProcSubset = "pid";
-                ProtectKernelLogs = true;
-                ProtectKernelModules = true;
-                ProtectKernelTunables = true;
-                ProtectControlGroups = true;
-                ProtectHostname = true;
-                NoNewPrivileges = "true";
-                PrivateDevices = "true";
-                RestrictSUIDSGID = "true";
-                RestrictRealtime = true;
-                RestrictNamespaces = true;
-                LockPersonality = true;
-                MemoryDenyWriteExecute = "true";
-                SystemCallFilter = ["@system-service" "~@privileged"];
-              };
-
-              script = let
+              scriptArgs = let
                 # replace enable flags like --http.enable with just --http
                 pathReducer = path: let
                   arg = concatStringsSep "." (lib.lists.remove "enable" path);
                 in "--${arg}";
 
-                # filter out certain args which need to be treated differently
-                specialArgs = ["datadir"];
-                isNormalArg = name: (findFirst (a: a == name) null specialArgs) == null;
-
-                filteredOpts = filterAttrs (n: v: isNormalArg n) erigonOpts.options.args;
-
                 # generate flags
-                flags = mkFlags {
+                args = mkArgs {
                   inherit pathReducer;
                   inherit (cfg) args;
-                  opts = filteredOpts;
+                  opts = erigonOpts.options.args;
                 };
               in ''
-                ${cfg.package}/bin/erigon \
-                    ${concatStringsSep " \\\n" flags} \
-                    --datadir ${datadir} \
-                    ${lib.escapeShellArgs cfg.extraArgs}
+                --datadir %S/${serviceName} \
+                ${concatStringsSep " \\\n" args} \
+                ${lib.escapeShellArgs cfg.extraArgs}
               '';
             })
       )
