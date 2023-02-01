@@ -233,7 +233,42 @@ in {
           modulesLib = import ./lib.nix {inherit lib pkgs;};
           inherit (modulesLib) mkArgs baseServiceConfig foldListToAttrs;
         in
-          cfg:
+          cfg: let
+            scriptArgs = let
+              # replace enable flags like --http.enable with just --http
+              pathReducer = path: let
+                arg = concatStringsSep "." (lib.lists.remove "enable" path);
+              in "--${arg}";
+
+              # generate flags
+              args = mkArgs {
+                inherit pathReducer;
+                inherit (cfg) args;
+                opts = gethOpts.options.args;
+              };
+
+              # filter out certain args which need to be treated differently
+              specialArgs = ["--network" "--authrpc.jwtsecret"];
+              isNormalArg = name: (findFirst (arg: hasPrefix arg name) null specialArgs) == null;
+
+              filteredArgs = builtins.filter isNormalArg args;
+
+              network =
+                if cfg.args.network != null
+                then "--${cfg.args.network}"
+                else "";
+
+              jwtSecret =
+                if cfg.args.authrpc.jwtsecret != null
+                then "--authrpc.jwtsecret %d/jwtsecret"
+                else "";
+            in ''
+              --ipcdisable ${network} ${jwtSecret} \
+              --datadir %S/${serviceName} \
+              ${concatStringsSep " \\\n" filteredArgs} \
+              ${lib.escapeShellArgs cfg.extraArgs}
+            '';
+          in
             nameValuePair serviceName (mkIf cfg.enable {
               after = ["network.target"];
               wantedBy = ["multi-user.target"];
@@ -246,48 +281,13 @@ in {
                   DynamicUser = true;
                   User = serviceName;
                   StateDirectory = serviceName;
+
+                  ExecStart = "${cfg.package}/bin/geth ${scriptArgs}";
                 }
                 (optionalAttrs (cfg.args.authrpc.jwtsecret != null) {
                   LoadCredential = "jwtsecret:${cfg.args.authrpc.jwtsecret}";
                 })
               ];
-
-              script = "${cfg.package}/bin/geth $@";
-
-              scriptArgs = let
-                # replace enable flags like --http.enable with just --http
-                pathReducer = path: let
-                  arg = concatStringsSep "." (lib.lists.remove "enable" path);
-                in "--${arg}";
-
-                # generate flags
-                args = mkArgs {
-                  inherit pathReducer;
-                  inherit (cfg) args;
-                  opts = gethOpts.options.args;
-                };
-
-                # filter out certain args which need to be treated differently
-                specialArgs = ["--network" "--authrpc.jwtsecret"];
-                isNormalArg = name: (findFirst (arg: hasPrefix arg name) null specialArgs) == null;
-
-                filteredArgs = builtins.filter isNormalArg args;
-
-                network =
-                  if cfg.args.network != null
-                  then "--${cfg.args.network}"
-                  else "";
-
-                jwtSecret =
-                  if cfg.args.authrpc.jwtsecret != null
-                  then "--authrpc.jwtsecret %d/jwtsecret"
-                  else "";
-              in ''
-                --ipcdisable ${network} ${jwtSecret} \
-                --datadir %S/${serviceName} \
-                ${concatStringsSep " \\\n" filteredArgs} \
-                ${lib.escapeShellArgs cfg.extraArgs}
-              '';
             })
       )
       eachGeth;

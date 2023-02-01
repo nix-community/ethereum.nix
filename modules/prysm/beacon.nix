@@ -196,7 +196,35 @@ in {
           modulesLib = import ../lib.nix {inherit lib pkgs;};
           inherit (modulesLib) mkArgs baseServiceConfig foldListToAttrs;
         in
-          cfg:
+          cfg: let
+            scriptArgs = let
+              # generate args
+              args = mkArgs {
+                inherit (cfg) args;
+                opts = beaconOpts.options.args;
+              };
+
+              # filter out certain args which need to be treated differently
+              specialArgs = ["--network" "--jwt-secret"];
+              isNormalArg = name: (findFirst (arg: hasPrefix arg name) null specialArgs) == null;
+              filteredArgs = builtins.filter isNormalArg args;
+
+              network =
+                if cfg.args.network != null
+                then "--${cfg.args.network}"
+                else "";
+
+              jwtSecret =
+                if cfg.args.jwt-secret != null
+                then "--jwt-secret %d/jwt-secret"
+                else "";
+            in ''
+              --accept-terms-of-use ${network} ${jwtSecret} \
+              --datadir %S/${serviceName} \
+              ${concatStringsSep " \\\n" filteredArgs} \
+              ${lib.escapeShellArgs cfg.extraArgs}
+            '';
+          in
             nameValuePair serviceName (mkIf cfg.enable {
               after = ["network.target"];
               wantedBy = ["multi-user.target"];
@@ -209,42 +237,15 @@ in {
                   DynamicUser = true;
                   User = serviceName;
                   StateDirectory = serviceName;
+
+                  ExecStart = "${cfg.package}/bin/beacon-chain ${scriptArgs}";
+
                   MemoryDenyWriteExecute = "false"; # causes a library loading error
                 }
                 (optionalAttrs (cfg.args.jwt-secret != null) {
                   LoadCredential = "jwt-secret:${cfg.args.jwt-secret}";
                 })
               ];
-
-              script = "${cfg.package}/bin/beacon-chain $@";
-
-              scriptArgs = let
-                # generate args
-                args = mkArgs {
-                  inherit (cfg) args;
-                  opts = beaconOpts.options.args;
-                };
-
-                # filter out certain args which need to be treated differently
-                specialArgs = ["--network" "--jwt-secret"];
-                isNormalArg = name: (findFirst (arg: hasPrefix arg name) null specialArgs) == null;
-                filteredArgs = builtins.filter isNormalArg args;
-
-                network =
-                  if cfg.args.network != null
-                  then "--${cfg.args.network}"
-                  else "";
-
-                jwtSecret =
-                  if cfg.args.jwt-secret != null
-                  then "--jwt-secret %d/jwt-secret"
-                  else "";
-              in ''
-                --accept-terms-of-use ${network} ${jwtSecret} \
-                --datadir %S/${serviceName} \
-                ${concatStringsSep " \\\n" filteredArgs} \
-                ${lib.escapeShellArgs cfg.extraArgs}
-              '';
             })
       )
       eachBeacon;

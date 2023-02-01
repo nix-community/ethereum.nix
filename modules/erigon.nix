@@ -305,7 +305,25 @@ in {
           modulesLib = import ./lib.nix {inherit lib pkgs;};
           inherit (modulesLib) baseServiceConfig mkArgs foldListToAttrs;
         in
-          cfg:
+          cfg: let
+            scriptArgs = let
+              # replace enable flags like --http.enable with just --http
+              pathReducer = path: let
+                arg = concatStringsSep "." (lib.lists.remove "enable" path);
+              in "--${arg}";
+
+              # generate flags
+              args = mkArgs {
+                inherit pathReducer;
+                inherit (cfg) args;
+                opts = erigonOpts.options.args;
+              };
+            in ''
+              --datadir %S/${serviceName} \
+              ${concatStringsSep " \\\n" args} \
+              ${lib.escapeShellArgs cfg.extraArgs}
+            '';
+          in
             nameValuePair serviceName (mkIf cfg.enable {
               description = "Erigon Ethereum node (${erigonName})";
               wantedBy = ["multi-user.target"];
@@ -318,28 +336,10 @@ in {
                   DynamicUser = true;
                   User = serviceName;
                   StateDirectory = serviceName;
+
+                  ExecStart = "${cfg.package}/bin/erigon ${scriptArgs}";
                 }
               ];
-
-              script = "${cfg.package}/bin/erigon $@";
-
-              scriptArgs = let
-                # replace enable flags like --http.enable with just --http
-                pathReducer = path: let
-                  arg = concatStringsSep "." (lib.lists.remove "enable" path);
-                in "--${arg}";
-
-                # generate flags
-                args = mkArgs {
-                  inherit pathReducer;
-                  inherit (cfg) args;
-                  opts = erigonOpts.options.args;
-                };
-              in ''
-                --datadir %S/${serviceName} \
-                ${concatStringsSep " \\\n" args} \
-                ${lib.escapeShellArgs cfg.extraArgs}
-              '';
             })
       )
       eachErigon;
