@@ -203,13 +203,6 @@ in {
   ###### implementation
 
   config = mkIf (eachGeth != {}) {
-    # collect packages and add them to the system
-    environment.systemPackages = flatten (mapAttrsToList
-      (_: cfg: [
-        cfg.package
-      ])
-      eachGeth);
-
     # configure the firewall for each service
     networking.firewall = let
       openFirewall = filterAttrs (_: cfg: cfg.openFirewall) eachGeth;

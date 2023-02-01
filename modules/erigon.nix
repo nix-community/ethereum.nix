@@ -275,13 +275,6 @@ in {
   ###### implementation
 
   config = mkIf (eachErigon != {}) {
-    # collect packages and add them to the system
-    environment.systemPackages = flatten (mapAttrsToList
-      (_: cfg: [
-        cfg.package
-      ])
-      eachErigon);
-
     # configure the firewall for each service
     networking.firewall = let
       openFirewall = filterAttrs (_: cfg: cfg.openFirewall) eachErigon;

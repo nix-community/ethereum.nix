@@ -167,13 +167,6 @@ in {
   ###### implementation
 
   config = mkIf (eachBeacon != {}) {
-    # collect packages and add them to the system
-    environment.systemPackages = flatten (mapAttrsToList
-      (_: cfg: [
-        cfg.package
-      ])
-      eachBeacon);
-
     # configure the firewall for each service
     networking.firewall = let
       openFirewall = filterAttrs (_: cfg: cfg.openFirewall) eachBeacon;
