@@ -22,10 +22,10 @@
     sha256 = "sha256-aeTeHRT3QtxBRSNMCITIWmx89vGtox2OzSff8vZ+RYY=";
   };
 
-  websignerVersion = "22.8.1";
+  websignerVersion = "23.1.0";
   websignerSrc = fetchzip {
     url = "https://artifacts.consensys.net/public/web3signer/raw/names/web3signer.zip/versions/${websignerVersion}/web3signer-${websignerVersion}.zip";
-    sha256 = "sha256-/iwSW2Es8xpsfvyZ6obVMu6L2U3krnnYAlMH88usnvU=";
+    sha256 = "sha256-po1wJrk244uJhQ4m32d2FK93r0Q+NXhxz9klzYkLNZE=";
     name = "web3signer";
     extension = "zip";
     stripRoot = false;
@@ -37,16 +37,16 @@
 in
   rustPlatform.buildRustPackage rec {
     pname = "lighthouse";
-    version = "3.3.0";
+    version = "3.4.0";
 
     src = fetchFromGitHub {
       owner = "sigp";
       repo = pname;
       rev = "v${version}";
-      sha256 = "sha256-py64CWY3k5Z2mm9WduJ4Fh7lQ8b3sF6iIFsYYjndU5I=";
+      sha256 = "sha256-4auiM5+kj/HjZKu2YP7JEnwDNxHuL39XCfmV/dc5jLE=";
     };
 
-    cargoSha256 = "sha256-0gWTniLkhuPpgdUkE6gpF9uHYT6BeWWgH6Mu7KpFx9w=";
+    cargoSha256 = "sha256-ihfGwdxL7Ttw86dhaVBp5meb0caXjzgbbP27Io8zv/c=";
 
     patches = [./001-Change-Web3Signer-Dir.patch];
 
@@ -77,6 +77,7 @@ in
 
     # web3signer_tests crate will try to download form Github
     # see: https://github.com/sigp/lighthouse/blob/stable/testing/web3signer_tests/build.rs
+    # and https://github.com/sigp/lighthouse/blob/stable/testing/web3signer_tests/src/lib.rs
     LIGHTHOUSE_WEB3SIGNER_BIN = websignerSrc;
     LIGHTHOUSE_WEB3SIGNER_VERSION = "${websignerVersion}";
 
