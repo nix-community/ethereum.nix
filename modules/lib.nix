@@ -27,7 +27,7 @@
     arg = concatStringsSep "." path;
   in "--${arg}";
 
-  mkFlag = {
+  mkArg = {
     path,
     opt,
     args,
@@ -48,7 +48,7 @@
         else "${arg} ${argReducer value}"
       else "";
 
-  mkFlags = {
+  mkArgs = {
     opts,
     args,
     pathReducer ? defaultPathReducer,
@@ -56,11 +56,39 @@
     collect (v: (isString v) && v != "") (
       mapAttrsRecursiveCond
       (as: !isOption as)
-      (path: opt: mkFlag {inherit path opt args pathReducer;})
+      (path: opt: mkArg {inherit path opt args pathReducer;})
       opts
     );
-in {
-  flags = {
-    inherit mkFlag mkFlags defaultPathReducer dotPathReducer;
+
+  baseServiceConfig = with lib; {
+    Restart = mkDefault "on-failure";
+
+    # https://www.freedesktop.org/software/systemd/man/systemd.exec.html#DynamicUser=
+    # Enabling dynamic user implies other options which cannot be changed:
+    #   * RemoveIPC = true
+    #   * PrivateTmp = true
+    #   * NoNewPrivileges = "strict"
+    #   * RestrictSUIDSGID = true
+    #   * ProtectSystem = "strict"
+    #   * ProtectHome = "read-only"
+    DynamicUser = mkDefault true;
+
+    ProtectClock = mkDefault true;
+    ProtectProc = mkDefault "noaccess";
+    ProtectKernelLogs = mkDefault true;
+    ProtectKernelModules = mkDefault true;
+    ProtectKernelTunables = mkDefault true;
+    ProtectControlGroups = mkDefault true;
+    ProtectHostname = mkDefault true;
+    PrivateDevices = mkDefault true;
+    RestrictRealtime = mkDefault true;
+    RestrictNamespaces = mkDefault true;
+    LockPersonality = mkDefault true;
+    MemoryDenyWriteExecute = mkDefault true;
+    SystemCallFilter = lib.mkDefault ["@system-service" "~@privileged"];
   };
+in {
+  inherit baseServiceConfig;
+  inherit mkArg mkArgs defaultPathReducer dotPathReducer;
+  foldListToAttrs = lib.fold (a: b: a // b) {};
 }
