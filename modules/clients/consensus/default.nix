@@ -1,5 +1,5 @@
 {
-    imports = [
-        ./prysm
-    ];
+  imports = [
+    ./prysm
+  ];
 }

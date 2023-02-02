@@ -15,7 +15,7 @@
   inherit (lib) optionalString literalExpression mkEnableOption mkIf mkOption types concatStringsSep;
 
   # capture config for all configured geths
-  eachGeth = config.services.geth;
+  eachGeth = config.services.ethereum.execution.geth;
 
   # submodule options
   gethOpts = {
@@ -193,7 +193,7 @@ in {
   ###### interface
 
   options = {
-    services.geth = mkOption {
+    services.ethereum.execution.geth = mkOption {
       type = types.attrsOf (types.submodule gethOpts);
       default = {};
       description = mdDoc "Specification of one or more geth instances.";

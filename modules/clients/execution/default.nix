@@ -1,6 +1,6 @@
 {
-    imports = [
-        ./erigon.nix
-        ./geth.nix
-    ];
+  imports = [
+    ./erigon.nix
+    ./geth.nix
+  ];
 }

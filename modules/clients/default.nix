@@ -1,6 +1,6 @@
 {
-    imports = [
-        ./consensus
-        ./execution
-    ];
+  imports = [
+    ./consensus
+    ./execution
+  ];
 }
