@@ -12,7 +12,7 @@
   inherit (lib.strings) hasPrefix;
   inherit (lib.attrsets) zipAttrsWith mapAttrsRecursive optionalAttrs;
   inherit (lib) mdDoc flatten nameValuePair filterAttrs mapAttrs mapAttrs' mapAttrsToList;
-  inherit (lib) optionalString literalExpression mkEnableOption mkIf mkOption types concatStringsSep;
+  inherit (lib) optionalString literalExpression mkEnableOption mkIf mkMerge mkOption types concatStringsSep;
 
   # capture config for all configured geths
   eachGeth = config.services.ethereum.execution.geth;
@@ -231,7 +231,7 @@ in {
           serviceName = "geth-${gethName}";
 
           modulesLib = import ../../lib.nix {inherit lib pkgs;};
-          inherit (modulesLib) mkArgs baseServiceConfig foldListToAttrs;
+          inherit (modulesLib) mkArgs baseServiceConfig;
         in
           cfg: let
             scriptArgs = let
@@ -275,14 +275,14 @@ in {
               description = "Go Ethereum node (${gethName})";
 
               # create service config by merging with the base config
-              serviceConfig = foldListToAttrs [
+              serviceConfig = mkMerge [
                 baseServiceConfig
                 {
                   User = serviceName;
                   StateDirectory = serviceName;
                   ExecStart = "${cfg.package}/bin/geth ${scriptArgs}";
                 }
-                (optionalAttrs (cfg.args.authrpc.jwtsecret != null) {
+                (mkIf (cfg.args.authrpc.jwtsecret != null) {
                   LoadCredential = "jwtsecret:${cfg.args.authrpc.jwtsecret}";
                 })
               ];

@@ -8,7 +8,7 @@
   inherit (lib.lists) optionals findFirst;
   inherit (lib) mdDoc flatten nameValuePair;
   inherit (lib) zipAttrsWith filterAttrsRecursive optionalAttrs filterAttrs mapAttrs mapAttrs' mapAttrsToList;
-  inherit (lib) optionalString literalExpression mkEnableOption mkIf mkOption types concatStringsSep;
+  inherit (lib) optionalString literalExpression mkEnableOption mkIf mkMerge mkOption types concatStringsSep;
 
   eachErigon = config.services.ethereum.execution.erigon;
 
@@ -303,7 +303,7 @@ in {
           serviceName = "erigon-${erigonName}";
 
           modulesLib = import ../../lib.nix {inherit lib pkgs;};
-          inherit (modulesLib) baseServiceConfig mkArgs foldListToAttrs;
+          inherit (modulesLib) baseServiceConfig mkArgs;
         in
           cfg: let
             scriptArgs = let
@@ -330,7 +330,7 @@ in {
               after = ["network.target"];
 
               # create service config by merging with the base config
-              serviceConfig = foldListToAttrs [
+              serviceConfig = mkMerge [
                 baseServiceConfig
                 {
                   User = serviceName;

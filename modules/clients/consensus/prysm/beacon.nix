@@ -8,7 +8,7 @@
   inherit (lib.strings) hasPrefix;
   inherit (lib.attrsets) zipAttrsWith mapAttrsRecursive optionalAttrs;
   inherit (lib) mdDoc flatten nameValuePair filterAttrs mapAttrs mapAttrs' mapAttrsToList;
-  inherit (lib) optionalString literalExpression mkEnableOption mkIf mkOption types concatStringsSep;
+  inherit (lib) optionalString literalExpression mkEnableOption mkIf mkOption mkMerge types concatStringsSep;
 
   settingsFormat = pkgs.formats.yaml {};
 
@@ -231,7 +231,7 @@ in {
               description = "Prysm Beacon Node (${beaconName})";
 
               # create service config by merging with the base config
-              serviceConfig = foldListToAttrs [
+              serviceConfig = mkMerge [
                 baseServiceConfig
                 {
                   User = serviceName;
@@ -239,7 +239,7 @@ in {
                   ExecStart = "${cfg.package}/bin/beacon-chain ${scriptArgs}";
                   MemoryDenyWriteExecute = "false"; # causes a library loading error
                 }
-                (optionalAttrs (cfg.args.jwt-secret != null) {
+                (mkIf (cfg.args.jwt-secret != null) {
                   LoadCredential = "jwt-secret:${cfg.args.jwt-secret}";
                 })
               ];
