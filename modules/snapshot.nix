@@ -39,7 +39,10 @@
     # ensure snapshot directory exists
     ${pkgs.coreutils}/bin/mkdir -p ${cfg.snapshotDirectory}
 
-    ${pkgs.btrfs-progs}/bin/btrfs subvolume snapshot -r $VOLUME_DIR ${cfg.snapshotDirectory}
+    # ISO 8601 date
+    TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S%:z")
+
+    ${pkgs.btrfs-progs}/bin/btrfs subvolume snapshot -r $VOLUME_DIR ${cfg.snapshotDirectory}/$SERVICE_NAME-$TIMESTAMP
   '';
 in {
   options = {
