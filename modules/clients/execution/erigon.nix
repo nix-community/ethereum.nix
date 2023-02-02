@@ -302,7 +302,7 @@ in {
         erigonName: let
           serviceName = "erigon-${erigonName}";
 
-          modulesLib = import ./lib.nix {inherit lib pkgs;};
+          modulesLib = import ../../lib.nix {inherit lib pkgs;};
           inherit (modulesLib) baseServiceConfig mkArgs foldListToAttrs;
         in
           cfg: let

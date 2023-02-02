@@ -193,7 +193,7 @@ in {
         beaconName: let
           serviceName = "prysm-beacon-${beaconName}";
 
-          modulesLib = import ../lib.nix {inherit lib pkgs;};
+          modulesLib = import ../../../lib.nix {inherit lib pkgs;};
           inherit (modulesLib) mkArgs baseServiceConfig foldListToAttrs;
         in
           cfg: let
