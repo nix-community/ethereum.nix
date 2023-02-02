@@ -50,8 +50,15 @@ in {
       enable = mkEnableOption (mdDoc "Enable snapshotting");
 
       services = mkOption {
-        type = lib.types.listOf lib.types.str;
+        type = types.listOf types.str;
         default = [];
+      };
+
+      interval = mkOption {
+        type = types.str;
+        description = mdDoc "Time interval for restarting the configured service, thereby generating a snapshot";
+        default = "1d";
+        example = "180s";
       };
 
       snapshotDirectory = mkOption {
@@ -75,6 +82,8 @@ in {
           serviceConfig = {
             ExecStartPre = "+${startPre}";
             ExecStopPost = "+${stopPost}";
+            Restart = "always";
+            RuntimeMaxSec = cfg.interval;
           };
         };
       })
