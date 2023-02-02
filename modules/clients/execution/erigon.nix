@@ -10,7 +10,7 @@
   inherit (lib) zipAttrsWith filterAttrsRecursive optionalAttrs filterAttrs mapAttrs mapAttrs' mapAttrsToList;
   inherit (lib) optionalString literalExpression mkEnableOption mkIf mkMerge mkOption types concatStringsSep;
 
-  eachErigon = config.services.ethereum.execution.erigon;
+  eachErigon = config.services.ethereum.erigon;
 
   erigonOpts = {
     options = {
@@ -265,7 +265,7 @@ in {
   ###### interface
 
   options = {
-    services.ethereum.execution.erigon = mkOption {
+    services.ethereum.erigon = mkOption {
       type = types.attrsOf (types.submodule erigonOpts);
       default = {};
       description = mdDoc "Specification of one or more erigon instances.";

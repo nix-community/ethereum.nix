@@ -177,13 +177,13 @@ which aren't there is typically and an `extraArgs` array that can be passed to t
 ### Geth
 
 ```nix
-services.geth.mainnet = {
+services.ethereum.geth.mainnet = {
     enable = true;
     openFirewall = true;
     service.supplementaryGroups = [users.groups.keys.name];
 };
 
-services.geth.goerli = {
+services.ethereum.geth.goerli = {
     enable = true;
     openFirewall = true;
     args = {
@@ -198,7 +198,7 @@ services.geth.goerli = {
 ### Prysm Beacon Chain
 
 ```nix
-services.prysm.beacon.mainnet = {
+services.ethereum.prysm.beacon.mainnet = {
     enable = true;
     args = {
       jwt-secret = secrets.prysm_jwt_secret.path;
@@ -206,7 +206,7 @@ services.prysm.beacon.mainnet = {
     };
 };
 
-services.prysm.beacon.goerli = {
+services.ethereum.prysm.beacon.goerli = {
     enable = true;
     args = {
       network = "goerli";
@@ -222,7 +222,7 @@ services.prysm.beacon.goerli = {
 ### Erigon
 
 ```nix
-services.erigon.sepolia = {
+services.ethereum.erigon.sepolia = {
   enable = true;
   openFirewall = true;
   args = {

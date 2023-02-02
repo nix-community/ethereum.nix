@@ -12,7 +12,7 @@
 
   settingsFormat = pkgs.formats.yaml {};
 
-  eachBeacon = config.services.ethereum.consensus.prysm.beacon;
+  eachBeacon = config.services.ethereum.prysm.beacon;
 
   beaconOpts = {
     options = {
@@ -157,7 +157,7 @@ in {
   ###### interface
 
   options = {
-    services.ethereum.consensus.prysm.beacon = mkOption {
+    services.ethereum.prysm.beacon = mkOption {
       type = types.attrsOf (types.submodule beaconOpts);
       default = {};
       description = mdDoc "Specification of one or more prysm beacon chain instances.";
