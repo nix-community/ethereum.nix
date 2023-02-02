@@ -60,28 +60,32 @@
       opts
     );
 
-  baseServiceConfig = {
-    Restart = "on-failure";
-    CapabilityBoundingSet = "";
-    RemoveIPC = "true";
-    PrivateTmp = "true";
-    ProtectSystem = "full";
-    ProtectHome = "read-only";
-    ProtectClock = true;
-    ProtectProc = "noaccess";
-    ProtectKernelLogs = true;
-    ProtectKernelModules = true;
-    ProtectKernelTunables = true;
-    ProtectControlGroups = true;
-    ProtectHostname = true;
-    NoNewPrivileges = "true";
-    PrivateDevices = "true";
-    RestrictSUIDSGID = "true";
-    RestrictRealtime = true;
-    RestrictNamespaces = true;
-    LockPersonality = true;
-    MemoryDenyWriteExecute = "true";
-    SystemCallFilter = ["@system-service" "~@privileged"];
+  baseServiceConfig = with lib; {
+    Restart = mkDefault "on-failure";
+
+    # https://www.freedesktop.org/software/systemd/man/systemd.exec.html#DynamicUser=
+    # Enabling dynamic user implies other options which cannot be changed:
+    #   * RemoveIPC = true
+    #   * PrivateTmp = true
+    #   * NoNewPrivileges = "strict"
+    #   * RestrictSUIDSGID = true
+    #   * ProtectSystem = "strict"
+    #   * ProtectHome = "read-only"
+    DynamicUser = mkDefault true;
+
+    ProtectClock = mkDefault true;
+    ProtectProc = mkDefault "noaccess";
+    ProtectKernelLogs = mkDefault true;
+    ProtectKernelModules = mkDefault true;
+    ProtectKernelTunables = mkDefault true;
+    ProtectControlGroups = mkDefault true;
+    ProtectHostname = mkDefault true;
+    PrivateDevices = mkDefault true;
+    RestrictRealtime = mkDefault true;
+    RestrictNamespaces = mkDefault true;
+    LockPersonality = mkDefault true;
+    MemoryDenyWriteExecute = mkDefault true;
+    SystemCallFilter = lib.mkDefault ["@system-service" "~@privileged"];
   };
 in {
   inherit baseServiceConfig;

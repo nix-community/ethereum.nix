@@ -278,10 +278,8 @@ in {
               serviceConfig = foldListToAttrs [
                 baseServiceConfig
                 {
-                  DynamicUser = true;
                   User = serviceName;
                   StateDirectory = serviceName;
-
                   ExecStart = "${cfg.package}/bin/geth ${scriptArgs}";
                 }
                 (optionalAttrs (cfg.args.authrpc.jwtsecret != null) {

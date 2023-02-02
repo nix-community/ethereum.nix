@@ -333,10 +333,8 @@ in {
               serviceConfig = foldListToAttrs [
                 baseServiceConfig
                 {
-                  DynamicUser = true;
                   User = serviceName;
                   StateDirectory = serviceName;
-
                   ExecStart = "${cfg.package}/bin/erigon ${scriptArgs}";
                 }
               ];

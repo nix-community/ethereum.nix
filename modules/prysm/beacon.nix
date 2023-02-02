@@ -234,12 +234,9 @@ in {
               serviceConfig = foldListToAttrs [
                 baseServiceConfig
                 {
-                  DynamicUser = true;
                   User = serviceName;
                   StateDirectory = serviceName;
-
                   ExecStart = "${cfg.package}/bin/beacon-chain ${scriptArgs}";
-
                   MemoryDenyWriteExecute = "false"; # causes a library loading error
                 }
                 (optionalAttrs (cfg.args.jwt-secret != null) {
