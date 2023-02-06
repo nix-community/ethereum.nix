@@ -183,7 +183,20 @@
         type = types.package;
         default = pkgs.writeShellScript "geth-metadata" ''
           set -euo pipefail
-          ${pkgs.geth}/bin/geth --datadir $STATE_DIRECTORY db metadata > $STATE_DIRECTORY/metadata.txt
+
+          METADATA_TXT="$STATE_DIRECTORY/metadata.txt"
+          METADATA_JSON="$STATE_DIRECTORY/metadata.json"
+
+          CSVTOOL=${pkgs.csvtool}/bin/csvtool
+          MLR=${pkgs.miller}/bin/mlr
+          JQ=${pkgs.jq}/bin/jq
+
+          ${pkgs.geth}/bin/geth --datadir $STATE_DIRECTORY db metadata > $METADATA_TXT
+
+          cat $METADATA_TXT |\
+            grep 'headHeader\.' |\
+            sed -E 's/^\| headHeader\.(\w*?) +\| ((\w|\d)*?).+\|/\1,\2/' |\
+            $CSVTOOL transpose - | $MLR --icsv --ojson sort -f shape | $JQ '.[0]' > $METADATA_JSON
         '';
       };
 
