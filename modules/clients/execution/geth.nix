@@ -179,6 +179,14 @@
         description = mdDoc "Package to use as Go Ethereum node.";
       };
 
+      metadataPackage = mkOption {
+        type = types.package;
+        default = pkgs.writeShellScript "geth-metadata" ''
+          set -euo pipefail
+          ${pkgs.geth}/bin/geth --datadir $STATE_DIRECTORY db metadata > $STATE_DIRECTORY/metadata.txt
+        '';
+      };
+
       openFirewall = mkOption {
         type = types.bool;
         default = false;
@@ -281,6 +289,9 @@ in {
                   User = serviceName;
                   StateDirectory = serviceName;
                   ExecStart = "${cfg.package}/bin/geth ${scriptArgs}";
+                  ExecStopPost = [
+                    cfg.metadataPackage
+                  ];
                 }
                 (mkIf (cfg.args.authrpc.jwtsecret != null) {
                   LoadCredential = "jwtsecret:${cfg.args.authrpc.jwtsecret}";
