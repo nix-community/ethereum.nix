@@ -5,7 +5,7 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mdDoc types mkOption mkEnableOption mkIf mkAfter mkMerge filterAttrs attrValues forEach mapAttrs;
+  inherit (lib) mdDoc types mkOption mkEnableOption mkIf mkBefore mkAfter mkMerge filterAttrs attrValues forEach mapAttrs;
   inherit (builtins) concatStringsSep attrNames map;
 
   cfg = config.services.ethereum.snapshot;
@@ -80,10 +80,10 @@ in {
       builtins.map (name: {
         "${name}" = {
           serviceConfig = {
-            ExecStartPre = [
+            ExecStartPre = mkBefore [
               "+${startPre}"
             ];
-            ExecStopPost = [
+            ExecStopPost = mkAfter [
               "+${stopPost}"
             ];
             Restart = "always";
