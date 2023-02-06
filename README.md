@@ -177,13 +177,13 @@ which aren't there is typically and an `extraArgs` array that can be passed to t
 ### Geth
 
 ```nix
-services.geth.mainnet = {
+services.ethereum.geth.mainnet = {
     enable = true;
     openFirewall = true;
     service.supplementaryGroups = [users.groups.keys.name];
 };
 
-services.geth.goerli = {
+services.ethereum.geth.goerli = {
     enable = true;
     openFirewall = true;
     args = {
@@ -198,7 +198,7 @@ services.geth.goerli = {
 ### Prysm Beacon Chain
 
 ```nix
-services.prysm.beacon.mainnet = {
+services.ethereum.prysm.beacon.mainnet = {
     enable = true;
     args = {
       jwt-secret = secrets.prysm_jwt_secret.path;
@@ -206,7 +206,7 @@ services.prysm.beacon.mainnet = {
     };
 };
 
-services.prysm.beacon.goerli = {
+services.ethereum.prysm.beacon.goerli = {
     enable = true;
     args = {
       network = "goerli";
@@ -222,7 +222,7 @@ services.prysm.beacon.goerli = {
 ### Erigon
 
 ```nix
-services.erigon.sepolia = {
+services.ethereum.erigon.sepolia = {
   enable = true;
   openFirewall = true;
   args = {
@@ -236,6 +236,30 @@ services.erigon.sepolia = {
     };
   };
 };
+```
+
+### Snapshot
+
+The snapshot module requires that the `/` filesystem is `btrfs`. If configured, it will modify the systemd service configs
+to inject `ExecStartPre` and `ExecStopPost` scripts that will:
+
+- create a `btrfs` subvolume for the service's state directory
+- ensure copy on write is disabled for the service's state directory by adding `+C` file attribute to the directory on creation.
+  - **NOTE** this only works with new volumes not existing ones that have data within them.
+- on a successful/clean stop, it will snapshot the state directory and place the result in the configured snapshot directory, defaulting to `/snapshots`
+
+```nix
+services.ethereum.snapshot = {
+    enable = true;
+    interval = "6h";
+    snapshotDirectory = "/snapshots";
+
+    # For now you have to specify the systemd service names, this will be a bit smarter in future
+    services = [
+        "geth-sepolia"
+        "prysm-beacon-sepolia"
+    ];
+}
 ```
 
 ## Libraries

@@ -1,9 +1,8 @@
-_: {
+{lib, ...}: {
   flake.nixosModules.default = {
     imports = [
-      ./geth.nix
-      ./prysm
-      ./erigon.nix
+      ./clients
+      ./snapshot.nix
     ];
   };
 }

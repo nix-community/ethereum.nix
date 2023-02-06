@@ -8,11 +8,11 @@
   inherit (lib.strings) hasPrefix;
   inherit (lib.attrsets) zipAttrsWith mapAttrsRecursive optionalAttrs;
   inherit (lib) mdDoc flatten nameValuePair filterAttrs mapAttrs mapAttrs' mapAttrsToList;
-  inherit (lib) optionalString literalExpression mkEnableOption mkIf mkOption types concatStringsSep;
+  inherit (lib) optionalString literalExpression mkEnableOption mkIf mkOption mkMerge types concatStringsSep;
 
   settingsFormat = pkgs.formats.yaml {};
 
-  eachBeacon = config.services.prysm.beacon;
+  eachBeacon = config.services.ethereum.prysm.beacon;
 
   beaconOpts = {
     options = {
@@ -157,7 +157,7 @@ in {
   ###### interface
 
   options = {
-    services.prysm.beacon = mkOption {
+    services.ethereum.prysm.beacon = mkOption {
       type = types.attrsOf (types.submodule beaconOpts);
       default = {};
       description = mdDoc "Specification of one or more prysm beacon chain instances.";
@@ -193,7 +193,7 @@ in {
         beaconName: let
           serviceName = "prysm-beacon-${beaconName}";
 
-          modulesLib = import ../lib.nix {inherit lib pkgs;};
+          modulesLib = import ../../../lib.nix {inherit lib pkgs;};
           inherit (modulesLib) mkArgs baseServiceConfig foldListToAttrs;
         in
           cfg: let
@@ -231,7 +231,7 @@ in {
               description = "Prysm Beacon Node (${beaconName})";
 
               # create service config by merging with the base config
-              serviceConfig = foldListToAttrs [
+              serviceConfig = mkMerge [
                 baseServiceConfig
                 {
                   User = serviceName;
@@ -239,7 +239,7 @@ in {
                   ExecStart = "${cfg.package}/bin/beacon-chain ${scriptArgs}";
                   MemoryDenyWriteExecute = "false"; # causes a library loading error
                 }
-                (optionalAttrs (cfg.args.jwt-secret != null) {
+                (mkIf (cfg.args.jwt-secret != null) {
                   LoadCredential = "jwt-secret:${cfg.args.jwt-secret}";
                 })
               ];

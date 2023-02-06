@@ -90,5 +90,4 @@
 in {
   inherit baseServiceConfig;
   inherit mkArg mkArgs defaultPathReducer dotPathReducer;
-  foldListToAttrs = lib.fold (a: b: a // b) {};
 }
