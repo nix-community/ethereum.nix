@@ -32,17 +32,24 @@
         exit 1
     fi
 
-    # determing the private path to the volume mount
+    # determine the private path to the volume mount
     SERVICE_NAME=$(basename $STATE_DIRECTORY)
     VOLUME_DIR=/var/lib/private/$SERVICE_NAME
+
+    # metadata path
+    METADATA_JSON="$STATE_DIRECTORY/snapshot.json"
 
     # ensure snapshot directory exists
     ${pkgs.coreutils}/bin/mkdir -p ${cfg.snapshotDirectory}
 
-    # ISO 8601 date
-    TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S%:z")
+    if [ -f $METADATA_JSON ]; then
+        SUFFIX=$(cat $METADATA_JSON | ${pkgs.jq}/bin/jq '.Number')
+    else
+        # ISO 8601 date
+        SUFFIX=$(date +"%Y-%m-%dT%H:%M:%S%:z")
+    fi
 
-    ${pkgs.btrfs-progs}/bin/btrfs subvolume snapshot -r $VOLUME_DIR ${cfg.snapshotDirectory}/$SERVICE_NAME-$TIMESTAMP
+    ${pkgs.btrfs-progs}/bin/btrfs subvolume snapshot -r $VOLUME_DIR ${cfg.snapshotDirectory}/$SERVICE_NAME-$SUFFIX
   '';
 in {
   options = {
