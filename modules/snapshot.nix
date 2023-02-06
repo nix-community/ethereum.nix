@@ -80,8 +80,12 @@ in {
       builtins.map (name: {
         "${name}" = {
           serviceConfig = {
-            ExecStartPre = "+${startPre}";
-            ExecStopPost = "+${stopPost}";
+            ExecStartPre = [
+              "+${startPre}"
+            ];
+            ExecStopPost = [
+              "+${stopPost}"
+            ];
             Restart = "always";
             RuntimeMaxSec = cfg.interval;
           };
