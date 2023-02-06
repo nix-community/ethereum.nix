@@ -184,8 +184,8 @@
         default = pkgs.writeShellScript "geth-metadata" ''
           set -euo pipefail
 
-          METADATA_TXT="$STATE_DIRECTORY/metadata.txt"
-          METADATA_JSON="$STATE_DIRECTORY/metadata.json"
+          METADATA_TXT="$STATE_DIRECTORY/snapshot.txt"
+          METADATA_JSON="$STATE_DIRECTORY/snapshot.json"
 
           CSVTOOL=${pkgs.csvtool}/bin/csvtool
           MLR=${pkgs.miller}/bin/mlr
