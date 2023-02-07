@@ -8,6 +8,7 @@
     imports = [
       ./clients
       ./snapshot.nix
+      ./backup.nix
     ];
   };
 }
