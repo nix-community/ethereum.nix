@@ -43,13 +43,13 @@
     ${pkgs.coreutils}/bin/mkdir -p ${cfg.snapshotDirectory}
 
     if [ -f $METADATA_JSON ]; then
-        SUFFIX=$(cat $METADATA_JSON | ${pkgs.jq}/bin/jq '.Number')
+        SNAPSHOT_DIR=$(cat $METADATA_JSON | ${pkgs.jq}/bin/jq '.Number')
     else
         # ISO 8601 date
-        SUFFIX=$(date +"%Y-%m-%dT%H:%M:%S%:z")
+        SNAPSHOT_DIR=$(date +"%Y-%m-%dT%H:%M:%S%:z")
     fi
 
-    ${pkgs.btrfs-progs}/bin/btrfs subvolume snapshot -r $VOLUME_DIR ${cfg.snapshotDirectory}/$SERVICE_NAME-$SUFFIX
+    ${pkgs.btrfs-progs}/bin/btrfs subvolume snapshot -r $VOLUME_DIR ${cfg.snapshotDirectory}/$SERVICE_NAME/$SNAPSHOT_DIR
   '';
 in {
   options = {
