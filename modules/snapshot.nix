@@ -23,7 +23,7 @@
     ${pkgs.e2fsprogs}/bin/chattr +C $VOLUME_DIR
   '';
 
-  stopPost = pkgs.writeShellScript "snapshot-volume" ''
+  snapshotVolume = pkgs.writeShellScript "snapshot-volume" ''
     set -euo pipefail
 
     # check it was a clean shutdown before snapshotting
@@ -52,6 +52,19 @@
     # create a readonly snapshot
     ${pkgs.btrfs-progs}/bin/btrfs subvolume snapshot -r $VOLUME_DIR ${cfg.snapshotDirectory}/$SERVICE_NAME/$SNAPSHOT_DIR
   '';
+
+  prune = pkgs.writeShellScript "prune" ''
+    set -euo pipefail
+
+    BTRFS=${pkgs.btrfs-progs}/bin/btrfs
+
+    # determine the private path to the volume mount
+    SERVICE_NAME=$(basename $STATE_DIRECTORY)
+    SERVICE_SNAPSHOT_DIR=${cfg.snapshotDirectory}/$SERVICE_NAME
+
+    # delete any subvolumes older than $RETENTION days
+    find $SERVICE_SNAPSHOT_DIR -mindepth 1 -maxdepth 1 -type d -ctime +$RETENTION | $BTRFS sub delete
+  '';
 in {
   options = {
     services.ethereum.snapshot = {
@@ -67,6 +80,13 @@ in {
         description = mdDoc "Time interval for restarting the configured service, thereby generating a snapshot";
         default = "1d";
         example = "180s";
+      };
+
+      retention = mkOption {
+        type = types.int;
+        description = mdDoc "Number of days to retain snapshots for";
+        default = "10";
+        example = "20";
       };
 
       snapshotDirectory = mkOption {
@@ -97,7 +117,8 @@ in {
               "+${startPre}"
             ];
             ExecStopPost = mkAfter [
-              "+${stopPost}"
+              "+${prune}"
+              "+${snapshotVolume}"
             ];
             Restart = "always";
             RuntimeMaxSec = cfg.interval;
