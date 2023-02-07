@@ -39,9 +39,6 @@
     # metadata path
     METADATA_JSON="$STATE_DIRECTORY/snapshot.json"
 
-    # ensure snapshot directory exists
-    ${pkgs.coreutils}/bin/mkdir -p ${cfg.snapshotDirectory}
-
     if [ -f $METADATA_JSON ]; then
         SNAPSHOT_DIR=$(cat $METADATA_JSON | ${pkgs.jq}/bin/jq '.Number')
     else
@@ -49,6 +46,10 @@
         SNAPSHOT_DIR=$(date +"%Y-%m-%dT%H:%M:%S%:z")
     fi
 
+    # ensure the base directory exists
+    ${pkgs.coreutils}/bin/mkdir -p ${cfg.snapshotDirectory}/$SERVICE_NAME
+
+    # create a readonly snapshot
     ${pkgs.btrfs-progs}/bin/btrfs subvolume snapshot -r $VOLUME_DIR ${cfg.snapshotDirectory}/$SERVICE_NAME/$SNAPSHOT_DIR
   '';
 in {
@@ -81,7 +82,12 @@ in {
       "SYSTEMD_TMPFILES_FORCE_SUBVOL" = "1";
     };
 
-    tmpfiles.rules = map (name: "v /var/lib/private/${name}") cfg.services;
+    tmpfiles.rules =
+      [
+        # ensure the snapshot base directory is created
+        "d ${cfg.snapshotDirectory}"
+      ]
+      ++ (map (name: "v /var/lib/private/${name}") cfg.services);
 
     services = mkMerge (
       builtins.map (name: {
