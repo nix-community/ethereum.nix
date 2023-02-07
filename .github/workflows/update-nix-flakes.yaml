@@ -1,0 +1,26 @@
+name: "Update Nix Flakes ️❄️"
+on:
+  repository_dispatch:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * 0" # https://crontab.guru/#0_0_*_*_0
+jobs:
+  createPullRequest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Install Nix
+        uses: cachix/install-nix-action@v19
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+      - name: Update flake.lock
+        uses: DeterminateSystems/update-flake-lock@v16
+        with:
+          pr-title: "Update flake.lock"
+          pr-labels: |
+            dependencies
+            automated
+      - name: Print PR number
+        run: echo Pull request number is ${{ steps.update.outputs.pull-request-number }}.
