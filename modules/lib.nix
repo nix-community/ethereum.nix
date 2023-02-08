@@ -36,8 +36,13 @@
   }: let
     arg = pathReducer path;
   in
-    if (opt.type == types.bool && value)
-    then "${arg}"
+    if (opt.type == types.bool)
+    then
+      (
+        if value
+        then "${arg}"
+        else ""
+      )
     else "${arg} ${argReducer value}";
 
   mkArg = {
