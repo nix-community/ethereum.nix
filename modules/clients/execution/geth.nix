@@ -179,23 +179,6 @@
         description = mdDoc "Package to use as Go Ethereum node.";
       };
 
-      metadataPackage = mkOption {
-        type = types.package;
-        default = pkgs.writeShellScript "geth-metadata" ''
-          set -euo pipefail
-
-          METADATA_TXT="$STATE_DIRECTORY/snapshot.txt"
-          METADATA_JSON="$STATE_DIRECTORY/snapshot.json"
-
-          geth --datadir $STATE_DIRECTORY db metadata > $METADATA_TXT
-
-          cat $METADATA_TXT |\
-            grep 'headHeader\.' |\
-            sed -E 's/^\| headHeader\.(\w*?) +\| ((\w|\d)*?).+\|/\1,\2/' |\
-            csvtool transpose - | mlr --icsv --ojson sort -f shape | jq '.[0]' > $METADATA_JSON
-        '';
-      };
-
       openFirewall = mkOption {
         type = types.bool;
         default = false;
@@ -291,13 +274,6 @@ in {
               wantedBy = ["multi-user.target"];
               description = "Go Ethereum node (${gethName})";
 
-              path = [
-                cfg.package
-                pkgs.csvtool
-                pkgs.jq
-                pkgs.miller
-              ];
-
               # create service config by merging with the base config
               serviceConfig = mkMerge [
                 baseServiceConfig
@@ -305,9 +281,6 @@ in {
                   User = serviceName;
                   StateDirectory = serviceName;
                   ExecStart = "${cfg.package}/bin/geth ${scriptArgs}";
-                  ExecStopPost = [
-                    cfg.metadataPackage
-                  ];
                 }
                 (mkIf (cfg.args.authrpc.jwtsecret != null) {
                   LoadCredential = "jwtsecret:${cfg.args.authrpc.jwtsecret}";
