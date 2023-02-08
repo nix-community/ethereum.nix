@@ -63,7 +63,7 @@
     SERVICE_SNAPSHOT_DIR=${cfg.snapshotDirectory}/$SERVICE_NAME
 
     # delete any subvolumes older than $RETENTION days
-    find $SERVICE_SNAPSHOT_DIR -mindepth 1 -maxdepth 1 -type d -ctime +$RETENTION | $BTRFS sub delete
+    find $SERVICE_SNAPSHOT_DIR -mindepth 1 -maxdepth 1 -type d -ctime +$RETENTION -exec $BTRFS sub delete {} \;
   '';
 in {
   options = {
@@ -112,6 +112,9 @@ in {
     services = mkMerge (
       builtins.map (name: {
         "${name}" = {
+          environment = {
+            RETENTION = builtins.toString cfg.retention;
+          };
           serviceConfig = {
             ExecStartPre = mkBefore [
               "+${startPre}"
