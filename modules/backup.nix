@@ -5,7 +5,7 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mdDoc types mkOption mkEnableOption mkIf mkBefore mkAfter mkMerge filterAttrs attrValues forEach mapAttrs nameValuePair concatMapStrings;
+  inherit (lib) mdDoc types mkOption mkEnableOption mkIf mkBefore mkAfter mkMerge filterAttrs attrValues forEach mapAttrs nameValuePair concatMapStrings listToAttrs;
   inherit (builtins) concatStringsSep attrNames map;
 
   cfg = config.services.ethereum.backup;
@@ -19,6 +19,169 @@
   excludeFile =
     # Write each exclude pattern to a new line
     pkgs.writeText "excludefile" (concatMapStrings (s: s + "\n") cfg.borg.exclude);
+
+  gethJq = pkgs.writeTextFile {
+    name = "convert.jq";
+    text = ''
+      def to_i(base):
+        explode
+        | reverse
+        | map(if . > 96  then . - 87 else . - 48 end)  # "a" ~ 97 => 10 ~ 87
+        | reduce .[] as $c
+            # state: [power, ans]
+            ([1,0]; (.[0] * base) as $b | [$b, .[1] + (.[0] * $c)])
+        | .[1];
+
+      .result | {hash,stateRoot,number}  + {"height": (.number[2:] | to_i(16)) }
+    '';
+  };
+
+  metadataScript = pkgs.writeShellScript "metadata" ''
+    set -euo pipefail
+
+    SERVICE_NAME=$1
+
+    PID=$(systemctl show --property MainPID $SERVICE_NAME | cut -d'=' -f2)
+    if [ $PID -eq 0 ]; then
+        echo "$SERVICE_NAME is not running, exiting"
+        exit 1
+    fi
+
+    # source the same environment as the service
+    eval $(strings /proc/$PID/environ | grep -E '^(WEB3_*|GRPC_*|STATE_DIRECTORY)')
+
+    case $SERVICE_NAME in
+
+        geth-*)
+            curl -s -X POST \
+                -H 'Content-Type: application/json' \
+                -d '{"jsonrpc":"2.0","id":1,"method":"eth_getBlockByNumber","params":["latest",false]}' \
+                http://$WEB3_HTTP_HOST:$WEB3_HTTP_PORT \
+                | jq -f ${gethJq} > $STATE_DIRECTORY/.metadata.json
+            ;;
+
+        prysm-beacon-*)
+            curl -s http://$GRPC_GATEWAY_HOST:$GRPC_GATEWAY_PORT/eth/v1/node/syncing \
+                | jq '.data + { "height": (.data.head_slot | tonumber) }' > $STATE_DIRECTORY/.metadata.json
+            ;;
+
+        *)
+            echo "Unknown client type: $SERVICE_NAME"
+            exit 1
+            ;;
+    esac
+  '';
+
+  setupVolumeScript = pkgs.writeShellScript "setup-volume" ''
+    set -euo pipefail
+
+    # determine the private path to the volume mount
+    SERVICE_NAME=$(basename $STATE_DIRECTORY)
+    VOLUME_DIR=/var/lib/private/$SERVICE_NAME
+
+    # ensure cowdata is disabled
+    chattr +C $VOLUME_DIR
+  '';
+
+  snapshotVolumeScript = pkgs.writeShellScript "snapshot-volume" ''
+    set -euo pipefail
+
+    # check it was a clean shutdown before snapshotting
+    if [ $EXIT_STATUS -ne 0 ]; then
+        echo "Unclean shutdown detected: $EXIT_CODE, skipping snapshot"
+        exit 1
+    fi
+
+    # determine the private path to the volume mount
+    SERVICE_NAME=$(basename $STATE_DIRECTORY)
+    VOLUME_DIR=/var/lib/private/$SERVICE_NAME
+
+    # metadata path
+    METADATA_JSON="$STATE_DIRECTORY/.metadata.json"
+
+    # check if the metadata file exists
+    if [ ! -f $METADATA_JSON ]; then
+        echo "Could not locate $METADATA_JSON, skipping snapshot"
+        exit 1
+    fi
+
+    # ensure the metadata file is recent
+    NOW_SECONDS=$(date +%s)
+    METADATA_SECONDS=$(date +%s -r $METADATA_JSON)
+    METADATA_AGE=$((NOW_SECONDS - METADATA_SECONDS))
+
+    if [ $METADATA_AGE -gt 30 ]; then
+        echo "$METADATA_JSON is older than 30 seconds, skipping snapshot"
+        exit 1
+    fi
+
+    # determine the chain height from the metadata
+    HEIGHT=$(cat $METADATA_JSON | jq .height)
+
+    if [ -z $\{HEIGHT+x} ]; then
+        echo "Could not determine height from $METADATA_JSON, skipping snapshot";
+        exit 1
+    fi
+
+    # ensure the base snapshot directory exists
+    mkdir -p ${cfg.snapshotDirectory}/$SERVICE_NAME
+
+    # check if the snapshot we are about to create already exists
+    SNAPSHOT_DIR=${cfg.snapshotDirectory}/$SERVICE_NAME/$HEIGHT
+
+    if [ -d $SNAPSHOT_DIR ]; then
+      echo "Snapshot already exists: $SNAPSHOT_DIR, skipping snapshot"
+      exit 0
+    fi
+
+    # create a readonly snapshot
+    btrfs subvolume snapshot -r $VOLUME_DIR $SNAPSHOT_DIR
+  '';
+
+  mkMetadataService = name:
+    nameValuePair "${name}-metadata" {
+      description = "Captures metadata about ${name}";
+      path = with pkgs; [
+        curl
+        jq
+        binutils
+      ];
+      serviceConfig = {
+        User = "root";
+        CPUSchedulingPolicy = "idle";
+        IOSchedulingClass = "idle";
+        ExecStart = "${metadataScript} ${name}";
+      };
+    };
+
+  mkMetadataTimer = name:
+    nameValuePair "${name}-metadata" {
+      description = "Metadata timer for ${name}-metadata";
+      wantedBy = ["timers.target"];
+      timerConfig = {
+        Persistent = true;
+        OnCalendar = "*:*:0/10";
+      };
+      # wait for network
+      after = ["network-online.target"];
+    };
+
+  addSnapshotToService = name:
+    nameValuePair "${name}" {
+      path = with pkgs; [
+        btrfs-progs
+        e2fsprogs
+        jq
+      ];
+      serviceConfig = {
+        ExecStartPre = mkBefore [
+          "+${setupVolumeScript}"
+        ];
+        ExecStopPost = mkAfter [
+          "+${snapshotVolumeScript}"
+        ];
+      };
+    };
 
   backupScript = pkgs.writeShellScript "backup" ''
     set -euo pipefail
@@ -64,6 +227,16 @@ in {
 
     services.ethereum.backup = {
       enable = mkEnableOption (mdDoc "Enable backup");
+
+      services = mkOption {
+        type = types.listOf types.str;
+        default = [];
+      };
+
+      snapshotDirectory = mkOption {
+        type = lib.types.path;
+        default = "/snapshots";
+      };
 
       schedule = mkOption {
         type = types.str;
@@ -120,53 +293,55 @@ in {
           example = "auto,lzma";
         };
       };
-
-      services = mkOption {
-        type = types.listOf types.str;
-        default = [];
-      };
     };
   };
 
-  config.systemd = mkIf cfg.enable {
-    services = {
-      "ethereum-backup" = {
-        description = "Ethereum Backup";
-        path = with pkgs; [
-          borgbackup
-          openssh
-        ];
-        serviceConfig = {
-          # We need to be able to read everything in the snapshot directory
-          # For now we're using root, I'm unsure if this could be tightened up
-          User = "root";
-          # Only run when no other process is using CPU or disk
-          CPUSchedulingPolicy = "idle";
-          IOSchedulingClass = "idle";
-          ProtectSystem = "strict";
-          PrivateTmp = true;
-          ExecStart = backupScript;
-          StateDirectory = "ethereum-backup";
-          LoadCredential = "sshKey:${cfg.borg.keyPath}";
-        };
-        environment = {
-          # suppress prompts
-          BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK = "yes";
-          SNAPSHOT_DIR = snapshotCfg.snapshotDirectory;
-        };
-      };
-    };
-    timers = {
-      "ethereum-backup" = {
-        description = "Ethereum Backup timer";
-        wantedBy = ["timers.target"];
-        timerConfig = {
-          Persistent = true;
-          OnCalendar = cfg.schedule;
-        };
-        # wait for network
-        after = ["network-online.target"];
-      };
-    };
-  };
+  config.systemd.services =
+    listToAttrs ((builtins.map mkMetadataService) cfg.services)
+    // listToAttrs ((builtins.map addSnapshotToService) cfg.services);
+
+  config.systemd.timers =
+    listToAttrs ((builtins.map mkMetadataTimer) cfg.services);
+
+  #  config.systemd = mkIf cfg.enable {
+  #    services = {
+  #      #      "ethereum-backup" = {
+  #      #        description = "Ethereum Backup";
+  #      #        path = with pkgs; [
+  #      #          borgbackup
+  #      #          openssh
+  #      #        ];
+  #      #        serviceConfig = {
+  #      #          # We need to be able to read everything in the snapshot directory
+  #      #          # For now we're using root, I'm unsure if this could be tightened up
+  #      #          User = "root";
+  #      #          # Only run when no other process is using CPU or disk
+  #      #          CPUSchedulingPolicy = "idle";
+  #      #          IOSchedulingClass = "idle";
+  #      #          ProtectSystem = "strict";
+  #      #          PrivateTmp = true;
+  #      #          ExecStart = backupScript;
+  #      #          StateDirectory = "ethereum-backup";
+  #      #          LoadCredential = "sshKey:${cfg.borg.keyPath}";
+  #      #        };
+  #      #        environment = {
+  #      #          # suppress prompts
+  #      #          BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK = "yes";
+  #      #          SNAPSHOT_DIR = snapshotCfg.snapshotDirectory;
+  #      #        };
+  #      #      };
+  #    };
+  #    timers = {
+  #      #      "ethereum-backup" = {
+  #      #        description = "Ethereum Backup timer";
+  #      #        wantedBy = ["timers.target"];
+  #      #        timerConfig = {
+  #      #          Persistent = true;
+  #      #          OnCalendar = cfg.schedule;
+  #      #        };
+  #      #        # wait for network
+  #      #        after = ["network-online.target"];
+  #      #      };
+  #    };
+  #  };
 }

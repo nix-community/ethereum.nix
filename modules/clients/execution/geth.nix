@@ -274,6 +274,11 @@ in {
               wantedBy = ["multi-user.target"];
               description = "Go Ethereum node (${gethName})";
 
+              environment = {
+                WEB3_HTTP_HOST = cfg.args.http.addr;
+                WEB3_HTTP_PORT = builtins.toString cfg.args.http.port;
+              };
+
               # create service config by merging with the base config
               serviceConfig = mkMerge [
                 baseServiceConfig

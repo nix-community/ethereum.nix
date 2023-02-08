@@ -230,6 +230,11 @@ in {
               wantedBy = ["multi-user.target"];
               description = "Prysm Beacon Node (${beaconName})";
 
+              environment = {
+                GRPC_GATEWAY_HOST = cfg.args.grpc-gateway-host;
+                GRPC_GATEWAY_PORT = builtins.toString cfg.args.grpc-gateway-port;
+              };
+
               # create service config by merging with the base config
               serviceConfig = mkMerge [
                 baseServiceConfig
