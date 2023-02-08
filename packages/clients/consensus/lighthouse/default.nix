@@ -22,10 +22,10 @@
     sha256 = "sha256-aeTeHRT3QtxBRSNMCITIWmx89vGtox2OzSff8vZ+RYY=";
   };
 
-  websignerVersion = "23.1.0";
+  websignerVersion = "23.2.0";
   websignerSrc = fetchzip {
     url = "https://artifacts.consensys.net/public/web3signer/raw/names/web3signer.zip/versions/${websignerVersion}/web3signer-${websignerVersion}.zip";
-    sha256 = "sha256-po1wJrk244uJhQ4m32d2FK93r0Q+NXhxz9klzYkLNZE=";
+    sha256 = "sha256-OhZrirTrxTnoFkBfA8+7Z63bRXbTVBemMvUme109lG8=";
     name = "web3signer";
     extension = "zip";
     stripRoot = false;
