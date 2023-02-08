@@ -58,17 +58,17 @@
       }
       {
         imports = [
+          ({inputs', ...}: {
+            # make pkgs available to all `perSystem` functions
+            _module.args.pkgs = inputs'.nixpkgs.legacyPackages;
+            # make custom lib available to all `perSystem` functions
+            _module.args.lib = lib;
+          })
           ./nix
           ./packages
           ./modules
         ];
         systems = ["x86_64-linux"];
-        perSystem = {inputs', ...}: {
-          # make pkgs available to all `perSystem` functions
-          _module.args.pkgs = inputs'.nixpkgs.legacyPackages;
-          # make custom lib available to all `perSystem` functions
-          _module.args.lib = lib;
-        };
       })
     .config
     .flake;
