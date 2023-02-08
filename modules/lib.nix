@@ -27,10 +27,24 @@
     arg = concatStringsSep "." path;
   in "--${arg}";
 
+  defaultArgFormatter = {
+    opt,
+    path,
+    value,
+    argReducer ? defaultArgReducer,
+    pathReducer ? defaultPathReducer,
+  }: let
+    arg = pathReducer path;
+  in
+    if (opt.type == types.bool && value)
+    then "${arg}"
+    else "${arg} ${argReducer value}";
+
   mkArg = {
     path,
     opt,
     args,
+    argFormatter ? defaultArgFormatter,
     argReducer ? defaultArgReducer,
     pathReducer ? defaultPathReducer,
   }: let
@@ -40,23 +54,20 @@
   in
     assert assertMsg (isOption opt) "opt must be an option";
       if (hasValue || hasDefault)
-      then let
-        arg = pathReducer path;
-      in
-        if (opt.type == types.bool && value)
-        then "${arg}"
-        else "${arg} ${argReducer value}"
+      then (argFormatter {inherit opt path value argReducer pathReducer;})
       else "";
 
   mkArgs = {
     opts,
     args,
+    argFormatter ? defaultArgFormatter,
+    argReducer ? defaultArgReducer,
     pathReducer ? defaultPathReducer,
   }:
     collect (v: (isString v) && v != "") (
       mapAttrsRecursiveCond
       (as: !isOption as)
-      (path: opt: mkArg {inherit path opt args pathReducer;})
+      (path: opt: mkArg {inherit path opt args argFormatter argReducer pathReducer;})
       opts
     );
 

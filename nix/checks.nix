@@ -13,11 +13,13 @@ in {
   }: let
     # load package derivations
     inherit (packagesModule.perSystem psArgs) packages;
+    # import integration tests
+    integrationTests = import ./../tests {inherit self' inputs pkgs;};
   in {
     checks =
       {
-        nix-lint =
-          pkgs.runCommand "nix-lint" {
+        statix =
+          pkgs.runCommand "statix" {
             nativeBuildInputs = with pkgs; [statix];
           } ''
             cp --no-preserve=mode -r ${self} source
@@ -26,6 +28,8 @@ in {
             touch $out
           '';
       }
+      # add integration tests for our custom nixosModules
+      // integrationTests
       # merge in the package derivations to force a build of all packages during a `nix flake check`
       // packages;
   };
