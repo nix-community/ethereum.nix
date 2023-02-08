@@ -187,16 +187,12 @@
           METADATA_TXT="$STATE_DIRECTORY/snapshot.txt"
           METADATA_JSON="$STATE_DIRECTORY/snapshot.json"
 
-          CSVTOOL=${pkgs.csvtool}/bin/csvtool
-          MLR=${pkgs.miller}/bin/mlr
-          JQ=${pkgs.jq}/bin/jq
-
-          ${pkgs.geth}/bin/geth --datadir $STATE_DIRECTORY db metadata > $METADATA_TXT
+          geth --datadir $STATE_DIRECTORY db metadata > $METADATA_TXT
 
           cat $METADATA_TXT |\
             grep 'headHeader\.' |\
             sed -E 's/^\| headHeader\.(\w*?) +\| ((\w|\d)*?).+\|/\1,\2/' |\
-            $CSVTOOL transpose - | $MLR --icsv --ojson sort -f shape | $JQ '.[0]' > $METADATA_JSON
+            csvtool transpose - | mlr --icsv --ojson sort -f shape | jq '.[0]' > $METADATA_JSON
         '';
       };
 
@@ -294,6 +290,13 @@ in {
               after = ["network.target"];
               wantedBy = ["multi-user.target"];
               description = "Go Ethereum node (${gethName})";
+
+              path = [
+                cfg.package
+                pkgs.csvtool
+                pkgs.jq
+                pkgs.miller
+              ];
 
               # create service config by merging with the base config
               serviceConfig = mkMerge [

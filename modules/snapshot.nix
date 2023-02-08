@@ -20,7 +20,7 @@
     VOLUME_DIR=/var/lib/private/$SERVICE_NAME
 
     # ensure cowdata is disabled
-    ${pkgs.e2fsprogs}/bin/chattr +C $VOLUME_DIR
+    chattr +C $VOLUME_DIR
   '';
 
   snapshotVolume = pkgs.writeShellScript "snapshot-volume" ''
@@ -40,17 +40,17 @@
     METADATA_JSON="$STATE_DIRECTORY/snapshot.json"
 
     if [ -f $METADATA_JSON ]; then
-        SNAPSHOT_DIR=$(cat $METADATA_JSON | ${pkgs.jq}/bin/jq '.Number')
+        SNAPSHOT_DIR=$(cat $METADATA_JSON | jq '.Number')
     else
         # ISO 8601 date
         SNAPSHOT_DIR=$(date +"%Y-%m-%dT%H:%M:%S%:z")
     fi
 
     # ensure the base directory exists
-    ${pkgs.coreutils}/bin/mkdir -p ${cfg.snapshotDirectory}/$SERVICE_NAME
+    mkdir -p ${cfg.snapshotDirectory}/$SERVICE_NAME
 
     # create a readonly snapshot
-    ${pkgs.btrfs-progs}/bin/btrfs subvolume snapshot -r $VOLUME_DIR ${cfg.snapshotDirectory}/$SERVICE_NAME/$SNAPSHOT_DIR
+    btrfs subvolume snapshot -r $VOLUME_DIR ${cfg.snapshotDirectory}/$SERVICE_NAME/$SNAPSHOT_DIR
   '';
 
   prune = pkgs.writeShellScript "prune" ''
@@ -112,6 +112,11 @@ in {
     services = mkMerge (
       builtins.map (name: {
         "${name}" = {
+          path = with pkgs; [
+            btrfs-progs
+            e2fsprogs
+            jq
+          ];
           environment = {
             RETENTION = builtins.toString cfg.retention;
           };
