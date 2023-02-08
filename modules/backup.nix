@@ -5,7 +5,8 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mdDoc types mkOption mkEnableOption mkIf mkBefore mkAfter mkMerge filterAttrs attrValues forEach mapAttrs nameValuePair concatMapStrings listToAttrs;
+  inherit (lib) mdDoc types mkOption mkEnableOption mkIf mkBefore mkAfter mkMerge filterAttrs attrValues forEach mapAttrs;
+  inherit (lib) flatten nameValuePair concatMapStrings listToAttrs;
   inherit (builtins) concatStringsSep attrNames map;
 
   cfg = config.services.ethereum.backup;
@@ -185,10 +186,11 @@
 
   backupScript = pkgs.writeShellScript "backup" ''
     set -euo pipefail
+    echo "Running backup"
 
     export BORG_RSH="ssh -o StrictHostKeyChecking=no -i $CREDENTIALS_DIRECTORY/sshKey";
 
-    SERVICE_NAMES=$(ls $SNAPSHOT_DIR)
+    SERVICE_NAMES=$@
 
     for SERVICE in $SERVICE_NAMES; do
         REPO="${cfg.borg.repo}/$SERVICE"
@@ -202,6 +204,12 @@
     for SERVICE in $SERVICE_NAMES; do
 
         REPO="${cfg.borg.repo}/$SERVICE"
+
+        # restart the service to create the snapshot
+        echo "Restarting $SERVICE"
+        systemctl restart "$SERVICE.service"
+
+        echo "Backing up snapshots for $SERVICE"
 
         # reverse order ensures the greatest chain height first and reduces the bandwidth needed
         # to transfer earlier archives
@@ -221,6 +229,41 @@
         done
     done
   '';
+
+  backupService = nameValuePair "ethereum-backup" {
+    description = "Backup service for Ethereum clients";
+    path = with pkgs; [
+      borgbackup
+      openssh
+      systemd
+    ];
+    environment = {
+      # suppress prompts
+      BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK = "yes";
+      SNAPSHOT_DIR = cfg.snapshotDirectory;
+    };
+    serviceConfig = {
+      User = "root";
+      CPUSchedulingPolicy = "idle";
+      IOSchedulingClass = "idle";
+      ProtectSystem = "strict";
+      PrivateTmp = true;
+      StateDirectory = "ethereum-backup";
+      LoadCredential = "sshKey:${cfg.borg.keyPath}";
+      ExecStart = "${backupScript} ${builtins.concatStringsSep " " cfg.services}";
+    };
+  };
+
+  backupTimer = nameValuePair "ethereum-backup" {
+    description = "Timer for ethereum-backup";
+    wantedBy = ["timers.target"];
+    timerConfig = {
+      Persistent = true;
+      OnCalendar = cfg.schedule;
+    };
+    # wait for network
+    after = ["network-online.target"];
+  };
 in {
   options = {
     # TODO validate the service has been configured for snapshotting
@@ -296,52 +339,14 @@ in {
     };
   };
 
-  config.systemd.services =
-    listToAttrs ((builtins.map mkMetadataService) cfg.services)
-    // listToAttrs ((builtins.map addSnapshotToService) cfg.services);
+  config.systemd.services = listToAttrs (
+    [backupService]
+    ++ ((builtins.map mkMetadataService) cfg.services)
+    ++ ((builtins.map addSnapshotToService) cfg.services)
+  );
 
-  config.systemd.timers =
-    listToAttrs ((builtins.map mkMetadataTimer) cfg.services);
-
-  #  config.systemd = mkIf cfg.enable {
-  #    services = {
-  #      #      "ethereum-backup" = {
-  #      #        description = "Ethereum Backup";
-  #      #        path = with pkgs; [
-  #      #          borgbackup
-  #      #          openssh
-  #      #        ];
-  #      #        serviceConfig = {
-  #      #          # We need to be able to read everything in the snapshot directory
-  #      #          # For now we're using root, I'm unsure if this could be tightened up
-  #      #          User = "root";
-  #      #          # Only run when no other process is using CPU or disk
-  #      #          CPUSchedulingPolicy = "idle";
-  #      #          IOSchedulingClass = "idle";
-  #      #          ProtectSystem = "strict";
-  #      #          PrivateTmp = true;
-  #      #          ExecStart = backupScript;
-  #      #          StateDirectory = "ethereum-backup";
-  #      #          LoadCredential = "sshKey:${cfg.borg.keyPath}";
-  #      #        };
-  #      #        environment = {
-  #      #          # suppress prompts
-  #      #          BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK = "yes";
-  #      #          SNAPSHOT_DIR = snapshotCfg.snapshotDirectory;
-  #      #        };
-  #      #      };
-  #    };
-  #    timers = {
-  #      #      "ethereum-backup" = {
-  #      #        description = "Ethereum Backup timer";
-  #      #        wantedBy = ["timers.target"];
-  #      #        timerConfig = {
-  #      #          Persistent = true;
-  #      #          OnCalendar = cfg.schedule;
-  #      #        };
-  #      #        # wait for network
-  #      #        after = ["network-online.target"];
-  #      #      };
-  #    };
-  #  };
+  config.systemd.timers = listToAttrs (
+    [backupTimer]
+    ++ ((builtins.map mkMetadataTimer) cfg.services)
+  );
 }
