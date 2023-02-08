@@ -10,12 +10,6 @@
   inherit (builtins) concatStringsSep attrNames map;
 
   cfg = config.services.ethereum.backup;
-  snapshotCfg = config.services.ethereum.snapshot;
-
-  snapshotDirectory = serviceName:
-    if (snapshotCfg.enable == true) && (builtins.elem serviceName snapshotCfg.services)
-    then config.services.ethereum.snapshot.snapshotDirectory
-    else null;
 
   excludeFile =
     # Write each exclude pattern to a new line
