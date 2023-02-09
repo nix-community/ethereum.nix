@@ -45,6 +45,10 @@
     # source the same environment as the service
     eval $(strings /proc/$PID/environ | grep -E '^(WEB3_*|GRPC_*|STATE_DIRECTORY)')
 
+    # we don't want to exit if the following commands fail as the process might be down as part of an update
+    # and this unit was inflight at the time
+    set +e
+
     case $SERVICE_NAME in
 
         geth-*)
@@ -65,6 +69,15 @@
             exit 1
             ;;
     esac
+
+    if [ $? -eq 7 ]; then
+        # curl provides this exit code if it couldn't connect to host
+        echo "Could not connect to host"
+        exit 0  # we exit nicely assuming that this is a transient error due to rollout of updates
+    else
+        >&2 echo "Failed to fetch metadata"
+        exit 1
+    fi
   '';
 
   setupVolumeScript = pkgs.writeShellScript "setup-volume" ''
