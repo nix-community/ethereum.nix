@@ -88,22 +88,6 @@
     fi
   '';
 
-  setupVolumeScript = pkgs.writeShellScript "setup-volume" ''
-    set -euo pipefail
-
-    # determine the private path to the volume mount
-    SERVICE_NAME=$(basename $STATE_DIRECTORY)
-    VOLUME_DIR=/var/lib/private/$SERVICE_NAME
-
-    if ! btrfs sub show $VOLUME_DIR > /dev/null; then
-        echo "$VOLUME_DIR is not a btrfs subvolume, exiting"
-        exit 0
-    fi
-
-    echo "Disabling copy on write"
-    chattr -R +C $VOLUME_DIR
-  '';
-
   chainHeightScript = pkgs.writeShellScript "chain-height" ''
     set -euo pipefail
 
@@ -233,16 +217,12 @@
     nameValuePair "${name}" {
       path = with pkgs; [
         btrfs-progs
-        e2fsprogs
         jq
       ];
       serviceConfig = {
-        ExecStartPre = mkBefore ([
-            clearExitStatusScript
-          ]
-          ++ (lib.lists.optionals cfg.snapshot.enable [
-            "+${setupVolumeScript}"
-          ]));
+        ExecStartPre = mkAfter [
+          clearExitStatusScript
+        ];
         ExecStopPost = mkAfter ([
             recordExitStatusScript
           ]
@@ -510,17 +490,6 @@ in {
       };
     };
   };
-
-  config.systemd.managerEnvironment = mkIf cfg.snapshot.enable {
-    # forces v/q/Q to create a subvolume if the backing filesystem supports it, even if `/` is not a subvolume itself.
-    "SYSTEMD_TMPFILES_FORCE_SUBVOL" = "1";
-  };
-
-  # configure systemd to create the state directory with a subvolume for each configured service,
-  # if snapshots are enabled
-  config.systemd.tmpfiles.rules = mkIf cfg.snapshot.enable (
-    map (name: "v /var/lib/private/${name}") cfg.services
-  );
 
   config.systemd.services = mkIf cfg.enable (listToAttrs (
     [backupService]

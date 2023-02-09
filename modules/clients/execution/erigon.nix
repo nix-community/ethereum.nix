@@ -10,11 +10,16 @@
   inherit (lib) zipAttrsWith filterAttrsRecursive optionalAttrs filterAttrs mapAttrs mapAttrs' mapAttrsToList;
   inherit (lib) optionalString literalExpression mkEnableOption mkIf mkMerge mkOption types concatStringsSep;
 
+  modulesLib = import ../../lib.nix {inherit lib pkgs;};
+  inherit (modulesLib) baseServiceConfig mkArgs scripts;
+
   eachErigon = config.services.ethereum.erigon;
 
   erigonOpts = {
     options = {
       enable = mkEnableOption (mdDoc "Erigon Ethereum Node.");
+
+      subVolume = mkEnableOption (mdDoc "Use a subvolume for the state directory if the underlying filesystem supports it e.g. btrfs");
 
       args = {
         port = mkOption {
@@ -295,15 +300,18 @@ in {
     in
       zipAttrsWith (name: flatten) perService;
 
+    # configure systemd to create the state directory with a subvolume
+    systemd.tmpfiles.rules =
+      map
+      (name: "v /var/lib/private/erigon-${name}")
+      (builtins.attrNames (filterAttrs (_: v: v.subVolume) eachErigon));
+
     # create a service for each instance
     systemd.services =
       mapAttrs'
       (
         erigonName: let
           serviceName = "erigon-${erigonName}";
-
-          modulesLib = import ../../lib.nix {inherit lib pkgs;};
-          inherit (modulesLib) baseServiceConfig mkArgs;
         in
           cfg: let
             scriptArgs = let
@@ -335,6 +343,9 @@ in {
                 {
                   User = serviceName;
                   StateDirectory = serviceName;
+                  ExecStartPre = mkIf cfg.subVolume [
+                    "+${scripts.setupSubVolume} /var/lib/private/${serviceName}"
+                  ];
                   ExecStart = "${cfg.package}/bin/erigon ${scriptArgs}";
                 }
               ];

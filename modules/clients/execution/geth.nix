@@ -14,6 +14,9 @@
   inherit (lib) mdDoc flatten nameValuePair filterAttrs mapAttrs mapAttrs' mapAttrsToList;
   inherit (lib) optionalString literalExpression mkEnableOption mkIf mkMerge mkOption types concatStringsSep;
 
+  modulesLib = import ../../lib.nix {inherit lib pkgs;};
+  inherit (modulesLib) mkArgs baseServiceConfig scripts;
+
   # capture config for all configured geths
   eachGeth = config.services.ethereum.geth;
 
@@ -21,6 +24,8 @@
   gethOpts = {
     options = rec {
       enable = mkEnableOption (mdDoc "Go Ethereum Node");
+
+      subVolume = mkEnableOption (mdDoc "Use a subvolume for the state directory if the underlying filesystem supports it e.g. btrfs");
 
       args = {
         port = mkOption {
@@ -223,15 +228,18 @@ in {
     in
       zipAttrsWith (name: flatten) perService;
 
+    # configure systemd to create the state directory with a subvolume
+    systemd.tmpfiles.rules =
+      map
+      (name: "v /var/lib/private/geth-${name}")
+      (builtins.attrNames (filterAttrs (_: v: v.subVolume) eachGeth));
+
     # create a service for each instance
     systemd.services =
       mapAttrs'
       (
         gethName: let
           serviceName = "geth-${gethName}";
-
-          modulesLib = import ../../lib.nix {inherit lib pkgs;};
-          inherit (modulesLib) mkArgs baseServiceConfig;
         in
           cfg: let
             scriptArgs = let
@@ -285,6 +293,9 @@ in {
                 {
                   User = serviceName;
                   StateDirectory = serviceName;
+                  ExecStartPre = mkIf cfg.subVolume [
+                    "+${scripts.setupSubVolume} /var/lib/private/${serviceName}"
+                  ];
                   ExecStart = "${cfg.package}/bin/geth ${scriptArgs}";
                 }
                 (mkIf (cfg.args.authrpc.jwtsecret != null) {

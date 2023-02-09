@@ -10,6 +10,9 @@
   inherit (lib) mdDoc flatten nameValuePair filterAttrs mapAttrs mapAttrs' mapAttrsToList;
   inherit (lib) optionalString literalExpression mkEnableOption mkIf mkOption mkMerge types concatStringsSep;
 
+  modulesLib = import ../../../lib.nix {inherit lib pkgs;};
+  inherit (modulesLib) mkArgs baseServiceConfig foldListToAttrs scripts;
+
   settingsFormat = pkgs.formats.yaml {};
 
   eachBeacon = config.services.ethereum.prysm.beacon;
@@ -17,6 +20,8 @@
   beaconOpts = {
     options = {
       enable = mkEnableOption (mdDoc "Ethereum Beacon Chain Node from Prysmatic Labs");
+
+      subVolume = mkEnableOption (mdDoc "Use a subvolume for the state directory if the underlying filesystem supports it e.g. btrfs");
 
       args = {
         network = mkOption {
@@ -187,14 +192,17 @@ in {
     in
       zipAttrsWith (name: flatten) perService;
 
+    # configure systemd to create the state directory with a subvolume
+    systemd.tmpfiles.rules =
+      map
+      (name: "v /var/lib/private/prysm-beacon-${name}")
+      (builtins.attrNames (filterAttrs (_: v: v.subVolume) eachBeacon));
+
     systemd.services =
       mapAttrs'
       (
         beaconName: let
           serviceName = "prysm-beacon-${beaconName}";
-
-          modulesLib = import ../../../lib.nix {inherit lib pkgs;};
-          inherit (modulesLib) mkArgs baseServiceConfig foldListToAttrs;
         in
           cfg: let
             scriptArgs = let
@@ -241,6 +249,9 @@ in {
                 {
                   User = serviceName;
                   StateDirectory = serviceName;
+                  ExecStartPre = mkIf cfg.subVolume [
+                    "+${scripts.setupSubVolume} /var/lib/private/${serviceName}"
+                  ];
                   ExecStart = "${cfg.package}/bin/beacon-chain ${scriptArgs}";
                   MemoryDenyWriteExecute = "false"; # causes a library loading error
                 }

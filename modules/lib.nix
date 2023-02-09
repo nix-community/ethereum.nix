@@ -106,4 +106,20 @@
 in {
   inherit baseServiceConfig;
   inherit mkArg mkArgs defaultPathReducer dotPathReducer;
+
+  scripts = {
+    setupSubVolume = pkgs.writeShellScript "setup-sub-volume" ''
+      set -euo pipefail
+
+      VOLUME_DIR=$1
+
+      if ! ${pkgs.btrfs-progs}/bin/btrfs sub show $VOLUME_DIR > /dev/null; then
+          >&2 echo "$VOLUME_DIR is not a btrfs subvolume"
+          exit 1
+      fi
+
+      echo "Disabling copy on write"
+      ${pkgs.e2fsprogs}/bin/chattr -R +C $VOLUME_DIR
+    '';
+  };
 }

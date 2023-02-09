@@ -35,6 +35,9 @@
     zipAttrsWith
     ;
 
+  modulesLib = import ../../lib.nix {inherit lib pkgs;};
+  inherit (modulesLib) mkArgs baseServiceConfig scripts;
+
   # capture config for all configured netherminds
   eachNethermind = config.services.ethereum.nethermind;
 
@@ -42,6 +45,8 @@
   nethermindOpts = {
     options = {
       enable = mkEnableOption (mdDoc "Nethermind Ethereum Node.");
+
+      subVolume = mkEnableOption (mdDoc "Use a subvolume for the state directory if the underlying filesystem supports it e.g. btrfs");
 
       package = mkOption {
         type = types.package;
@@ -225,14 +230,17 @@ in {
     in
       zipAttrsWith (name: flatten) perService;
 
+    # configure systemd to create the state directory with a subvolume
+    systemd.tmpfiles.rules =
+      map
+      (name: "v /var/lib/private/nethermind-${name}")
+      (builtins.attrNames (filterAttrs (_: v: v.subVolume) eachNethermind));
+
     # create a service for each instance
     systemd.services =
       mapAttrs' (
         nethermindName: let
           serviceName = "nethermind-${nethermindName}";
-
-          modulesLib = import ../../../lib.nix {inherit lib pkgs;};
-          inherit (modulesLib) mkArgs baseServiceConfig;
         in
           cfg: let
             scriptArgs = let
@@ -295,6 +303,9 @@ in {
                 {
                   User = serviceName;
                   StateDirectory = serviceName;
+                  ExecStartPre = mkIf cfg.subVolume [
+                    "+${scripts.setupSubVolume} /var/lib/private/${serviceName}"
+                  ];
                   ExecStart = "${cfg.package}/bin/Nethermind.Runner ${scriptArgs}";
                 }
                 (mkIf (cfg.args.modules.JsonRpc.JwtSecretFile != null) {
