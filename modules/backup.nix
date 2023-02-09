@@ -124,7 +124,7 @@
     METADATA_AGE=$((NOW_SECONDS - METADATA_SECONDS))
 
     if [ $METADATA_AGE -gt 30 ]; then
-        >&2 echo "$METADATA_JSON is older than 30 seconds, skipping snapshot"
+        >&2 echo "$METADATA_JSON is older than 30 seconds"
         # suspected failure in the metadata service, we can't be sure about the latest state of the client
         exit 1
     fi
@@ -133,10 +133,12 @@
     HEIGHT=$(cat $METADATA_JSON | jq .height)
 
     if [ -z $\{HEIGHT+x} ]; then
-        >&2 echo "Could not determine height from $METADATA_JSON, skipping snapshot";
+        >&2 echo "Could not determine height from $METADATA_JSON";
         # metadata is malformed
         exit 1
     fi
+
+    echo $HEIGHT
   '';
 
   # It's necessary to record the exit status so that we can safeguard against backing up unclean state directories
@@ -181,18 +183,18 @@
     fi
 
     # ensure the base snapshot directory exists
-    mkdir -p ${cfg.snapshotDirectory}/$SERVICE_NAME
+    mkdir -p ${cfg.snapshot.directory}/$SERVICE_NAME
 
     # check if the snapshot we are about to create already exists
-    SNAPSHOT_DIR=${cfg.snapshotDirectory}/$SERVICE_NAME/$HEIGHT
+    SNAPSHOT_DIRECTORY=${cfg.snapshot.directory}/$SERVICE_NAME/$HEIGHT
 
-    if [ -d $SNAPSHOT_DIR ]; then
-      echo "Snapshot already exists: $SNAPSHOT_DIR, skipping snapshot"
+    if [ -d $SNAPSHOT_DIRECTORY ]; then
+      echo "Snapshot already exists: $SNAPSHOT_DIRECTORY, skipping snapshot"
       exit 0
     fi
 
     # create a readonly snapshot
-    btrfs subvolume snapshot -r $VOLUME_DIR $SNAPSHOT_DIR
+    btrfs subvolume snapshot -r $VOLUME_DIR $SNAPSHOT_DIRECTORY
   '';
 
   mkMetadataService = name:
@@ -235,14 +237,18 @@
         jq
       ];
       serviceConfig = {
-        ExecStartPre = mkBefore [
-          clearExitStatusScript
-          "+${setupVolumeScript}"
-        ];
-        ExecStopPost = mkAfter [
-          recordExitStatusScript
-          "+${snapshotVolumeScript}"
-        ];
+        ExecStartPre = mkBefore ([
+            clearExitStatusScript
+          ]
+          ++ (lib.lists.optionals cfg.snapshot.enable [
+            "+${setupVolumeScript}"
+          ]));
+        ExecStopPost = mkAfter ([
+            recordExitStatusScript
+          ]
+          ++ (lib.lists.optionals cfg.snapshot.enable [
+            "+${snapshotVolumeScript}"
+          ]));
       };
     };
 
@@ -271,76 +277,97 @@
     #   - if the state directory is not a btrfs subvolume, we stop the service, perform the backup and then start the
     #     service again
 
+    backup_with_snapshot() {
+
+        SERVICE_NAME=$1
+        REPO=$2
+
+        echo "Backing up with a snapshot, restarting $SERVICE_NAME"
+
+        # restart the service to create the snapshot
+        echo "Restarting $SERVICE_NAME"
+        systemctl restart "$SERVICE_NAME.service"
+
+        echo "Backing up snapshots for $SERVICE_NAME"
+
+        # reverse order ensures the greatest chain height first and reduces the bandwidth needed
+        # to transfer earlier archives
+        ARCHIVES=$(ls -r "$SNAPSHOT_DIRECTORY/$SERVICE_NAME")
+
+        for ARCHIVE in $ARCHIVES; do
+            if borg list $REPO::$ARCHIVE > /dev/null; then
+                echo "Archive $REPO::$ARCHIVE already exists, skipping"
+            else
+                cd $SNAPSHOT_DIRECTORY/$SERVICE_NAME/$ARCHIVE
+
+                borg create -s --verbose \
+                    --lock-wait ${builtins.toString cfg.borg.lockWait} \
+                    --compression ${cfg.borg.compression} \
+                    --exclude ${excludeFile} \
+                    $REPO::$ARCHIVE \
+                    ./
+            fi
+        done
+    }
+
+    backup_in_situ() {
+        SERVICE_NAME=$1
+        STATE_DIRECTORY=$2
+        REPO=$3
+
+        # stop the service
+        echo "Backing up in-situ, stopping $SERVICE_NAME"
+        systemctl stop "$SERVICE_NAME.service"
+
+        # check that the process stopped cleanly
+        EXIT_STATUS=$(cat $STATE_DIRECTORY/.exit-status)
+
+        if [ $EXIT_STATUS -ne 0 ]; then
+            >&2 echo "Unclean shutdown detected, exit status: $EXIT_STATUS. Skipping backup"
+        else
+            # determine chain height from metadata
+            METADATA_JSON="$STATE_DIRECTORY/.metadata.json"
+            HEIGHT=$(${chainHeightScript} $METADATA_JSON)
+
+            if [ -z $\{HEIGHT+x} ]; then
+                >&2 echo "Could not determine height from $METADATA_JSON, skipping backup";
+            else
+                ARCHIVE=$HEIGHT
+                if borg list $REPO::$HEIGHT > /dev/null; then
+                    echo "Archive $REPO::$HEIGHT already exists, skipping"
+                else
+                    cd $STATE_DIRECTORY
+
+                    borg create -s --verbose \
+                        --lock-wait ${builtins.toString cfg.borg.lockWait} \
+                        --compression ${cfg.borg.compression} \
+                        --exclude ${excludeFile} \
+                        $REPO::$HEIGHT \
+                        ./
+                fi
+            fi
+        fi
+
+        # start the service again
+        echo "Restarting $SERVICE_NAME"
+        systemctl start "$SERVICE_NAME.service"
+    }
+
     for SERVICE_NAME in $SERVICE_NAMES; do
 
         REPO="${cfg.borg.repo}/$SERVICE_NAME"
         STATE_DIRECTORY=/var/lib/private/$SERVICE_NAME
 
-        if btrfs sub show $STATE_DIRECTORY > /dev/null; then
+        btrfs sub show $STATE_DIRECTORY > /dev/null
 
-            echo "$STATE_DIRECTORY is a btrfs subvolume"
-
-            # restart the service to create the snapshot
-            echo "Restarting $SERVICE_NAME"
-            systemctl restart "$SERVICE_NAME.service"
-
-            echo "Backing up snapshots for $SERVICE_NAME"
-
-            # reverse order ensures the greatest chain height first and reduces the bandwidth needed
-            # to transfer earlier archives
-            ARCHIVES=$(ls -r "$SNAPSHOT_DIR/$SERVICE_NAME")
-
-            for ARCHIVE in $ARCHIVES; do
-                if borg list $REPO::$ARCHIVE > /dev/null; then
-                    echo "Archive $REPO::$ARCHIVE already exists, skipping"
-                else
-                    borg create -s --verbose \
-                        --lock-wait ${builtins.toString cfg.borg.lockWait} \
-                        --compression ${cfg.borg.compression} \
-                        --exclude ${excludeFile} \
-                        $REPO::$ARCHIVE \
-                        $SNAPSHOT_DIR/$SERVICE_NAME/$ARCHIVE
-                fi
-            done
-
+        if [ $SNAPSHOT_ENABLE = "true" ] && [ $? -eq 0 ]; then
+            backup_with_snapshot $SERVICE_NAME $REPO
         else
-            echo "$STATE_DIRECTORY is not a btrfs subvolume, performing in-situ backup"
-
-            # stop the service
-            echo "Stopping $SERVICE_NAME"
-            systemctl stop "$SERVICE_NAME.service"
-
-            # check that the process stopped cleanly
-            EXIT_STATUS=$(cat $STATE_DIRECTORY/.exit-status)
-
-            if [ $EXIT_STATUS -ne 0 ];
-                >&2 echo "Unclean shutdown detected, exit status: $EXIT_STATUS. Skipping backup"
-            then
-                # determine chain height from metadata
-                METADATA_JSON="$STATE_DIRECTORY/.metadata.json"
-                HEIGHT=$(${chainHeightScript} $METADATA_JSON)
-
-                if [ -z $\{HEIGHT+x} ]; then
-                    >&2 echo "Could not determine height from $METADATA_JSON, skipping backup";
-                else
-                    ARCHIVE=$HEIGHT
-                    if borg list $REPO::$HEIGHT > /dev/null; then
-                        echo "Archive $REPO::$ARCHIVE already exists, skipping"
-                    else
-                        borg create -s --verbose \
-                            --lock-wait ${builtins.toString cfg.borg.lockWait} \
-                            --compression ${cfg.borg.compression} \
-                            --exclude ${excludeFile} \
-                            $REPO::$ARCHIVE \
-                            $STATE_DIRECTORY
-                    fi
-                fi
-            fi
-
-            # start the service again
-            systemctl start "$SERVICE_NAME.service"
+            backup_in_situ $SERVICE_NAME $STATE_DIRECTORY $REPO
         fi
     done
+
+    echo "Backup complete"
   '';
 
   backupService = nameValuePair "ethereum-backup" {
@@ -355,7 +382,9 @@
     environment = {
       # suppress prompts
       BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK = "yes";
-      SNAPSHOT_DIR = cfg.snapshotDirectory;
+      # todo there has to be a lib somewhere that converts booleans to strings properly
+      SNAPSHOT_ENABLE = if cfg.snapshot.enable then "true" else "false";
+      SNAPSHOT_DIRECTORY = cfg.snapshot.directory;
     };
     serviceConfig = {
       User = "root";
@@ -381,8 +410,6 @@
   };
 in {
   options = {
-    # TODO validate the service has been configured for snapshotting
-
     services.ethereum.backup = {
       enable = mkEnableOption (mdDoc "Enable backup");
 
@@ -391,14 +418,19 @@ in {
         default = [];
       };
 
-      snapshotDirectory = mkOption {
-        type = lib.types.path;
-        default = "/snapshots";
+      snapshot = {
+        enable = mkEnableOption (mdDoc "Enable btrfs snapshots");
+
+        directory = mkOption {
+          type = lib.types.path;
+          description = mdDoc "Directory in which to create the btrfs snapshots";
+          default = "/snapshots";
+        };
       };
 
       schedule = mkOption {
         type = types.str;
-        description = mdDoc "Time interval for checking the snapshot directory and running a backup. Format is the same as systemd.time";
+        description = mdDoc "Time interval for running a snapshot and backup. Format is the same as systemd.time";
         default = "hourly";
         example = "daily";
       };
@@ -454,14 +486,14 @@ in {
     };
   };
 
-  config.systemd.services = listToAttrs (
+  config.systemd.services = mkIf cfg.enable (listToAttrs (
     [backupService]
     ++ ((builtins.map mkMetadataService) cfg.services)
     ++ ((builtins.map instrumentClientService) cfg.services)
-  );
+  ));
 
-  config.systemd.timers = listToAttrs (
+  config.systemd.timers = mkIf cfg.enable (listToAttrs (
     [backupTimer]
     ++ ((builtins.map mkMetadataTimer) cfg.services)
-  );
+  ));
 }
