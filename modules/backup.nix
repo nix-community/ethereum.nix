@@ -393,7 +393,10 @@
       # suppress prompts
       BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK = "yes";
       # todo there has to be a lib somewhere that converts booleans to strings properly
-      SNAPSHOT_ENABLE = if cfg.snapshot.enable then "true" else "false";
+      SNAPSHOT_ENABLE =
+        if cfg.snapshot.enable
+        then "true"
+        else "false";
       SNAPSHOT_DIRECTORY = cfg.snapshot.directory;
       # 86400 seconds in a day
       SNAPSHOT_RETENTION_SECONDS = builtins.toString (cfg.snapshot.retention * 86400);
@@ -437,10 +440,10 @@ in {
         enable = mkEnableOption (mdDoc "Enable btrfs snapshots");
 
         retention = mkOption {
-            type = types.int;
-            description = mdDoc "Number of days to retain snapshots";
-            default = 7;
-            example = "10";
+          type = types.int;
+          description = mdDoc "Number of days to retain snapshots";
+          default = 7;
+          example = "10";
         };
 
         directory = mkOption {
@@ -507,6 +510,17 @@ in {
       };
     };
   };
+
+  config.systemd.managerEnvironment = mkIf cfg.snapshot.enable {
+    # forces v/q/Q to create a subvolume if the backing filesystem supports it, even if `/` is not a subvolume itself.
+    "SYSTEMD_TMPFILES_FORCE_SUBVOL" = "1";
+  };
+
+  # configure systemd to create the state directory with a subvolume for each configured service,
+  # if snapshots are enabled
+  config.systemd.tmpfiles.rules = mkIf cfg.snapshot.enable (
+    map (name: "v /var/lib/private/${name}") cfg.services
+  );
 
   config.systemd.services = mkIf cfg.enable (listToAttrs (
     [backupService]
