@@ -180,7 +180,8 @@
 
   backupScript = pkgs.writeShellScript "backup" ''
     set -euo pipefail
-    echo "Running backup"
+
+    echo "Running backup for the following services: $@"
 
     export BORG_RSH="ssh -o StrictHostKeyChecking=no -i $CREDENTIALS_DIRECTORY/sshKey";
 
