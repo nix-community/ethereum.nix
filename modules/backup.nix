@@ -152,13 +152,17 @@
   mkMetadataTimer = name:
     nameValuePair "${name}-metadata" {
       description = "Metadata timer for ${name}-metadata";
-      wantedBy = ["timers.target"];
+      wantedBy = [
+        "timers.target"
+        # ensure the timer is started when the main service is started
+        "${name}.service"
+      ];
+      # ensures this service is stopped if the main service is stopped
+      bindsTo = ["${name}.service"];
       timerConfig = {
         Persistent = true;
-        OnCalendar = "*:*:0/10";
+        OnCalendar = "*:*:0/10"; # triggers every 10 seconds
       };
-      # wait for network
-      after = ["network-online.target"];
     };
 
   addSnapshotToService = name:
