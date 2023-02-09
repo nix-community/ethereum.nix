@@ -292,7 +292,7 @@
                 borg create -s --verbose \
                     --lock-wait ${builtins.toString cfg.borg.lockWait} \
                     --compression ${cfg.borg.compression} \
-                    --exclude ${excludeFile} \
+                    --exclude-from ${excludeFile} \
                     $REPO::$SNAPSHOT \
                     ./
             fi
@@ -331,7 +331,7 @@
                     borg create -s --verbose \
                         --lock-wait ${builtins.toString cfg.borg.lockWait} \
                         --compression ${cfg.borg.compression} \
-                        --exclude ${excludeFile} \
+                        --exclude-from ${excludeFile} \
                         $REPO::$HEIGHT \
                         ./
                 fi
