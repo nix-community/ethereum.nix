@@ -271,12 +271,6 @@
         fi
     done
 
-    # next we go on a per-service basis:
-    #
-    #   - if the state directory is a btrfs subvolume, we restart the service to generate the snapshot and then backup
-    #   - if the state directory is not a btrfs subvolume, we stop the service, perform the backup and then start the
-    #     service again
-
     backup_with_snapshot() {
 
         SERVICE_NAME=$1
@@ -292,21 +286,37 @@
 
         # reverse order ensures the greatest chain height first and reduces the bandwidth needed
         # to transfer earlier archives
-        ARCHIVES=$(ls -r "$SNAPSHOT_DIRECTORY/$SERVICE_NAME")
+        SNAPSHOTS=$(ls -r "$SNAPSHOT_DIRECTORY/$SERVICE_NAME")
 
-        for ARCHIVE in $ARCHIVES; do
-            if borg list $REPO::$ARCHIVE > /dev/null; then
-                echo "Archive $REPO::$ARCHIVE already exists, skipping"
+        for SNAPSHOT in $SNAPSHOTS; do
+
+            NOW_SECONDS=$(date +%s)
+
+            SNAPSHOT_CREATION_DATE=$(btrfs sub show $SNAPSHOT_DIRECTORY/$SERVICE_NAME/$SNAPSHOT | grep 'Creation time' | cut -d$'\t' -f4)
+            SNAPSHOT_CREATION_TIME=$(date +%s -d "$SNAPSHOT_CREATION_DATE")
+
+            SNAPSHOT_AGE_SECONDS=$((NOW_SECONDS - SNAPSHOT_CREATION_TIME))
+
+            if [ $SNAPSHOT_AGE_SECONDS -gt $SNAPSHOT_RETENTION_SECONDS ]; then
+
+                echo "Snapshot is older than configured retention, deleting"
+                btrfs sub delete $SNAPSHOT_DIRECTORY/$SERVICE_NAME/$SNAPSHOT
+
+            elif borg list $REPO::$SNAPSHOT > /dev/null; then
+
+                echo "Archive $REPO::$SNAPSHOT already exists, skipping"
+
             else
-                cd $SNAPSHOT_DIRECTORY/$SERVICE_NAME/$ARCHIVE
+                cd $SNAPSHOT_DIRECTORY/$SERVICE_NAME/$SNAPSHOT
 
                 borg create -s --verbose \
                     --lock-wait ${builtins.toString cfg.borg.lockWait} \
                     --compression ${cfg.borg.compression} \
                     --exclude ${excludeFile} \
-                    $REPO::$ARCHIVE \
+                    $REPO::$SNAPSHOT \
                     ./
             fi
+
         done
     }
 
@@ -385,6 +395,8 @@
       # todo there has to be a lib somewhere that converts booleans to strings properly
       SNAPSHOT_ENABLE = if cfg.snapshot.enable then "true" else "false";
       SNAPSHOT_DIRECTORY = cfg.snapshot.directory;
+      # 86400 seconds in a day
+      SNAPSHOT_RETENTION_SECONDS = builtins.toString (cfg.snapshot.retention * 86400);
     };
     serviceConfig = {
       User = "root";
@@ -394,6 +406,9 @@
       PrivateTmp = true;
       StateDirectory = "ethereum-backup";
       LoadCredential = "sshKey:${cfg.borg.keyPath}";
+      ReadWritePaths = mkIf cfg.snapshot.enable [
+        cfg.snapshot.directory
+      ];
       ExecStart = "${backupScript} ${builtins.concatStringsSep " " cfg.services}";
     };
   };
@@ -421,8 +436,15 @@ in {
       snapshot = {
         enable = mkEnableOption (mdDoc "Enable btrfs snapshots");
 
+        retention = mkOption {
+            type = types.int;
+            description = mdDoc "Number of days to retain snapshots";
+            default = 7;
+            example = "10";
+        };
+
         directory = mkOption {
-          type = lib.types.path;
+          type = types.path;
           description = mdDoc "Directory in which to create the btrfs snapshots";
           default = "/snapshots";
         };
