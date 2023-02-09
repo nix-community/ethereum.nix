@@ -15,7 +15,7 @@
     # Write each exclude pattern to a new line
     pkgs.writeText "excludefile" (concatMapStrings (s: s + "\n") cfg.borg.exclude);
 
-  gethJq = pkgs.writeTextFile {
+  executionClientJq = pkgs.writeTextFile {
     name = "convert.jq";
     text = ''
       def to_i(base):
@@ -34,6 +34,9 @@
   metadataScript = pkgs.writeShellScript "metadata" ''
     set -euo pipefail
 
+    # enable extended pattern matching
+    shopt -s extglob
+
     SERVICE_NAME=$1
 
     PID=$(systemctl show --property MainPID $SERVICE_NAME | cut -d'=' -f2)
@@ -51,13 +54,12 @@
 
     case $SERVICE_NAME in
 
-        geth-*)
-        nethermind-*)
+        @(geth|nethermind)-* )
             curl -s -X POST \
                 -H 'Content-Type: application/json' \
                 -d '{"jsonrpc":"2.0","id":1,"method":"eth_getBlockByNumber","params":["latest",false]}' \
                 http://$WEB3_HTTP_HOST:$WEB3_HTTP_PORT \
-                | jq -f ${gethJq} > $STATE_DIRECTORY/.metadata.json
+                | jq -f ${executionClientJq} > $STATE_DIRECTORY/.metadata.json
             ;;
 
         prysm-beacon-*)
@@ -71,13 +73,18 @@
             ;;
     esac
 
+    if [ $? -eq 0 ]; then
+        echo "$STATE_DIRECTORY/.metadata.json successfully updated";
+        exit 0
+    fi
+
     if [ $? -eq 7 ]; then
         # curl provides this exit code if it couldn't connect to host
         echo "Could not connect to host"
         exit 0  # we exit nicely assuming that this is a transient error due to rollout of updates
     else
         >&2 echo "Failed to fetch metadata"
-        exit 1
+        exit $?
     fi
   '';
 
