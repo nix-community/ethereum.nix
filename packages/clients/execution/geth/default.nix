@@ -20,13 +20,13 @@
 in
   buildGoModule rec {
     pname = "geth";
-    version = "1.11.0";
+    version = "1.11.1";
 
     src = fetchFromGitHub {
       owner = "ethereum";
       repo = "go-ethereum";
       rev = "v${version}";
-      sha256 = "sha256-QwgFqXTcFZ2zoqlC3oCEgIghJPQ02FwTMbba/DEohwM=";
+      sha256 = "sha256-mYLxwJ0oiKfiz+NZ5bnlY0h2uq5wbeQKrwoCCw23Bg0=";
     };
 
     vendorSha256 = "sha256-6yLkeT5DrAPUohAmobssKkvxgXI8kACxiu17WYbw+n0=";
