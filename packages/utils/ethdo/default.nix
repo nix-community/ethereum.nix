@@ -8,17 +8,17 @@
 }:
 buildGoModule rec {
   pname = "ethdo";
-  version = "1.25.3";
+  version = "1.28.0";
 
   src = fetchFromGitHub {
     owner = "wealdtech";
     repo = "ethdo";
     rev = "v${version}";
-    hash = "sha256-bjkG8aWy90amIBtsBVKGWb244LySkyWV/9yi+inpLtM=";
+    hash = "sha256-cCUJR1TUxDXvazrOGhmpNb1YTXdtfGW3Xat5tIy0/rk=";
   };
 
   runVend = true;
-  vendorSha256 = "sha256-Kn4eaZMpIpXARf+jeXk9fndri2VYihm3WcxP1ApPRLs=";
+  vendorSha256 = "sha256-lNnEyaaZR/Ong5m4YCAxPgng6wQsLiR48czVhXypZgM=";
 
   nativeBuildInputs = [clang];
   buildInputs = [mcl bls];
