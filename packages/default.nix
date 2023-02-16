@@ -23,6 +23,7 @@ in {
 
       # Execution Clients
       erigon = pkgs.callPackage ./clients/execution/erigon {};
+      besu = pkgs.callPackage ./clients/execution/besu {};
       geth = pkgs.callPackage ./clients/execution/geth {};
       mev-geth = pkgs.callPackage ./clients/execution/mev-geth {};
       plugeth = pkgs.callPackage ./clients/execution/plugeth {};
@@ -81,10 +82,9 @@ in {
       };
 
       # execution clients
-      # TODO: Backport Besu to ethereum.nix
-      # besu = mkApp {
-      #   drv = besu;
-      # };
+      besu = mkApp {
+        drv = besu;
+      };
       erigon = mkApp {
         drv = erigon;
       };
@@ -181,6 +181,7 @@ in {
     overlayAttrs = {
       inherit
         (config.packages)
+        besu
         bls
         blst
         dirk
@@ -192,8 +193,8 @@ in {
         lighthouse
         mcl
         mev-boost
-        mev-rs
         mev-geth
+        mev-rs
         nethermind
         plugeth
         prysm
