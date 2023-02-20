@@ -6,16 +6,16 @@
 }:
 rustPlatform.buildRustPackage rec {
   pname = "mev-rs";
-  version = "0.2.1";
+  version = "0.3.0";
 
   src = fetchFromGitHub {
     owner = "ralexstokes";
     repo = pname;
-    rev = "main"; # Using main for now as version 0.2.1 doesn't include Cargo.lock
-    sha256 = "sha256-s8QUUQxh4iEOKW5wExzIuCboNjbLggYzkrfv4Wb8cWA=";
+    rev = "v${version}";
+    sha256 = "sha256-d8HIZx33ZRcZgdEBAuCa21/ivh/XKlQf+Sn2aZbth4E=";
   };
 
-  cargoSha256 = "sha256-Ry3Kc3yRa5bg38xjSzP2jebGcK1qD0KryqX8a+87rSo=";
+  cargoSha256 = "sha256-XwJDis7lfmlYFSRVesusa9jHUGoAoDOsFo8DCFiQMzU=";
 
   buildInputs = [openssl];
 
