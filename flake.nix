@@ -52,15 +52,12 @@
       {
         inherit inputs;
         specialArgs = {
-          inherit lib;
-          pkgs = nixpkgs.legacyPackages;
+          inherit lib; # make custom lib available to parent functions
         };
       }
       {
         imports = [
           ({inputs', ...}: {
-            # make pkgs available to all `perSystem` functions
-            _module.args.pkgs = inputs'.nixpkgs.legacyPackages;
             # make custom lib available to all `perSystem` functions
             _module.args.lib = lib;
           })
