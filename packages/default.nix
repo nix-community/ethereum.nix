@@ -14,6 +14,7 @@
     system,
     ...
   }: let
+    inherit (lib.attrs) filterAttrs;
     inherit (lib.flake) mkAppForSystem mergeForSystem callPackage;
   in {
     packages = mergeForSystem system {
@@ -207,32 +208,7 @@
         drvName = "sedge";
       };
     };
-    #
-    #    overlayAttrs = {
-    #      inherit
-    #        (config.packages)
-    #        besu
-    #        bls
-    #        blst
-    #        dirk
-    #        erigon
-    #        ethdo
-    #        evmc
-    #        geth
-    #        geth-sealer
-    #        lighthouse
-    #        mcl
-    #        mev-boost
-    #        mev-geth
-    #        mev-rs
-    #        nethermind
-    #        plugeth
-    #        prysm
-    #        sedge
-    #        teku
-    #        vouch
-    #        web3signer
-    #        ;
-    #    };
+
+    overlayAttrs = self'.packages;
   };
 }
