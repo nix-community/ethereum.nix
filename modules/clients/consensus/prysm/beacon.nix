@@ -8,7 +8,7 @@
   inherit (lib.strings) hasPrefix;
   inherit (lib.attrsets) zipAttrsWith mapAttrsRecursive optionalAttrs;
   inherit (lib) mdDoc flatten nameValuePair filterAttrs mapAttrs mapAttrs' mapAttrsToList;
-  inherit (lib) optionalString literalExpression mkEnableOption mkIf mkOption mkMerge types concatStringsSep;
+  inherit (lib) optionalString literalExpression mkEnableOption mkIf mkBefore mkOption mkMerge types concatStringsSep;
 
   modulesLib = import ../../../lib.nix {inherit lib pkgs;};
   inherit (modulesLib) mkArgs baseServiceConfig foldListToAttrs scripts;
@@ -249,14 +249,14 @@ in {
                 {
                   User = serviceName;
                   StateDirectory = serviceName;
-                  ExecStartPre = mkIf cfg.subVolume [
+                  ExecStartPre = mkIf cfg.subVolume (mkBefore [
                     "+${scripts.setupSubVolume} /var/lib/private/${serviceName}"
-                  ];
+                  ]);
                   ExecStart = "${cfg.package}/bin/beacon-chain ${scriptArgs}";
                   MemoryDenyWriteExecute = "false"; # causes a library loading error
                 }
                 (mkIf (cfg.args.jwt-secret != null) {
-                  LoadCredential = "jwt-secret:${cfg.args.jwt-secret}";
+                  LoadCredential = ["jwt-secret:${cfg.args.jwt-secret}"];
                 })
               ];
             })

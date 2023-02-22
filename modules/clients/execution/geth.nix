@@ -12,7 +12,7 @@
   inherit (lib.strings) hasPrefix;
   inherit (lib.attrsets) zipAttrsWith mapAttrsRecursive optionalAttrs;
   inherit (lib) mdDoc flatten nameValuePair filterAttrs mapAttrs mapAttrs' mapAttrsToList;
-  inherit (lib) optionalString literalExpression mkEnableOption mkIf mkMerge mkOption types concatStringsSep;
+  inherit (lib) optionalString literalExpression mkEnableOption mkIf mkMerge mkBefore mkOption types concatStringsSep;
 
   modulesLib = import ../../lib.nix {inherit lib pkgs;};
   inherit (modulesLib) mkArgs baseServiceConfig scripts;
@@ -293,13 +293,13 @@ in {
                 {
                   User = serviceName;
                   StateDirectory = serviceName;
-                  ExecStartPre = mkIf cfg.subVolume [
+                  ExecStartPre = mkIf cfg.subVolume (mkBefore [
                     "+${scripts.setupSubVolume} /var/lib/private/${serviceName}"
-                  ];
+                  ]);
                   ExecStart = "${cfg.package}/bin/geth ${scriptArgs}";
                 }
                 (mkIf (cfg.args.authrpc.jwtsecret != null) {
-                  LoadCredential = "jwtsecret:${cfg.args.authrpc.jwtsecret}";
+                  LoadCredential = ["jwtsecret:${cfg.args.authrpc.jwtsecret}"];
                 })
               ];
             })

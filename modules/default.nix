@@ -8,6 +8,7 @@
     imports = [
       ./clients
       ./backup.nix
+      ./restore.nix
     ];
   };
 }

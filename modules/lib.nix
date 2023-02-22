@@ -114,8 +114,8 @@ in {
       VOLUME_DIR=$1
 
       if ! ${pkgs.btrfs-progs}/bin/btrfs sub show $VOLUME_DIR > /dev/null; then
-          >&2 echo "$VOLUME_DIR is not a btrfs subvolume"
-          exit 1
+          >&2 echo "$VOLUME_DIR is not a btrfs subvolume, exiting"
+          exit 0
       fi
 
       echo "Disabling copy on write"

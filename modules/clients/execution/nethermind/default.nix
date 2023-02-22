@@ -26,6 +26,7 @@
     mdDoc
     mkEnableOption
     mkIf
+    mkBefore
     mkMerge
     mkOption
     nameValuePair
@@ -303,13 +304,13 @@ in {
                 {
                   User = serviceName;
                   StateDirectory = serviceName;
-                  ExecStartPre = mkIf cfg.subVolume [
+                  ExecStartPre = mkIf cfg.subVolume (mkBefore [
                     "+${scripts.setupSubVolume} /var/lib/private/${serviceName}"
-                  ];
+                  ]);
                   ExecStart = "${cfg.package}/bin/Nethermind.Runner ${scriptArgs}";
                 }
                 (mkIf (cfg.args.modules.JsonRpc.JwtSecretFile != null) {
-                  LoadCredential = "jwtsecret:${cfg.args.modules.JsonRpc.JwtSecretFile}";
+                  LoadCredential = ["jwtsecret:${cfg.args.modules.JsonRpc.JwtSecretFile}"];
                 })
               ];
             })

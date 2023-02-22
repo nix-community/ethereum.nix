@@ -8,7 +8,7 @@
   inherit (lib.lists) optionals findFirst;
   inherit (lib) mdDoc flatten nameValuePair;
   inherit (lib) zipAttrsWith filterAttrsRecursive optionalAttrs filterAttrs mapAttrs mapAttrs' mapAttrsToList;
-  inherit (lib) optionalString literalExpression mkEnableOption mkIf mkMerge mkOption types concatStringsSep;
+  inherit (lib) optionalString literalExpression mkEnableOption mkIf mkMerge mkBefore mkOption types concatStringsSep;
 
   modulesLib = import ../../lib.nix {inherit lib pkgs;};
   inherit (modulesLib) baseServiceConfig mkArgs scripts;
@@ -343,9 +343,9 @@ in {
                 {
                   User = serviceName;
                   StateDirectory = serviceName;
-                  ExecStartPre = mkIf cfg.subVolume [
+                  ExecStartPre = mkIf cfg.subVolume (mkBefore [
                     "+${scripts.setupSubVolume} /var/lib/private/${serviceName}"
-                  ];
+                  ]);
                   ExecStart = "${cfg.package}/bin/erigon ${scriptArgs}";
                 }
               ];
