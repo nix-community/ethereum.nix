@@ -1,5 +1,5 @@
 lib: let
-  flakes = import ./flakes.nix lib;
+  flake = import ./flake.nix lib;
 in {
-  inherit (flakes) mkApp;
+  inherit flake;
 }
