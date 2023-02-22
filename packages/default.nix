@@ -2,9 +2,7 @@
   inputs,
   lib,
   ...
-}: let
-  inherit (lib) mkApp;
-in {
+}: {
   imports = [
     inputs.flake-parts.flakeModules.easyOverlay
   ];
@@ -13,43 +11,68 @@ in {
     self',
     config,
     pkgs,
+    system,
     ...
-  }: {
-    packages = rec {
+  }: let
+    inherit (lib) mkApp mkIf optionals elem attrByPath assertMsg flatten listToAttrs mapAttrs attrValues filterAttrs;
+
+    callPackage = path: args: system: let
+      drv = pkgs.callPackage path args;
+      platforms = attrByPath ["meta" "platforms"] [] drv;
+    in
+      assert assertMsg (platforms != []) "meta.platforms must be present and non-empty in derivation located at: ${path}";
+      # compare the provided system against the derivation's supported platforms
+        mkIf (elem system platforms) drv;
+
+    mergeForSystem = system: attrs: let
+      withSystem = mapAttrs (_: v: v system) attrs;
+    in
+      # filter out the nulls
+      filterAttrs (_: v: v != null) (
+        # map entries to their content where the condition has evaluated to true
+        # return null otherwise
+        mapAttrs (_: v:
+          if v.condition
+          then v.content
+          else null)
+        withSystem
+      );
+  in {
+    packages = mergeForSystem system {
       # Consensus Clients
-      lighthouse = pkgs.callPackage ./clients/consensus/lighthouse {};
-      prysm = pkgs.callPackage ./clients/consensus/prysm {inherit bls blst;};
-      teku = pkgs.callPackage ./clients/consensus/teku {};
+      lighthouse = callPackage ./clients/consensus/lighthouse {};
+      prysm = callPackage ./clients/consensus/prysm {inherit (self'.packages) bls blst;};
+      teku = callPackage ./clients/consensus/teku {};
 
       # Execution Clients
-      erigon = pkgs.callPackage ./clients/execution/erigon {};
-      besu = pkgs.callPackage ./clients/execution/besu {};
-      geth = pkgs.callPackage ./clients/execution/geth {};
-      mev-geth = pkgs.callPackage ./clients/execution/mev-geth {};
-      plugeth = pkgs.callPackage ./clients/execution/plugeth {};
-      geth-sealer = pkgs.callPackage ./clients/execution/geth-sealer {};
-      nethermind = pkgs.callPackage ./clients/execution/nethermind {};
+      erigon = callPackage ./clients/execution/erigon {};
+      besu = callPackage ./clients/execution/besu {};
+      geth = callPackage ./clients/execution/geth {};
+      mev-geth = callPackage ./clients/execution/mev-geth {};
+      plugeth = callPackage ./clients/execution/plugeth {};
+      geth-sealer = callPackage ./clients/execution/geth-sealer {};
+      nethermind = callPackage ./clients/execution/nethermind {};
 
       # Signers
-      web3signer = pkgs.callPackage ./signers/web3signer {};
-      dirk = pkgs.callPackage ./signers/dirk {inherit bls mcl;};
+      web3signer = callPackage ./signers/web3signer {};
+      dirk = callPackage ./signers/dirk {inherit (self'.packages) bls mcl;};
 
       # Validators
-      vouch = pkgs.callPackage ./validators/vouch {inherit bls mcl;};
+      vouch = callPackage ./validators/vouch {inherit (self'.packages) bls mcl;};
 
       # MEV
-      mev-boost = pkgs.callPackage ./mev/mev-boost {inherit blst;};
-      mev-rs = pkgs.callPackage ./mev/mev-rs {};
+      mev-boost = callPackage ./mev/mev-boost {inherit (self'.packages) blst;};
+      mev-rs = callPackage ./mev/mev-rs {};
 
       # Utils
-      ethdo = pkgs.callPackage ./utils/ethdo {inherit bls mcl;};
-      sedge = pkgs.callPackage ./utils/sedge {inherit bls mcl;};
+      ethdo = callPackage ./utils/ethdo {inherit (self'.packages) bls mcl;};
+      sedge = callPackage ./utils/sedge {inherit (self'.packages) bls mcl;};
 
       # Libs
-      evmc = pkgs.callPackage ./libs/evmc {};
-      mcl = pkgs.callPackage ./libs/mcl {};
-      bls = pkgs.callPackage ./libs/bls {};
-      blst = pkgs.callPackage ./libs/blst {};
+      evmc = callPackage ./libs/evmc {};
+      mcl = callPackage ./libs/mcl {};
+      bls = callPackage ./libs/bls {};
+      blst = callPackage ./libs/blst {};
     };
 
     apps = with self'.packages; {
