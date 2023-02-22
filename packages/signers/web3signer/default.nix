@@ -29,5 +29,6 @@ stdenv.mkDerivation rec {
     homepage = "https://github.com/ConsenSys/web3signer";
     license = licenses.apsl20;
     sourceProvenance = with sourceTypes; [binaryBytecode];
+    platforms = ["x86_64-linux"];
   };
 }

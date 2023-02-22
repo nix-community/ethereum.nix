@@ -18,5 +18,6 @@ stdenv.mkDerivation rec {
   meta = {
     description = "Multilingual BLS12-381 signature library";
     homepage = "https://github.com/supranational/blst";
+    platforms = ["x86_64-linux"];
   };
 }

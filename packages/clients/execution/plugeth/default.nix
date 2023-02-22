@@ -30,5 +30,6 @@ buildGoModule rec {
     homepage = "https://github.com/openrelayxyz/plugeth";
     description = "PluGeth: The extensible Geth fork to end all Geth forks.";
     license = with licenses; [lgpl3Plus gpl3Plus];
+    platforms = ["x86_64-linux"];
   };
 }

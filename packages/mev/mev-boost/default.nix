@@ -19,4 +19,12 @@ buildGoModule rec {
   buildInputs = [blst];
 
   subPackages = ["cmd/mev-boost"];
+
+  meta = {
+    description = ''
+      MEV-Boost allows proof-of-stake Ethereum consensus clients to source blocks from a competitive builder marketplace
+    '';
+    homepage = "https://github.com/flashbots/mev-boost";
+    platforms = ["x86_64-linux"];
+  };
 }

@@ -32,5 +32,6 @@ buildGoModule rec {
   meta = with lib; {
     homepage = "https://github.com/ledgerwatch/erigon/";
     description = "Ethereum node implementation focused on scalability and modularity";
+    platforms = ["x86_64-linux"];
   };
 }

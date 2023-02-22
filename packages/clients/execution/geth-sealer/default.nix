@@ -30,5 +30,6 @@ buildGoModule rec {
     homepage = "https://github.com/manifoldfinance/geth-sealer";
     description = "Geth Sealer implementation";
     license = with licenses; [lgpl3Plus gpl3Plus];
+    platforms = ["x86_64-linux"];
   };
 }

@@ -54,6 +54,6 @@ buildDotnetModule rec {
     description = "Our flagship Ethereum client for Linux, Windows, and macOS—full and actively developed";
     homepage = "https://nethermind.io/nethermind-client";
     license = licenses.gpl3;
-    platforms = platforms.linux;
+    platforms = ["x86_64-linux"];
   };
 }
