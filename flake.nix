@@ -46,7 +46,8 @@
     nixpkgs,
     ...
   }: let
-    lib = import ./nix/lib {inherit (nixpkgs) lib;} // nixpkgs.lib;
+    lib = nixpkgs.lib.extend (final: _: import ./nix/lib final);
+    #    lib = import ./nix/lib {inherit (nixpkgs) lib;} // nixpkgs.lib;
   in
     (flake-parts.lib.evalFlakeModule
       {
