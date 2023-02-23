@@ -15,43 +15,44 @@
     ...
   }: let
     inherit (lib.attrs) filterAttrs;
-    inherit (lib.flake) mkAppForSystem mergeForSystem callPackage;
+    inherit (lib.flake) platformPkgs mkAppForSystem mergeForSystem;
+    inherit (pkgs) callPackage;
   in {
-    packages = mergeForSystem system {
+    packages = platformPkgs system rec {
       # Consensus Clients
-      lighthouse = callPackage pkgs ./clients/consensus/lighthouse {};
-      prysm = callPackage pkgs ./clients/consensus/prysm {inherit (self'.packages) bls blst;};
-      teku = callPackage pkgs ./clients/consensus/teku {};
+      lighthouse = callPackage ./clients/consensus/lighthouse {};
+      prysm = callPackage ./clients/consensus/prysm {inherit bls blst;};
+      teku = callPackage ./clients/consensus/teku {};
 
       # Execution Clients
-      erigon = callPackage pkgs ./clients/execution/erigon {};
-      besu = callPackage pkgs ./clients/execution/besu {};
-      geth = callPackage pkgs ./clients/execution/geth {};
-      mev-geth = callPackage pkgs ./clients/execution/mev-geth {};
-      plugeth = callPackage pkgs ./clients/execution/plugeth {};
-      geth-sealer = callPackage pkgs ./clients/execution/geth-sealer {};
-      nethermind = callPackage pkgs ./clients/execution/nethermind {};
+      erigon = callPackage ./clients/execution/erigon {};
+      besu = callPackage ./clients/execution/besu {};
+      geth = callPackage ./clients/execution/geth {};
+      mev-geth = callPackage ./clients/execution/mev-geth {};
+      plugeth = callPackage ./clients/execution/plugeth {};
+      geth-sealer = callPackage ./clients/execution/geth-sealer {};
+      nethermind = callPackage ./clients/execution/nethermind {};
 
       # Signers
-      web3signer = callPackage pkgs ./signers/web3signer {};
-      dirk = callPackage pkgs ./signers/dirk {inherit (self'.packages) bls mcl;};
+      web3signer = callPackage ./signers/web3signer {};
+      dirk = callPackage ./signers/dirk {inherit bls mcl;};
 
       # Validators
-      vouch = callPackage pkgs ./validators/vouch {inherit (self'.packages) bls mcl;};
+      vouch = callPackage ./validators/vouch {inherit bls mcl;};
 
       # MEV
-      mev-boost = callPackage pkgs ./mev/mev-boost {inherit (self'.packages) blst;};
-      mev-rs = callPackage pkgs ./mev/mev-rs {};
+      mev-boost = callPackage ./mev/mev-boost {inherit blst;};
+      mev-rs = callPackage ./mev/mev-rs {};
 
       # Utils
-      ethdo = callPackage pkgs ./utils/ethdo {inherit (self'.packages) bls mcl;};
-      sedge = callPackage pkgs ./utils/sedge {inherit (self'.packages) bls mcl;};
+      ethdo = callPackage ./utils/ethdo {inherit bls mcl;};
+      sedge = callPackage ./utils/sedge {inherit bls mcl;};
 
       # Libs
-      evmc = callPackage pkgs ./libs/evmc {};
-      mcl = callPackage pkgs ./libs/mcl {};
-      bls = callPackage pkgs ./libs/bls {};
-      blst = callPackage pkgs ./libs/blst {};
+      evmc = callPackage ./libs/evmc {};
+      mcl = callPackage ./libs/mcl {};
+      bls = callPackage ./libs/bls {};
+      blst = callPackage ./libs/blst {};
     };
 
     apps = mergeForSystem system {

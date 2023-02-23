@@ -1,13 +1,12 @@
 lib: let
   inherit (lib) mkApp mkIf optionals elem attrByPath assertMsg mapAttrs attrValues filterAttrs;
 in rec {
-  callPackage = pkgs: path: args: system: let
-    drv = pkgs.callPackage path args;
-    platforms = attrByPath ["meta" "platforms"] [] drv;
-  in
-    assert assertMsg (platforms != []) "meta.platforms must be present and non-empty in derivation located at: ${path}";
-    # compare the provided system against the derivation's supported platforms
-      mkIf (elem system platforms) drv;
+  platformPkgs = system:
+    filterAttrs
+    (_: value: let
+      platforms = attrByPath ["meta" "platforms"] [] value;
+    in
+      elem system platforms);
 
   mergeForSystem = system: attrs: let
     withSystem = mapAttrs (_: v: v system) attrs;
