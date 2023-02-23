@@ -15,6 +15,10 @@
   inputs = {
     # packages
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    foundry-nix = {
+      url = "github:shazow/foundry.nix/monthly";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     flake-compat = {
       url = "github:edolstra/flake-compat";
