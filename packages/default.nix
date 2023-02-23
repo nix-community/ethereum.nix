@@ -43,6 +43,9 @@
       mev-boost = callPackage ./mev/mev-boost {inherit blst;};
       mev-rs = callPackage ./mev/mev-rs {};
 
+      # DVT
+      ssvnode = callPackage ./dvt/ssvnode {inherit bls mcl;};
+
       # Utils
       ethdo = callPackage ./utils/ethdo {inherit bls mcl;};
       sedge = callPackage ./utils/sedge {inherit bls mcl;};
@@ -96,6 +99,9 @@
       };
 
       plugeth.bin = "geth";
+
+      # dvt
+      ssvnode.bin = "ssvnode";
 
       # mev
       mev-boost.bin = "mev-boost";
