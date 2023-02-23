@@ -29,5 +29,6 @@ stdenv.mkDerivation rec {
     homepage = "https://github.com/hyperledger/besu";
     license = licenses.asl20;
     sourceProvenance = with sourceTypes; [binaryBytecode];
+    platforms = ["x86_64-linux"];
   };
 }

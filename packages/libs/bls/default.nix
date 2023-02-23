@@ -25,5 +25,6 @@ stdenv.mkDerivation rec {
   meta = {
     description = "BLS threshold signature";
     homepage = "https://github.com/herumi/bls";
+    platforms = ["x86_64-linux" "aarch64-darwin"];
   };
 }

@@ -30,5 +30,6 @@ buildGoModule rec {
     homepage = "https://github.com/flashbots/mev-geth";
     description = "Go implementation of MEV-Auction for Ethereum";
     license = with licenses; [lgpl3Plus gpl3Plus];
+    platforms = ["x86_64-linux"];
   };
 }

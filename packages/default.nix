@@ -2,9 +2,7 @@
   inputs,
   lib,
   ...
-}: let
-  inherit (lib) mkApp;
-in {
+}: {
   imports = [
     inputs.flake-parts.flakeModules.easyOverlay
   ];
@@ -13,196 +11,107 @@ in {
     self',
     config,
     pkgs,
+    system,
     ...
-  }: {
-    packages = rec {
+  }: let
+    inherit (pkgs) callPackage;
+    inherit (lib.flake) platformPkgs platformApps;
+  in {
+    packages = platformPkgs system rec {
       # Consensus Clients
-      lighthouse = pkgs.callPackage ./clients/consensus/lighthouse {};
-      prysm = pkgs.callPackage ./clients/consensus/prysm {inherit bls blst;};
-      teku = pkgs.callPackage ./clients/consensus/teku {};
+      lighthouse = callPackage ./clients/consensus/lighthouse {};
+      prysm = callPackage ./clients/consensus/prysm {inherit bls blst;};
+      teku = callPackage ./clients/consensus/teku {};
 
       # Execution Clients
-      erigon = pkgs.callPackage ./clients/execution/erigon {};
-      besu = pkgs.callPackage ./clients/execution/besu {};
-      geth = pkgs.callPackage ./clients/execution/geth {};
-      mev-geth = pkgs.callPackage ./clients/execution/mev-geth {};
-      plugeth = pkgs.callPackage ./clients/execution/plugeth {};
-      geth-sealer = pkgs.callPackage ./clients/execution/geth-sealer {};
-      nethermind = pkgs.callPackage ./clients/execution/nethermind {};
+      erigon = callPackage ./clients/execution/erigon {};
+      besu = callPackage ./clients/execution/besu {};
+      geth = callPackage ./clients/execution/geth {};
+      mev-geth = callPackage ./clients/execution/mev-geth {};
+      plugeth = callPackage ./clients/execution/plugeth {};
+      geth-sealer = callPackage ./clients/execution/geth-sealer {};
+      nethermind = callPackage ./clients/execution/nethermind {};
 
       # Signers
-      web3signer = pkgs.callPackage ./signers/web3signer {};
-      dirk = pkgs.callPackage ./signers/dirk {inherit bls mcl;};
+      web3signer = callPackage ./signers/web3signer {};
+      dirk = callPackage ./signers/dirk {inherit bls mcl;};
 
       # Validators
-      vouch = pkgs.callPackage ./validators/vouch {inherit bls mcl;};
+      vouch = callPackage ./validators/vouch {inherit bls mcl;};
 
       # MEV
-      mev-boost = pkgs.callPackage ./mev/mev-boost {inherit blst;};
-      mev-rs = pkgs.callPackage ./mev/mev-rs {};
+      mev-boost = callPackage ./mev/mev-boost {inherit blst;};
+      mev-rs = callPackage ./mev/mev-rs {};
 
       # Utils
-      ethdo = pkgs.callPackage ./utils/ethdo {inherit bls mcl;};
-      sedge = pkgs.callPackage ./utils/sedge {inherit bls mcl;};
+      ethdo = callPackage ./utils/ethdo {inherit bls mcl;};
+      sedge = callPackage ./utils/sedge {inherit bls mcl;};
 
       # Libs
-      evmc = pkgs.callPackage ./libs/evmc {};
-      mcl = pkgs.callPackage ./libs/mcl {};
-      bls = pkgs.callPackage ./libs/bls {};
-      blst = pkgs.callPackage ./libs/blst {};
+      evmc = callPackage ./libs/evmc {};
+      mcl = callPackage ./libs/mcl {};
+      bls = callPackage ./libs/bls {};
+      blst = callPackage ./libs/blst {};
     };
 
-    apps = with self'.packages; {
+    apps = platformApps self'.packages {
       # consensus clients / prysm
-      prysm-beacon-chain = mkApp {
-        name = "beacon-chain";
-        drv = prysm;
-      };
-      prysm-validator = mkApp {
-        name = "validator";
-        drv = prysm;
-      };
-      prysm-client-stats = mkApp {
-        name = "client-stats";
-        drv = prysm;
-      };
-      prysm-ctl = mkApp {
-        name = "prysmctl";
-        drv = prysm;
+      prysm = {
+        prysm-beacon-chain.bin = "beacon-chain";
+        prysm-validator.bin = "validator";
+        prysm-client-stats.bin = "client-stats";
+        prysm-ctl.bin = "prysmctl";
       };
 
       # consensus / teku
-      teku = mkApp {
-        drv = teku;
-      };
+      teku.bin = "teku";
 
       # consensus / lighthouse
-      lighthouse = mkApp {
-        drv = lighthouse;
-      };
+      lighthouse.bin = "lighthouse";
 
       # execution clients
-      besu = mkApp {
-        drv = besu;
-      };
-      erigon = mkApp {
-        drv = erigon;
+      besu.bin = "besu";
+      erigon.bin = "erigon";
+
+      geth = {
+        bin = "geth";
+        geth-abidump.bin = "abidump";
+        geth-abigen.bin = "abigen";
+        geth-bootnode.bin = "bootnode";
+        geth-clef.bin = "clef";
+        geth-devp2p.bin = "devp2p";
+        geth-ethkey.bin = "ethkey";
+        geth-evm.bin = "evm";
+        geth-faucet.bin = "faucet";
+        geth-rlpdump.bin = "rlpdump";
       };
 
-      geth = mkApp {
-        drv = geth;
-      };
-      geth-abidump = mkApp {
-        name = "abidump";
-        drv = geth;
-      };
-      geth-abigen = mkApp {
-        name = "abigen";
-        drv = geth;
-      };
-      geth-bootnode = mkApp {
-        name = "bootnode";
-        drv = geth;
-      };
-      geth-clef = mkApp {
-        name = "clef";
-        drv = geth;
-      };
-      geth-devp2p = mkApp {
-        name = "devp2p";
-        drv = geth;
-      };
-      geth-ethkey = mkApp {
-        name = "ethkey";
-        drv = geth;
-      };
-      geth-evm = mkApp {
-        name = "evm";
-        drv = geth;
-      };
-      geth-faucet = mkApp {
-        name = "faucet";
-        drv = geth;
-      };
-      geth-rlpdump = mkApp {
-        name = "rlpdump";
-        drv = geth;
+      geth-sealer.bin = "geth";
+
+      mev-geth.bin = "geth";
+
+      nethermind = {
+        nethermind.bin = "Nethermind.Cli";
+        nethermind-runner.bin = "Nethermind.Runner";
       };
 
-      geth-sealer = mkApp {
-        name = "geth";
-        drv = geth-sealer;
-      };
-      mev-geth = mkApp {
-        name = "geth";
-        drv = mev-geth;
-      };
-      nethermind = mkApp {
-        name = "Nethermind.Cli";
-        drv = nethermind;
-      };
-      nethermind-runner = mkApp {
-        name = "Nethermind.Runner";
-        drv = nethermind;
-      };
-      plugeth = mkApp {
-        name = "geth";
-        drv = plugeth;
-      };
+      plugeth.bin = "geth";
 
       # mev
-      mev-boost = mkApp {
-        drv = mev-boost;
-      };
-      mev-rs = mkApp {
-        name = "mev";
-        drv = mev-rs;
-      };
+      mev-boost.bin = "mev-boost";
+      mev-rs.bin = "mev";
 
       # Signers
-      dirk = mkApp {
-        drv = dirk;
-      };
+      dirk.bin = "dirk";
 
       # Validators
-      vouch = mkApp {
-        drv = vouch;
-      };
+      vouch.bin = "vouch";
 
       # utils
-      ethdo = mkApp {
-        drv = ethdo;
-      };
-      sedge = mkApp {
-        drv = sedge;
-      };
+      ethdo.bin = "ethdo";
+      sedge.bin = "sedge";
     };
 
-    overlayAttrs = {
-      inherit
-        (config.packages)
-        besu
-        bls
-        blst
-        dirk
-        erigon
-        ethdo
-        evmc
-        geth
-        geth-sealer
-        lighthouse
-        mcl
-        mev-boost
-        mev-geth
-        mev-rs
-        nethermind
-        plugeth
-        prysm
-        sedge
-        teku
-        vouch
-        web3signer
-        ;
-    };
+    overlayAttrs = self'.packages;
   };
 }

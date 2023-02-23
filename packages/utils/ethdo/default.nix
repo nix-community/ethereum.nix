@@ -4,6 +4,7 @@
   clang,
   mcl,
   bls,
+  lib,
   ...
 }:
 buildGoModule rec {
@@ -24,4 +25,11 @@ buildGoModule rec {
   buildInputs = [mcl bls];
 
   doCheck = false;
+
+  meta = with lib; {
+    description = "A command-line tool for managing common tasks in Ethereum 2";
+    homepage = "https://github.com/wealdtech/ethdo";
+    license = licenses.apsl20;
+    platforms = ["x86_64-linux" "aarch64-darwin"];
+  };
 }

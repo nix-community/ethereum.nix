@@ -27,5 +27,6 @@ rustPlatform.buildRustPackage rec {
   meta = {
     homepage = "https://github.com/ralexstokes/mev-rs";
     description = "A gateway to a network of block builders";
+    platforms = ["x86_64-linux"];
   };
 }

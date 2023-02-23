@@ -46,7 +46,8 @@
     nixpkgs,
     ...
   }: let
-    lib = import ./nix/lib {inherit (nixpkgs) lib;} // nixpkgs.lib;
+    lib = nixpkgs.lib.extend (final: _: import ./nix/lib final);
+    #    lib = import ./nix/lib {inherit (nixpkgs) lib;} // nixpkgs.lib;
   in
     (flake-parts.lib.evalFlakeModule
       {
@@ -64,8 +65,14 @@
           ./nix
           ./packages
           ./modules
+          ./tests
         ];
-        systems = ["x86_64-linux"];
+        systems = [
+          "x86_64-linux"
+          "aarch64-linux"
+          "x86_64-darwin"
+          "aarch64-darwin"
+        ];
       })
     .config
     .flake;

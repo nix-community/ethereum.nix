@@ -25,5 +25,6 @@ buildGoModule rec {
   meta = with lib; {
     homepage = "https://docs.sedge.nethermind.io/";
     description = "A one-click setup tool for PoS network/chain validators and nodes.";
+    platforms = ["x86_64-linux"];
   };
 }

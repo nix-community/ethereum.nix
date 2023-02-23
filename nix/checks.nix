@@ -9,13 +9,9 @@ in {
   perSystem = psArgs @ {
     self',
     pkgs,
+    config,
     ...
-  }: let
-    # load package derivations
-    inherit (packagesModule.perSystem psArgs) packages;
-    # import integration tests
-    integrationTests = import ./../tests {inherit self' inputs pkgs;};
-  in {
+  }: {
     checks =
       {
         statix =
@@ -29,8 +25,8 @@ in {
           '';
       }
       # add integration tests for our custom nixosModules
-      // integrationTests
+      // config.tests
       # merge in the package derivations to force a build of all packages during a `nix flake check`
-      // packages;
+      // self'.packages;
   };
 }
