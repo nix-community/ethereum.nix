@@ -37,16 +37,16 @@
 in
   rustPlatform.buildRustPackage rec {
     pname = "lighthouse";
-    version = "3.4.0";
+    version = "3.5.0";
 
     src = fetchFromGitHub {
       owner = "sigp";
       repo = pname;
       rev = "v${version}";
-      sha256 = "sha256-4auiM5+kj/HjZKu2YP7JEnwDNxHuL39XCfmV/dc5jLE=";
+      sha256 = "sha256-09EQr/ghgdcnek0dih0+TXyIh5qwGWmg+nhI8d9n3Jc=";
     };
 
-    cargoSha256 = "sha256-ihfGwdxL7Ttw86dhaVBp5meb0caXjzgbbP27Io8zv/c=";
+    cargoSha256 = "sha256-NWG3yIgxfD1GkiQ6TyZF4lNPy9s/i/9TaTujlOtx2NI=";
 
     patches = [./001-Change-Web3Signer-Dir.patch];
 
