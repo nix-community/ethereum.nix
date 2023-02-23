@@ -122,4 +122,22 @@ in {
       ${pkgs.e2fsprogs}/bin/chattr -R +C $VOLUME_DIR
     '';
   };
+
+  attrs.flattenTree = with lib;
+    tree: let
+      op = sum: path: val: let
+        pathStr = concatStringsSep "-" path;
+      in
+        if (attrByPath ["enable"] false val)
+        then (sum // {"${pathStr}" = val;})
+        else if (isAttrs val)
+        then (recurse sum path val)
+        else sum;
+
+      recurse = sum: path: val:
+        foldl'
+        (sum: key: op sum (path ++ [key]) val.${key})
+        sum (attrNames val);
+    in
+      recurse {} [] tree;
 }

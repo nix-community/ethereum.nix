@@ -7,8 +7,8 @@
   flake.nixosModules.default = {
     imports = [
       ./clients
-      ./backup.nix
-      ./restore.nix
+      ./backup
+      ./restore
     ];
   };
 }
