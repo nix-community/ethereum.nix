@@ -189,13 +189,17 @@
         description = lib.mdDoc "Open ports in the firewall for any enabled networking services";
       };
 
-      service = {
-        supplementaryGroups = mkOption {
-          default = [];
-          type = types.listOf types.str;
-          description = mdDoc "Additional groups for the systemd service e.g. sops-nix group for secret access.";
-        };
-      };
+      # mixin backup options
+      backup = let
+        inherit (import ../../backup/lib.nix lib) options;
+      in
+        options;
+
+      # mixin restore options
+      restore = let
+        inherit (import ../../restore/lib.nix lib) options;
+      in
+        options;
     };
   };
 in {
@@ -297,6 +301,11 @@ in {
               after = ["network.target"];
               wantedBy = ["multi-user.target"];
               description = "Nethermind Node (${nethermindName})";
+
+              environment = {
+                WEB3_HTTP_HOST = cfg.args.modules.JsonRpc.EngineHost;
+                WEB3_HTTP_PORT = (builtins.toString cfg.args.modules.JsonRpc.Port);
+              };
 
               # create service config by merging with the base config
               serviceConfig = mkMerge [

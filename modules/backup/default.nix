@@ -54,7 +54,7 @@
     fi
 
     # source the same environment as the service
-    eval $(strings /proc/$PID/environ | grep -E '^(WEB3_*|GRPC_*|STATE_DIRECTORY)')
+    . <(xargs -0 bash -c 'printf "export %q\n" "$@"' -- < /proc/$PID/environ)
 
     # we don't want to exit if the following commands fail as the process might be down as part of an update
     # and this unit was inflight at the time
@@ -63,16 +63,16 @@
     case $SERVICE_NAME in
 
         @(geth|nethermind)-* )
-            curl -s -X POST \
+            ${pkgs.curl}/bin/curl -s -X POST \
                 -H 'Content-Type: application/json' \
                 -d '{"jsonrpc":"2.0","id":1,"method":"eth_getBlockByNumber","params":["latest",false]}' \
                 http://$WEB3_HTTP_HOST:$WEB3_HTTP_PORT \
-                | jq -f ${executionClientJq} > $STATE_DIRECTORY/.metadata.json
+                | ${pkgs.jq}/bin/jq -f ${executionClientJq} > $STATE_DIRECTORY/.metadata.json
             ;;
 
         prysm-beacon-*)
-            curl -s http://$GRPC_GATEWAY_HOST:$GRPC_GATEWAY_PORT/eth/v1/node/syncing \
-                | jq '.data + { "height": (.data.head_slot | tonumber) }' > $STATE_DIRECTORY/.metadata.json
+            ${pkgs.curl}/bin/curl -s http://$GRPC_GATEWAY_HOST:$GRPC_GATEWAY_PORT/eth/v1/node/syncing \
+                | ${pkgs.jq}/bin/jq '.data + { "height": (.data.head_slot | tonumber) }' > $STATE_DIRECTORY/.metadata.json
             ;;
 
         *)
@@ -195,7 +195,9 @@
       path = with pkgs; [
         curl
         jq
+        bash
         binutils
+        findutils
       ];
       # ensures this service is stopped if the main service is stopped
       bindsTo = ["${name}.service"];
