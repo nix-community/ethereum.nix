@@ -1,26 +1,30 @@
-lib: let
-  inherit (lib) mkApp mkIf optionals elem attrByPath assertMsg mapAttrs attrValues filterAttrs;
-in rec {
+lib: rec {
   platformPkgs = system:
-    filterAttrs
-    (_: value: let
-      platforms = attrByPath ["meta" "platforms"] [] value;
-    in
-      elem system platforms);
+    with lib;
+      filterAttrs
+      (_: value: let
+        platforms = attrByPath ["meta" "platforms"] [] value;
+      in
+        elem system platforms);
 
-  mergeForSystem = system: attrs: let
-    withSystem = mapAttrs (_: v: v system) attrs;
-  in
-    # filter out the nulls
-    filterAttrs (_: v: v != null) (
-      # map entries to their content where the condition has evaluated to true
-      # return null otherwise
-      mapAttrs (_: v:
-        if v.condition
-        then v.content
-        else null)
-      withSystem
-    );
+  buildApps = packages: apps:
+    with lib;
+      listToAttrs
+      (collect (attrs: builtins.attrNames attrs == ["name" "value"])
+        (mapAttrsRecursiveCond builtins.isAttrs (path: _: let
+          drvName = head path;
+          drv = packages.${drvName};
+          name = last (init path);
+        in
+          nameValuePair name {inherit drv name;})
+        apps));
+
+  platformApps = packages: apps:
+    with lib; let
+      apps' = filterAttrs (name: _: elem name (attrNames packages)) apps;
+      bapps = buildApps packages apps';
+    in
+      mapAttrs (_: mkApp) bapps;
 
   # Taken from flake-utils: https://github.com/numtide/flake-utils/blob/5aed5285a952e0b949eb3ba02c12fa4fcfef535f/default.nix#L195
   mkApp = {
@@ -31,23 +35,4 @@ in rec {
     type = "app";
     program = "${drv}${exePath}";
   };
-
-  mkAppForSystem = {
-    self',
-    drvName,
-    name ? drv: attrByPath ["pname"] drv.name drv,
-    exePath ? drv: attrByPath ["passthru" "exePath"] "/bin/${name drv}" drv,
-  }: system: let
-    drv = attrByPath [drvName] null self'.packages;
-    platforms =
-      if drv != null
-      then attrByPath ["meta" "platforms"] [] drv
-      else [];
-  in
-    mkIf (elem system platforms)
-    (mkApp {
-      inherit drv;
-      name = name drv;
-      exePath = exePath drv;
-    });
 }

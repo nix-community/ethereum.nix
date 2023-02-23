@@ -14,9 +14,8 @@
     system,
     ...
   }: let
-    inherit (lib.attrs) filterAttrs;
-    inherit (lib.flake) platformPkgs mkAppForSystem mergeForSystem;
     inherit (pkgs) callPackage;
+    inherit (lib.flake) platformPkgs platformApps;
   in {
     packages = platformPkgs system rec {
       # Consensus Clients
@@ -55,159 +54,62 @@
       blst = callPackage ./libs/blst {};
     };
 
-    apps = mergeForSystem system {
+    apps = platformApps self'.packages {
       # consensus clients / prysm
-      prysm-beacon-chain = mkAppForSystem {
-        inherit self';
-        name = _: "beacon-chain";
-        drvName = "prysm";
-      };
-      prysm-validator = mkAppForSystem {
-        inherit self';
-        name = _: "validator";
-        drvName = "prysm";
-      };
-      prysm-client-stats = mkAppForSystem {
-        inherit self';
-        name = _: "client-stats";
-        drvName = "prysm";
-      };
-      prysm-ctl = mkAppForSystem {
-        inherit self';
-        name = _: "prysmctl";
-        drvName = "prysm";
+      prysm = {
+        prysm-beacon-chain.bin = "beacon-chain";
+        prysm-validator.bin = "validator";
+        prysm-client-stats.bin = "client-stats";
+        prysm-ctl.bin = "prysmctl";
       };
 
       # consensus / teku
-      teku = mkAppForSystem {
-        inherit self';
-        drvName = "teku";
-      };
+      teku.bin = "teku";
 
       # consensus / lighthouse
-      lighthouse = mkAppForSystem {
-        inherit self';
-        drvName = "lighthouse";
-      };
+      lighthouse.bin = "lighthouse";
 
       # execution clients
-      besu = mkAppForSystem {
-        inherit self';
-        drvName = "besu";
-      };
-      erigon = mkAppForSystem {
-        inherit self';
-        drvName = "erigon";
+      besu.bin = "besu";
+      erigon.bin = "erigon";
+
+      geth = {
+        bin = "geth";
+        geth-abidump.bin = "abidump";
+        geth-abigen.bin = "abigen";
+        geth-bootnode.bin = "bootnode";
+        geth-clef.bin = "clef";
+        geth-devp2p.bin = "devp2p";
+        geth-ethkey.bin = "ethkey";
+        geth-evm.bin = "evm";
+        geth-faucet.bin = "faucet";
+        geth-rlpdump.bin = "rlpdump";
       };
 
-      geth = mkAppForSystem {
-        inherit self';
-        drvName = "geth";
-      };
-      geth-abidump = mkAppForSystem {
-        inherit self';
-        name = _: "abidump";
-        drvName = "geth";
-      };
-      geth-abigen = mkAppForSystem {
-        inherit self';
-        name = _: "abigen";
-        drvName = "geth";
-      };
-      geth-bootnode = mkAppForSystem {
-        inherit self';
-        name = _: "bootnode";
-        drvName = "geth";
-      };
-      geth-clef = mkAppForSystem {
-        inherit self';
-        name = _: "clef";
-        drvName = "geth";
-      };
-      geth-devp2p = mkAppForSystem {
-        inherit self';
-        name = _: "devp2p";
-        drvName = "geth";
-      };
-      geth-ethkey = mkAppForSystem {
-        inherit self';
-        name = _: "ethkey";
-        drvName = "geth";
-      };
-      geth-evm = mkAppForSystem {
-        inherit self';
-        name = _: "evm";
-        drvName = "geth";
-      };
-      geth-faucet = mkAppForSystem {
-        inherit self';
-        name = _: "faucet";
-        drvName = "geth";
-      };
-      geth-rlpdump = mkAppForSystem {
-        inherit self';
-        name = _: "rlpdump";
-        drvName = "geth";
+      geth-sealer.bin = "geth";
+
+      mev-geth.bin = "geth";
+
+      nethermind = {
+        nethermind.bin = "Nethermind.Cli";
+        nethermind-runner.bin = "Nethermind.Runner";
       };
 
-      geth-sealer = mkAppForSystem {
-        inherit self';
-        name = _: "geth";
-        drvName = "geth-sealer";
-      };
-      mev-geth = mkAppForSystem {
-        inherit self';
-        name = _: "geth";
-        drvName = "mev-geth";
-      };
-      nethermind = mkAppForSystem {
-        inherit self';
-        name = _: "Nethermind.Cli";
-        drvName = "nethermind";
-      };
-      nethermind-runner = mkAppForSystem {
-        inherit self';
-        name = _: "Nethermind.Runner";
-        drvName = "nethermind";
-      };
-      plugeth = mkAppForSystem {
-        inherit self';
-        name = _: "geth";
-        drvName = "plugeth";
-      };
+      plugeth.bin = "geth";
 
       # mev
-      mev-boost = mkAppForSystem {
-        inherit self';
-        drvName = "mev-boost";
-      };
-      mev-rs = mkAppForSystem {
-        inherit self';
-        name = _: "mev";
-        drvName = "mev-rs";
-      };
+      mev-boost.bin = "mev-boost";
+      mev-rs.bin = "mev";
 
       # Signers
-      dirk = mkAppForSystem {
-        inherit self';
-        drvName = "dirk";
-      };
+      dirk.bin = "dirk";
 
       # Validators
-      vouch = mkAppForSystem {
-        inherit self';
-        drvName = "vouch";
-      };
+      vouch.bin = "vouch";
 
       # utils
-      ethdo = mkAppForSystem {
-        inherit self';
-        drvName = "ethdo";
-      };
-      sedge = mkAppForSystem {
-        inherit self';
-        drvName = "sedge";
-      };
+      ethdo.bin = "ethdo";
+      sedge.bin = "sedge";
     };
 
     overlayAttrs = self'.packages;
