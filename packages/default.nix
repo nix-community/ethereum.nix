@@ -50,6 +50,11 @@
       ethdo = callPackage ./utils/ethdo {inherit bls mcl;};
       sedge = callPackage ./utils/sedge {inherit bls mcl;};
 
+      # Dev
+      foundry = inputs.foundry-nix.defaultPackage.${system}.overrideAttrs (oldAttrs: {
+        meta.platforms = [system];
+      });
+
       # Libs
       evmc = callPackage ./libs/evmc {};
       mcl = callPackage ./libs/mcl {};
@@ -112,6 +117,13 @@
 
       # Validators
       vouch.bin = "vouch";
+
+      # Dev
+      foundry = {
+        anvil.bin = "anvil";
+        cast.bin = "cast";
+        forge.bin = "forge";
+      };
 
       # utils
       ethdo.bin = "ethdo";
