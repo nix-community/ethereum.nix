@@ -11,12 +11,13 @@ lib: rec {
     with lib;
       listToAttrs
       (collect (attrs: builtins.attrNames attrs == ["name" "value"])
-        (mapAttrsRecursiveCond builtins.isAttrs (path: _: let
+        (mapAttrsRecursiveCond builtins.isAttrs (path: v: let
           drvName = head path;
           drv = packages.${drvName};
           name = last (init path);
+          exePath = "/bin/${v}";
         in
-          nameValuePair name {inherit drv name;})
+          nameValuePair name {inherit drv name exePath;})
         apps));
 
   platformApps = packages: apps:
