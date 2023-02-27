@@ -9,6 +9,7 @@
 
   perSystem = {
     self',
+    inputs',
     config,
     pkgs,
     system,
@@ -16,10 +17,12 @@
   }: let
     inherit (pkgs) callPackage;
     inherit (lib.flake) platformPkgs platformApps;
+
+    callPackageUnstable = inputs'.nixpkgs-unstable.legacyPackages.callPackage;
   in {
     packages = platformPkgs system rec {
       # Consensus Clients
-      lighthouse = callPackage ./clients/consensus/lighthouse {};
+      lighthouse = callPackageUnstable ./clients/consensus/lighthouse {};
       prysm = callPackage ./clients/consensus/prysm {inherit bls blst;};
       teku = callPackage ./clients/consensus/teku {};
 

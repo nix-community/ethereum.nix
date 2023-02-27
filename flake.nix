@@ -14,7 +14,9 @@
 
   inputs = {
     # packages
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/22.11";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+
     foundry-nix = {
       url = "github:shazow/foundry.nix/monthly";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -34,7 +36,9 @@
     mission-control.url = "github:Platonic-Systems/mission-control";
 
     # utils
-    treefmt-nix.url = "github:numtide/treefmt-nix";
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
+    };
     statix = {
       url = "github:nerdypepper/statix";
       inputs.nixpkgs.follows = "nixpkgs";
