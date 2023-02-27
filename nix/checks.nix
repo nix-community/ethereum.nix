@@ -24,9 +24,9 @@ in {
             touch $out
           '';
       }
-      # add integration tests for our custom nixosModules
-      // config.tests
+      # mix in tests
+      // config.testing.checks
       # merge in the package derivations to force a build of all packages during a `nix flake check`
-      // self'.packages;
+      // (with lib; mapAttrs' (n: nameValuePair "package-${n}") self'.packages);
   };
 }

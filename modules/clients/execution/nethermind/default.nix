@@ -231,7 +231,7 @@ in {
         nethermindName: let
           serviceName = "nethermind-${nethermindName}";
 
-          modulesLib = import ../../lib.nix {inherit lib pkgs;};
+          modulesLib = import ../../../lib.nix {inherit lib pkgs;};
           inherit (modulesLib) mkArgs baseServiceConfig;
         in
           cfg: let
