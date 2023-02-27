@@ -56,9 +56,6 @@ lib: {
           # private to a node
           "keystore"
           "geth/nodekey"
-          # metadata related to backup process
-          ".exit-status"
-          ".metadata.json"
         ];
         example = [
           "/home/*/.cache"

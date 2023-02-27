@@ -19,9 +19,18 @@
       (flattenTree config.services.ethereum)
     );
 
-  excludeFile = cfg:
-  # Write each exclude pattern to a new line
-    pkgs.writeText "excludefile" (concatMapStrings (s: s + "\n") cfg.borg.exclude);
+  internalExcludes = [
+    # metadata related to backup process
+    ".exit-status"
+    ".metadata.json"
+  ];
+
+  excludeFile = cfg: let
+    # combine with internal excludes
+    excludes = internalExcludes ++ cfg.borg.exclude;
+  in
+    # Write each exclude pattern to a new line
+    pkgs.writeText "backup-excludes" (concatMapStrings (s: s + "\n") excludes);
 
   executionClientJq = pkgs.writeTextFile {
     name = "convert.jq";
@@ -245,14 +254,15 @@
       jq
     ];
     serviceConfig = {
-      ExecStartPre = with lib; mkMerge [
-        (mkIf cfg.btrfs.enable (mkBefore [
+      ExecStartPre = with lib;
+        mkMerge [
+          (mkIf cfg.btrfs.enable (mkBefore [
             "+${setupSubVolumeScript} /var/lib/private/${name}"
-        ]))
-        (mkAfter [
+          ]))
+          (mkAfter [
             clearExitStatusScript
-        ])
-      ];
+          ])
+        ];
       ExecStopPost = mkAfter ([
           recordExitStatusScript
         ]
