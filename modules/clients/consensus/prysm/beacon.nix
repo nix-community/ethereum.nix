@@ -21,8 +21,6 @@
     options = {
       enable = mkEnableOption (mdDoc "Ethereum Beacon Chain Node from Prysmatic Labs");
 
-      subVolume = mkEnableOption (mdDoc "Use a subvolume for the state directory if the underlying filesystem supports it e.g. btrfs");
-
       args = {
         network = mkOption {
           type = types.nullOr (types.enum ["goerli" "prater" "ropsten" "sepolia"]);
@@ -196,12 +194,6 @@ in {
     in
       zipAttrsWith (name: flatten) perService;
 
-    # configure systemd to create the state directory with a subvolume
-    systemd.tmpfiles.rules =
-      map
-      (name: "v /var/lib/private/prysm-beacon-${name}")
-      (builtins.attrNames (filterAttrs (_: v: v.subVolume) eachBeacon));
-
     systemd.services =
       mapAttrs'
       (
@@ -253,9 +245,6 @@ in {
                 {
                   User = serviceName;
                   StateDirectory = serviceName;
-                  ExecStartPre = mkIf cfg.subVolume (mkBefore [
-                    "+${scripts.setupSubVolume} /var/lib/private/${serviceName}"
-                  ]);
                   ExecStart = "${cfg.package}/bin/beacon-chain ${scriptArgs}";
                   MemoryDenyWriteExecute = "false"; # causes a library loading error
                 }

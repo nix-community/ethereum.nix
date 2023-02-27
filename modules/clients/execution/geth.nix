@@ -25,8 +25,6 @@
     options = rec {
       enable = mkEnableOption (mdDoc "Go Ethereum Node");
 
-      subVolume = mkEnableOption (mdDoc "Use a subvolume for the state directory if the underlying filesystem supports it e.g. btrfs");
-
       args = {
         port = mkOption {
           type = types.port;
@@ -240,12 +238,6 @@ in {
     in
       zipAttrsWith (name: flatten) perService;
 
-    # configure systemd to create the state directory with a subvolume
-    systemd.tmpfiles.rules =
-      map
-      (name: "v /var/lib/private/geth-${name}")
-      (builtins.attrNames (filterAttrs (_: v: v.subVolume) eachGeth));
-
     # create a service for each instance
     systemd.services =
       mapAttrs'
@@ -305,9 +297,6 @@ in {
                 {
                   User = serviceName;
                   StateDirectory = serviceName;
-                  ExecStartPre = mkIf cfg.subVolume (mkBefore [
-                    "+${scripts.setupSubVolume} /var/lib/private/${serviceName}"
-                  ]);
                   ExecStart = "${cfg.package}/bin/geth ${scriptArgs}";
                 }
                 (mkIf (cfg.args.authrpc.jwtsecret != null) {

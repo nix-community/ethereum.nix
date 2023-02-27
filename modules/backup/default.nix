@@ -145,6 +145,20 @@
     echo $EXIT_STATUS > $STATE_DIRECTORY/.exit-status
   '';
 
+  setupSubVolumeScript = pkgs.writeShellScript "setup-sub-volume" ''
+    set -euo pipefail
+
+    VOLUME_DIR=$1
+
+    if ! ${pkgs.btrfs-progs}/bin/btrfs sub show $VOLUME_DIR > /dev/null; then
+        >&2 echo "$VOLUME_DIR is not a btrfs subvolume, exiting"
+        exit 0
+    fi
+
+    echo "Disabling copy on write"
+    ${pkgs.e2fsprogs}/bin/chattr -R +C $VOLUME_DIR
+  '';
+
   snapshotVolumeScript = cfg:
     pkgs.writeShellScript "snapshot-volume" ''
       set -euo pipefail
@@ -175,10 +189,10 @@
       fi
 
       # ensure the base snapshot directory exists
-      mkdir -p ${cfg.snapshot.directory}
+      mkdir -p ${cfg.btrfs.snapshotDirectory}
 
       # check if the snapshot we are about to create already exists
-      SNAPSHOT_DIRECTORY=${cfg.snapshot.directory}/$HEIGHT
+      SNAPSHOT_DIRECTORY=${cfg.btrfs.snapshotDirectory}/$HEIGHT
 
       if [ -d $SNAPSHOT_DIRECTORY ]; then
         echo "Snapshot already exists: $SNAPSHOT_DIRECTORY, skipping snapshot"
@@ -231,13 +245,18 @@
       jq
     ];
     serviceConfig = {
-      ExecStartPre = mkAfter [
-        clearExitStatusScript
+      ExecStartPre = with lib; mkMerge [
+        (mkIf cfg.btrfs.enable (mkBefore [
+            "+${setupSubVolumeScript} /var/lib/private/${name}"
+        ]))
+        (mkAfter [
+            clearExitStatusScript
+        ])
       ];
       ExecStopPost = mkAfter ([
           recordExitStatusScript
         ]
-        ++ (lib.lists.optionals cfg.snapshot.enable [
+        ++ (lib.lists.optionals cfg.btrfs.enable [
           "+${snapshotVolumeScript cfg}"
         ]));
     };
@@ -371,12 +390,12 @@
         BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK = "yes";
         # todo there has to be a lib somewhere that converts booleans to strings properly
         SNAPSHOT_ENABLE =
-          if cfg.snapshot.enable
+          if cfg.btrfs.enable
           then "true"
           else "false";
-        SNAPSHOT_DIRECTORY = cfg.snapshot.directory;
+        SNAPSHOT_DIRECTORY = cfg.btrfs.snapshotDirectory;
         # 86400 seconds in a day
-        SNAPSHOT_RETENTION_SECONDS = builtins.toString (cfg.snapshot.retention * 86400);
+        SNAPSHOT_RETENTION_SECONDS = builtins.toString (cfg.btrfs.snapshotRetention * 86400);
       };
       serviceConfig = {
         User = "root";
@@ -386,8 +405,8 @@
         PrivateTmp = true;
         StateDirectory = "${name}-backup";
         LoadCredential = "sshKey:${cfg.borg.keyPath}";
-        ReadWritePaths = mkIf cfg.snapshot.enable [
-          cfg.snapshot.directory
+        ReadWritePaths = mkIf cfg.btrfs.enable [
+          cfg.btrfs.snapshotDirectory
         ];
         ExecStart = "${backupScript name cfg} ${name}";
       };
@@ -421,12 +440,26 @@
 
   clientServiceCfgs = with lib; mapAttrs mkClientServiceCfg cfg;
 in {
-  config.systemd.services =
-    backupServices
-    // metadataServices
-    // clientServiceCfgs;
+  config.systemd = {
+    managerEnvironment = {
+      # forces v/q/Q in tmpfiles rules to create a subvolume if the backing filesystem supports it, even if `/` is not a subvolume itself.
+      "SYSTEMD_TMPFILES_FORCE_SUBVOL" = lib.mkDefault "1";
+    };
 
-  config.systemd.timers =
-    backupTimers
-    // metadataTimers;
+    # enables a btrfs subvolume for the state directory provided the underlying filesystem supports
+    # if the root filesystem is not btrfs then a normal directory is created
+    tmpfiles.rules = with lib;
+      map
+      (name: "v /var/lib/private/${name}")
+      (builtins.attrNames (filterAttrs (_: v: v.btrfs.enable) cfg));
+
+    services =
+      backupServices
+      // metadataServices
+      // clientServiceCfgs;
+
+    timers =
+      backupTimers
+      // metadataTimers;
+  };
 }
