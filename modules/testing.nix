@@ -8,10 +8,17 @@
     lib,
     config,
     system,
-    pkgs,
     ...
   }: let
     cfg = config.testing;
+
+    # create a custom nixpkgs with our flake packages available
+    pkgs = import inputs.nixpkgs {
+      inherit system;
+      overlays = [
+        self.overlays.default
+      ];
+    };
   in {
     ########################################
     ## Interface
@@ -55,8 +62,13 @@
           # speed up evaluation by skipping docs
           defaults.documentation.enable = lib.mkDefault false;
 
-          # make self available in test modules to allow for referencing flake modules and packages
-          node.specialArgs = {inherit self system;};
+          # make self available in test modules and our custom pkgs
+          node.specialArgs = {inherit self pkgs;};
+
+          # import all of our flake nixos modules by default
+          defaults.imports = [
+            self.nixosModules.default
+          ];
 
           # import the test module
           imports = [test.module];

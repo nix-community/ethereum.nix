@@ -8,22 +8,12 @@
 
     nodes = {
       basicConf = {
-        self,
-        system,
-        lib,
-        ...
-      }: {
-        imports = [
-          self.nixosModules.default
-        ];
-
         # see: https://docs.nethermind.io/nethermind/first-steps-with-nethermind/system-requirements
         virtualisation.cores = 2;
         virtualisation.memorySize = 8192;
 
         services.ethereum.nethermind.sepolia = {
           enable = true;
-          package = self.packages.${system}.nethermind;
           args = {
             config = "sepolia";
             modules.JsonRpc.JwtSecretFile = "${jwtSecret}";
