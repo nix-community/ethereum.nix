@@ -107,7 +107,7 @@ in {
   inherit baseServiceConfig;
   inherit mkArg mkArgs defaultPathReducer dotPathReducer;
 
-  attrs.flattenTree = with lib;
+  findEnabled = with lib;
     tree: let
       op = sum: path: val: let
         pathStr = concatStringsSep "-" path;

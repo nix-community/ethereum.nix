@@ -6,13 +6,13 @@
   ...
 }: let
   modulesLib = import ../lib.nix {inherit lib pkgs;};
-  inherit (modulesLib.attrs) flattenTree;
+  inherit (modulesLib) findEnabled;
 
   cfg = with lib;
     filterAttrs (n: v: v.enable)
     (
       mapAttrs (_: v: v.restore)
-      (flattenTree config.services.ethereum)
+      (findEnabled config.services.ethereum)
     );
 
   restoreScript = pkgs.writeShellScript "restore" ''

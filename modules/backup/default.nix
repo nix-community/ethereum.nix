@@ -10,13 +10,13 @@
   inherit (builtins) concatStringsSep attrNames map;
 
   modulesLib = import ../lib.nix {inherit lib pkgs;};
-  inherit (modulesLib.attrs) flattenTree;
+  inherit (modulesLib) findEnabled;
 
   cfg = with lib;
     filterAttrs (n: v: v.enable)
     (
       mapAttrs (_: v: v.backup)
-      (flattenTree config.services.ethereum)
+      (findEnabled config.services.ethereum)
     );
 
   internalExcludes = [
