@@ -9,21 +9,12 @@
 
     nodes = {
       basic = {
-        self,
-        system,
-        lib,
-        ...
-      }: {
-        imports = [
-          self.nixosModules.default
-        ];
 
         virtualisation.cores = 2;
         virtualisation.memorySize = 4096;
 
         services.ethereum.geth.test = {
           enable = true;
-          package = self.packages.${system}.geth;
           args = {
             port = 30305;
             http.enable = true;
