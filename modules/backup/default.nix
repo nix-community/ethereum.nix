@@ -375,13 +375,14 @@
             systemctl start "$SERVICE_NAME.service"
         }
 
-        btrfs sub show $SERVICE_STATE_DIRECTORY > /dev/null
-
-        if [ $SNAPSHOT_ENABLE = "true" ] && [ $? -eq 0 ]; then
-            backup_with_snapshot
-        else
+        if ! btrfs sub show $SERVICE_STATE_DIRECTORY > /dev/null; then
             backup_in_situ
+        elif [ $SNAPSHOT_ENABLE -eq 0 ]; then
+            backup_in_situ
+        else
+            backup_with_snapshot
         fi
+
         echo "Backup complete"
       '';
 
@@ -398,11 +399,10 @@
       environment = {
         # suppress prompts
         BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK = "yes";
-        # todo there has to be a lib somewhere that converts booleans to strings properly
         SNAPSHOT_ENABLE =
           if cfg.btrfs.enable
-          then "true"
-          else "false";
+          then "1"
+          else "0";
         SNAPSHOT_DIRECTORY = cfg.btrfs.snapshotDirectory;
         # 86400 seconds in a day
         SNAPSHOT_RETENTION_SECONDS = builtins.toString (cfg.btrfs.snapshotRetention * 86400);
