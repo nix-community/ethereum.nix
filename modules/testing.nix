@@ -86,6 +86,7 @@
         inherit category;
         description = "Build and run a test";
         exec = ''
+          set -euo pipefail
 
           Help() {
                # Display Help
