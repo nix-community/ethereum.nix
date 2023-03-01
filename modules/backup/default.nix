@@ -15,7 +15,7 @@
   cfg = with lib;
     filterAttrs (n: v: v.enable)
     (
-      mapAttrs (_: v: v.backup)
+      mapAttrs (_: v: attrByPath ["backup"] { enable = false; } v)
       (findEnabled config.services.ethereum)
     );
 
