@@ -11,7 +11,7 @@
   cfg = with lib;
     filterAttrs (n: v: v.enable)
     (
-      mapAttrs (_: v: attrByPath ["restore"] { enable = false; } v)
+      mapAttrs (_: v: attrByPath ["restore"] {enable = false;} v)
       (findEnabled config.services.ethereum)
     );
 
