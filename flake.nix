@@ -73,7 +73,6 @@
           ./nix
           ./packages
           ./modules
-          ./tests
         ];
         systems = [
           "x86_64-linux"

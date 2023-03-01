@@ -93,22 +93,18 @@ Optional: [install direnv](https://github.com/direnv/direnv#basic-installation),
 
 ## Development
 
-#### Just
+#### Running tests
 
-Nobody wants to memorize complex inputs for doing things in the terminal. For that reason, we use `just` as a command runner to save and run common tasks. By `just` writing:
+To run all tests you can use `nix flake check`, it will build all packages and run all tests.
 
-```bash
-just
-```
-
-It will describe available commands (commands are defined in it's respective `Justfile`, so have a look)!
+To execute a specific test you can use `, test -h` which will provide more information.
 
 #### Formatting
 
-Formatting will be run via `pre-commit` hook if you are in the `nix shell`, otherwise you can manually format using the `format` command like so:
+You can manually format using the `format` command like so:
 
 ```bash
-just fmt
+, fmt
 ```
 
 ## Applications
