@@ -41,6 +41,7 @@
         (_: (hasSuffix ".test.nix"))
         (fs.flattenTree {
           tree = fs.rakeLeaves ./.;
+          separator = "-";
         });
 
       # examine the `systems` attribute of each test, filtering out any that do not support the current system
@@ -50,12 +51,8 @@
         (mapAttrs (_: import) eachTest);
     in
       mapAttrs'
-      (name: test: let
-        # cleanup test name to be of the form `test-<module>-<test>`
-        components = reverseList (splitString "." name);
-        testName = "test-${elemAt components 2}-${elemAt components 1}";
-      in
-        nameValuePair testName
+      (name: test:
+        nameValuePair "testing-${removeSuffix ".test" name}"
         (nixos-lib.runTest {
           hostPkgs = pkgs;
           # speed up evaluation by skipping docs
@@ -98,7 +95,7 @@
                echo "    , test -s <system> <name>"
                echo
                echo "  Arguments:"
-               echo "    <name> If a test package is called 'test-nethermind-basic' then <name> should be 'nethermind-basic'."
+               echo "    <name> If a test package is called 'testing-nethermind-basic' then <name> should be 'nethermind-basic'."
                echo
                echo "  Options:"
                echo "    -h --help          Show this screen."
@@ -133,7 +130,7 @@
           shift
 
           # build the test driver
-          nix build ".#checks.$SYSTEM.test-$NAME.driver"
+          nix build ".#checks.$SYSTEM.testing-$NAME.driver"
 
           # run the test driver, passing any remaining arguments
           set -x

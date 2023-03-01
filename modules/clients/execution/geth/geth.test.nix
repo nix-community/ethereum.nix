@@ -9,7 +9,6 @@
 
     nodes = {
       basic = {
-
         virtualisation.cores = 2;
         virtualisation.memorySize = 4096;
 
