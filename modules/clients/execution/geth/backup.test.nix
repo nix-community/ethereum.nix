@@ -21,7 +21,6 @@
 
     nodes = {
       backup = {
-
         services.openssh = {
           enable = true;
           settings = {
@@ -38,7 +37,6 @@
       };
 
       in_situ = {
-
         virtualisation.cores = 2;
         virtualisation.memorySize = 4096;
 
@@ -57,8 +55,8 @@
             enable = true;
 
             borg = {
-                repo = "ssh://borg@backup/data/borgbackup/ethereum/geth-test";
-                keyPath = privateKey;
+              repo = "ssh://borg@backup/data/borgbackup/ethereum/geth-test";
+              keyPath = privateKey;
             };
 
             schedule = "0/6:00:00";

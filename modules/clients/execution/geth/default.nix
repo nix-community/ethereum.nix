@@ -1,6 +1,6 @@
 {
-    imports = [
-        ./bootnode.nix
-        ./geth.nix
-    ];
+  imports = [
+    ./bootnode.nix
+    ./geth.nix
+  ];
 }

@@ -151,9 +151,9 @@
         };
 
         networkid = mkOption {
-            type = types.int;
-            default = 1;
-            description = mdDoc "The network id used for peer to peer communication";
+          type = types.int;
+          default = 1;
+          description = mdDoc "The network id used for peer to peer communication";
         };
 
         netrestrict = mkOption {
@@ -164,10 +164,10 @@
         };
 
         bootnodes = mkOption {
-            # todo use regex matching
-            type = types.nullOr (types.listOf types.str);
-            default = null;
-            description = mdDoc "List of bootnodes to connect to";
+          # todo use regex matching
+          type = types.nullOr (types.listOf types.str);
+          default = null;
+          description = mdDoc "List of bootnodes to connect to";
         };
 
         syncmode = mkOption {
