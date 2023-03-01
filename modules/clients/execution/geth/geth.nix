@@ -163,6 +163,18 @@
           description = mdDoc "Restrict network communication to the given IP networks (CIDR masks)";
         };
 
+        verbosity = mkOption {
+          type = types.ints.between 0 5;
+          default = 3;
+          description = mdDoc "log verbosity (0-5)";
+        };
+
+        nodiscover = mkOption {
+          type = types.bool;
+          default = false;
+          description = "Disable discovery";
+        };
+
         bootnodes = mkOption {
           # todo use regex matching
           type = types.nullOr (types.listOf types.str);

@@ -1,0 +1,8 @@
+=============== Feb 28, 2023 (GMT) ===============
+12:34:06.558136 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+12:34:06.592402 db@open opening
+12:34:06.592896 version@stat F·[] S·0B[] Sc·[]
+12:34:06.610106 db@janitor F·2 G·0
+12:34:06.610123 db@open done T·17.708843ms
+12:34:06.738545 db@close closing
+12:34:06.738590 db@close done T·42.541µs

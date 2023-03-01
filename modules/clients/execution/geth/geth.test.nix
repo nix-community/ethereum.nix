@@ -2,26 +2,43 @@
   systems = ["x86_64-linux"];
 
   module = {pkgs, ...}: let
-    datadir = ./testing/datadir;
-    jwtSecret = pkgs.writeText "jwt-secret" "315228a30b238d15df0bedd570a3e1d21bb3f92588168a26127c2090497cf4b6";
+    netrestrict = "192.168.1.0/24";
+
+    mkGeth = id: {
+      virtualisation.cores = 2;
+      virtualisation.memorySize = 4096;
+      services.ethereum.geth.test = {
+        enable = true;
+        openFirewall = true;
+        args = {
+          port = 30304 + id;
+          http.enable = true;
+          http.port = 8544 + id;
+          networkid = 12345;
+          inherit netrestrict;
+          # see README.md for a list of addresses
+          bootnodes = [
+            "enode://1ad79035e0f92b5f98a46f87d5842c02fc09d35cf3794352a08919977e40a46f0c071e3e43cf1c9b8a50c11290f78168cb00f2d46d740714d4eb319a664f3927@192.168.1.4:30301"
+          ];
+        };
+      };
+    };
   in {
     name = "basic";
 
     nodes = {
-      basic = {
+      geth = {
         virtualisation.cores = 2;
         virtualisation.memorySize = 4096;
-
         services.ethereum.geth.test = {
           enable = true;
+          openFirewall = true;
           args = {
-            port = 30305;
             http.enable = true;
+            networkid = 12345;
+            nodiscover = true;
+            inherit netrestrict;
           };
-          extraArgs = [
-            "--networkid"
-            "12345"
-          ];
         };
       };
     };
@@ -29,13 +46,14 @@
     testScript = ''
       # Copy in the data directory and make sure it's writable
 
-      basic.succeed("cp -r ${datadir} /var/lib/private/geth-test")
-      basic.succeed("chmod -R 755 /var/lib/private/geth-test")
+      geth.succeed("cp -r ${./testing/geth-1} /var/lib/private/geth-test")
+      geth.succeed("chmod -R 755 /var/lib/private/geth-test")
 
-      basic.start()
-      basic.wait_for_unit("geth-test.service")
-      basic.wait_for_open_port(30305)
-      basic.wait_for_open_port(8545)
+      start_all()
+
+      geth.wait_for_unit("geth-test.service")
+      geth.wait_for_open_port(30303)
+      geth.wait_for_open_port(8545)
     '';
   };
 }
