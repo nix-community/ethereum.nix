@@ -2,7 +2,7 @@
   systems = ["x86_64-linux"];
 
   module = {pkgs, ...}: let
-    datadir = ./testing/datadir;
+    datadir = ./testing/geth-1;
 
     privateKey = pkgs.writeText "id_ed25519" ''
       -----BEGIN OPENSSH PRIVATE KEY-----
@@ -23,10 +23,8 @@
       backup = {
         services.openssh = {
           enable = true;
-          settings = {
-            PasswordAuthentication = false;
-            KbdInteractiveAuthentication = false;
-          };
+          passwordAuthentication = false;
+          kbdInteractiveAuthentication = false;
         };
 
         services.borgbackup.repos.ethereum = {
