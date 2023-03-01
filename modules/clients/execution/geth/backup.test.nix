@@ -21,8 +21,22 @@
 
     nodes = {
       backup = {
+        self,
+        pkgs,
+        ...
+      }: {
+        environment.variables = {
+          # stops borg from checking it's ok to list an unencrypted repository
+          BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK = "yes";
+        };
+
+        environment.systemPackages = [
+          pkgs.borgbackup
+        ];
+
         services.openssh = {
           enable = true;
+          # Note these settings have been moved under settings in nixpkgs-unstable
           passwordAuthentication = false;
           kbdInteractiveAuthentication = false;
         };
@@ -43,20 +57,16 @@
           args = {
             port = 30305;
             http.enable = true;
+            networkid = 12345;
+            nodiscover = true;
           };
-          extraArgs = [
-            "--networkid"
-            "12345"
-          ];
 
           backup = {
             enable = true;
-
             borg = {
               repo = "ssh://borg@backup/data/borgbackup/ethereum/geth-test";
               keyPath = privateKey;
             };
-
             schedule = "0/6:00:00";
           };
         };
@@ -64,18 +74,39 @@
     };
 
     testScript = ''
-      # Copy in the data directory and make sure it's writable
-      in_situ.succeed("cp -r ${datadir} /var/lib/private/geth-test")
-      in_situ.succeed("chmod -R 755 /var/lib/private/geth-test")
 
       backup.start()
+      backup.wait_for_unit("sshd.service")
+
+      def copy_datadir(node, service_name):
+        node.succeed(f'cp -R ${datadir} /var/lib/private/{service_name}')
+        node.succeed(f'chmod -R 755 /var/lib/private/{service_name}')
+
+      def wait_for_geth(node, service_name):
+        node.wait_for_unit(f"{service_name}.service")
+        node.wait_for_open_port(30305)
+        node.wait_for_open_port(8545)
+
+      def wait_for_metadata(node, service_name):
+        node.wait_until_succeeds(f'test -f /var/lib/private/{service_name}/.metadata.json', timeout=20)
+
+      def trigger_backup(node, service_name):
+        node.systemctl(f'start {service_name}-backup.service')
+
+        # geth should be stopped
+        node.wait_until_fails(f'systemctl is-active {service_name}.service')
+
+        # wait for backup to finish
+        node.wait_until_fails(f'systemctl is-active {service_name}-backup.service')
+
+        # geth should be restarted after the backup completes
+        wait_for_geth(node, service_name)
 
       with subtest("in-situ backup"):
         in_situ.start()
         in_situ.wait_for_unit("geth-test.service")
         in_situ.wait_for_open_port(30305)
         in_situ.wait_for_open_port(8545)
-
     '';
   };
 }
