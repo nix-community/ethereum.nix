@@ -21,6 +21,12 @@ lib: {
       };
     };
 
+    metadata.interval = mkOption {
+        type = types.ints.between 1 60;
+        description = mdDoc "Time interval in seconds between capturing backup metadata";
+        default = 10;
+    };
+
     schedule = mkOption {
       type = types.str;
       description = mdDoc "Schedule for creating a backup. Format is the same as systemd.time";

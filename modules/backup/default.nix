@@ -239,7 +239,7 @@
       };
     };
 
-  mkMetadataTimer = name:
+  mkMetadataTimer = name: cfg:
     lib.nameValuePair "${name}-metadata" {
       description = "Metadata timer for ${name}-metadata";
       wantedBy = [
@@ -251,7 +251,7 @@
       bindsTo = ["${name}.service"];
       timerConfig = {
         Persistent = true;
-        OnCalendar = "*:*:0/10"; # triggers every 10 seconds
+        OnCalendar = "*:*:0/${toString cfg.metadata.interval}"; # triggers every 10 seconds
       };
     };
 
@@ -467,7 +467,7 @@
   backupTimers = with lib; mapAttrs' mkBackupTimer cfg;
   backupServices = with lib; mapAttrs' mkBackupService cfg;
 
-  metadataTimers = with lib; mapAttrs' (name: _: mkMetadataTimer name) cfg;
+  metadataTimers = with lib; mapAttrs' mkMetadataTimer cfg;
   metadataServices = with lib; mapAttrs' (name: _: mkMetadataService name) cfg;
 
   clientServiceCfgs = with lib; mapAttrs mkClientServiceCfg cfg;

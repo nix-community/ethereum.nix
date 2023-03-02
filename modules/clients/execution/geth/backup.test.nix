@@ -49,7 +49,7 @@
         };
       };
 
-      in_situ = {
+      ext4 = {
         virtualisation.cores = 4;
         virtualisation.diskSize = 4096;
         virtualisation.memorySize = 8192;
@@ -59,7 +59,7 @@
           pkgs.tree
         ];
 
-        services.ethereum.geth.in-situ = {
+        services.ethereum.geth.ext4 = {
           enable = true;
           args = {
             http.enable = true;
@@ -69,8 +69,10 @@
 
           backup = {
             enable = true;
+            # increase to 1 seconds to speed up testing
+            metadata.interval = 1;
             borg = {
-              repo = "ssh://borg@backup/data/borgbackup/ethereum/geth-in-situ";
+              repo = "ssh://borg@backup/data/borgbackup/ethereum/geth-ext4";
               keyPath = privateKey;
             };
           };
@@ -101,9 +103,7 @@
         node.wait_for_unit(f'{service_name}-backup.timer')
 
       def wait_for_metadata(node, service_name, block_number):
-        node.systemctl(f'start {service_name}-metadata.service')
-
-        # wait for metadata capture
+        # wait for metadata capture to be successful
         path = f'/var/lib/private/{service_name}/.backup/metadata.json'
         node.wait_until_succeeds(f'test -f {path}', timeout=20)
 
@@ -126,18 +126,20 @@
         backup.succeed(f'borg list /data/borgbackup/ethereum/{service_name} | head -n1 | cut -d\' \' -f1')
         backup.succeed(f'borg check --verify-data /data/borgbackup/ethereum/{service_name}')
 
+        # mount the backup
         mount_dir = backup.succeed("mktemp -d").rstrip()
         backup.succeed(f'borg mount /data/borgbackup/ethereum/{service_name}::{block_number} {mount_dir}')
 
+        # compare the content hash contained within the backup with a fresh hash of the mount
         expected_content_hash = backup.succeed(f'cat {mount_dir}/.backup/content-hash').rstrip()
         actual_content_hash = backup.succeed(f'find {mount_dir} -path {mount_dir}/.backup -prune -type f -exec md5sum {{}} + | LC_ALL=C sort | md5sum').rstrip()
 
         backup.succeed(f'[ "{expected_content_hash}" = "{actual_content_hash}" ]')
 
-      with subtest("in-situ backup"):
+      with subtest("ext4 backup"):
 
-        node = in_situ;
-        service_name = "geth-in-situ";
+        node = ext4;
+        service_name = "geth-ext4";
         block_number = 20
 
         copy_datadir(node, service_name, block_number)
@@ -151,7 +153,6 @@
         trigger_backup(node, service_name)
 
         check_backup(service_name, block_number)
-
     '';
   };
 }
