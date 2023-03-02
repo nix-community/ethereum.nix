@@ -50,9 +50,9 @@
       };
 
       ext4 = {
-        virtualisation.cores = 4;
+        virtualisation.cores = 2;
         virtualisation.diskSize = 4096;
-        virtualisation.memorySize = 8192;
+        virtualisation.memorySize = 4096;
 
         environment.systemPackages = [
           pkgs.jq
