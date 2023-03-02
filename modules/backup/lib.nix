@@ -62,7 +62,7 @@ lib: {
       lockWait = mkOption {
         type = types.int;
         description = mdDoc "Amount of time in seconds to wait when acquiring a repository lock";
-        default = 3600;
+        default = 600;
       };
 
       exclude = mkOption {

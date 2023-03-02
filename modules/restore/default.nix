@@ -15,7 +15,7 @@
       (findEnabled config.services.ethereum)
     );
 
-  restoreScript = pkgs.writeShellScript "restore" ''
+  mkRestoreScript = cfg: pkgs.writeShellScript "restore" ''
     set -euo pipefail
 
     echo "Running restore"
@@ -33,27 +33,46 @@
     # restore from the repo
     echo "BORG_REPO=$BORG_REPO"
     echo "SNAPSHOT=$SNAPSHOT"
-    borg extract --list ::"$SNAPSHOT"
+
+    borg extract --lock-wait ${builtins.toString cfg.borg.lockWait} --list ::"$SNAPSHOT"
 
     echo "Restoration complete"
   '';
 
   mkClientService = name: cfg: {
-    environment = {
+    environment = with lib; {
       SNAPSHOT = cfg.snapshot;
       BORG_REPO = cfg.borg.repo;
-      BORG_RSH = "ssh -o StrictHostKeyChecking=no -i ${cfg.borg.keyPath}";
+      BORG_RSH =
+        mkDefault
+        (concatStringsSep " " [
+          "ssh"
+          (optionalString (!cfg.borg.strictHostKeyChecking) "-o StrictHostKeyChecking=no")
+          (optionalString (cfg.borg.keyPath != null) "-i ${cfg.borg.keyPath}")
+        ]);
+      BORG_PASSCOMMAND =
+        mkIf
+        (cfg.borg.encryption.passCommand != null)
+        cfg.borg.encryption.passCommand;
+      BORG_PASSPHRASE =
+        mkIf
+        (cfg.borg.encryption.passPhrase != null)
+        cfg.borg.encryption.passPhrase;
       # suppress prompts
-      BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK = "yes";
+      BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK = mkDefault (
+        if cfg.borg.unencryptedRepoAccess
+        then "yes"
+        else "no"
+      );
     };
     path = with pkgs; [
       borgbackup
     ];
-    serviceConfig = {
+    serviceConfig = with lib; {
       # btrfs subvolume setup ExecStartPre script if enabled is configured with mkBefore which is equivalent to mkOrder 500
       # we want any potential restore to happen after that so we set our mkOrder to 501
-      ExecStartPre = lib.mkOrder 501 [
-        "+${restoreScript}"
+      ExecStartPre = mkOrder 501 [
+        "+${mkRestoreScript cfg}"
       ];
     };
   };

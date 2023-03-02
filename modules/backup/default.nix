@@ -422,7 +422,7 @@
           (concatStringsSep " " [
             "ssh"
             (optionalString (!cfg.borg.strictHostKeyChecking) "-o StrictHostKeyChecking=no")
-            (optionalString (cfg.borg.keyPath != null) "-i /run/credentials/${name}-backup.service/sshKey")
+            (optionalString (cfg.borg.keyPath != null) "-i ${cfg.borg.keyPath}")
           ]);
         # suppress prompts
         BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK = mkDefault (
@@ -453,7 +453,6 @@
         ProtectSystem = "strict";
         PrivateTmp = true;
         StateDirectory = "${name}-backup";
-        LoadCredential = mkIf (cfg.borg.keyPath != null) ["sshKey:${cfg.borg.keyPath}"];
         ReadWritePaths = mkIf cfg.btrfs.enable [cfg.btrfs.snapshotDirectory];
         ExecStart = "${backupScript name cfg} ${name}";
       };
