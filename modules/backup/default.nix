@@ -264,7 +264,7 @@
     ];
 
     environment = {
-        BACKUP_METADATA_DIR = "/var/lib/${name}/.backup";
+      BACKUP_METADATA_DIR = "/var/lib/${name}/.backup";
     };
 
     serviceConfig = {
@@ -294,14 +294,12 @@
         SERVICE_STATE_DIRECTORY="/var/lib/$SERVICE_NAME"
         BACKUP_METADATA_DIR="$SERVICE_STATE_DIRECTORY/.backup"
 
-        export BORG_RSH="ssh -o StrictHostKeyChecking=no -i $CREDENTIALS_DIRECTORY/sshKey";
-
         echo "Running backup for: $SERVICE_NAME"
 
         # first we ensure the repo exists
         if ! borg list $REPO > /dev/null; then
             echo "Creating repo: $REPO"
-            borg init --encryption none $REPO
+            borg init --encryption ${cfg.borg.encryption.mode} $REPO
         fi
 
         backup_with_snapshot() {
@@ -418,9 +416,28 @@
         openssh
         systemd
       ];
-      environment = {
+      environment = with lib; {
+        BORG_RSH =
+          mkDefault
+          (concatStringsSep " " [
+            "ssh"
+            (optionalString (!cfg.borg.strictHostKeyChecking) "-o StrictHostKeyChecking=no")
+            (optionalString (cfg.borg.keyPath != null) "-i /run/credentials/${name}-backup.service/sshKey")
+          ]);
         # suppress prompts
-        BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK = "yes";
+        BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK = mkDefault (
+          if cfg.borg.unencryptedRepoAccess
+          then "yes"
+          else "no"
+        );
+        BORG_PASSCOMMAND =
+          mkIf
+          (cfg.borg.encryption.passCommand != null)
+          cfg.borg.encryption.passCommand;
+        BORG_PASSPHRASE =
+          mkIf
+          (cfg.borg.encryption.passPhrase != null)
+          cfg.borg.encryption.passPhrase;
         SNAPSHOT_ENABLE =
           if cfg.btrfs.enable
           then "1"
@@ -436,10 +453,8 @@
         ProtectSystem = "strict";
         PrivateTmp = true;
         StateDirectory = "${name}-backup";
-        LoadCredential = "sshKey:${cfg.borg.keyPath}";
-        ReadWritePaths = mkIf cfg.btrfs.enable [
-          cfg.btrfs.snapshotDirectory
-        ];
+        LoadCredential = mkIf (cfg.borg.keyPath != null) ["sshKey:${cfg.borg.keyPath}"];
+        ReadWritePaths = mkIf cfg.btrfs.enable [cfg.btrfs.snapshotDirectory];
         ExecStart = "${backupScript name cfg} ${name}";
       };
     };

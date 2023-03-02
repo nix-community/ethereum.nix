@@ -22,9 +22,9 @@ lib: {
     };
 
     metadata.interval = mkOption {
-        type = types.ints.between 1 60;
-        description = mdDoc "Time interval in seconds between capturing backup metadata";
-        default = 10;
+      type = types.ints.between 1 60;
+      description = mdDoc "Time interval in seconds between capturing backup metadata";
+      default = 10;
     };
 
     schedule = mkOption {
@@ -42,8 +42,21 @@ lib: {
       };
 
       keyPath = mkOption {
-        type = types.path;
+        type = types.nullOr types.path;
         description = mdDoc "Path to a private key used for ssh";
+        default = null;
+      };
+
+      strictHostKeyChecking = mkOption {
+        type = types.bool;
+        default = true;
+        description = mdDoc "Enable or disable strict host key checking";
+      };
+
+      unencryptedRepoAccess = mkOption {
+        type = types.bool;
+        default = false;
+        description = mdDoc "Enable or disable unencrypted repo acceess check";
       };
 
       lockWait = mkOption {
@@ -81,6 +94,46 @@ lib: {
         '';
         default = "lz4";
         example = "auto,lzma";
+      };
+
+      encryption.mode = mkOption {
+        type = types.enum [
+          "repokey"
+          "keyfile"
+          "repokey-blake2"
+          "keyfile-blake2"
+          "authenticated"
+          "authenticated-blake2"
+          "none"
+        ];
+        description = lib.mdDoc ''
+          Encryption mode to use. Setting a mode
+          other than `"none"` requires
+          you to specify a {option}`passCommand`
+          or a {option}`passphrase`.
+        '';
+        example = "repokey-blake2";
+      };
+
+      encryption.passCommand = mkOption {
+        type = with types; nullOr str;
+        description = lib.mdDoc ''
+          A command which prints the passphrase to stdout.
+          Mutually exclusive with {option}`passphrase`.
+        '';
+        default = null;
+        example = "cat /path/to/passphrase_file";
+      };
+
+      encryption.passPhrase = mkOption {
+        type = with types; nullOr str;
+        description = lib.mdDoc ''
+          The passphrase the backups are encrypted with.
+          Mutually exclusive with {option}`passCommand`.
+          If you do not want the passphrase to be stored in the
+          world-readable Nix store, use {option}`passCommand`.
+        '';
+        default = null;
       };
     };
   };
