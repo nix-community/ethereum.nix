@@ -20,9 +20,8 @@
     );
 
   internalExcludes = [
-    # metadata related to backup process
-    ".exit-status"
-    ".metadata.json"
+    # remove any lock files
+    "**/LOCK"
   ];
 
   excludeFile = cfg: let
@@ -69,6 +68,8 @@
     # and this unit was inflight at the time
     set +e
 
+    METADATA_JSON=$BACKUP_METADATA_DIR/metadata.json
+
     case $SERVICE_NAME in
 
         @(geth|nethermind)-* )
@@ -76,12 +77,12 @@
                 -H 'Content-Type: application/json' \
                 -d '{"jsonrpc":"2.0","id":1,"method":"eth_getBlockByNumber","params":["latest",false]}' \
                 http://$WEB3_HTTP_HOST:$WEB3_HTTP_PORT \
-                | ${pkgs.jq}/bin/jq -f ${executionClientJq} > $STATE_DIRECTORY/.metadata.json
+                | ${pkgs.jq}/bin/jq -f ${executionClientJq} > $METADATA_JSON
             ;;
 
         prysm-beacon-*)
             ${pkgs.curl}/bin/curl -s http://$GRPC_GATEWAY_HOST:$GRPC_GATEWAY_PORT/eth/v1/node/syncing \
-                | ${pkgs.jq}/bin/jq '.data + { "height": (.data.head_slot | tonumber) }' > $STATE_DIRECTORY/.metadata.json
+                | ${pkgs.jq}/bin/jq '.data + { "height": (.data.head_slot | tonumber) }' > $METADATA_JSON
             ;;
 
         *)
@@ -91,7 +92,7 @@
     esac
 
     if [ $? -eq 0 ]; then
-        echo "$STATE_DIRECTORY/.metadata.json successfully updated";
+        echo "$METADATA_JSON successfully updated";
         exit 0
     fi
 
@@ -146,12 +147,19 @@
   # in the case of performing an in-situ backup. For btrfs snapshot based backups, the snapshot script already
   # performs an exit status check before snapshotting.
 
-  clearExitStatusScript = pkgs.writeShellScript "clear-exit-status" ''
-    rm -f $STATE_DIRECTORY/.exit-status
+  preStartScript = pkgs.writeShellScript "pre-start" ''
+    # ensure metadata dir exists
+    mkdir -p $BACKUP_METADATA_DIR
+
+    # clear any previous exit status
+    rm -f $BACKUP_METADATA_DIR/exit-status
   '';
 
-  recordExitStatusScript = pkgs.writeShellScript "record-exit-status" ''
-    echo $EXIT_STATUS > $STATE_DIRECTORY/.exit-status
+  postStopScript = pkgs.writeShellScript "record-exit-status" ''
+    echo $EXIT_STATUS > $BACKUP_METADATA_DIR/exit-status
+
+    # hash the state directory, excluding backup metadata
+    find $STATE_DIRECTORY -path $BACKUP_METADATA_DIR -prune -type f -exec md5sum {} + | LC_ALL=C sort | md5sum > $BACKUP_METADATA_DIR/content-hash
   '';
 
   setupSubVolumeScript = pkgs.writeShellScript "setup-sub-volume" ''
@@ -188,7 +196,7 @@
       fi
 
       # determine chain height from metadata
-      METADATA_JSON="$STATE_DIRECTORY/.metadata.json"
+      METADATA_JSON="$BACKUP_METADATA_DIR/metadata.json"
       HEIGHT=$(${chainHeightScript} $METADATA_JSON)
 
       if [ -z $\{HEIGHT+x} ]; then
@@ -220,7 +228,6 @@
         jq
         bash
         binutils
-        findutils
       ];
       # ensures this service is stopped if the main service is stopped
       bindsTo = ["${name}.service"];
@@ -252,19 +259,24 @@
     path = with pkgs; [
       btrfs-progs
       jq
+      findutils
+      coreutils
     ];
+
+    environment = {
+        BACKUP_METADATA_DIR = "/var/lib/${name}/.backup";
+    };
+
     serviceConfig = {
       ExecStartPre = with lib;
         mkMerge [
           (mkIf cfg.btrfs.enable (mkBefore [
             "+${setupSubVolumeScript} /var/lib/private/${name}"
           ]))
-          (mkAfter [
-            clearExitStatusScript
-          ])
+          (mkAfter [preStartScript])
         ];
       ExecStopPost = mkAfter ([
-          recordExitStatusScript
+          postStopScript
         ]
         ++ (lib.lists.optionals cfg.btrfs.enable [
           "+${snapshotVolumeScript cfg}"
@@ -279,7 +291,8 @@
 
         REPO="${cfg.borg.repo}"
         SERVICE_NAME="${name}"
-        SERVICE_STATE_DIRECTORY=/var/lib/$SERVICE_NAME
+        SERVICE_STATE_DIRECTORY="/var/lib/$SERVICE_NAME"
+        BACKUP_METADATA_DIR="$SERVICE_STATE_DIRECTORY/.backup"
 
         export BORG_RSH="ssh -o StrictHostKeyChecking=no -i $CREDENTIALS_DIRECTORY/sshKey";
 
@@ -306,33 +319,42 @@
 
             for SNAPSHOT in $SNAPSHOTS; do
 
+                TARGET_DIR=$SNAPSHOT_DIRECTORY/$SNAPSHOT
+
+                # check that the process stopped cleanly
+                EXIT_STATUS=$(cat $TARGET_DIR/.backup/exit-status)
+
+                if [ $EXIT_STATUS -ne 0 ]; then
+                    >&2 echo "Unclean shutdown detected, exit status: $EXIT_STATUS. Skipping backup of $TARGET_DIR"
+                    continue
+                fi
+
                 NOW_SECONDS=$(date +%s)
 
-                SNAPSHOT_CREATION_DATE=$(btrfs sub show $SNAPSHOT_DIRECTORY/$SNAPSHOT | grep 'Creation time' | cut -d$'\t' -f4)
+                SNAPSHOT_CREATION_DATE=$(btrfs sub show $TARGET_DIR | grep 'Creation time' | cut -d$'\t' -f4)
                 SNAPSHOT_CREATION_TIME=$(date +%s -d "$SNAPSHOT_CREATION_DATE")
 
                 SNAPSHOT_AGE_SECONDS=$((NOW_SECONDS - SNAPSHOT_CREATION_TIME))
 
                 if [ $SNAPSHOT_AGE_SECONDS -gt $SNAPSHOT_RETENTION_SECONDS ]; then
-
                     echo "Snapshot is older than configured retention, deleting"
-                    btrfs sub delete $SNAPSHOT_DIRECTORY/$SNAPSHOT
-
-                elif borg list $REPO::$SNAPSHOT > /dev/null; then
-
-                    echo "Archive $REPO::$SNAPSHOT already exists, skipping"
-
-                else
-                    cd $SNAPSHOT_DIRECTORY/$SNAPSHOT
-
-                    borg create -s --verbose \
-                        --lock-wait ${toString cfg.borg.lockWait} \
-                        --compression ${cfg.borg.compression} \
-                        --exclude-from ${excludeFile cfg} \
-                        $REPO::$SNAPSHOT \
-                        ./
+                    btrfs sub delete $TARGET_DIR
+                    continue
                 fi
 
+                if borg list $REPO::$SNAPSHOT > /dev/null; then
+                    echo "Archive $REPO::$SNAPSHOT already exists, skipping"
+                    continue
+                fi
+
+                cd $TARGET_DIR
+
+                borg create -s --verbose \
+                    --lock-wait ${toString cfg.borg.lockWait} \
+                    --compression ${cfg.borg.compression} \
+                    --exclude-from ${excludeFile cfg} \
+                    $REPO::$SNAPSHOT \
+                    ./
             done
         }
 
@@ -342,13 +364,13 @@
             systemctl stop "$SERVICE_NAME.service"
 
             # check that the process stopped cleanly
-            EXIT_STATUS=$(cat $SERVICE_STATE_DIRECTORY/.exit-status)
+            EXIT_STATUS=$(cat $BACKUP_METADATA_DIR/exit-status)
 
             if [ $EXIT_STATUS -ne 0 ]; then
                 >&2 echo "Unclean shutdown detected, exit status: $EXIT_STATUS. Skipping backup"
             else
                 # determine chain height from metadata
-                METADATA_JSON="$SERVICE_STATE_DIRECTORY/.metadata.json"
+                METADATA_JSON="$BACKUP_METADATA_DIR/metadata.json"
                 HEIGHT=$(${chainHeightScript} $METADATA_JSON)
 
                 if [ -z $\{HEIGHT+x} ]; then
