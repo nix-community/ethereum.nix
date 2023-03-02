@@ -44,6 +44,7 @@
       mev-rs = callPackage ./mev/mev-rs {};
 
       # DVT
+      charon = callPackage ./dvt/charon {inherit bls mcl;};
       ssvnode = callPackage ./dvt/ssvnode {inherit bls mcl;};
 
       # Utils
@@ -101,6 +102,7 @@
       plugeth.bin = "geth";
 
       # dvt
+      charon.bin = "charon";
       ssvnode.bin = "ssvnode";
 
       # mev
