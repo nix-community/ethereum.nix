@@ -16,9 +16,11 @@ jobs:
           extra_nix_config: |
             experimental-features = nix-command flakes
       - name: Update flake.lock
+        id: update
         uses: DeterminateSystems/update-flake-lock@v16
         with:
-          pr-title: "Update flake.lock"
+          pr-title: "chore: update flake.lock"
+          commit-msg: "chore: update flake.lock"
           pr-labels: |
             dependencies
             automated
