@@ -1,22 +1,22 @@
-args @ {
+{
   self,
-  inputs,
   lib,
   ...
-}: let
-  packagesModule = import ../packages args;
-in {
-  perSystem = psArgs @ {
+}: {
+  perSystem = {
     self',
+    inputs',
     pkgs,
     config,
     ...
   }: {
-    checks =
+    checks = let
+      inherit (inputs'.nixpkgs-unstable.legacyPackages) statix;
+    in
       {
         statix =
           pkgs.runCommand "statix" {
-            nativeBuildInputs = with pkgs; [statix];
+            nativeBuildInputs = [statix];
           } ''
             cp --no-preserve=mode -r ${self} source
             cd source
