@@ -39,14 +39,6 @@
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
     };
-    statix = {
-      url = "github:nerdypepper/statix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    nix-update = {
-      url = "github:mic92/nix-update";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs = inputs @ {
