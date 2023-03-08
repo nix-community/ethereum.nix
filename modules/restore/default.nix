@@ -41,6 +41,23 @@
       chown -R $USER:$USER /var/lib/private/$USER
       chmod -R 750 /var/lib/private/$USER
 
+      CONTENT_HASH_FILE="$STATE_DIRECTORY/.backup/content-hash"
+
+      if [ -f $CONTENT_HASH_FILE ]; then
+        echo "Content hash detected, performing integrity check"
+
+        # perform integrity check
+        CONTENT_HASH=$(find $STATE_DIRECTORY -path $STATE_DIRECTORY/.backup -prune -type f -exec md5sum {} + | LC_ALL=C sort | md5sum)
+        EXPECTED_CONTENT_HASH=$(cat $CONTENT_HASH_FILE)
+
+        echo "Content hash: $CONTENT_HASH, expected hash: $EXPECTED_CONTENT_HASH"
+        if [[ $CONTENT_HASH != $EXPECTED_CONTENT_HASH ]]; then
+          echo "Content hash does not match. Removing contents"
+          rm -rf $STATE_DIRECTORY/*
+          exit 1
+        fi
+      fi
+
       echo "Restoration complete"
     '';
 

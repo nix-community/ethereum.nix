@@ -88,7 +88,8 @@
       ext4.shutdown()
 
       repo = '/data/geth-test'
-      block_number=40
+      block_number = 40
+      service_name = 'geth-test'
 
       backup.succeed(f'cp -R ${datadir}/{block_number} /tmp/{block_number}')
       backup.succeed(f'borg init --encryption none {repo}')
@@ -97,6 +98,7 @@
       # change permissions to match the borg service
       backup.succeed(f'chown -R borg:borg {repo}')
 
+      # wait for startup
       ext4.wait_for_unit("geth-test.service")
     '';
   };
