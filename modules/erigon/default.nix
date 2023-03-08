@@ -268,14 +268,7 @@ in {
   disabledModules = ["services/blockchain/ethereum/erigon.nix"];
 
   ###### interface
-
-  options = {
-    services.ethereum.erigon = mkOption {
-      type = types.attrsOf (types.submodule erigonOpts);
-      default = {};
-      description = mdDoc "Specification of one or more erigon instances.";
-    };
-  };
+  inherit (import ./options.nix {inherit lib pkgs;}) options;
 
   ###### implementation
 
@@ -321,11 +314,13 @@ in {
               in "--${arg}";
 
               # generate flags
-              args = mkArgs {
-                inherit pathReducer;
-                inherit (cfg) args;
-                opts = erigonOpts.options.args;
-              };
+              args = let
+                opts = import ./args.nix lib;
+              in
+                mkArgs {
+                  inherit pathReducer opts;
+                  inherit (cfg) args;
+                };
             in ''
               --datadir %S/${serviceName} \
               ${concatStringsSep " \\\n" args} \
