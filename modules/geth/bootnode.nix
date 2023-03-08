@@ -7,7 +7,7 @@
   pkgs,
   ...
 }: let
-  modulesLib = import ../../../lib.nix {inherit lib pkgs;};
+  modulesLib = import ../lib.nix {inherit lib pkgs;};
   inherit (modulesLib) mkArgs baseServiceConfig scripts;
 
   # capture config for all configured geths

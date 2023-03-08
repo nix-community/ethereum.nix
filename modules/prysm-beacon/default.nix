@@ -10,7 +10,7 @@
   inherit (lib) mdDoc flatten nameValuePair filterAttrs mapAttrs mapAttrs' mapAttrsToList;
   inherit (lib) optionalString literalExpression mkEnableOption mkIf mkBefore mkOption mkMerge types concatStringsSep;
 
-  modulesLib = import ../../../lib.nix {inherit lib pkgs;};
+  modulesLib = import ../lib.nix {inherit lib pkgs;};
   inherit (modulesLib) mkArgs baseServiceConfig foldListToAttrs scripts;
 
   settingsFormat = pkgs.formats.yaml {};
@@ -149,13 +149,13 @@
 
       # mixin backup options
       backup = let
-        inherit (import ../../../backup/lib.nix lib) options;
+        inherit (import ../backup/lib.nix lib) options;
       in
         options;
 
       # mixin restore options
       restore = let
-        inherit (import ../../../restore/lib.nix lib) options;
+        inherit (import ../restore/lib.nix lib) options;
       in
         options;
     };
