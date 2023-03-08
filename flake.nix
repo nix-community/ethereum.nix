@@ -65,7 +65,7 @@
           ./nix
           ./packages
           ./modules
-          ./docs
+          ./mkdocs.nix
         ];
         systems = [
           "x86_64-linux"

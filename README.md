@@ -93,13 +93,17 @@ Optional: [install direnv](https://github.com/direnv/direnv#basic-installation),
 
 ## Development
 
-#### Running tests
+### Docs
+
+To serve the docs run `, docs`. You can edit the docs in `./docs`.
+
+### Running tests
 
 To run all tests you can use `nix flake check`, it will build all packages and run all tests.
 
 To execute a specific test you can use `, test -h` which will provide more information.
 
-#### Formatting
+### Formatting
 
 You can manually format using the `format` command like so:
 

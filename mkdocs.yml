@@ -1,0 +1,57 @@
+site_name: Ethereum.nix
+site_description: Nix packages and NixOS modules for the Ethereum ecosystem
+site_url: https://nix-community.github.io/ethereum.nix
+
+repo_url: https://github.com/nix-community/ethereum.nix
+edit_uri: edit/main/docs
+
+theme:
+  name: material
+  logo: assets/logo.svg
+  favicon: assets/favicon.png
+
+  palette:
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      primary: teal
+      accent: amber
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+
+    - scheme: default
+      primary: teal
+      accent: amber
+      toggle:
+        icon: material/brightness-5
+        name: Switch to dark mode
+
+    - scheme: slate
+      primary: blue grey
+      accent: amber
+      toggle:
+        icon: material/brightness-2
+        name: Switch to light mode
+
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.top
+    - toc.follow
+    - content.action.edit
+    - content.action.view
+    - search.suggest
+    - search.highlight
+    - search.share
+
+
+extra:
+  homepage: https://nix-community.github.io/ethereum.nix
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/nix-community/ethereum.nix
+      name: Ethereum.nix on Github
+  generator: false # hide the line "Made with Material for MkDocs"
