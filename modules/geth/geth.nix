@@ -14,7 +14,7 @@
   inherit (lib) mdDoc flatten nameValuePair filterAttrs mapAttrs mapAttrs' mapAttrsToList;
   inherit (lib) optionalString literalExpression mkEnableOption mkIf mkMerge mkBefore mkOption types concatStringsSep;
 
-  modulesLib = import ../../../lib.nix {inherit lib pkgs;};
+  modulesLib = import ../lib.nix {inherit lib pkgs;};
   inherit (modulesLib) mkArgs baseServiceConfig scripts;
 
   # capture config for all configured geths
@@ -222,13 +222,13 @@
 
       # mixin backup options
       backup = let
-        inherit (import ../../../backup/lib.nix lib) options;
+        inherit (import ../backup/lib.nix lib) options;
       in
         options;
 
       # mixin restore options
       restore = let
-        inherit (import ../../../restore/lib.nix lib) options;
+        inherit (import ../restore/lib.nix lib) options;
       in
         options;
     };
