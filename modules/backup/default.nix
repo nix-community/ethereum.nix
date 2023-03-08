@@ -316,11 +316,17 @@
             SNAPSHOTS=$(ls -r "$SNAPSHOT_DIRECTORY")
 
             for SNAPSHOT in $SNAPSHOTS; do
-
                 TARGET_DIR=$SNAPSHOT_DIRECTORY/$SNAPSHOT
 
+                METADATA_DIR="$TARGET_DIR/.backup"
+
+                if [ ! -d $METADATA_DIR ]; then
+                    echo "Backup metadata directory not found, skipping backup: $METADATA_DIR"
+                    continue
+                fi
+
                 # check that the process stopped cleanly
-                EXIT_STATUS=$(cat $TARGET_DIR/.backup/exit-status)
+                EXIT_STATUS=$(cat $METADATA_DIR/exit-status)
 
                 if [ $EXIT_STATUS -ne 0 ]; then
                     >&2 echo "Unclean shutdown detected, exit status: $EXIT_STATUS. Skipping backup of $TARGET_DIR"
@@ -357,6 +363,12 @@
         }
 
         backup_in_situ() {
+
+            if [ ! -d $BACKUP_METADATA_DIR ]; then
+                echo "Backup metadata directory not found, cannot perform backup: $BACKUP_METADATA_DIR"
+                exit 1
+            fi
+
             # stop the service
             echo "Backing up in-situ, stopping $SERVICE_NAME"
             systemctl stop "$SERVICE_NAME.service"

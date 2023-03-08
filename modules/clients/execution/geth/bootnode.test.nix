@@ -2,7 +2,7 @@
   systems = ["x86_64-linux"];
 
   module = {
-    name = "bootnode";
+    name = "geth-bootnode";
 
     nodes = {
       basic = {

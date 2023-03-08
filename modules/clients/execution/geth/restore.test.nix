@@ -17,7 +17,7 @@
       ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHHxQHThDpD9/AMWNqQer3Tg9gXMb2lTZMn0pelo8xyv root@client
     '';
   in {
-    name = "backup";
+    name = "geth-restore";
 
     nodes = {
       backup = {

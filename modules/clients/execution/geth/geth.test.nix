@@ -24,7 +24,7 @@
       };
     };
   in {
-    name = "basic";
+    name = "geth-startup";
 
     nodes = {
       geth = {
