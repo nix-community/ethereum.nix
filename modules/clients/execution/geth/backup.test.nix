@@ -73,7 +73,7 @@
             metadata.interval = 5;
             borg = {
               repo = "ssh://borg@backup/data/geth-test";
-              keyPath = privateKey;
+              keyPath = "/root/id_ed25519";
               encryption.mode = "none";
               strictHostKeyChecking = false;
               unencryptedRepoAccess = true;
@@ -88,10 +88,14 @@
       backup.start()
       backup.wait_for_unit("sshd.service")
 
-      def copy_datadir(node, service_name, block_number):
-        state_directory=f'/var/lib/private/{service_name}'
+      def setup_state(node, service_name, block_number):
+        # copy private key for backup, ensure permissions are correct
+        node.succeed("cp ${privateKey} /root/id_ed25519")
+        node.succeed("chmod 0600 /root/id_ed25519")
 
         # copy the datadir with the specific number of blocks already mined into the state directory for the service
+        state_directory=f'/var/lib/private/{service_name}'
+
         node.succeed(f'cp -R ${datadir}/{block_number}/* {state_directory}')
         node.succeed(f'chmod -R 755 {state_directory}')
 
@@ -137,7 +141,7 @@
       service_name = "geth-test"
       block_number = 40
 
-      copy_datadir(node, service_name, block_number)
+      setup_state(node, service_name, block_number)
 
       wait_for_geth(node, service_name)
 

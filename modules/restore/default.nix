@@ -15,29 +15,30 @@
       (findEnabled config.services.ethereum)
     );
 
-  mkRestoreScript = cfg: pkgs.writeShellScript "restore" ''
-    set -euo pipefail
+  mkRestoreScript = cfg:
+    pkgs.writeShellScript "restore" ''
+      set -euo pipefail
 
-    echo "Running restore"
+      echo "Running restore"
 
-    if [ "$(ls -A $STATE_DIRECTORY)" ]; then
-        echo "$STATE_DIRECTORY is not empty, restore will exit"
-        exit 0
-    fi
+      if [ "$(ls -A $STATE_DIRECTORY)" ]; then
+          echo "$STATE_DIRECTORY is not empty, restore will exit"
+          exit 0
+      fi
 
-    # we only perform a restore if the directory is empty
+      # we only perform a restore if the directory is empty
 
-    # move to the correct directory
-    cd $STATE_DIRECTORY
+      # move to the correct directory
+      cd $STATE_DIRECTORY
 
-    # restore from the repo
-    echo "BORG_REPO=$BORG_REPO"
-    echo "SNAPSHOT=$SNAPSHOT"
+      # restore from the repo
+      echo "BORG_REPO=$BORG_REPO"
+      echo "SNAPSHOT=$SNAPSHOT"
 
-    borg extract --lock-wait ${builtins.toString cfg.borg.lockWait} --list ::"$SNAPSHOT"
+      borg extract --lock-wait ${builtins.toString cfg.borg.lockWait} --list ::"$SNAPSHOT"
 
-    echo "Restoration complete"
-  '';
+      echo "Restoration complete"
+    '';
 
   mkClientService = name: cfg: {
     environment = with lib; {

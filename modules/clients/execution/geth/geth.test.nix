@@ -46,7 +46,7 @@
     testScript = ''
       # Copy in the data directory and make sure it's writable
 
-      geth.succeed("cp -r ${./testing/geth-1} /var/lib/private/geth-test")
+      geth.succeed("cp -r ${./testing/datadir/40} /var/lib/private/geth-test")
       geth.succeed("chmod -R 755 /var/lib/private/geth-test")
 
       start_all()
