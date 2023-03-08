@@ -37,6 +37,10 @@
 
       borg extract --lock-wait ${builtins.toString cfg.borg.lockWait} --list ::"$SNAPSHOT"
 
+      # fix permissions
+      chown -R $USER:$USER /var/lib/private/$USER
+      chmod -R 750 /var/lib/private/$USER
+
       echo "Restoration complete"
     '';
 
@@ -68,6 +72,7 @@
     };
     path = with pkgs; [
       borgbackup
+      tree
     ];
     serviceConfig = with lib; {
       # btrfs subvolume setup ExecStartPre script if enabled is configured with mkBefore which is equivalent to mkOrder 500
