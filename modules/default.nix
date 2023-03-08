@@ -9,6 +9,7 @@
       ./backup
       ./restore
       ./geth
+      ./geth-bootnode
       ./nethermind
       ./erigon
       ./prysm-beacon

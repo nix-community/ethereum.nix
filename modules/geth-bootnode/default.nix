@@ -12,111 +12,12 @@
 
   # capture config for all configured geths
   eachBootnode = config.services.ethereum.geth-bootnode;
-
-  # submodule options
-  bootnodeOpts = {
-    options = with lib; rec {
-      enable = mkEnableOption (mdDoc "Go Ethereum Boot Node");
-
-      args = {
-        addr = mkOption {
-          # todo use regex matching
-          type = types.str;
-          default = ":30301";
-          description = mdDoc "Listen address";
-        };
-
-        genkey = mkOption {
-          type = types.nullOr types.str;
-          default = null;
-          description = mdDoc "Generate a node key";
-        };
-
-        nat = mkOption {
-          # todo use regex matching
-          type = types.str;
-          default = "none";
-          description = mdDoc "Port mapping mechanism (any|none|upnp|pmp|pmp:<IP>|extip:<IP>)";
-        };
-
-        netrestrict = mkOption {
-          # todo use regex matching
-          type = types.nullOr types.str;
-          default = null;
-          description = mdDoc "Restrict network communication to the given IP networks (CIDR masks)";
-        };
-
-        nodekey = mkOption {
-          type = types.nullOr types.path;
-          default = null;
-          description = mdDoc "Private key filename";
-        };
-
-        nodekeyhex = mkOption {
-          type = types.nullOr types.str;
-          default = null;
-          description = mdDoc "Private key as hex (for testing)";
-        };
-
-        v5 = mkOption {
-          type = types.nullOr types.bool;
-          default = null;
-          description = mdDoc "Run a V5 topic discovery bootnode";
-        };
-
-        verbosity = mkOption {
-          type = types.ints.between 0 5;
-          default = 3;
-          description = mdDoc "log verbosity (0-5)";
-        };
-
-        vmodule = mkOption {
-          type = types.nullOr types.str;
-          default = null;
-          description = mdDoc "Log verbosity pattern";
-        };
-
-        writeaddress = mkOption {
-          type = types.nullOr types.bool;
-          default = null;
-          description = mdDoc "Write out the node's public key and quit";
-        };
-      };
-
-      extraArgs = mkOption {
-        type = types.listOf types.str;
-        description = mdDoc "Additional arguments to pass to the Go Ethereum Bootnode.";
-        default = [];
-      };
-
-      package = mkOption {
-        type = types.package;
-        default = pkgs.geth;
-        defaultText = literalExpression "pkgs.geth";
-        description = mdDoc "Package to use as Go Ethereum Boot node.";
-      };
-
-      openFirewall = mkOption {
-        type = types.bool;
-        default = false;
-        description = lib.mdDoc "Open ports in the firewall for any enabled networking services";
-      };
-    };
-  };
 in {
   # Disable the service definition currently in nixpkgs
   disabledModules = ["services/blockchain/ethereum/geth.nix"];
 
   ###### interface
-
-  options = {
-    services.ethereum.geth-bootnode = with lib;
-      mkOption {
-        type = types.attrsOf (types.submodule bootnodeOpts);
-        default = {};
-        description = mdDoc "Specification of one or more geth bootnode instances.";
-      };
-  };
+  inherit (import ./options.nix {inherit lib pkgs;}) options;
 
   ###### implementation
 
@@ -155,11 +56,13 @@ in {
                 in "-${arg}";
 
                 # generate flags
-                args = mkArgs {
-                  inherit pathReducer;
-                  inherit (cfg) args;
-                  opts = bootnodeOpts.options.args;
-                };
+                args = let
+                  opts = import ./args.nix lib;
+                in
+                  mkArgs {
+                    inherit pathReducer opts;
+                    inherit (cfg) args;
+                  };
 
                 # filter out certain args which need to be treated differently
                 specialArgs = ["-nodekey"];
