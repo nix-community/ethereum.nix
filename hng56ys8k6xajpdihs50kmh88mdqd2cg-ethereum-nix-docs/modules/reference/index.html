@@ -1,0 +1,5042 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Nix packages and NixOS modules for the Ethereum ecosystem">
+      
+      
+      
+        <link rel="canonical" href="https://nix-community.github.io/ethereum.nix/modules/reference/">
+      
+      <link rel="icon" href="../../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.4.3">
+    
+    
+      
+        <title>NixOS Options - Ethereum.nix</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.6b80c2a2.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.cbb835fc.min.css">
+        
+      
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="teal" data-md-color-accent="amber">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#nixos-options" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="https://nix-community.github.io/ethereum.nix" title="Ethereum.nix" class="md-header__button md-logo" aria-label="Ethereum.nix" data-md-component="logo">
+      
+  <img src="../../assets/logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Ethereum.nix
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              NixOS Options
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="" data-md-color-primary="teal" data-md-color-accent="amber"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_3" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9h-1.9M20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69m-9.15 3.96h2.3L12 9l-1.15 3.65Z"/></svg>
+            </label>
+          
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="amber"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-2.69L23.31 12 20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69Z"/></svg>
+            </label>
+          
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="amber"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_3">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 2c-1.82 0-3.53.5-5 1.35C8 5.08 10 8.3 10 12s-2 6.92-5 8.65C6.47 21.5 8.18 22 10 22a10 10 0 0 0 10-10A10 10 0 0 0 10 2Z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08Z"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/nix-community/ethereum.nix" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://nix-community.github.io/ethereum.nix" title="Ethereum.nix" class="md-nav__button md-logo" aria-label="Ethereum.nix" data-md-component="logo">
+      
+  <img src="../../assets/logo.svg" alt="logo">
+
+    </a>
+    Ethereum.nix
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/nix-community/ethereum.nix" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        About the Project
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/" class="md-nav__link">
+        Contribution Guidelines
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../license/" class="md-nav__link">
+        License
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          Modules
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Modules" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Modules
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          NixOS Options
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        NixOS Options
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_moduleargs" class="md-nav__link">
+    _module.args
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigon" class="md-nav__link">
+    services.ethereum.erigon
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargsauthrpcaddr" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.authrpc.addr
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargsauthrpcjwtsecret" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.authrpc.jwtsecret
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargsauthrpcport" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.authrpc.port
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargsauthrpctimeoutsidle" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.authrpc.timeouts.idle
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargsauthrpctimeoutsread" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.authrpc.timeouts.read
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargsauthrpctimeoutswrite" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.authrpc.timeouts.write
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargsauthrpcvhosts" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.authrpc.vhosts
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargschain" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.chain
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargsexternalcl" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.externalcl
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargshttpaddr" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.http.addr
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargshttpapi" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.http.api
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargshttpcompression" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.http.compression
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargshttpcorsdomain" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.http.corsdomain
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargshttpenable" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.http.enable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargshttpport" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.http.port
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargshttptimeoutsidle" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.http.timeouts.idle
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargshttptimeoutsread" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.http.timeouts.read
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargshttptimeoutswrite" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.http.timeouts.write
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargshttptrace" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.http.trace
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargshttpvhosts" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.http.vhosts
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargsmetricsaddr" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.metrics.addr
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargsmetricsenable" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.metrics.enable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargsmetricsport" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.metrics.port
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargsport" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.port
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargsprivateapiaddr" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.private.api.addr
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargsprivateapiratelimit" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.private.api.ratelimit
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargssnapshots" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.snapshots
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargstorrentport" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.torrent.port
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargswscompression" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.ws.compression
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargswsenable" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.ws.enable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameenable" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.enable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameextraargs" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.extraArgs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameopenfirewall" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.openFirewall
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnamepackage" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.package
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameservicesupplementarygroups" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.service.supplementaryGroups
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnamesubvolume" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.subVolume
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgeth" class="md-nav__link">
+    services.ethereum.geth
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgeth-bootnode" class="md-nav__link">
+    services.ethereum.geth-bootnode
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgeth-bootnodenameargsaddr" class="md-nav__link">
+    services.ethereum.geth-bootnode.&lt;name&gt;.args.addr
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgeth-bootnodenameargsgenkey" class="md-nav__link">
+    services.ethereum.geth-bootnode.&lt;name&gt;.args.genkey
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgeth-bootnodenameargsnat" class="md-nav__link">
+    services.ethereum.geth-bootnode.&lt;name&gt;.args.nat
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgeth-bootnodenameargsnetrestrict" class="md-nav__link">
+    services.ethereum.geth-bootnode.&lt;name&gt;.args.netrestrict
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgeth-bootnodenameargsnodekey" class="md-nav__link">
+    services.ethereum.geth-bootnode.&lt;name&gt;.args.nodekey
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgeth-bootnodenameargsnodekeyhex" class="md-nav__link">
+    services.ethereum.geth-bootnode.&lt;name&gt;.args.nodekeyhex
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgeth-bootnodenameargsv5" class="md-nav__link">
+    services.ethereum.geth-bootnode.&lt;name&gt;.args.v5
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgeth-bootnodenameargsverbosity" class="md-nav__link">
+    services.ethereum.geth-bootnode.&lt;name&gt;.args.verbosity
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgeth-bootnodenameargsvmodule" class="md-nav__link">
+    services.ethereum.geth-bootnode.&lt;name&gt;.args.vmodule
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgeth-bootnodenameargswriteaddress" class="md-nav__link">
+    services.ethereum.geth-bootnode.&lt;name&gt;.args.writeaddress
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgeth-bootnodenameenable" class="md-nav__link">
+    services.ethereum.geth-bootnode.&lt;name&gt;.enable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgeth-bootnodenameextraargs" class="md-nav__link">
+    services.ethereum.geth-bootnode.&lt;name&gt;.extraArgs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgeth-bootnodenameopenfirewall" class="md-nav__link">
+    services.ethereum.geth-bootnode.&lt;name&gt;.openFirewall
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgeth-bootnodenamepackage" class="md-nav__link">
+    services.ethereum.geth-bootnode.&lt;name&gt;.package
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargsauthrpcaddr" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.authrpc.addr
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargsauthrpcjwtsecret" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.authrpc.jwtsecret
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargsauthrpcport" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.authrpc.port
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargsauthrpcvhosts" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.authrpc.vhosts
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargsbootnodes" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.bootnodes
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargsgcmode" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.gcmode
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargshttpaddr" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.http.addr
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargshttpapi" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.http.api
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargshttpcorsdomain" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.http.corsdomain
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargshttpenable" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.http.enable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargshttpport" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.http.port
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargshttprpcprefix" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.http.rpcprefix
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargshttpvhosts" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.http.vhosts
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargsmaxpeers" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.maxpeers
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargsmetricsaddr" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.metrics.addr
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargsmetricsenable" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.metrics.enable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargsmetricsport" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.metrics.port
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargsnetrestrict" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.netrestrict
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargsnetwork" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.network
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargsnetworkid" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.networkid
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargsnodiscover" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.nodiscover
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargsport" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.port
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargssyncmode" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.syncmode
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargsverbosity" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.verbosity
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargswsaddr" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.ws.addr
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargswsapi" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.ws.api
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargswsenable" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.ws.enable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargswsport" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.ws.port
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamebackupborgcompression" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.backup.borg.compression
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamebackupborgencryptionmode" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.backup.borg.encryption.mode
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamebackupborgencryptionpasscommand" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.backup.borg.encryption.passCommand
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamebackupborgencryptionpassphrase" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.backup.borg.encryption.passPhrase
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamebackupborgexclude" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.backup.borg.exclude
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamebackupborgkeypath" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.backup.borg.keyPath
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamebackupborglockwait" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.backup.borg.lockWait
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamebackupborgrepo" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.backup.borg.repo
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamebackupborgstricthostkeychecking" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.backup.borg.strictHostKeyChecking
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamebackupborgunencryptedrepoaccess" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.backup.borg.unencryptedRepoAccess
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamebackupbtrfsenable" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.backup.btrfs.enable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamebackupbtrfssnapshotdirectory" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.backup.btrfs.snapshotDirectory
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamebackupbtrfssnapshotretention" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.backup.btrfs.snapshotRetention
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamebackupenable" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.backup.enable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamebackupmetadatainterval" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.backup.metadata.interval
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamebackupschedule" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.backup.schedule
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameenable" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.enable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameextraargs" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.extraArgs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameopenfirewall" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.openFirewall
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamepackage" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.package
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamerestoreborgencryptionpasscommand" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.restore.borg.encryption.passCommand
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamerestoreborgencryptionpassphrase" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.restore.borg.encryption.passPhrase
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamerestoreborgkeypath" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.restore.borg.keyPath
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamerestoreborglockwait" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.restore.borg.lockWait
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamerestoreborgrepo" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.restore.borg.repo
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamerestoreborgstricthostkeychecking" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.restore.borg.strictHostKeyChecking
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamerestoreborgunencryptedrepoaccess" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.restore.borg.unencryptedRepoAccess
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamerestoreenable" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.restore.enable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamerestoresnapshot" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.restore.snapshot
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermind" class="md-nav__link">
+    services.ethereum.nethermind
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnameargsbasedbpath" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.args.baseDbPath
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnameargsconfig" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.args.config
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnameargsconfigsdirectory" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.args.configsDirectory
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnameargslog" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.args.log
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnameargsloggerconfigsource" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.args.loggerConfigSource
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnameargsmoduleshealthchecksenabled" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.args.modules.HealthChecks.Enabled
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnameargsmodulesjsonrpcenabled" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.args.modules.JsonRpc.Enabled
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnameargsmodulesjsonrpcenginehost" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.args.modules.JsonRpc.EngineHost
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnameargsmodulesjsonrpcengineport" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.args.modules.JsonRpc.EnginePort
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnameargsmodulesjsonrpcjwtsecretfile" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.args.modules.JsonRpc.JwtSecretFile
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnameargsmodulesjsonrpcport" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.args.modules.JsonRpc.Port
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnameargsmodulesjsonrpcwebsocketsport" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.args.modules.JsonRpc.WebSocketsPort
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnameargsmodulesmetricsenabled" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.args.modules.Metrics.Enabled
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnameargsmodulesmetricsexposeport" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.args.modules.Metrics.ExposePort
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnameargsmodulesnetworkdiscoveryport" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.args.modules.Network.DiscoveryPort
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnameargsmodulesnetworkp2pport" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.args.modules.Network.P2PPort
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamebackupborgcompression" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.backup.borg.compression
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamebackupborgencryptionmode" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.backup.borg.encryption.mode
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamebackupborgencryptionpasscommand" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.backup.borg.encryption.passCommand
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamebackupborgencryptionpassphrase" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.backup.borg.encryption.passPhrase
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamebackupborgexclude" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.backup.borg.exclude
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamebackupborgkeypath" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.backup.borg.keyPath
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamebackupborglockwait" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.backup.borg.lockWait
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamebackupborgrepo" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.backup.borg.repo
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamebackupborgstricthostkeychecking" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.backup.borg.strictHostKeyChecking
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamebackupborgunencryptedrepoaccess" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.backup.borg.unencryptedRepoAccess
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamebackupbtrfsenable" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.backup.btrfs.enable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamebackupbtrfssnapshotdirectory" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.backup.btrfs.snapshotDirectory
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamebackupbtrfssnapshotretention" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.backup.btrfs.snapshotRetention
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamebackupenable" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.backup.enable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamebackupmetadatainterval" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.backup.metadata.interval
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamebackupschedule" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.backup.schedule
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnameenable" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.enable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnameextraargs" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.extraArgs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnameopenfirewall" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.openFirewall
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamepackage" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.package
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamerestoreborgencryptionpasscommand" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.restore.borg.encryption.passCommand
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamerestoreborgencryptionpassphrase" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.restore.borg.encryption.passPhrase
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamerestoreborgkeypath" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.restore.borg.keyPath
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamerestoreborglockwait" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.restore.borg.lockWait
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamerestoreborgrepo" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.restore.borg.repo
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamerestoreborgstricthostkeychecking" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.restore.borg.strictHostKeyChecking
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamerestoreborgunencryptedrepoaccess" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.restore.borg.unencryptedRepoAccess
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamerestoreenable" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.restore.enable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamerestoresnapshot" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.restore.snapshot
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beacon" class="md-nav__link">
+    services.ethereum.prysm-beacon
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnameargscheckpoint-sync-url" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.args.checkpoint-sync-url
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnameargsdisable-grpc-gateway" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.args.disable-grpc-gateway
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnameargsdisable-monitoring" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.args.disable-monitoring
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnameargsgenesis-beacon-api-url" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.args.genesis-beacon-api-url
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnameargsgrpc-gateway-host" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.args.grpc-gateway-host
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnameargsgrpc-gateway-port" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.args.grpc-gateway-port
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnameargsjwt-secret" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.args.jwt-secret
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnameargsmonitoring-host" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.args.monitoring-host
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnameargsmonitoring-port" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.args.monitoring-port
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnameargsnetwork" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.args.network
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnameargsp2p-tcp-port" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.args.p2p-tcp-port
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnameargsp2p-udp-port" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.args.p2p-udp-port
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnameargspprof" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.args.pprof
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnameargspprofaddr" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.args.pprofaddr
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnameargspprofport" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.args.pprofport
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnameargsrpc-host" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.args.rpc-host
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnameargsrpc-port" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.args.rpc-port
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamebackupborgcompression" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.backup.borg.compression
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamebackupborgencryptionmode" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.backup.borg.encryption.mode
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamebackupborgencryptionpasscommand" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.backup.borg.encryption.passCommand
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamebackupborgencryptionpassphrase" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.backup.borg.encryption.passPhrase
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamebackupborgexclude" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.backup.borg.exclude
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamebackupborgkeypath" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.backup.borg.keyPath
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamebackupborglockwait" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.backup.borg.lockWait
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamebackupborgrepo" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.backup.borg.repo
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamebackupborgstricthostkeychecking" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.backup.borg.strictHostKeyChecking
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamebackupborgunencryptedrepoaccess" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.backup.borg.unencryptedRepoAccess
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamebackupbtrfsenable" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.backup.btrfs.enable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamebackupbtrfssnapshotdirectory" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.backup.btrfs.snapshotDirectory
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamebackupbtrfssnapshotretention" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.backup.btrfs.snapshotRetention
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamebackupenable" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.backup.enable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamebackupmetadatainterval" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.backup.metadata.interval
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamebackupschedule" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.backup.schedule
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnameenable" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.enable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnameextraargs" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.extraArgs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnameopenfirewall" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.openFirewall
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamepackage" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.package
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamerestoreborgencryptionpasscommand" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.restore.borg.encryption.passCommand
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamerestoreborgencryptionpassphrase" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.restore.borg.encryption.passPhrase
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamerestoreborgkeypath" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.restore.borg.keyPath
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamerestoreborglockwait" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.restore.borg.lockWait
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamerestoreborgrepo" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.restore.borg.repo
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamerestoreborgstricthostkeychecking" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.restore.borg.strictHostKeyChecking
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamerestoreborgunencryptedrepoaccess" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.restore.borg.unencryptedRepoAccess
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamerestoreenable" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.restore.enable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamerestoresnapshot" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.restore.snapshot
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_moduleargs" class="md-nav__link">
+    _module.args
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigon" class="md-nav__link">
+    services.ethereum.erigon
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargsauthrpcaddr" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.authrpc.addr
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargsauthrpcjwtsecret" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.authrpc.jwtsecret
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargsauthrpcport" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.authrpc.port
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargsauthrpctimeoutsidle" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.authrpc.timeouts.idle
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargsauthrpctimeoutsread" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.authrpc.timeouts.read
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargsauthrpctimeoutswrite" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.authrpc.timeouts.write
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargsauthrpcvhosts" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.authrpc.vhosts
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargschain" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.chain
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargsexternalcl" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.externalcl
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargshttpaddr" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.http.addr
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargshttpapi" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.http.api
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargshttpcompression" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.http.compression
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargshttpcorsdomain" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.http.corsdomain
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargshttpenable" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.http.enable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargshttpport" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.http.port
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargshttptimeoutsidle" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.http.timeouts.idle
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargshttptimeoutsread" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.http.timeouts.read
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargshttptimeoutswrite" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.http.timeouts.write
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargshttptrace" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.http.trace
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargshttpvhosts" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.http.vhosts
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargsmetricsaddr" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.metrics.addr
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargsmetricsenable" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.metrics.enable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargsmetricsport" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.metrics.port
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargsport" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.port
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargsprivateapiaddr" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.private.api.addr
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargsprivateapiratelimit" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.private.api.ratelimit
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargssnapshots" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.snapshots
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargstorrentport" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.torrent.port
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargswscompression" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.ws.compression
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameargswsenable" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.args.ws.enable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameenable" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.enable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameextraargs" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.extraArgs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameopenfirewall" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.openFirewall
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnamepackage" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.package
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnameservicesupplementarygroups" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.service.supplementaryGroups
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumerigonnamesubvolume" class="md-nav__link">
+    services.ethereum.erigon.&lt;name&gt;.subVolume
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgeth" class="md-nav__link">
+    services.ethereum.geth
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgeth-bootnode" class="md-nav__link">
+    services.ethereum.geth-bootnode
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgeth-bootnodenameargsaddr" class="md-nav__link">
+    services.ethereum.geth-bootnode.&lt;name&gt;.args.addr
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgeth-bootnodenameargsgenkey" class="md-nav__link">
+    services.ethereum.geth-bootnode.&lt;name&gt;.args.genkey
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgeth-bootnodenameargsnat" class="md-nav__link">
+    services.ethereum.geth-bootnode.&lt;name&gt;.args.nat
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgeth-bootnodenameargsnetrestrict" class="md-nav__link">
+    services.ethereum.geth-bootnode.&lt;name&gt;.args.netrestrict
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgeth-bootnodenameargsnodekey" class="md-nav__link">
+    services.ethereum.geth-bootnode.&lt;name&gt;.args.nodekey
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgeth-bootnodenameargsnodekeyhex" class="md-nav__link">
+    services.ethereum.geth-bootnode.&lt;name&gt;.args.nodekeyhex
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgeth-bootnodenameargsv5" class="md-nav__link">
+    services.ethereum.geth-bootnode.&lt;name&gt;.args.v5
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgeth-bootnodenameargsverbosity" class="md-nav__link">
+    services.ethereum.geth-bootnode.&lt;name&gt;.args.verbosity
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgeth-bootnodenameargsvmodule" class="md-nav__link">
+    services.ethereum.geth-bootnode.&lt;name&gt;.args.vmodule
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgeth-bootnodenameargswriteaddress" class="md-nav__link">
+    services.ethereum.geth-bootnode.&lt;name&gt;.args.writeaddress
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgeth-bootnodenameenable" class="md-nav__link">
+    services.ethereum.geth-bootnode.&lt;name&gt;.enable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgeth-bootnodenameextraargs" class="md-nav__link">
+    services.ethereum.geth-bootnode.&lt;name&gt;.extraArgs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgeth-bootnodenameopenfirewall" class="md-nav__link">
+    services.ethereum.geth-bootnode.&lt;name&gt;.openFirewall
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgeth-bootnodenamepackage" class="md-nav__link">
+    services.ethereum.geth-bootnode.&lt;name&gt;.package
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargsauthrpcaddr" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.authrpc.addr
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargsauthrpcjwtsecret" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.authrpc.jwtsecret
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargsauthrpcport" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.authrpc.port
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargsauthrpcvhosts" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.authrpc.vhosts
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargsbootnodes" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.bootnodes
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargsgcmode" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.gcmode
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargshttpaddr" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.http.addr
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargshttpapi" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.http.api
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargshttpcorsdomain" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.http.corsdomain
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargshttpenable" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.http.enable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargshttpport" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.http.port
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargshttprpcprefix" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.http.rpcprefix
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargshttpvhosts" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.http.vhosts
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargsmaxpeers" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.maxpeers
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargsmetricsaddr" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.metrics.addr
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargsmetricsenable" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.metrics.enable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargsmetricsport" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.metrics.port
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargsnetrestrict" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.netrestrict
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargsnetwork" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.network
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargsnetworkid" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.networkid
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargsnodiscover" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.nodiscover
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargsport" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.port
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargssyncmode" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.syncmode
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargsverbosity" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.verbosity
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargswsaddr" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.ws.addr
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargswsapi" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.ws.api
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargswsenable" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.ws.enable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameargswsport" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.args.ws.port
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamebackupborgcompression" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.backup.borg.compression
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamebackupborgencryptionmode" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.backup.borg.encryption.mode
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamebackupborgencryptionpasscommand" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.backup.borg.encryption.passCommand
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamebackupborgencryptionpassphrase" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.backup.borg.encryption.passPhrase
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamebackupborgexclude" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.backup.borg.exclude
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamebackupborgkeypath" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.backup.borg.keyPath
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamebackupborglockwait" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.backup.borg.lockWait
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamebackupborgrepo" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.backup.borg.repo
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamebackupborgstricthostkeychecking" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.backup.borg.strictHostKeyChecking
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamebackupborgunencryptedrepoaccess" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.backup.borg.unencryptedRepoAccess
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamebackupbtrfsenable" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.backup.btrfs.enable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamebackupbtrfssnapshotdirectory" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.backup.btrfs.snapshotDirectory
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamebackupbtrfssnapshotretention" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.backup.btrfs.snapshotRetention
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamebackupenable" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.backup.enable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamebackupmetadatainterval" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.backup.metadata.interval
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamebackupschedule" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.backup.schedule
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameenable" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.enable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameextraargs" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.extraArgs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnameopenfirewall" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.openFirewall
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamepackage" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.package
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamerestoreborgencryptionpasscommand" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.restore.borg.encryption.passCommand
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamerestoreborgencryptionpassphrase" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.restore.borg.encryption.passPhrase
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamerestoreborgkeypath" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.restore.borg.keyPath
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamerestoreborglockwait" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.restore.borg.lockWait
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamerestoreborgrepo" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.restore.borg.repo
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamerestoreborgstricthostkeychecking" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.restore.borg.strictHostKeyChecking
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamerestoreborgunencryptedrepoaccess" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.restore.borg.unencryptedRepoAccess
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamerestoreenable" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.restore.enable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamerestoresnapshot" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.restore.snapshot
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermind" class="md-nav__link">
+    services.ethereum.nethermind
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnameargsbasedbpath" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.args.baseDbPath
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnameargsconfig" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.args.config
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnameargsconfigsdirectory" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.args.configsDirectory
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnameargslog" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.args.log
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnameargsloggerconfigsource" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.args.loggerConfigSource
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnameargsmoduleshealthchecksenabled" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.args.modules.HealthChecks.Enabled
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnameargsmodulesjsonrpcenabled" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.args.modules.JsonRpc.Enabled
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnameargsmodulesjsonrpcenginehost" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.args.modules.JsonRpc.EngineHost
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnameargsmodulesjsonrpcengineport" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.args.modules.JsonRpc.EnginePort
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnameargsmodulesjsonrpcjwtsecretfile" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.args.modules.JsonRpc.JwtSecretFile
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnameargsmodulesjsonrpcport" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.args.modules.JsonRpc.Port
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnameargsmodulesjsonrpcwebsocketsport" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.args.modules.JsonRpc.WebSocketsPort
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnameargsmodulesmetricsenabled" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.args.modules.Metrics.Enabled
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnameargsmodulesmetricsexposeport" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.args.modules.Metrics.ExposePort
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnameargsmodulesnetworkdiscoveryport" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.args.modules.Network.DiscoveryPort
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnameargsmodulesnetworkp2pport" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.args.modules.Network.P2PPort
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamebackupborgcompression" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.backup.borg.compression
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamebackupborgencryptionmode" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.backup.borg.encryption.mode
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamebackupborgencryptionpasscommand" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.backup.borg.encryption.passCommand
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamebackupborgencryptionpassphrase" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.backup.borg.encryption.passPhrase
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamebackupborgexclude" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.backup.borg.exclude
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamebackupborgkeypath" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.backup.borg.keyPath
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamebackupborglockwait" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.backup.borg.lockWait
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamebackupborgrepo" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.backup.borg.repo
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamebackupborgstricthostkeychecking" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.backup.borg.strictHostKeyChecking
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamebackupborgunencryptedrepoaccess" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.backup.borg.unencryptedRepoAccess
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamebackupbtrfsenable" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.backup.btrfs.enable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamebackupbtrfssnapshotdirectory" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.backup.btrfs.snapshotDirectory
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamebackupbtrfssnapshotretention" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.backup.btrfs.snapshotRetention
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamebackupenable" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.backup.enable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamebackupmetadatainterval" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.backup.metadata.interval
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamebackupschedule" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.backup.schedule
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnameenable" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.enable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnameextraargs" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.extraArgs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnameopenfirewall" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.openFirewall
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamepackage" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.package
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamerestoreborgencryptionpasscommand" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.restore.borg.encryption.passCommand
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamerestoreborgencryptionpassphrase" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.restore.borg.encryption.passPhrase
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamerestoreborgkeypath" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.restore.borg.keyPath
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamerestoreborglockwait" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.restore.borg.lockWait
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamerestoreborgrepo" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.restore.borg.repo
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamerestoreborgstricthostkeychecking" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.restore.borg.strictHostKeyChecking
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamerestoreborgunencryptedrepoaccess" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.restore.borg.unencryptedRepoAccess
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamerestoreenable" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.restore.enable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumnethermindnamerestoresnapshot" class="md-nav__link">
+    services.ethereum.nethermind.&lt;name&gt;.restore.snapshot
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beacon" class="md-nav__link">
+    services.ethereum.prysm-beacon
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnameargscheckpoint-sync-url" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.args.checkpoint-sync-url
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnameargsdisable-grpc-gateway" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.args.disable-grpc-gateway
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnameargsdisable-monitoring" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.args.disable-monitoring
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnameargsgenesis-beacon-api-url" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.args.genesis-beacon-api-url
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnameargsgrpc-gateway-host" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.args.grpc-gateway-host
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnameargsgrpc-gateway-port" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.args.grpc-gateway-port
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnameargsjwt-secret" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.args.jwt-secret
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnameargsmonitoring-host" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.args.monitoring-host
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnameargsmonitoring-port" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.args.monitoring-port
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnameargsnetwork" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.args.network
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnameargsp2p-tcp-port" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.args.p2p-tcp-port
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnameargsp2p-udp-port" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.args.p2p-udp-port
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnameargspprof" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.args.pprof
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnameargspprofaddr" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.args.pprofaddr
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnameargspprofport" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.args.pprofport
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnameargsrpc-host" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.args.rpc-host
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnameargsrpc-port" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.args.rpc-port
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamebackupborgcompression" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.backup.borg.compression
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamebackupborgencryptionmode" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.backup.borg.encryption.mode
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamebackupborgencryptionpasscommand" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.backup.borg.encryption.passCommand
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamebackupborgencryptionpassphrase" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.backup.borg.encryption.passPhrase
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamebackupborgexclude" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.backup.borg.exclude
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamebackupborgkeypath" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.backup.borg.keyPath
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamebackupborglockwait" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.backup.borg.lockWait
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamebackupborgrepo" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.backup.borg.repo
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamebackupborgstricthostkeychecking" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.backup.borg.strictHostKeyChecking
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamebackupborgunencryptedrepoaccess" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.backup.borg.unencryptedRepoAccess
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamebackupbtrfsenable" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.backup.btrfs.enable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamebackupbtrfssnapshotdirectory" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.backup.btrfs.snapshotDirectory
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamebackupbtrfssnapshotretention" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.backup.btrfs.snapshotRetention
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamebackupenable" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.backup.enable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamebackupmetadatainterval" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.backup.metadata.interval
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamebackupschedule" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.backup.schedule
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnameenable" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.enable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnameextraargs" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.extraArgs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnameopenfirewall" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.openFirewall
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamepackage" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.package
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamerestoreborgencryptionpasscommand" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.restore.borg.encryption.passCommand
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamerestoreborgencryptionpassphrase" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.restore.borg.encryption.passPhrase
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamerestoreborgkeypath" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.restore.borg.keyPath
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamerestoreborglockwait" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.restore.borg.lockWait
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamerestoreborgrepo" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.restore.borg.repo
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamerestoreborgstricthostkeychecking" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.restore.borg.strictHostKeyChecking
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamerestoreborgunencryptedrepoaccess" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.restore.borg.unencryptedRepoAccess
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamerestoreenable" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.restore.enable
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-beaconnamerestoresnapshot" class="md-nav__link">
+    services.ethereum.prysm-beacon.&lt;name&gt;.restore.snapshot
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+  <a href="https://github.com/nix-community/ethereum.nix/edit/main/docs/modules/reference.md" title="Edit this page" class="md-content__button md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+  </a>
+
+
+<h1 id="nixos-options">NixOS Options</h1>
+<h2 id="_moduleargs">_module.args</h2>
+<p>Additional arguments passed to each module in addition to ones
+like <literal>lib</literal>, <literal>config</literal>,
+and <literal>pkgs</literal>, <literal>modulesPath</literal>.</p>
+<p>This option is also available to all submodules. Submodules do not
+inherit args from their parent module, nor do they provide args to
+their parent module or sibling submodules. The sole exception to
+this is the argument <literal>name</literal> which is provided by
+parent modules to a submodule and contains the attribute name
+the submodule is bound to, or a unique generated name if it is
+not bound to an attribute.</p>
+<p>Some arguments are already passed by default, of which the
+following <emphasis>cannot</emphasis> be changed with this option:</p>
+<p><itemizedlist>
+<listitem><para><varname>lib</varname>: The nixpkgs library.</p>
+<p></para></listitem>
+<listitem><para><varname>config</varname>: The results of all options after merging the values from all modules together.</p>
+<p></para></listitem>
+<listitem><para><varname>options</varname>: The options declared in all modules.</p>
+<p></para></listitem>
+<listitem><para><varname>specialArgs</varname>: The <literal>specialArgs</literal> argument passed to <literal>evalModules</literal>.</p>
+<p></para></listitem>
+<listitem><para>All attributes of <varname>specialArgs</varname></p>
+<p>Whereas option values can generally depend on other option values
+thanks to laziness, this does not apply to <literal>imports</literal>, which
+must be computed statically before anything else.</p>
+<p>For this reason, callers of the module system can provide <literal>specialArgs</literal>
+which are available during import resolution.</p>
+<p>For NixOS, <literal>specialArgs</literal> includes
+<varname>modulesPath</varname>, which allows you to import
+extra modules from the nixpkgs package tree without having to
+somehow make the module aware of the location of the
+<literal>nixpkgs</literal> or NixOS directories.</p>
+<p><programlisting>
+{ modulesPath, ... }: {
+  imports = [
+    (modulesPath + "/profiles/minimal.nix")
+  ];
+}
+</programlisting></para></listitem></p>
+<p></itemizedlist>For NixOS, the default value for this option includes at least this argument:</p>
+<p><itemizedlist>
+<listitem><para><varname>pkgs</varname>: The nixpkgs package set according to
+the <option>nixpkgs.pkgs</option> option.</para></listitem></p>
+<p></itemizedlist></p>
+<p><em><em>Type</em></em>:
+lazy attribute set of raw value</p>
+<h2 id="servicesethereumerigon">services.ethereum.erigon</h2>
+<p>Specification of one or more erigon instances.</p>
+<p><em><em>Type</em></em>:
+attribute set of (submodule)</p>
+<p><em><em>Default</em></em></p>
+<pre><code>{}
+</code></pre>
+<h2 id="servicesethereumerigonnameargsauthrpcaddr">services.ethereum.erigon.&lt;name&gt;.args.authrpc.addr</h2>
+<p>HTTP-RPC server listening interface for the Engine API.</p>
+<p><em><em>Type</em></em>:
+string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>&quot;127.0.0.1&quot;
+</code></pre>
+<h2 id="servicesethereumerigonnameargsauthrpcjwtsecret">services.ethereum.erigon.&lt;name&gt;.args.authrpc.jwtsecret</h2>
+<p>Path to the token that ensures safe connection between CL and EL.</p>
+<p><em><em>Type</em></em>:
+null or string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>null
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>&quot;/var/run/erigon/jwtsecret&quot;
+</code></pre>
+<h2 id="servicesethereumerigonnameargsauthrpcport">services.ethereum.erigon.&lt;name&gt;.args.authrpc.port</h2>
+<p>HTTP-RPC server listening port for the Engine API</p>
+<p><em><em>Type</em></em>:
+16 bit unsigned integer; between 0 and 65535 (both inclusive)</p>
+<p><em><em>Default</em></em></p>
+<pre><code>8551
+</code></pre>
+<h2 id="servicesethereumerigonnameargsauthrpctimeoutsidle">services.ethereum.erigon.&lt;name&gt;.args.authrpc.timeouts.idle</h2>
+<p>Maximum amount of time to wait for the next request when keep-alives are enabled. If http.timeouts.idle
+is zero, the value of http.timeouts.read is used.</p>
+<p><em><em>Type</em></em>:
+string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>&quot;2m0s&quot;
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>&quot;30s&quot;
+</code></pre>
+<h2 id="servicesethereumerigonnameargsauthrpctimeoutsread">services.ethereum.erigon.&lt;name&gt;.args.authrpc.timeouts.read</h2>
+<p>Maximum duration for reading the entire request, including the body.</p>
+<p><em><em>Type</em></em>:
+string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>&quot;30s&quot;
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>&quot;30s&quot;
+</code></pre>
+<h2 id="servicesethereumerigonnameargsauthrpctimeoutswrite">services.ethereum.erigon.&lt;name&gt;.args.authrpc.timeouts.write</h2>
+<p>Maximum duration before timing out writes of the response. It is reset whenever a new request's
+header is read.</p>
+<p><em><em>Type</em></em>:
+string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>&quot;30m0s&quot;
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>&quot;30m0s&quot;
+</code></pre>
+<h2 id="servicesethereumerigonnameargsauthrpcvhosts">services.ethereum.erigon.&lt;name&gt;.args.authrpc.vhosts</h2>
+<p>Comma separated list of virtual hostnames from which to accept Engine API requests
+(server enforced). Accepts '*' wildcard."</p>
+<p><em><em>Type</em></em>:
+list of string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>[&quot;localhost&quot;]
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>[&quot;localhost&quot;,&quot;erigon.example.org&quot;]
+</code></pre>
+<h2 id="servicesethereumerigonnameargschain">services.ethereum.erigon.&lt;name&gt;.args.chain</h2>
+<p>Name of the network to join. If null the network is mainnet.</p>
+<p><em><em>Type</em></em>:
+one of "mainnet", "rinkeby", "goerli", "sokol", "fermion", "mumbai", "bor-mainnet", "bor-devnet", "sepolia", "gnosis", "chiado"</p>
+<p><em><em>Default</em></em></p>
+<pre><code>&quot;mainnet&quot;
+</code></pre>
+<h2 id="servicesethereumerigonnameargsexternalcl">services.ethereum.erigon.&lt;name&gt;.args.externalcl</h2>
+<p>Whether to enable enables external consensus.</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>false
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>true
+</code></pre>
+<h2 id="servicesethereumerigonnameargshttpaddr">services.ethereum.erigon.&lt;name&gt;.args.http.addr</h2>
+<p>HTTP-RPC server listening interface.</p>
+<p><em><em>Type</em></em>:
+string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>&quot;127.0.0.1&quot;
+</code></pre>
+<h2 id="servicesethereumerigonnameargshttpapi">services.ethereum.erigon.&lt;name&gt;.args.http.api</h2>
+<p>API's offered over the HTTP-RPC interface.</p>
+<p><em><em>Type</em></em>:
+null or (list of string)</p>
+<p><em><em>Example</em></em></p>
+<pre><code>[&quot;net&quot;,&quot;eth&quot;]
+</code></pre>
+<h2 id="servicesethereumerigonnameargshttpcompression">services.ethereum.erigon.&lt;name&gt;.args.http.compression</h2>
+<p>Whether to enable Enable compression over HTTP-RPC..</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>false
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>true
+</code></pre>
+<h2 id="servicesethereumerigonnameargshttpcorsdomain">services.ethereum.erigon.&lt;name&gt;.args.http.corsdomain</h2>
+<p>List of domains from which to accept cross origin requests.</p>
+<p><em><em>Type</em></em>:
+null or (list of string)</p>
+<p><em><em>Default</em></em></p>
+<pre><code>null
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>[&quot;*&quot;]
+</code></pre>
+<h2 id="servicesethereumerigonnameargshttpenable">services.ethereum.erigon.&lt;name&gt;.args.http.enable</h2>
+<p>Enable HTTP-RPC server</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>true
+</code></pre>
+<h2 id="servicesethereumerigonnameargshttpport">services.ethereum.erigon.&lt;name&gt;.args.http.port</h2>
+<p>HTTP-RPC server listening port.</p>
+<p><em><em>Type</em></em>:
+16 bit unsigned integer; between 0 and 65535 (both inclusive)</p>
+<p><em><em>Default</em></em></p>
+<pre><code>8545
+</code></pre>
+<h2 id="servicesethereumerigonnameargshttptimeoutsidle">services.ethereum.erigon.&lt;name&gt;.args.http.timeouts.idle</h2>
+<p>Maximum amount of time to wait for the next request when keep-alives are enabled. If http.timeouts.idle
+is zero, the value of http.timeouts.read is used.</p>
+<p><em><em>Type</em></em>:
+string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>&quot;2m0s&quot;
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>&quot;30s&quot;
+</code></pre>
+<h2 id="servicesethereumerigonnameargshttptimeoutsread">services.ethereum.erigon.&lt;name&gt;.args.http.timeouts.read</h2>
+<p>Maximum duration for reading the entire request, including the body.</p>
+<p><em><em>Type</em></em>:
+string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>&quot;30s&quot;
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>&quot;30s&quot;
+</code></pre>
+<h2 id="servicesethereumerigonnameargshttptimeoutswrite">services.ethereum.erigon.&lt;name&gt;.args.http.timeouts.write</h2>
+<p>Maximum duration before timing out writes of the response. It is reset whenever a new request's
+header is read.</p>
+<p><em><em>Type</em></em>:
+string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>&quot;30m0s&quot;
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>&quot;30m0s&quot;
+</code></pre>
+<h2 id="servicesethereumerigonnameargshttptrace">services.ethereum.erigon.&lt;name&gt;.args.http.trace</h2>
+<p>Whether to enable Trace HTTP requests with INFO level.</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>false
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>true
+</code></pre>
+<h2 id="servicesethereumerigonnameargshttpvhosts">services.ethereum.erigon.&lt;name&gt;.args.http.vhosts</h2>
+<p>Comma separated list of virtual hostnames from which to accept requests (server enforced).
+Accepts '*' wildcard.</p>
+<p><em><em>Type</em></em>:
+list of string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>[&quot;localhost&quot;]
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>[&quot;localhost&quot;,&quot;erigon.example.org&quot;]
+</code></pre>
+<h2 id="servicesethereumerigonnameargsmetricsaddr">services.ethereum.erigon.&lt;name&gt;.args.metrics.addr</h2>
+<p>Enable stand-alone metrics HTTP server listening interface.</p>
+<p><em><em>Type</em></em>:
+string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>&quot;127.0.0.1&quot;
+</code></pre>
+<h2 id="servicesethereumerigonnameargsmetricsenable">services.ethereum.erigon.&lt;name&gt;.args.metrics.enable</h2>
+<p>Whether to enable Enable metrics collection and reporting..</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>false
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>true
+</code></pre>
+<h2 id="servicesethereumerigonnameargsmetricsport">services.ethereum.erigon.&lt;name&gt;.args.metrics.port</h2>
+<p>Metrics HTTP server listening port</p>
+<p><em><em>Type</em></em>:
+16 bit unsigned integer; between 0 and 65535 (both inclusive)</p>
+<p><em><em>Default</em></em></p>
+<pre><code>6060
+</code></pre>
+<h2 id="servicesethereumerigonnameargsport">services.ethereum.erigon.&lt;name&gt;.args.port</h2>
+<p>Network listening port.</p>
+<p><em><em>Type</em></em>:
+16 bit unsigned integer; between 0 and 65535 (both inclusive)</p>
+<p><em><em>Default</em></em></p>
+<pre><code>30303
+</code></pre>
+<h2 id="servicesethereumerigonnameargsprivateapiaddr">services.ethereum.erigon.&lt;name&gt;.args.private.api.addr</h2>
+<p>Private api network address, for example: 127.0.0.1:9090, empty string means not to start the listener. Do not expose to public network. Serves remote database interface.</p>
+<p><em><em>Type</em></em>:
+string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>&quot;127.0.0.1:9090&quot;
+</code></pre>
+<h2 id="servicesethereumerigonnameargsprivateapiratelimit">services.ethereum.erigon.&lt;name&gt;.args.private.api.ratelimit</h2>
+<p>Amount of requests server handle simultaneously - requests over this limit will wait. Increase it - if clients see 'request timeout' while server load is low - it means your 'hot data' is small or have much RAM.</p>
+<p><em><em>Type</em></em>:
+signed integer</p>
+<p><em><em>Default</em></em></p>
+<pre><code>31872
+</code></pre>
+<h2 id="servicesethereumerigonnameargssnapshots">services.ethereum.erigon.&lt;name&gt;.args.snapshots</h2>
+<p>Default: use snapshots "true" for BSC, Mainnet and Goerli. use snapshots "false" in all other cases.</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>true
+</code></pre>
+<h2 id="servicesethereumerigonnameargstorrentport">services.ethereum.erigon.&lt;name&gt;.args.torrent.port</h2>
+<p>Port to listen and serve BitTorrent protocol .</p>
+<p><em><em>Type</em></em>:
+16 bit unsigned integer; between 0 and 65535 (both inclusive)</p>
+<p><em><em>Default</em></em></p>
+<pre><code>42069
+</code></pre>
+<h2 id="servicesethereumerigonnameargswscompression">services.ethereum.erigon.&lt;name&gt;.args.ws.compression</h2>
+<p>Whether to enable Enable compression over HTTP-RPC..</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>false
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>true
+</code></pre>
+<h2 id="servicesethereumerigonnameargswsenable">services.ethereum.erigon.&lt;name&gt;.args.ws.enable</h2>
+<p>Whether to enable Erigon WebSocket API.</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>false
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>true
+</code></pre>
+<h2 id="servicesethereumerigonnameenable">services.ethereum.erigon.&lt;name&gt;.enable</h2>
+<p>Whether to enable Erigon Ethereum Node..</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>false
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>true
+</code></pre>
+<h2 id="servicesethereumerigonnameextraargs">services.ethereum.erigon.&lt;name&gt;.extraArgs</h2>
+<p>Additional arguments to pass to Erigon.</p>
+<p><em><em>Type</em></em>:
+list of string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>[]
+</code></pre>
+<h2 id="servicesethereumerigonnameopenfirewall">services.ethereum.erigon.&lt;name&gt;.openFirewall</h2>
+<p>Open ports in the firewall for any enabled networking services</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>false
+</code></pre>
+<h2 id="servicesethereumerigonnamepackage">services.ethereum.erigon.&lt;name&gt;.package</h2>
+<p>Package to use as Erigon node.</p>
+<p><em><em>Type</em></em>:
+package</p>
+<p><em><em>Default</em></em></p>
+<pre><code>{&quot;_type&quot;:&quot;literalExpression&quot;,&quot;text&quot;:&quot;pkgs.erigon&quot;}
+</code></pre>
+<h2 id="servicesethereumerigonnameservicesupplementarygroups">services.ethereum.erigon.&lt;name&gt;.service.supplementaryGroups</h2>
+<p>Additional groups for the systemd service e.g. sops-nix group for secret access</p>
+<p><em><em>Type</em></em>:
+list of string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>[]
+</code></pre>
+<h2 id="servicesethereumerigonnamesubvolume">services.ethereum.erigon.&lt;name&gt;.subVolume</h2>
+<p>Whether to enable Use a subvolume for the state directory if the underlying filesystem supports it e.g. btrfs.</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>false
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>true
+</code></pre>
+<h2 id="servicesethereumgeth">services.ethereum.geth</h2>
+<p>Specification of one or more geth instances.</p>
+<p><em><em>Type</em></em>:
+attribute set of (submodule)</p>
+<p><em><em>Default</em></em></p>
+<pre><code>{}
+</code></pre>
+<h2 id="servicesethereumgeth-bootnode">services.ethereum.geth-bootnode</h2>
+<p>Specification of one or more geth bootnode instances.</p>
+<p><em><em>Type</em></em>:
+attribute set of (submodule)</p>
+<p><em><em>Default</em></em></p>
+<pre><code>{}
+</code></pre>
+<h2 id="servicesethereumgeth-bootnodenameargsaddr">services.ethereum.geth-bootnode.&lt;name&gt;.args.addr</h2>
+<p>Listen address</p>
+<p><em><em>Type</em></em>:
+string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>&quot;:30301&quot;
+</code></pre>
+<h2 id="servicesethereumgeth-bootnodenameargsgenkey">services.ethereum.geth-bootnode.&lt;name&gt;.args.genkey</h2>
+<p>Generate a node key</p>
+<p><em><em>Type</em></em>:
+null or string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>null
+</code></pre>
+<h2 id="servicesethereumgeth-bootnodenameargsnat">services.ethereum.geth-bootnode.&lt;name&gt;.args.nat</h2>
+<p>Port mapping mechanism (any|none|upnp|pmp|pmp:IP|extip:IP)</p>
+<p><em><em>Type</em></em>:
+string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>&quot;none&quot;
+</code></pre>
+<h2 id="servicesethereumgeth-bootnodenameargsnetrestrict">services.ethereum.geth-bootnode.&lt;name&gt;.args.netrestrict</h2>
+<p>Restrict network communication to the given IP networks (CIDR masks)</p>
+<p><em><em>Type</em></em>:
+null or string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>null
+</code></pre>
+<h2 id="servicesethereumgeth-bootnodenameargsnodekey">services.ethereum.geth-bootnode.&lt;name&gt;.args.nodekey</h2>
+<p>Private key filename</p>
+<p><em><em>Type</em></em>:
+null or path</p>
+<p><em><em>Default</em></em></p>
+<pre><code>null
+</code></pre>
+<h2 id="servicesethereumgeth-bootnodenameargsnodekeyhex">services.ethereum.geth-bootnode.&lt;name&gt;.args.nodekeyhex</h2>
+<p>Private key as hex (for testing)</p>
+<p><em><em>Type</em></em>:
+null or string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>null
+</code></pre>
+<h2 id="servicesethereumgeth-bootnodenameargsv5">services.ethereum.geth-bootnode.&lt;name&gt;.args.v5</h2>
+<p>Run a V5 topic discovery bootnode</p>
+<p><em><em>Type</em></em>:
+null or boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>null
+</code></pre>
+<h2 id="servicesethereumgeth-bootnodenameargsverbosity">services.ethereum.geth-bootnode.&lt;name&gt;.args.verbosity</h2>
+<p>log verbosity (0-5)</p>
+<p><em><em>Type</em></em>:
+integer between 0 and 5 (both inclusive)</p>
+<p><em><em>Default</em></em></p>
+<pre><code>3
+</code></pre>
+<h2 id="servicesethereumgeth-bootnodenameargsvmodule">services.ethereum.geth-bootnode.&lt;name&gt;.args.vmodule</h2>
+<p>Log verbosity pattern</p>
+<p><em><em>Type</em></em>:
+null or string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>null
+</code></pre>
+<h2 id="servicesethereumgeth-bootnodenameargswriteaddress">services.ethereum.geth-bootnode.&lt;name&gt;.args.writeaddress</h2>
+<p>Write out the node's public key and quit</p>
+<p><em><em>Type</em></em>:
+null or boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>null
+</code></pre>
+<h2 id="servicesethereumgeth-bootnodenameenable">services.ethereum.geth-bootnode.&lt;name&gt;.enable</h2>
+<p>Whether to enable Go Ethereum Boot Node.</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>false
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>true
+</code></pre>
+<h2 id="servicesethereumgeth-bootnodenameextraargs">services.ethereum.geth-bootnode.&lt;name&gt;.extraArgs</h2>
+<p>Additional arguments to pass to the Go Ethereum Bootnode.</p>
+<p><em><em>Type</em></em>:
+list of string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>[]
+</code></pre>
+<h2 id="servicesethereumgeth-bootnodenameopenfirewall">services.ethereum.geth-bootnode.&lt;name&gt;.openFirewall</h2>
+<p>Open ports in the firewall for any enabled networking services</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>false
+</code></pre>
+<h2 id="servicesethereumgeth-bootnodenamepackage">services.ethereum.geth-bootnode.&lt;name&gt;.package</h2>
+<p>Package to use as Go Ethereum Boot node.</p>
+<p><em><em>Type</em></em>:
+package</p>
+<p><em><em>Default</em></em></p>
+<pre><code>{&quot;_type&quot;:&quot;literalExpression&quot;,&quot;text&quot;:&quot;pkgs.geth&quot;}
+</code></pre>
+<h2 id="servicesethereumgethnameargsauthrpcaddr">services.ethereum.geth.&lt;name&gt;.args.authrpc.addr</h2>
+<p>Listen address of Go Ethereum Auth RPC API.</p>
+<p><em><em>Type</em></em>:
+string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>&quot;127.0.0.1&quot;
+</code></pre>
+<h2 id="servicesethereumgethnameargsauthrpcjwtsecret">services.ethereum.geth.&lt;name&gt;.args.authrpc.jwtsecret</h2>
+<p>Path to a JWT secret for authenticated RPC endpoint.</p>
+<p><em><em>Type</em></em>:
+null or string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>null
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>&quot;/var/run/geth/jwtsecret&quot;
+</code></pre>
+<h2 id="servicesethereumgethnameargsauthrpcport">services.ethereum.geth.&lt;name&gt;.args.authrpc.port</h2>
+<p>Port number of Go Ethereum Auth RPC API.</p>
+<p><em><em>Type</em></em>:
+16 bit unsigned integer; between 0 and 65535 (both inclusive)</p>
+<p><em><em>Default</em></em></p>
+<pre><code>8551
+</code></pre>
+<h2 id="servicesethereumgethnameargsauthrpcvhosts">services.ethereum.geth.&lt;name&gt;.args.authrpc.vhosts</h2>
+<p>List of virtual hostnames from which to accept requests.</p>
+<p><em><em>Type</em></em>:
+list of string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>[&quot;localhost&quot;]
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>[&quot;localhost&quot;,&quot;geth.example.org&quot;]
+</code></pre>
+<h2 id="servicesethereumgethnameargsbootnodes">services.ethereum.geth.&lt;name&gt;.args.bootnodes</h2>
+<p>List of bootnodes to connect to</p>
+<p><em><em>Type</em></em>:
+null or (list of string)</p>
+<p><em><em>Default</em></em></p>
+<pre><code>null
+</code></pre>
+<h2 id="servicesethereumgethnameargsgcmode">services.ethereum.geth.&lt;name&gt;.args.gcmode</h2>
+<p>Blockchain garbage collection mode.</p>
+<p><em><em>Type</em></em>:
+one of "full", "archive"</p>
+<p><em><em>Default</em></em></p>
+<pre><code>&quot;full&quot;
+</code></pre>
+<h2 id="servicesethereumgethnameargshttpaddr">services.ethereum.geth.&lt;name&gt;.args.http.addr</h2>
+<p>HTTP-RPC server listening interface</p>
+<p><em><em>Type</em></em>:
+string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>&quot;127.0.0.1&quot;
+</code></pre>
+<h2 id="servicesethereumgethnameargshttpapi">services.ethereum.geth.&lt;name&gt;.args.http.api</h2>
+<p>API's offered over the HTTP-RPC interface</p>
+<p><em><em>Type</em></em>:
+null or (list of string)</p>
+<p><em><em>Default</em></em></p>
+<pre><code>null
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>[&quot;net&quot;,&quot;eth&quot;]
+</code></pre>
+<h2 id="servicesethereumgethnameargshttpcorsdomain">services.ethereum.geth.&lt;name&gt;.args.http.corsdomain</h2>
+<p>List of domains from which to accept cross origin requests</p>
+<p><em><em>Type</em></em>:
+null or (list of string)</p>
+<p><em><em>Default</em></em></p>
+<pre><code>null
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>[&quot;*&quot;]
+</code></pre>
+<h2 id="servicesethereumgethnameargshttpenable">services.ethereum.geth.&lt;name&gt;.args.http.enable</h2>
+<p>Whether to enable Go Ethereum HTTP API.</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>false
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>true
+</code></pre>
+<h2 id="servicesethereumgethnameargshttpport">services.ethereum.geth.&lt;name&gt;.args.http.port</h2>
+<p>Port number of Go Ethereum HTTP API.</p>
+<p><em><em>Type</em></em>:
+16 bit unsigned integer; between 0 and 65535 (both inclusive)</p>
+<p><em><em>Default</em></em></p>
+<pre><code>8545
+</code></pre>
+<h2 id="servicesethereumgethnameargshttprpcprefix">services.ethereum.geth.&lt;name&gt;.args.http.rpcprefix</h2>
+<p>HTTP path path prefix on which JSON-RPC is served. Use '/' to serve on all paths.</p>
+<p><em><em>Type</em></em>:
+null or string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>null
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>&quot;/&quot;
+</code></pre>
+<h2 id="servicesethereumgethnameargshttpvhosts">services.ethereum.geth.&lt;name&gt;.args.http.vhosts</h2>
+<p>Comma separated list of virtual hostnames from which to accept requests (server enforced).
+Accepts '*' wildcard.</p>
+<p><em><em>Type</em></em>:
+list of string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>[&quot;localhost&quot;]
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>[&quot;localhost&quot;,&quot;geth.example.org&quot;]
+</code></pre>
+<h2 id="servicesethereumgethnameargsmaxpeers">services.ethereum.geth.&lt;name&gt;.args.maxpeers</h2>
+<p>Maximum peers to connect to.</p>
+<p><em><em>Type</em></em>:
+signed integer</p>
+<p><em><em>Default</em></em></p>
+<pre><code>50
+</code></pre>
+<h2 id="servicesethereumgethnameargsmetricsaddr">services.ethereum.geth.&lt;name&gt;.args.metrics.addr</h2>
+<p>Listen address of Go Ethereum metrics service.</p>
+<p><em><em>Type</em></em>:
+string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>&quot;127.0.0.1&quot;
+</code></pre>
+<h2 id="servicesethereumgethnameargsmetricsenable">services.ethereum.geth.&lt;name&gt;.args.metrics.enable</h2>
+<p>Whether to enable Go Ethereum prometheus metrics.</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>false
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>true
+</code></pre>
+<h2 id="servicesethereumgethnameargsmetricsport">services.ethereum.geth.&lt;name&gt;.args.metrics.port</h2>
+<p>Port number of Go Ethereum metrics service.</p>
+<p><em><em>Type</em></em>:
+16 bit unsigned integer; between 0 and 65535 (both inclusive)</p>
+<p><em><em>Default</em></em></p>
+<pre><code>6060
+</code></pre>
+<h2 id="servicesethereumgethnameargsnetrestrict">services.ethereum.geth.&lt;name&gt;.args.netrestrict</h2>
+<p>Restrict network communication to the given IP networks (CIDR masks)</p>
+<p><em><em>Type</em></em>:
+null or string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>null
+</code></pre>
+<h2 id="servicesethereumgethnameargsnetwork">services.ethereum.geth.&lt;name&gt;.args.network</h2>
+<p>The network to connect to. Mainnet (null) is the default ethereum network.</p>
+<p><em><em>Type</em></em>:
+null or one of "goerli", "kiln", "rinkeby", "ropsten", "sepolia"</p>
+<p><em><em>Default</em></em></p>
+<pre><code>null
+</code></pre>
+<h2 id="servicesethereumgethnameargsnetworkid">services.ethereum.geth.&lt;name&gt;.args.networkid</h2>
+<p>The network id used for peer to peer communication</p>
+<p><em><em>Type</em></em>:
+signed integer</p>
+<p><em><em>Default</em></em></p>
+<pre><code>1
+</code></pre>
+<h2 id="servicesethereumgethnameargsnodiscover">services.ethereum.geth.&lt;name&gt;.args.nodiscover</h2>
+<p>Disable discovery</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>false
+</code></pre>
+<h2 id="servicesethereumgethnameargsport">services.ethereum.geth.&lt;name&gt;.args.port</h2>
+<p>Port number Go Ethereum will be listening on, both TCP and UDP.</p>
+<p><em><em>Type</em></em>:
+16 bit unsigned integer; between 0 and 65535 (both inclusive)</p>
+<p><em><em>Default</em></em></p>
+<pre><code>30303
+</code></pre>
+<h2 id="servicesethereumgethnameargssyncmode">services.ethereum.geth.&lt;name&gt;.args.syncmode</h2>
+<p>Blockchain sync mode.</p>
+<p><em><em>Type</em></em>:
+one of "snap", "fast", "full", "light"</p>
+<p><em><em>Default</em></em></p>
+<pre><code>&quot;snap&quot;
+</code></pre>
+<h2 id="servicesethereumgethnameargsverbosity">services.ethereum.geth.&lt;name&gt;.args.verbosity</h2>
+<p>log verbosity (0-5)</p>
+<p><em><em>Type</em></em>:
+integer between 0 and 5 (both inclusive)</p>
+<p><em><em>Default</em></em></p>
+<pre><code>3
+</code></pre>
+<h2 id="servicesethereumgethnameargswsaddr">services.ethereum.geth.&lt;name&gt;.args.ws.addr</h2>
+<p>Listen address of Go Ethereum WebSocket API.</p>
+<p><em><em>Type</em></em>:
+string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>&quot;127.0.0.1&quot;
+</code></pre>
+<h2 id="servicesethereumgethnameargswsapi">services.ethereum.geth.&lt;name&gt;.args.ws.api</h2>
+<p>APIs to enable over WebSocket</p>
+<p><em><em>Type</em></em>:
+null or (list of string)</p>
+<p><em><em>Default</em></em></p>
+<pre><code>null
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>[&quot;net&quot;,&quot;eth&quot;]
+</code></pre>
+<h2 id="servicesethereumgethnameargswsenable">services.ethereum.geth.&lt;name&gt;.args.ws.enable</h2>
+<p>Whether to enable Go Ethereum WebSocket API.</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>false
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>true
+</code></pre>
+<h2 id="servicesethereumgethnameargswsport">services.ethereum.geth.&lt;name&gt;.args.ws.port</h2>
+<p>Port number of Go Ethereum WebSocket API.</p>
+<p><em><em>Type</em></em>:
+16 bit unsigned integer; between 0 and 65535 (both inclusive)</p>
+<p><em><em>Default</em></em></p>
+<pre><code>8546
+</code></pre>
+<h2 id="servicesethereumgethnamebackupborgcompression">services.ethereum.geth.&lt;name&gt;.backup.borg.compression</h2>
+<p>Compression method to use. Refer to
+<command>borg help compression</command>
+for all available options.</p>
+<p><em><em>Type</em></em>:
+string matching the pattern none|(auto,)?(lz4|zstd|zlib|lzma)(,[[:digit:]]{1,2})?</p>
+<p><em><em>Default</em></em></p>
+<pre><code>&quot;lz4&quot;
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>&quot;auto,lzma&quot;
+</code></pre>
+<h2 id="servicesethereumgethnamebackupborgencryptionmode">services.ethereum.geth.&lt;name&gt;.backup.borg.encryption.mode</h2>
+<p>Encryption mode to use. Setting a mode
+other than <literal>"none"</literal> requires
+you to specify a <option>passCommand</option>
+or a <option>passphrase</option>.</p>
+<p><em><em>Type</em></em>:
+one of "repokey", "keyfile", "repokey-blake2", "keyfile-blake2", "authenticated", "authenticated-blake2", "none"</p>
+<p><em><em>Example</em></em></p>
+<pre><code>&quot;repokey-blake2&quot;
+</code></pre>
+<h2 id="servicesethereumgethnamebackupborgencryptionpasscommand">services.ethereum.geth.&lt;name&gt;.backup.borg.encryption.passCommand</h2>
+<p>A command which prints the passphrase to stdout.
+Mutually exclusive with <option>passphrase</option>.</p>
+<p><em><em>Type</em></em>:
+null or string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>null
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>&quot;cat /path/to/passphrase_file&quot;
+</code></pre>
+<h2 id="servicesethereumgethnamebackupborgencryptionpassphrase">services.ethereum.geth.&lt;name&gt;.backup.borg.encryption.passPhrase</h2>
+<p>The passphrase the backups are encrypted with.
+Mutually exclusive with <option>passCommand</option>.
+If you do not want the passphrase to be stored in the
+world-readable Nix store, use <option>passCommand</option>.</p>
+<p><em><em>Type</em></em>:
+null or string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>null
+</code></pre>
+<h2 id="servicesethereumgethnamebackupborgexclude">services.ethereum.geth.&lt;name&gt;.backup.borg.exclude</h2>
+<p>Exclude paths matching any of the given patterns. See
+<command>borg help patterns</command> for pattern syntax.</p>
+<p><em><em>Type</em></em>:
+list of string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>[&quot;keystore&quot;,&quot;geth/nodekey&quot;]
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>[&quot;/home/*/.cache&quot;,&quot;/nix&quot;]
+</code></pre>
+<h2 id="servicesethereumgethnamebackupborgkeypath">services.ethereum.geth.&lt;name&gt;.backup.borg.keyPath</h2>
+<p>Path to a private key used for ssh</p>
+<p><em><em>Type</em></em>:
+null or path</p>
+<p><em><em>Default</em></em></p>
+<pre><code>null
+</code></pre>
+<h2 id="servicesethereumgethnamebackupborglockwait">services.ethereum.geth.&lt;name&gt;.backup.borg.lockWait</h2>
+<p>Amount of time in seconds to wait when acquiring a repository lock</p>
+<p><em><em>Type</em></em>:
+signed integer</p>
+<p><em><em>Default</em></em></p>
+<pre><code>600
+</code></pre>
+<h2 id="servicesethereumgethnamebackupborgrepo">services.ethereum.geth.&lt;name&gt;.backup.borg.repo</h2>
+<p>Remote or local repository to back up to.</p>
+<p><em><em>Type</em></em>:
+string</p>
+<p><em><em>Example</em></em></p>
+<pre><code>&quot;user@machine:/path/to/repo&quot;
+</code></pre>
+<h2 id="servicesethereumgethnamebackupborgstricthostkeychecking">services.ethereum.geth.&lt;name&gt;.backup.borg.strictHostKeyChecking</h2>
+<p>Enable or disable strict host key checking</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>true
+</code></pre>
+<h2 id="servicesethereumgethnamebackupborgunencryptedrepoaccess">services.ethereum.geth.&lt;name&gt;.backup.borg.unencryptedRepoAccess</h2>
+<p>Enable or disable unencrypted repo acceess check</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>false
+</code></pre>
+<h2 id="servicesethereumgethnamebackupbtrfsenable">services.ethereum.geth.&lt;name&gt;.backup.btrfs.enable</h2>
+<p>Whether to enable Enable btrfs snapshots for the state directory, if supported by the underlying filesystem.</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>false
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>true
+</code></pre>
+<h2 id="servicesethereumgethnamebackupbtrfssnapshotdirectory">services.ethereum.geth.&lt;name&gt;.backup.btrfs.snapshotDirectory</h2>
+<p>Directory in which to create the btrfs snapshots. Must be located on the same volume as the state directory</p>
+<p><em><em>Type</em></em>:
+path</p>
+<p><em><em>Default</em></em></p>
+<pre><code>&quot;/snapshots&quot;
+</code></pre>
+<h2 id="servicesethereumgethnamebackupbtrfssnapshotretention">services.ethereum.geth.&lt;name&gt;.backup.btrfs.snapshotRetention</h2>
+<p>Number of days to retain snapshots</p>
+<p><em><em>Type</em></em>:
+signed integer</p>
+<p><em><em>Default</em></em></p>
+<pre><code>7
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>&quot;10&quot;
+</code></pre>
+<h2 id="servicesethereumgethnamebackupenable">services.ethereum.geth.&lt;name&gt;.backup.enable</h2>
+<p>Whether to enable Enable backup.</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>false
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>true
+</code></pre>
+<h2 id="servicesethereumgethnamebackupmetadatainterval">services.ethereum.geth.&lt;name&gt;.backup.metadata.interval</h2>
+<p>Time interval in seconds between capturing backup metadata</p>
+<p><em><em>Type</em></em>:
+integer between 1 and 60 (both inclusive)</p>
+<p><em><em>Default</em></em></p>
+<pre><code>10
+</code></pre>
+<h2 id="servicesethereumgethnamebackupschedule">services.ethereum.geth.&lt;name&gt;.backup.schedule</h2>
+<p>Schedule for creating a backup. Format is the same as systemd.time</p>
+<p><em><em>Type</em></em>:
+string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>&quot;hourly&quot;
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>&quot;daily&quot;
+</code></pre>
+<h2 id="servicesethereumgethnameenable">services.ethereum.geth.&lt;name&gt;.enable</h2>
+<p>Whether to enable Go Ethereum Node.</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>false
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>true
+</code></pre>
+<h2 id="servicesethereumgethnameextraargs">services.ethereum.geth.&lt;name&gt;.extraArgs</h2>
+<p>Additional arguments to pass to Go Ethereum.</p>
+<p><em><em>Type</em></em>:
+list of string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>[]
+</code></pre>
+<h2 id="servicesethereumgethnameopenfirewall">services.ethereum.geth.&lt;name&gt;.openFirewall</h2>
+<p>Open ports in the firewall for any enabled networking services</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>false
+</code></pre>
+<h2 id="servicesethereumgethnamepackage">services.ethereum.geth.&lt;name&gt;.package</h2>
+<p>Package to use as Go Ethereum node.</p>
+<p><em><em>Type</em></em>:
+package</p>
+<p><em><em>Default</em></em></p>
+<pre><code>{&quot;_type&quot;:&quot;literalExpression&quot;,&quot;text&quot;:&quot;pkgs.geth&quot;}
+</code></pre>
+<h2 id="servicesethereumgethnamerestoreborgencryptionpasscommand">services.ethereum.geth.&lt;name&gt;.restore.borg.encryption.passCommand</h2>
+<p>A command which prints the passphrase to stdout.
+Mutually exclusive with <option>passphrase</option>.</p>
+<p><em><em>Type</em></em>:
+null or string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>null
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>&quot;cat /path/to/passphrase_file&quot;
+</code></pre>
+<h2 id="servicesethereumgethnamerestoreborgencryptionpassphrase">services.ethereum.geth.&lt;name&gt;.restore.borg.encryption.passPhrase</h2>
+<p>The passphrase the backups are encrypted with.
+Mutually exclusive with <option>passCommand</option>.
+If you do not want the passphrase to be stored in the
+world-readable Nix store, use <option>passCommand</option>.</p>
+<p><em><em>Type</em></em>:
+null or string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>null
+</code></pre>
+<h2 id="servicesethereumgethnamerestoreborgkeypath">services.ethereum.geth.&lt;name&gt;.restore.borg.keyPath</h2>
+<p>A path to a private key used for ssh</p>
+<p><em><em>Type</em></em>:
+path</p>
+<h2 id="servicesethereumgethnamerestoreborglockwait">services.ethereum.geth.&lt;name&gt;.restore.borg.lockWait</h2>
+<p>Amount of time in seconds to wait when acquiring a repository lock</p>
+<p><em><em>Type</em></em>:
+signed integer</p>
+<p><em><em>Default</em></em></p>
+<pre><code>600
+</code></pre>
+<h2 id="servicesethereumgethnamerestoreborgrepo">services.ethereum.geth.&lt;name&gt;.restore.borg.repo</h2>
+<p>The repository from which to pull the snapshot</p>
+<p><em><em>Type</em></em>:
+string</p>
+<p><em><em>Example</em></em></p>
+<pre><code>&quot;user@machine:/path/to/repo&quot;
+</code></pre>
+<h2 id="servicesethereumgethnamerestoreborgstricthostkeychecking">services.ethereum.geth.&lt;name&gt;.restore.borg.strictHostKeyChecking</h2>
+<p>Enable or disable strict host key checking</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>true
+</code></pre>
+<h2 id="servicesethereumgethnamerestoreborgunencryptedrepoaccess">services.ethereum.geth.&lt;name&gt;.restore.borg.unencryptedRepoAccess</h2>
+<p>Enable or disable unencrypted repo acceess check</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>false
+</code></pre>
+<h2 id="servicesethereumgethnamerestoreenable">services.ethereum.geth.&lt;name&gt;.restore.enable</h2>
+<p>Whether to enable Enable restore from snapshot.</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>false
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>true
+</code></pre>
+<h2 id="servicesethereumgethnamerestoresnapshot">services.ethereum.geth.&lt;name&gt;.restore.snapshot</h2>
+<p>The name of the snapshot to restore from</p>
+<p><em><em>Type</em></em>:
+string</p>
+<h2 id="servicesethereumnethermind">services.ethereum.nethermind</h2>
+<p>Specification of one or more Nethermind instances.</p>
+<p><em><em>Type</em></em>:
+attribute set of (submodule)</p>
+<p><em><em>Default</em></em></p>
+<pre><code>{}
+</code></pre>
+<h2 id="servicesethereumnethermindnameargsbasedbpath">services.ethereum.nethermind.&lt;name&gt;.args.baseDbPath</h2>
+<p>Configures the path of the Nethermind's database folder.</p>
+<p><em><em>Type</em></em>:
+null or path</p>
+<p><em><em>Default</em></em></p>
+<pre><code>null
+</code></pre>
+<h2 id="servicesethereumnethermindnameargsconfig">services.ethereum.nethermind.&lt;name&gt;.args.config</h2>
+<p>Determines the configuration file of the network on which Nethermind will be running.</p>
+<p><em><em>Type</em></em>:
+null or string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>null
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>&quot;mainnet&quot;
+</code></pre>
+<h2 id="servicesethereumnethermindnameargsconfigsdirectory">services.ethereum.nethermind.&lt;name&gt;.args.configsDirectory</h2>
+<p>Changes the source directory of your configuration files.</p>
+<p><em><em>Type</em></em>:
+null or path</p>
+<p><em><em>Default</em></em></p>
+<pre><code>null
+</code></pre>
+<h2 id="servicesethereumnethermindnameargslog">services.ethereum.nethermind.&lt;name&gt;.args.log</h2>
+<p>Changes the logging level.</p>
+<p><em><em>Type</em></em>:
+one of "OFF", "TRACE", "DEBUG", "INFO", "WARN", "ERROR"</p>
+<p><em><em>Default</em></em></p>
+<pre><code>&quot;INFO&quot;
+</code></pre>
+<h2 id="servicesethereumnethermindnameargsloggerconfigsource">services.ethereum.nethermind.&lt;name&gt;.args.loggerConfigSource</h2>
+<p>Changes the path of the NLog.config file.</p>
+<p><em><em>Type</em></em>:
+null or string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>null
+</code></pre>
+<h2 id="servicesethereumnethermindnameargsmoduleshealthchecksenabled">services.ethereum.nethermind.&lt;name&gt;.args.modules.HealthChecks.Enabled</h2>
+<p>If 'true' then Health Check endpoints is enabled at /health.</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>true
+</code></pre>
+<h2 id="servicesethereumnethermindnameargsmodulesjsonrpcenabled">services.ethereum.nethermind.&lt;name&gt;.args.modules.JsonRpc.Enabled</h2>
+<p>Defines whether the JSON RPC service is enabled on node startup.</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>true
+</code></pre>
+<h2 id="servicesethereumnethermindnameargsmodulesjsonrpcenginehost">services.ethereum.nethermind.&lt;name&gt;.args.modules.JsonRpc.EngineHost</h2>
+<p>Host for JSON RPC calls.</p>
+<p><em><em>Type</em></em>:
+string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>&quot;127.0.0.1&quot;
+</code></pre>
+<h2 id="servicesethereumnethermindnameargsmodulesjsonrpcengineport">services.ethereum.nethermind.&lt;name&gt;.args.modules.JsonRpc.EnginePort</h2>
+<p>Port for Execution Engine calls.</p>
+<p><em><em>Type</em></em>:
+16 bit unsigned integer; between 0 and 65535 (both inclusive)</p>
+<p><em><em>Default</em></em></p>
+<pre><code>8551
+</code></pre>
+<h2 id="servicesethereumnethermindnameargsmodulesjsonrpcjwtsecretfile">services.ethereum.nethermind.&lt;name&gt;.args.modules.JsonRpc.JwtSecretFile</h2>
+<p>Path to file with hex encoded secret for jwt authentication.</p>
+<p><em><em>Type</em></em>:
+null or string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>null
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>&quot;/var/run/geth/jwtsecret&quot;
+</code></pre>
+<h2 id="servicesethereumnethermindnameargsmodulesjsonrpcport">services.ethereum.nethermind.&lt;name&gt;.args.modules.JsonRpc.Port</h2>
+<p>Port number for JSON RPC calls.</p>
+<p><em><em>Type</em></em>:
+16 bit unsigned integer; between 0 and 65535 (both inclusive)</p>
+<p><em><em>Default</em></em></p>
+<pre><code>8545
+</code></pre>
+<h2 id="servicesethereumnethermindnameargsmodulesjsonrpcwebsocketsport">services.ethereum.nethermind.&lt;name&gt;.args.modules.JsonRpc.WebSocketsPort</h2>
+<p>Port number for JSON RPC web sockets calls.</p>
+<p><em><em>Type</em></em>:
+16 bit unsigned integer; between 0 and 65535 (both inclusive)</p>
+<p><em><em>Default</em></em></p>
+<pre><code>8545
+</code></pre>
+<h2 id="servicesethereumnethermindnameargsmodulesmetricsenabled">services.ethereum.nethermind.&lt;name&gt;.args.modules.Metrics.Enabled</h2>
+<p>If 'true',the node publishes various metrics to Prometheus Pushgateway at given interval.</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>true
+</code></pre>
+<h2 id="servicesethereumnethermindnameargsmodulesmetricsexposeport">services.ethereum.nethermind.&lt;name&gt;.args.modules.Metrics.ExposePort</h2>
+<p>If 'true' then Health Check endpoints is enabled at /health</p>
+<p><em><em>Type</em></em>:
+null or 16 bit unsigned integer; between 0 and 65535 (both inclusive)</p>
+<p><em><em>Default</em></em></p>
+<pre><code>null
+</code></pre>
+<h2 id="servicesethereumnethermindnameargsmodulesnetworkdiscoveryport">services.ethereum.nethermind.&lt;name&gt;.args.modules.Network.DiscoveryPort</h2>
+<p>UDP port number for incoming discovery connections.</p>
+<p><em><em>Type</em></em>:
+16 bit unsigned integer; between 0 and 65535 (both inclusive)</p>
+<p><em><em>Default</em></em></p>
+<pre><code>30303
+</code></pre>
+<h2 id="servicesethereumnethermindnameargsmodulesnetworkp2pport">services.ethereum.nethermind.&lt;name&gt;.args.modules.Network.P2PPort</h2>
+<p>TPC/IP port number for incoming P2P connections.</p>
+<p><em><em>Type</em></em>:
+16 bit unsigned integer; between 0 and 65535 (both inclusive)</p>
+<p><em><em>Default</em></em></p>
+<pre><code>30303
+</code></pre>
+<h2 id="servicesethereumnethermindnamebackupborgcompression">services.ethereum.nethermind.&lt;name&gt;.backup.borg.compression</h2>
+<p>Compression method to use. Refer to
+<command>borg help compression</command>
+for all available options.</p>
+<p><em><em>Type</em></em>:
+string matching the pattern none|(auto,)?(lz4|zstd|zlib|lzma)(,[[:digit:]]{1,2})?</p>
+<p><em><em>Default</em></em></p>
+<pre><code>&quot;lz4&quot;
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>&quot;auto,lzma&quot;
+</code></pre>
+<h2 id="servicesethereumnethermindnamebackupborgencryptionmode">services.ethereum.nethermind.&lt;name&gt;.backup.borg.encryption.mode</h2>
+<p>Encryption mode to use. Setting a mode
+other than <literal>"none"</literal> requires
+you to specify a <option>passCommand</option>
+or a <option>passphrase</option>.</p>
+<p><em><em>Type</em></em>:
+one of "repokey", "keyfile", "repokey-blake2", "keyfile-blake2", "authenticated", "authenticated-blake2", "none"</p>
+<p><em><em>Example</em></em></p>
+<pre><code>&quot;repokey-blake2&quot;
+</code></pre>
+<h2 id="servicesethereumnethermindnamebackupborgencryptionpasscommand">services.ethereum.nethermind.&lt;name&gt;.backup.borg.encryption.passCommand</h2>
+<p>A command which prints the passphrase to stdout.
+Mutually exclusive with <option>passphrase</option>.</p>
+<p><em><em>Type</em></em>:
+null or string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>null
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>&quot;cat /path/to/passphrase_file&quot;
+</code></pre>
+<h2 id="servicesethereumnethermindnamebackupborgencryptionpassphrase">services.ethereum.nethermind.&lt;name&gt;.backup.borg.encryption.passPhrase</h2>
+<p>The passphrase the backups are encrypted with.
+Mutually exclusive with <option>passCommand</option>.
+If you do not want the passphrase to be stored in the
+world-readable Nix store, use <option>passCommand</option>.</p>
+<p><em><em>Type</em></em>:
+null or string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>null
+</code></pre>
+<h2 id="servicesethereumnethermindnamebackupborgexclude">services.ethereum.nethermind.&lt;name&gt;.backup.borg.exclude</h2>
+<p>Exclude paths matching any of the given patterns. See
+<command>borg help patterns</command> for pattern syntax.</p>
+<p><em><em>Type</em></em>:
+list of string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>[&quot;keystore&quot;,&quot;geth/nodekey&quot;]
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>[&quot;/home/*/.cache&quot;,&quot;/nix&quot;]
+</code></pre>
+<h2 id="servicesethereumnethermindnamebackupborgkeypath">services.ethereum.nethermind.&lt;name&gt;.backup.borg.keyPath</h2>
+<p>Path to a private key used for ssh</p>
+<p><em><em>Type</em></em>:
+null or path</p>
+<p><em><em>Default</em></em></p>
+<pre><code>null
+</code></pre>
+<h2 id="servicesethereumnethermindnamebackupborglockwait">services.ethereum.nethermind.&lt;name&gt;.backup.borg.lockWait</h2>
+<p>Amount of time in seconds to wait when acquiring a repository lock</p>
+<p><em><em>Type</em></em>:
+signed integer</p>
+<p><em><em>Default</em></em></p>
+<pre><code>600
+</code></pre>
+<h2 id="servicesethereumnethermindnamebackupborgrepo">services.ethereum.nethermind.&lt;name&gt;.backup.borg.repo</h2>
+<p>Remote or local repository to back up to.</p>
+<p><em><em>Type</em></em>:
+string</p>
+<p><em><em>Example</em></em></p>
+<pre><code>&quot;user@machine:/path/to/repo&quot;
+</code></pre>
+<h2 id="servicesethereumnethermindnamebackupborgstricthostkeychecking">services.ethereum.nethermind.&lt;name&gt;.backup.borg.strictHostKeyChecking</h2>
+<p>Enable or disable strict host key checking</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>true
+</code></pre>
+<h2 id="servicesethereumnethermindnamebackupborgunencryptedrepoaccess">services.ethereum.nethermind.&lt;name&gt;.backup.borg.unencryptedRepoAccess</h2>
+<p>Enable or disable unencrypted repo acceess check</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>false
+</code></pre>
+<h2 id="servicesethereumnethermindnamebackupbtrfsenable">services.ethereum.nethermind.&lt;name&gt;.backup.btrfs.enable</h2>
+<p>Whether to enable Enable btrfs snapshots for the state directory, if supported by the underlying filesystem.</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>false
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>true
+</code></pre>
+<h2 id="servicesethereumnethermindnamebackupbtrfssnapshotdirectory">services.ethereum.nethermind.&lt;name&gt;.backup.btrfs.snapshotDirectory</h2>
+<p>Directory in which to create the btrfs snapshots. Must be located on the same volume as the state directory</p>
+<p><em><em>Type</em></em>:
+path</p>
+<p><em><em>Default</em></em></p>
+<pre><code>&quot;/snapshots&quot;
+</code></pre>
+<h2 id="servicesethereumnethermindnamebackupbtrfssnapshotretention">services.ethereum.nethermind.&lt;name&gt;.backup.btrfs.snapshotRetention</h2>
+<p>Number of days to retain snapshots</p>
+<p><em><em>Type</em></em>:
+signed integer</p>
+<p><em><em>Default</em></em></p>
+<pre><code>7
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>&quot;10&quot;
+</code></pre>
+<h2 id="servicesethereumnethermindnamebackupenable">services.ethereum.nethermind.&lt;name&gt;.backup.enable</h2>
+<p>Whether to enable Enable backup.</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>false
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>true
+</code></pre>
+<h2 id="servicesethereumnethermindnamebackupmetadatainterval">services.ethereum.nethermind.&lt;name&gt;.backup.metadata.interval</h2>
+<p>Time interval in seconds between capturing backup metadata</p>
+<p><em><em>Type</em></em>:
+integer between 1 and 60 (both inclusive)</p>
+<p><em><em>Default</em></em></p>
+<pre><code>10
+</code></pre>
+<h2 id="servicesethereumnethermindnamebackupschedule">services.ethereum.nethermind.&lt;name&gt;.backup.schedule</h2>
+<p>Schedule for creating a backup. Format is the same as systemd.time</p>
+<p><em><em>Type</em></em>:
+string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>&quot;hourly&quot;
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>&quot;daily&quot;
+</code></pre>
+<h2 id="servicesethereumnethermindnameenable">services.ethereum.nethermind.&lt;name&gt;.enable</h2>
+<p>Whether to enable Nethermind Ethereum Node..</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>false
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>true
+</code></pre>
+<h2 id="servicesethereumnethermindnameextraargs">services.ethereum.nethermind.&lt;name&gt;.extraArgs</h2>
+<p>Additional arguments to pass to Nethermind.</p>
+<p><em><em>Type</em></em>:
+list of string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>[]
+</code></pre>
+<h2 id="servicesethereumnethermindnameopenfirewall">services.ethereum.nethermind.&lt;name&gt;.openFirewall</h2>
+<p>Open ports in the firewall for any enabled networking services</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>false
+</code></pre>
+<h2 id="servicesethereumnethermindnamepackage">services.ethereum.nethermind.&lt;name&gt;.package</h2>
+<p>Package to use as Nethermind.</p>
+<p><em><em>Type</em></em>:
+package</p>
+<p><em><em>Default</em></em></p>
+<pre><code>{&quot;_type&quot;:&quot;literalExpression&quot;,&quot;text&quot;:&quot;pkgs.nethermind&quot;}
+</code></pre>
+<h2 id="servicesethereumnethermindnamerestoreborgencryptionpasscommand">services.ethereum.nethermind.&lt;name&gt;.restore.borg.encryption.passCommand</h2>
+<p>A command which prints the passphrase to stdout.
+Mutually exclusive with <option>passphrase</option>.</p>
+<p><em><em>Type</em></em>:
+null or string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>null
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>&quot;cat /path/to/passphrase_file&quot;
+</code></pre>
+<h2 id="servicesethereumnethermindnamerestoreborgencryptionpassphrase">services.ethereum.nethermind.&lt;name&gt;.restore.borg.encryption.passPhrase</h2>
+<p>The passphrase the backups are encrypted with.
+Mutually exclusive with <option>passCommand</option>.
+If you do not want the passphrase to be stored in the
+world-readable Nix store, use <option>passCommand</option>.</p>
+<p><em><em>Type</em></em>:
+null or string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>null
+</code></pre>
+<h2 id="servicesethereumnethermindnamerestoreborgkeypath">services.ethereum.nethermind.&lt;name&gt;.restore.borg.keyPath</h2>
+<p>A path to a private key used for ssh</p>
+<p><em><em>Type</em></em>:
+path</p>
+<h2 id="servicesethereumnethermindnamerestoreborglockwait">services.ethereum.nethermind.&lt;name&gt;.restore.borg.lockWait</h2>
+<p>Amount of time in seconds to wait when acquiring a repository lock</p>
+<p><em><em>Type</em></em>:
+signed integer</p>
+<p><em><em>Default</em></em></p>
+<pre><code>600
+</code></pre>
+<h2 id="servicesethereumnethermindnamerestoreborgrepo">services.ethereum.nethermind.&lt;name&gt;.restore.borg.repo</h2>
+<p>The repository from which to pull the snapshot</p>
+<p><em><em>Type</em></em>:
+string</p>
+<p><em><em>Example</em></em></p>
+<pre><code>&quot;user@machine:/path/to/repo&quot;
+</code></pre>
+<h2 id="servicesethereumnethermindnamerestoreborgstricthostkeychecking">services.ethereum.nethermind.&lt;name&gt;.restore.borg.strictHostKeyChecking</h2>
+<p>Enable or disable strict host key checking</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>true
+</code></pre>
+<h2 id="servicesethereumnethermindnamerestoreborgunencryptedrepoaccess">services.ethereum.nethermind.&lt;name&gt;.restore.borg.unencryptedRepoAccess</h2>
+<p>Enable or disable unencrypted repo acceess check</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>false
+</code></pre>
+<h2 id="servicesethereumnethermindnamerestoreenable">services.ethereum.nethermind.&lt;name&gt;.restore.enable</h2>
+<p>Whether to enable Enable restore from snapshot.</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>false
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>true
+</code></pre>
+<h2 id="servicesethereumnethermindnamerestoresnapshot">services.ethereum.nethermind.&lt;name&gt;.restore.snapshot</h2>
+<p>The name of the snapshot to restore from</p>
+<p><em><em>Type</em></em>:
+string</p>
+<h2 id="servicesethereumprysm-beacon">services.ethereum.prysm-beacon</h2>
+<p>Specification of one or more prysm beacon chain instances.</p>
+<p><em><em>Type</em></em>:
+attribute set of (submodule)</p>
+<p><em><em>Default</em></em></p>
+<pre><code>{}
+</code></pre>
+<h2 id="servicesethereumprysm-beaconnameargscheckpoint-sync-url">services.ethereum.prysm-beacon.&lt;name&gt;.args.checkpoint-sync-url</h2>
+<p>URL of a synced beacon node to trust in obtaining checkpoint sync data. As an additional safety measure, it is strongly recommended to only use this option in conjunction with --weak-subjectivity-checkpoint flag</p>
+<p><em><em>Type</em></em>:
+null or string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>null
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>&quot;https://goerli.checkpoint-sync.ethpandaops.io&quot;
+</code></pre>
+<h2 id="servicesethereumprysm-beaconnameargsdisable-grpc-gateway">services.ethereum.prysm-beacon.&lt;name&gt;.args.disable-grpc-gateway</h2>
+<p>Disable the gRPC gateway for JSON-HTTP requests </p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>false
+</code></pre>
+<h2 id="servicesethereumprysm-beaconnameargsdisable-monitoring">services.ethereum.prysm-beacon.&lt;name&gt;.args.disable-monitoring</h2>
+<p>Disable monitoring service.</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>false
+</code></pre>
+<h2 id="servicesethereumprysm-beaconnameargsgenesis-beacon-api-url">services.ethereum.prysm-beacon.&lt;name&gt;.args.genesis-beacon-api-url</h2>
+<p>URL of a synced beacon node to trust for obtaining genesis state. As an additional safety measure, it is strongly recommended to only use this option in conjunction with --weak-subjectivity-checkpoint flag</p>
+<p><em><em>Type</em></em>:
+null or string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>null
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>&quot;https://goerli.checkpoint-sync.ethpandaops.io&quot;
+</code></pre>
+<h2 id="servicesethereumprysm-beaconnameargsgrpc-gateway-host">services.ethereum.prysm-beacon.&lt;name&gt;.args.grpc-gateway-host</h2>
+<p>The host on which the gateway server runs on.</p>
+<p><em><em>Type</em></em>:
+string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>&quot;127.0.0.1&quot;
+</code></pre>
+<h2 id="servicesethereumprysm-beaconnameargsgrpc-gateway-port">services.ethereum.prysm-beacon.&lt;name&gt;.args.grpc-gateway-port</h2>
+<p>The port on which the gateway server runs.</p>
+<p><em><em>Type</em></em>:
+16 bit unsigned integer; between 0 and 65535 (both inclusive)</p>
+<p><em><em>Default</em></em></p>
+<pre><code>3500
+</code></pre>
+<h2 id="servicesethereumprysm-beaconnameargsjwt-secret">services.ethereum.prysm-beacon.&lt;name&gt;.args.jwt-secret</h2>
+<p>Path to a file containing a hex-encoded string representing a 32 byte secret used for authentication with an execution node via HTTP</p>
+<p><em><em>Type</em></em>:
+string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>null
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>&quot;/var/run/prysm/jwtsecret&quot;
+</code></pre>
+<h2 id="servicesethereumprysm-beaconnameargsmonitoring-host">services.ethereum.prysm-beacon.&lt;name&gt;.args.monitoring-host</h2>
+<p>Host used to listen and respond with metrics for prometheus.</p>
+<p><em><em>Type</em></em>:
+string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>&quot;127.0.0.1&quot;
+</code></pre>
+<h2 id="servicesethereumprysm-beaconnameargsmonitoring-port">services.ethereum.prysm-beacon.&lt;name&gt;.args.monitoring-port</h2>
+<p>Port used to listen and respond with metrics for prometheus.</p>
+<p><em><em>Type</em></em>:
+16 bit unsigned integer; between 0 and 65535 (both inclusive)</p>
+<p><em><em>Default</em></em></p>
+<pre><code>8080
+</code></pre>
+<h2 id="servicesethereumprysm-beaconnameargsnetwork">services.ethereum.prysm-beacon.&lt;name&gt;.args.network</h2>
+<p>The network to connect to. Mainnet (null) is the default ethereum network.</p>
+<p><em><em>Type</em></em>:
+null or one of "goerli", "prater", "ropsten", "sepolia"</p>
+<p><em><em>Default</em></em></p>
+<pre><code>null
+</code></pre>
+<h2 id="servicesethereumprysm-beaconnameargsp2p-tcp-port">services.ethereum.prysm-beacon.&lt;name&gt;.args.p2p-tcp-port</h2>
+<p>The port used by libp2p.</p>
+<p><em><em>Type</em></em>:
+16 bit unsigned integer; between 0 and 65535 (both inclusive)</p>
+<p><em><em>Default</em></em></p>
+<pre><code>13000
+</code></pre>
+<h2 id="servicesethereumprysm-beaconnameargsp2p-udp-port">services.ethereum.prysm-beacon.&lt;name&gt;.args.p2p-udp-port</h2>
+<p>The port used by discv5.</p>
+<p><em><em>Type</em></em>:
+16 bit unsigned integer; between 0 and 65535 (both inclusive)</p>
+<p><em><em>Default</em></em></p>
+<pre><code>12000
+</code></pre>
+<h2 id="servicesethereumprysm-beaconnameargspprof">services.ethereum.prysm-beacon.&lt;name&gt;.args.pprof</h2>
+<p>Enable the pprof HTTP server.</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>false
+</code></pre>
+<h2 id="servicesethereumprysm-beaconnameargspprofaddr">services.ethereum.prysm-beacon.&lt;name&gt;.args.pprofaddr</h2>
+<p>pprof HTTP server listening interface.</p>
+<p><em><em>Type</em></em>:
+string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>&quot;127.0.0.1&quot;
+</code></pre>
+<h2 id="servicesethereumprysm-beaconnameargspprofport">services.ethereum.prysm-beacon.&lt;name&gt;.args.pprofport</h2>
+<p>pprof HTTP server listening port.</p>
+<p><em><em>Type</em></em>:
+16 bit unsigned integer; between 0 and 65535 (both inclusive)</p>
+<p><em><em>Default</em></em></p>
+<pre><code>6060
+</code></pre>
+<h2 id="servicesethereumprysm-beaconnameargsrpc-host">services.ethereum.prysm-beacon.&lt;name&gt;.args.rpc-host</h2>
+<p>Host on which the RPC server should listen.</p>
+<p><em><em>Type</em></em>:
+string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>&quot;127.0.0.1&quot;
+</code></pre>
+<h2 id="servicesethereumprysm-beaconnameargsrpc-port">services.ethereum.prysm-beacon.&lt;name&gt;.args.rpc-port</h2>
+<p>RPC port exposed by a beacon node.</p>
+<p><em><em>Type</em></em>:
+16 bit unsigned integer; between 0 and 65535 (both inclusive)</p>
+<p><em><em>Default</em></em></p>
+<pre><code>4000
+</code></pre>
+<h2 id="servicesethereumprysm-beaconnamebackupborgcompression">services.ethereum.prysm-beacon.&lt;name&gt;.backup.borg.compression</h2>
+<p>Compression method to use. Refer to
+<command>borg help compression</command>
+for all available options.</p>
+<p><em><em>Type</em></em>:
+string matching the pattern none|(auto,)?(lz4|zstd|zlib|lzma)(,[[:digit:]]{1,2})?</p>
+<p><em><em>Default</em></em></p>
+<pre><code>&quot;lz4&quot;
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>&quot;auto,lzma&quot;
+</code></pre>
+<h2 id="servicesethereumprysm-beaconnamebackupborgencryptionmode">services.ethereum.prysm-beacon.&lt;name&gt;.backup.borg.encryption.mode</h2>
+<p>Encryption mode to use. Setting a mode
+other than <literal>"none"</literal> requires
+you to specify a <option>passCommand</option>
+or a <option>passphrase</option>.</p>
+<p><em><em>Type</em></em>:
+one of "repokey", "keyfile", "repokey-blake2", "keyfile-blake2", "authenticated", "authenticated-blake2", "none"</p>
+<p><em><em>Example</em></em></p>
+<pre><code>&quot;repokey-blake2&quot;
+</code></pre>
+<h2 id="servicesethereumprysm-beaconnamebackupborgencryptionpasscommand">services.ethereum.prysm-beacon.&lt;name&gt;.backup.borg.encryption.passCommand</h2>
+<p>A command which prints the passphrase to stdout.
+Mutually exclusive with <option>passphrase</option>.</p>
+<p><em><em>Type</em></em>:
+null or string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>null
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>&quot;cat /path/to/passphrase_file&quot;
+</code></pre>
+<h2 id="servicesethereumprysm-beaconnamebackupborgencryptionpassphrase">services.ethereum.prysm-beacon.&lt;name&gt;.backup.borg.encryption.passPhrase</h2>
+<p>The passphrase the backups are encrypted with.
+Mutually exclusive with <option>passCommand</option>.
+If you do not want the passphrase to be stored in the
+world-readable Nix store, use <option>passCommand</option>.</p>
+<p><em><em>Type</em></em>:
+null or string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>null
+</code></pre>
+<h2 id="servicesethereumprysm-beaconnamebackupborgexclude">services.ethereum.prysm-beacon.&lt;name&gt;.backup.borg.exclude</h2>
+<p>Exclude paths matching any of the given patterns. See
+<command>borg help patterns</command> for pattern syntax.</p>
+<p><em><em>Type</em></em>:
+list of string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>[&quot;keystore&quot;,&quot;geth/nodekey&quot;]
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>[&quot;/home/*/.cache&quot;,&quot;/nix&quot;]
+</code></pre>
+<h2 id="servicesethereumprysm-beaconnamebackupborgkeypath">services.ethereum.prysm-beacon.&lt;name&gt;.backup.borg.keyPath</h2>
+<p>Path to a private key used for ssh</p>
+<p><em><em>Type</em></em>:
+null or path</p>
+<p><em><em>Default</em></em></p>
+<pre><code>null
+</code></pre>
+<h2 id="servicesethereumprysm-beaconnamebackupborglockwait">services.ethereum.prysm-beacon.&lt;name&gt;.backup.borg.lockWait</h2>
+<p>Amount of time in seconds to wait when acquiring a repository lock</p>
+<p><em><em>Type</em></em>:
+signed integer</p>
+<p><em><em>Default</em></em></p>
+<pre><code>600
+</code></pre>
+<h2 id="servicesethereumprysm-beaconnamebackupborgrepo">services.ethereum.prysm-beacon.&lt;name&gt;.backup.borg.repo</h2>
+<p>Remote or local repository to back up to.</p>
+<p><em><em>Type</em></em>:
+string</p>
+<p><em><em>Example</em></em></p>
+<pre><code>&quot;user@machine:/path/to/repo&quot;
+</code></pre>
+<h2 id="servicesethereumprysm-beaconnamebackupborgstricthostkeychecking">services.ethereum.prysm-beacon.&lt;name&gt;.backup.borg.strictHostKeyChecking</h2>
+<p>Enable or disable strict host key checking</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>true
+</code></pre>
+<h2 id="servicesethereumprysm-beaconnamebackupborgunencryptedrepoaccess">services.ethereum.prysm-beacon.&lt;name&gt;.backup.borg.unencryptedRepoAccess</h2>
+<p>Enable or disable unencrypted repo acceess check</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>false
+</code></pre>
+<h2 id="servicesethereumprysm-beaconnamebackupbtrfsenable">services.ethereum.prysm-beacon.&lt;name&gt;.backup.btrfs.enable</h2>
+<p>Whether to enable Enable btrfs snapshots for the state directory, if supported by the underlying filesystem.</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>false
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>true
+</code></pre>
+<h2 id="servicesethereumprysm-beaconnamebackupbtrfssnapshotdirectory">services.ethereum.prysm-beacon.&lt;name&gt;.backup.btrfs.snapshotDirectory</h2>
+<p>Directory in which to create the btrfs snapshots. Must be located on the same volume as the state directory</p>
+<p><em><em>Type</em></em>:
+path</p>
+<p><em><em>Default</em></em></p>
+<pre><code>&quot;/snapshots&quot;
+</code></pre>
+<h2 id="servicesethereumprysm-beaconnamebackupbtrfssnapshotretention">services.ethereum.prysm-beacon.&lt;name&gt;.backup.btrfs.snapshotRetention</h2>
+<p>Number of days to retain snapshots</p>
+<p><em><em>Type</em></em>:
+signed integer</p>
+<p><em><em>Default</em></em></p>
+<pre><code>7
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>&quot;10&quot;
+</code></pre>
+<h2 id="servicesethereumprysm-beaconnamebackupenable">services.ethereum.prysm-beacon.&lt;name&gt;.backup.enable</h2>
+<p>Whether to enable Enable backup.</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>false
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>true
+</code></pre>
+<h2 id="servicesethereumprysm-beaconnamebackupmetadatainterval">services.ethereum.prysm-beacon.&lt;name&gt;.backup.metadata.interval</h2>
+<p>Time interval in seconds between capturing backup metadata</p>
+<p><em><em>Type</em></em>:
+integer between 1 and 60 (both inclusive)</p>
+<p><em><em>Default</em></em></p>
+<pre><code>10
+</code></pre>
+<h2 id="servicesethereumprysm-beaconnamebackupschedule">services.ethereum.prysm-beacon.&lt;name&gt;.backup.schedule</h2>
+<p>Schedule for creating a backup. Format is the same as systemd.time</p>
+<p><em><em>Type</em></em>:
+string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>&quot;hourly&quot;
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>&quot;daily&quot;
+</code></pre>
+<h2 id="servicesethereumprysm-beaconnameenable">services.ethereum.prysm-beacon.&lt;name&gt;.enable</h2>
+<p>Whether to enable Ethereum Beacon Chain Node from Prysmatic Labs.</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>false
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>true
+</code></pre>
+<h2 id="servicesethereumprysm-beaconnameextraargs">services.ethereum.prysm-beacon.&lt;name&gt;.extraArgs</h2>
+<p>Additional arguments to pass to Prysm Beacon Chain.</p>
+<p><em><em>Type</em></em>:
+list of string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>[]
+</code></pre>
+<h2 id="servicesethereumprysm-beaconnameopenfirewall">services.ethereum.prysm-beacon.&lt;name&gt;.openFirewall</h2>
+<p>Open ports in the firewall for any enabled networking services</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>false
+</code></pre>
+<h2 id="servicesethereumprysm-beaconnamepackage">services.ethereum.prysm-beacon.&lt;name&gt;.package</h2>
+<p>Package to use for Prysm binary</p>
+<p><em><em>Type</em></em>:
+package</p>
+<p><em><em>Default</em></em></p>
+<pre><code>{&quot;_type&quot;:&quot;literalExpression&quot;,&quot;text&quot;:&quot;pkgs.prysm&quot;}
+</code></pre>
+<h2 id="servicesethereumprysm-beaconnamerestoreborgencryptionpasscommand">services.ethereum.prysm-beacon.&lt;name&gt;.restore.borg.encryption.passCommand</h2>
+<p>A command which prints the passphrase to stdout.
+Mutually exclusive with <option>passphrase</option>.</p>
+<p><em><em>Type</em></em>:
+null or string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>null
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>&quot;cat /path/to/passphrase_file&quot;
+</code></pre>
+<h2 id="servicesethereumprysm-beaconnamerestoreborgencryptionpassphrase">services.ethereum.prysm-beacon.&lt;name&gt;.restore.borg.encryption.passPhrase</h2>
+<p>The passphrase the backups are encrypted with.
+Mutually exclusive with <option>passCommand</option>.
+If you do not want the passphrase to be stored in the
+world-readable Nix store, use <option>passCommand</option>.</p>
+<p><em><em>Type</em></em>:
+null or string</p>
+<p><em><em>Default</em></em></p>
+<pre><code>null
+</code></pre>
+<h2 id="servicesethereumprysm-beaconnamerestoreborgkeypath">services.ethereum.prysm-beacon.&lt;name&gt;.restore.borg.keyPath</h2>
+<p>A path to a private key used for ssh</p>
+<p><em><em>Type</em></em>:
+path</p>
+<h2 id="servicesethereumprysm-beaconnamerestoreborglockwait">services.ethereum.prysm-beacon.&lt;name&gt;.restore.borg.lockWait</h2>
+<p>Amount of time in seconds to wait when acquiring a repository lock</p>
+<p><em><em>Type</em></em>:
+signed integer</p>
+<p><em><em>Default</em></em></p>
+<pre><code>600
+</code></pre>
+<h2 id="servicesethereumprysm-beaconnamerestoreborgrepo">services.ethereum.prysm-beacon.&lt;name&gt;.restore.borg.repo</h2>
+<p>The repository from which to pull the snapshot</p>
+<p><em><em>Type</em></em>:
+string</p>
+<p><em><em>Example</em></em></p>
+<pre><code>&quot;user@machine:/path/to/repo&quot;
+</code></pre>
+<h2 id="servicesethereumprysm-beaconnamerestoreborgstricthostkeychecking">services.ethereum.prysm-beacon.&lt;name&gt;.restore.borg.strictHostKeyChecking</h2>
+<p>Enable or disable strict host key checking</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>true
+</code></pre>
+<h2 id="servicesethereumprysm-beaconnamerestoreborgunencryptedrepoaccess">services.ethereum.prysm-beacon.&lt;name&gt;.restore.borg.unencryptedRepoAccess</h2>
+<p>Enable or disable unencrypted repo acceess check</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>false
+</code></pre>
+<h2 id="servicesethereumprysm-beaconnamerestoreenable">services.ethereum.prysm-beacon.&lt;name&gt;.restore.enable</h2>
+<p>Whether to enable Enable restore from snapshot.</p>
+<p><em><em>Type</em></em>:
+boolean</p>
+<p><em><em>Default</em></em></p>
+<pre><code>false
+</code></pre>
+<p><em><em>Example</em></em></p>
+<pre><code>true
+</code></pre>
+<h2 id="servicesethereumprysm-beaconnamerestoresnapshot">services.ethereum.prysm-beacon.&lt;name&gt;.restore.snapshot</h2>
+<p>The name of the snapshot to restore from</p>
+<p><em><em>Type</em></em>:
+string</p>
+
+
+
+
+              
+            </article>
+            
+          </div>
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Back to top
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../../license/" class="md-footer__link md-footer__link--prev" aria-label="Previous: License" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              License
+            </div>
+          </div>
+        </a>
+      
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 41North and Ethereum.nix contributors
+    </div>
+  
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    <a href="https://github.com/nix-community/ethereum.nix" target="_blank" rel="noopener" title="Ethereum.nix on Github" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.sections", "navigation.top", "toc.follow", "content.action.edit", "content.action.view", "search.suggest", "search.highlight", "search.share"], "search": "../../assets/javascripts/workers/search.ecf98df9.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.2ab50757.min.js"></script>
+      
+    
+  </body>
+</html>
