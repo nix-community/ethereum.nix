@@ -234,30 +234,6 @@ services.ethereum.erigon.sepolia = {
 };
 ```
 
-### Snapshot
-
-The snapshot module requires that the `/` filesystem is `btrfs`. If configured, it will modify the systemd service configs
-to inject `ExecStartPre` and `ExecStopPost` scripts that will:
-
-- create a `btrfs` subvolume for the service's state directory
-- ensure copy on write is disabled for the service's state directory by adding `+C` file attribute to the directory on creation.
-  - **NOTE** this only works with new volumes not existing ones that have data within them.
-- on a successful/clean stop, it will snapshot the state directory and place the result in the configured snapshot directory, defaulting to `/snapshots`
-
-```nix
-services.ethereum.snapshot = {
-    enable = true;
-    interval = "6h";
-    snapshotDirectory = "/snapshots";
-
-    # For now you have to specify the systemd service names, this will be a bit smarter in future
-    services = [
-        "geth-sepolia"
-        "prysm-beacon-sepolia"
-    ];
-}
-```
-
 ## Libraries
 
 Some crypto projects may need specific libraries to be available to compile properly. Below you can find the list of included ones:

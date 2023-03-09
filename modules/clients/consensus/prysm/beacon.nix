@@ -8,11 +8,14 @@
   inherit (lib.strings) hasPrefix;
   inherit (lib.attrsets) zipAttrsWith mapAttrsRecursive optionalAttrs;
   inherit (lib) mdDoc flatten nameValuePair filterAttrs mapAttrs mapAttrs' mapAttrsToList;
-  inherit (lib) optionalString literalExpression mkEnableOption mkIf mkOption mkMerge types concatStringsSep;
+  inherit (lib) optionalString literalExpression mkEnableOption mkIf mkBefore mkOption mkMerge types concatStringsSep;
+
+  modulesLib = import ../../../lib.nix {inherit lib pkgs;};
+  inherit (modulesLib) mkArgs baseServiceConfig foldListToAttrs scripts;
 
   settingsFormat = pkgs.formats.yaml {};
 
-  eachBeacon = config.services.ethereum.prysm.beacon;
+  eachBeacon = config.services.ethereum.prysm-beacon;
 
   beaconOpts = {
     options = {
@@ -144,20 +147,24 @@
         description = lib.mdDoc "Open ports in the firewall for any enabled networking services";
       };
 
-      service = {
-        supplementaryGroups = mkOption {
-          default = [];
-          type = types.listOf types.str;
-          description = mdDoc "Additional groups for the systemd service e.g. sops-nix group for secret access";
-        };
-      };
+      # mixin backup options
+      backup = let
+        inherit (import ../../../backup/lib.nix lib) options;
+      in
+        options;
+
+      # mixin restore options
+      restore = let
+        inherit (import ../../../restore/lib.nix lib) options;
+      in
+        options;
     };
   };
 in {
   ###### interface
 
   options = {
-    services.ethereum.prysm.beacon = mkOption {
+    services.ethereum.prysm-beacon = mkOption {
       type = types.attrsOf (types.submodule beaconOpts);
       default = {};
       description = mdDoc "Specification of one or more prysm beacon chain instances.";
@@ -192,9 +199,6 @@ in {
       (
         beaconName: let
           serviceName = "prysm-beacon-${beaconName}";
-
-          modulesLib = import ../../../lib.nix {inherit lib pkgs;};
-          inherit (modulesLib) mkArgs baseServiceConfig foldListToAttrs;
         in
           cfg: let
             scriptArgs = let
@@ -230,6 +234,11 @@ in {
               wantedBy = ["multi-user.target"];
               description = "Prysm Beacon Node (${beaconName})";
 
+              environment = {
+                GRPC_GATEWAY_HOST = cfg.args.grpc-gateway-host;
+                GRPC_GATEWAY_PORT = builtins.toString cfg.args.grpc-gateway-port;
+              };
+
               # create service config by merging with the base config
               serviceConfig = mkMerge [
                 baseServiceConfig
@@ -240,7 +249,7 @@ in {
                   MemoryDenyWriteExecute = "false"; # causes a library loading error
                 }
                 (mkIf (cfg.args.jwt-secret != null) {
-                  LoadCredential = "jwt-secret:${cfg.args.jwt-secret}";
+                  LoadCredential = ["jwt-secret:${cfg.args.jwt-secret}"];
                 })
               ];
             })

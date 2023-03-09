@@ -1,7 +1,7 @@
 {
   imports = [
     ./erigon.nix
-    ./geth.nix
+    ./geth
     ./nethermind
   ];
 }

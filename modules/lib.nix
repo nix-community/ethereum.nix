@@ -106,4 +106,22 @@
 in {
   inherit baseServiceConfig;
   inherit mkArg mkArgs defaultPathReducer dotPathReducer;
+
+  findEnabled = with lib;
+    tree: let
+      op = sum: path: val: let
+        pathStr = concatStringsSep "-" path;
+      in
+        if (attrByPath ["enable"] false val)
+        then (sum // {"${pathStr}" = val;})
+        else if (isAttrs val)
+        then (recurse sum path val)
+        else sum;
+
+      recurse = sum: path: val:
+        foldl'
+        (sum: key: op sum (path ++ [key]) val.${key})
+        sum (attrNames val);
+    in
+      recurse {} [] tree;
 }

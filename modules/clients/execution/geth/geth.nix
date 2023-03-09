@@ -12,7 +12,10 @@
   inherit (lib.strings) hasPrefix;
   inherit (lib.attrsets) zipAttrsWith mapAttrsRecursive optionalAttrs;
   inherit (lib) mdDoc flatten nameValuePair filterAttrs mapAttrs mapAttrs' mapAttrsToList;
-  inherit (lib) optionalString literalExpression mkEnableOption mkIf mkMerge mkOption types concatStringsSep;
+  inherit (lib) optionalString literalExpression mkEnableOption mkIf mkMerge mkBefore mkOption types concatStringsSep;
+
+  modulesLib = import ../../../lib.nix {inherit lib pkgs;};
+  inherit (modulesLib) mkArgs baseServiceConfig scripts;
 
   # capture config for all configured geths
   eachGeth = config.services.ethereum.geth;
@@ -147,6 +150,38 @@
           description = mdDoc "The network to connect to. Mainnet (null) is the default ethereum network.";
         };
 
+        networkid = mkOption {
+          type = types.int;
+          default = 1;
+          description = mdDoc "The network id used for peer to peer communication";
+        };
+
+        netrestrict = mkOption {
+          # todo use regex matching
+          type = types.nullOr types.str;
+          default = null;
+          description = mdDoc "Restrict network communication to the given IP networks (CIDR masks)";
+        };
+
+        verbosity = mkOption {
+          type = types.ints.between 0 5;
+          default = 3;
+          description = mdDoc "log verbosity (0-5)";
+        };
+
+        nodiscover = mkOption {
+          type = types.bool;
+          default = false;
+          description = "Disable discovery";
+        };
+
+        bootnodes = mkOption {
+          # todo use regex matching
+          type = types.nullOr (types.listOf types.str);
+          default = null;
+          description = mdDoc "List of bootnodes to connect to";
+        };
+
         syncmode = mkOption {
           type = types.enum ["snap" "fast" "full" "light"];
           default = "snap";
@@ -184,6 +219,18 @@
         default = false;
         description = lib.mdDoc "Open ports in the firewall for any enabled networking services";
       };
+
+      # mixin backup options
+      backup = let
+        inherit (import ../../../backup/lib.nix lib) options;
+      in
+        options;
+
+      # mixin restore options
+      restore = let
+        inherit (import ../../../restore/lib.nix lib) options;
+      in
+        options;
     };
   };
 in {
@@ -229,9 +276,6 @@ in {
       (
         gethName: let
           serviceName = "geth-${gethName}";
-
-          modulesLib = import ../../lib.nix {inherit lib pkgs;};
-          inherit (modulesLib) mkArgs baseServiceConfig;
         in
           cfg: let
             scriptArgs = let
@@ -274,6 +318,11 @@ in {
               wantedBy = ["multi-user.target"];
               description = "Go Ethereum node (${gethName})";
 
+              environment = {
+                WEB3_HTTP_HOST = cfg.args.http.addr;
+                WEB3_HTTP_PORT = builtins.toString cfg.args.http.port;
+              };
+
               # create service config by merging with the base config
               serviceConfig = mkMerge [
                 baseServiceConfig
@@ -283,7 +332,7 @@ in {
                   ExecStart = "${cfg.package}/bin/geth ${scriptArgs}";
                 }
                 (mkIf (cfg.args.authrpc.jwtsecret != null) {
-                  LoadCredential = "jwtsecret:${cfg.args.authrpc.jwtsecret}";
+                  LoadCredential = ["jwtsecret:${cfg.args.authrpc.jwtsecret}"];
                 })
               ];
             })

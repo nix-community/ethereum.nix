@@ -26,6 +26,7 @@
     mdDoc
     mkEnableOption
     mkIf
+    mkBefore
     mkMerge
     mkOption
     nameValuePair
@@ -34,6 +35,9 @@
     types
     zipAttrsWith
     ;
+
+  modulesLib = import ../../../lib.nix {inherit lib pkgs;};
+  inherit (modulesLib) mkArgs baseServiceConfig scripts;
 
   # capture config for all configured netherminds
   eachNethermind = config.services.ethereum.nethermind;
@@ -183,13 +187,17 @@
         description = lib.mdDoc "Open ports in the firewall for any enabled networking services";
       };
 
-      service = {
-        supplementaryGroups = mkOption {
-          default = [];
-          type = types.listOf types.str;
-          description = mdDoc "Additional groups for the systemd service e.g. sops-nix group for secret access.";
-        };
-      };
+      # mixin backup options
+      backup = let
+        inherit (import ../../../backup/lib.nix lib) options;
+      in
+        options;
+
+      # mixin restore options
+      restore = let
+        inherit (import ../../../restore/lib.nix lib) options;
+      in
+        options;
     };
   };
 in {
@@ -230,9 +238,6 @@ in {
       mapAttrs' (
         nethermindName: let
           serviceName = "nethermind-${nethermindName}";
-
-          modulesLib = import ../../../lib.nix {inherit lib pkgs;};
-          inherit (modulesLib) mkArgs baseServiceConfig;
         in
           cfg: let
             scriptArgs = let
@@ -289,6 +294,11 @@ in {
               wantedBy = ["multi-user.target"];
               description = "Nethermind Node (${nethermindName})";
 
+              environment = {
+                WEB3_HTTP_HOST = cfg.args.modules.JsonRpc.EngineHost;
+                WEB3_HTTP_PORT = builtins.toString cfg.args.modules.JsonRpc.Port;
+              };
+
               # create service config by merging with the base config
               serviceConfig = mkMerge [
                 baseServiceConfig
@@ -298,7 +308,7 @@ in {
                   ExecStart = "${cfg.package}/bin/Nethermind.Runner ${scriptArgs}";
                 }
                 (mkIf (cfg.args.modules.JsonRpc.JwtSecretFile != null) {
-                  LoadCredential = "jwtsecret:${cfg.args.modules.JsonRpc.JwtSecretFile}";
+                  LoadCredential = ["jwtsecret:${cfg.args.modules.JsonRpc.JwtSecretFile}"];
                 })
               ];
             })
