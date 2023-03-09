@@ -47,6 +47,11 @@ theme:
     - search.highlight
     - search.share
 
+nav:
+  - About the Project: about.md
+  - Contributing: contributing.md
+  - NixOS Modules:
+      - Reference: reference.md
 
 extra:
   homepage: https://nix-community.github.io/ethereum.nix
@@ -55,3 +60,5 @@ extra:
       link: https://github.com/nix-community/ethereum.nix
       name: Ethereum.nix on Github
   generator: false # hide the line "Made with Material for MkDocs"
+
+copyright: Copyright &copy; 41North and Ethereum.nix contributors

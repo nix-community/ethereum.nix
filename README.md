@@ -16,7 +16,7 @@
 
 This is an experimental Nix project for integrating the most interesting / important projects in the Ethereum ecosystem as Nix packages / NixOS modules.
 
-Many of the packages found here will be added to `nixpkgs` repository once they're stable / mature enough. But for some others, more experimental ones, they can reside here.
+Many of the packages found ~~~~here will be added to `nixpkgs` repository once they're stable / mature enough. But for some others, more experimental ones, they can reside here.
 
 This project is developed entirely in [Nix Flakes](https://nixos.wiki/wiki/Flakes).
 
