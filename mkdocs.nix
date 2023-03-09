@@ -15,9 +15,7 @@
       nativeBuildInputs = [mkdocs python310Packages.mkdocs-material];
 
       buildPhase = ''
-        ln -s ${reference-doc} ./docs/reference.md
-        ls -al ./docs
-        cat ./docs/modules/reference.md
+        ln -s ${reference-doc} ./docs/modules/reference.md
         mkdocs build
       '';
 
