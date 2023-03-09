@@ -2,6 +2,7 @@
   perSystem = {
     lib,
     pkgs,
+    self',
     ...
   }: let
     inherit (pkgs) stdenv mkdocs python310Packages;
@@ -22,6 +23,20 @@
       installPhase = ''
         mv site $out
       '';
+    };
+
+    apps.deploy-docs = let
+      script = pkgs.writeShellScriptBin "deploy-docs" ''
+        git checkout gh-pages
+        rm -rf ./*
+        cp -r ${self'.packages.docs} ./
+        git add .
+        git commit -m "update - $(date --rfc-3339=seconds)"
+        git push
+      '';
+    in {
+      type = "app";
+      program = "${script}/bin/deploy-docs";
     };
 
     mission-control.scripts = let
