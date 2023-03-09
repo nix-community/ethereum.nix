@@ -1,10 +1,10 @@
-# Contribution guidelines
+# Contribution Guidelines
 
 This file contains instructions that will help you make a contribution.
 
 ## Licensing
 
-The Ethereum.nix packages, modules and this user guide are licensed under the [MIT license](LICENSE.md).
+The Ethereum.nix packages, modules and this user guide are licensed under the [MIT license](license.md).
 
 ## Before you contribute
 

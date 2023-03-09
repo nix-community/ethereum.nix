@@ -36,8 +36,7 @@ theme:
   features:
     - navigation.instant
     - navigation.tracking
-    - navigation.tabs
-    - navigation.tabs.sticky
+
     - navigation.sections
     - navigation.top
     - toc.follow
@@ -47,11 +46,7 @@ theme:
     - search.highlight
     - search.share
 
-nav:
-  - About the Project: about.md
-  - Contributing: contributing.md
-  - NixOS Modules:
-      - Reference: reference.md
+
 
 extra:
   homepage: https://nix-community.github.io/ethereum.nix

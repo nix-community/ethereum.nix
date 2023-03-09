@@ -17,7 +17,7 @@
       buildPhase = ''
         ln -s ${reference-doc} ./docs/reference.md
         ls -al ./docs
-        cat ./docs/reference.md
+        cat ./docs/modules/reference.md
         mkdocs build
       '';
 
@@ -35,8 +35,8 @@
           description = "Serve docs";
           exec = ''
             # link in options reference
-            rm -f ./docs/reference.md
-            ln -s ${reference-doc} ./docs/reference.md
+            rm -f ./docs/modules/reference.md
+            ln -s ${reference-doc} ./docs/modules/reference.md
 
             mkdocs serve
           '';
