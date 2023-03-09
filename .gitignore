@@ -6,3 +6,6 @@
 
 # IDE
 .idea/
+
+# Generated docs files
+docs/modules/reference.md

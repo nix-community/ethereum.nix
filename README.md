@@ -16,7 +16,7 @@
 
 This is an experimental Nix project for integrating the most interesting / important projects in the Ethereum ecosystem as Nix packages / NixOS modules.
 
-Many of the packages found here will be added to `nixpkgs` repository once they're stable / mature enough. But for some others, more experimental ones, they can reside here.
+Many of the packages found ~~~~here will be added to `nixpkgs` repository once they're stable / mature enough. But for some others, more experimental ones, they can reside here.
 
 This project is developed entirely in [Nix Flakes](https://nixos.wiki/wiki/Flakes).
 
@@ -93,13 +93,17 @@ Optional: [install direnv](https://github.com/direnv/direnv#basic-installation),
 
 ## Development
 
-#### Running tests
+### Docs
+
+To serve the docs run `, docs`. You can edit the docs in `./docs`.
+
+### Running tests
 
 To run all tests you can use `nix flake check`, it will build all packages and run all tests.
 
 To execute a specific test you can use `, test -h` which will provide more information.
 
-#### Formatting
+### Formatting
 
 You can manually format using the `format` command like so:
 

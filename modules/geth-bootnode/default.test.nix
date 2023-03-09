@@ -14,7 +14,7 @@
           openFirewall = true;
           args = {
             nat = "extip:192.168.1.1";
-            nodekey = ./testing/keys/alpha.key;
+            nodekey = ../geth/testing/keys/alpha.key;
             netrestrict = "192.168.1.0/24";
           };
         };
