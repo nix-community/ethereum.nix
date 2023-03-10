@@ -56,7 +56,8 @@ in {
                 opts = import ./args.nix lib;
               in
                 mkArgs {
-                  inherit (cfg) args opts;
+                  inherit opts;
+                  inherit (cfg) args;
                 };
 
               # filter out certain args which need to be treated differently
