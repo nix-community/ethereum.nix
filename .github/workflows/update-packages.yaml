@@ -17,5 +17,8 @@ jobs:
             experimental-features = nix-command flakes
       - name: Update packages
         uses: selfuryon/nix-update-action@main
+        with:
+          ignore_errors: true
+          blacklist: "bls,blst,evmc,mcl"
       - name: Print PR number
         run: echo Pull request number is ${{ steps.update.outputs.pull-request-number }}.
