@@ -1,6 +1,6 @@
 name: "Update Packages ❄️"
 on:
-  pull_request:
+  push:
   workflow_dispatch:
   schedule:
     - cron: "0 0 * * *" # https://crontab.guru/#0_0_*_*_*
