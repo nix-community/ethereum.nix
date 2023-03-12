@@ -16,6 +16,6 @@ jobs:
           extra_nix_config: |
             experimental-features = nix-command flakes
       - name: Update packages
-        uses: selfuryon/nix-update-action@main
+        uses: selfuryon/nix-update-action@e3cd8e603a513c4e08d577bd7b89ee270eafa83a
       - name: Print PR number
         run: echo Pull request number is ${{ steps.update.outputs.pull-request-number }}.
