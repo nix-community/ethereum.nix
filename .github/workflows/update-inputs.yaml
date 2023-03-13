@@ -1,4 +1,4 @@
-name: "Update Nix Flake ️❄️"
+name: "Update Flake Inputs ️❄️"
 on:
   workflow_dispatch:
   schedule:

@@ -1,6 +1,5 @@
-name: "Update Packages ❄️"
+name: "Update Flake Packages ❄️"
 on:
-  push:
   workflow_dispatch:
   schedule:
     - cron: "0 10 * * 0" # https://crontab.guru/#0_10_*_*_0
