@@ -13,7 +13,11 @@
       name = "ethereum-nix-docs";
 
       buildInput = [options-doc];
-      nativeBuildInputs = [mkdocs python310Packages.mkdocs-material];
+      nativeBuildInputs = [
+        mkdocs
+        python310Packages.mkdocs-material
+        python310Packages.pygments
+      ];
 
       buildPhase = ''
         ln -s ${options-doc} ./docs/reference/options.md
