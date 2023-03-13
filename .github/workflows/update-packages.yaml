@@ -19,6 +19,6 @@ jobs:
         uses: selfuryon/nix-update-action@main
         with:
           #ignore_errors: true
-          blacklist: "bls,blst,evmc,mcl,besu,teku"
+          blacklist: "bls,blst,evmc,mcl,besu,teku,docs,foundry,mev-geth,web3signer"
       - name: Print PR number
         run: echo Pull request number is ${{ steps.update.outputs.pull-request-number }}.
