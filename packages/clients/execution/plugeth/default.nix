@@ -6,16 +6,16 @@
 }:
 buildGoModule rec {
   pname = "plugeth";
-  version = "1.10.25.0.0";
+  version = "1.11.4.0.0-dev0";
 
   src = fetchFromGitHub {
     owner = "openrelayxyz";
     repo = "plugeth";
     rev = "v${version}";
-    sha256 = "sha256-sibt+rud2eNskC4TXbWUOCmvzpwUEdTSi/WQiu4Mwpc=";
+    sha256 = "sha256-8H+eeSEKQg2QWnN0rVggdDmZxjQ5uwnHBH/Z1zyXU1k=";
   };
 
-  vendorSha256 = "sha256-xP4jbaQUB3VvyD8sktfFpTDUZVEKtskqkVb/GkTYp54=";
+  vendorSha256 = "sha256-xZZjDiaB+R6tJ8EtklI7JZCkCyhVCe+8eqHg8OMXifQ=";
 
   ldflags = ["-s" "-w"];
 
