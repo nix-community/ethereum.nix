@@ -3,9 +3,9 @@ on:
   push:
   workflow_dispatch:
   schedule:
-    - cron: "0 0 * * *" # https://crontab.guru/#0_0_*_*_*
+    - cron: "0 10 * * 0" # https://crontab.guru/#0_10_*_*_0
 jobs:
-  createPullRequest:
+  updatePackages:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -16,9 +16,12 @@ jobs:
           extra_nix_config: |
             experimental-features = nix-command flakes
       - name: Update packages
-        uses: selfuryon/nix-update-action@main
+        uses: selfuryon/nix-update-action@v0.1.0
         with:
-          #ignore_errors: true
           blacklist: "bls,blst,evmc,mcl,besu,teku,docs,foundry,mev-geth,web3signer"
+          pr-title: "chore: update packages"
+          pr-labels: |
+            dependencies
+            automated
       - name: Print PR number
         run: echo Pull request number is ${{ steps.update.outputs.pull-request-number }}.

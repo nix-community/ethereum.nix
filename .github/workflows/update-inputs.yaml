@@ -1,11 +1,10 @@
-name: "Update Nix Flakes ️❄️"
+name: "Update Nix Flake ️❄️"
 on:
-  repository_dispatch:
   workflow_dispatch:
   schedule:
-    - cron: "0 0 * * 0" # https://crontab.guru/#0_0_*_*_0
+    - cron: "0 10 * * 0" # https://crontab.guru/#0_10_*_*_0
 jobs:
-  createPullRequest:
+  updateInputs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -15,7 +14,7 @@ jobs:
         with:
           extra_nix_config: |
             experimental-features = nix-command flakes
-      - name: Update flake.lock
+      - name: Update inputs
         id: update
         uses: DeterminateSystems/update-flake-lock@v16
         with:
