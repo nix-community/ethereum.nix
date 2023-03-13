@@ -47,7 +47,9 @@ theme:
     - search.share
 
 markdown_extensions:
+  - tables
   - pymdownx.highlight:
+      linenums: true
       anchor_linenums: true
       line_spans: __span
       pygments_lang_class: true

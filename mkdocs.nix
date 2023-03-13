@@ -7,6 +7,7 @@
   }: let
     inherit (pkgs) stdenv mkdocs python310Packages;
     options-doc = pkgs.callPackage ./options-doc.nix {inherit lib;};
+    docsPath = "./docs/reference/module-options";
   in {
     packages.docs = stdenv.mkDerivation {
       src = ./.;
@@ -20,7 +21,7 @@
       ];
 
       buildPhase = ''
-        ln -s ${options-doc} ./docs/reference/options.md
+        ln -s ${options-doc} ${docsPath}
         mkdocs build
       '';
 
@@ -38,9 +39,8 @@
           description = "Serve docs";
           exec = ''
             # link in options reference
-            rm -f ./docs/reference/options.md
-            ln -s ${options-doc} ./docs/reference/options.md
-
+            rm -f ${docsPath}
+            ln -s ${options-doc} ${docsPath}
             mkdocs serve
           '';
         };
