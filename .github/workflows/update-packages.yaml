@@ -4,17 +4,15 @@ on:
   schedule:
     - cron: "0 10 * * 0" # https://crontab.guru/#0_10_*_*_0
 jobs:
-  updatePackages:
+  updateFlakePackages:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
       - name: Install Nix
-        uses: cachix/install-nix-action@v19
-        with:
-          extra_nix_config: |
-            experimental-features = nix-command flakes
-      - name: Update packages
+        uses: cachix/install-nix-action@v20
+      - name: Update flake packages
+        id: update
         uses: selfuryon/nix-update-action@v0.1.0
         with:
           blacklist: "bls,blst,evmc,mcl,besu,teku,docs,foundry,mev-geth,web3signer"
