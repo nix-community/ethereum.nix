@@ -7,5 +7,5 @@
 # IDE
 .idea/
 
-# Generated docs files
-docs/modules/reference.md
+# Generated doc files
+docs/reference/options.md

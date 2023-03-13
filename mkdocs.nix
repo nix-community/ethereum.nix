@@ -6,17 +6,17 @@
     ...
   }: let
     inherit (pkgs) stdenv mkdocs python310Packages;
-    reference-doc = pkgs.callPackage ./reference.nix {inherit lib;};
+    options-doc = pkgs.callPackage ./options-doc.nix {inherit lib;};
   in {
     packages.docs = stdenv.mkDerivation {
       src = ./.;
       name = "ethereum-nix-docs";
 
-      buildInput = [reference-doc];
+      buildInput = [options-doc];
       nativeBuildInputs = [mkdocs python310Packages.mkdocs-material];
 
       buildPhase = ''
-        ln -s ${reference-doc} ./docs/modules/reference.md
+        ln -s ${options-doc} ./docs/reference/options.md
         mkdocs build
       '';
 
@@ -34,8 +34,8 @@
           description = "Serve docs";
           exec = ''
             # link in options reference
-            rm -f ./docs/modules/reference.md
-            ln -s ${reference-doc} ./docs/modules/reference.md
+            rm -f ./docs/reference/options.md
+            ln -s ${options-doc} ./docs/reference/options.md
 
             mkdocs serve
           '';
