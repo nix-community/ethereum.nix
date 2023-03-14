@@ -57,6 +57,23 @@ markdown_extensions:
   - pymdownx.snippets
   - pymdownx.superfences
 
+nav:
+  - index.md
+  - license.md
+  - Development:
+    - development/contributing.md
+  - Getting Started:
+    - getting-started/installation.md
+    - getting-started/running-geth.md
+    - getting-started/running-prysm-beacon.md
+  - Reference:
+      - NixOS Module Options:
+        - reference/module-options/erigon.md
+        - reference/module-options/geth.md
+        - reference/module-options/geth-bootnode.md
+        - reference/module-options/nethermind.md
+        - reference/module-options/prysm-beacon.md
+
 
 extra:
   homepage: https://nix-community.github.io/ethereum.nix
