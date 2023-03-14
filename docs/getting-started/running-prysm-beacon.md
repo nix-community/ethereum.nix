@@ -111,7 +111,7 @@ with different ports.
 }
 ```
 
-A more detailed explanation of the backup process and its configuration options can be [found here](./backup.md).
+A more detailed explanation of the backup process and its configuration options can be [found here](./configuring-backups.md).
 
 ## Restoring from a backup
 
