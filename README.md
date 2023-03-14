@@ -150,7 +150,6 @@ You can manually format using the `format` command like so:
   - faucet: `nix run .#faucet`
   - geth: `nix run .#geth`
   - rlpdump: `nix run .#rlpdump`
-- [mev-geth](https://github.com/flashbots/mev-geth): `nix run .#mev-geth`
 
 #### Validators
 

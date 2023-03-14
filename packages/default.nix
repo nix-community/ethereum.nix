@@ -30,7 +30,6 @@
       erigon = callPackage ./clients/execution/erigon {};
       besu = callPackage ./clients/execution/besu {};
       geth = callPackage ./clients/execution/geth {};
-      mev-geth = callPackage ./clients/execution/mev-geth {};
       plugeth = callPackage ./clients/execution/plugeth {};
       geth-sealer = callPackage ./clients/execution/geth-sealer {};
       nethermind = callPackage ./clients/execution/nethermind {};
@@ -99,8 +98,6 @@
       };
 
       geth-sealer.bin = "geth";
-
-      mev-geth.bin = "geth";
 
       nethermind = {
         nethermind.bin = "Nethermind.Cli";
