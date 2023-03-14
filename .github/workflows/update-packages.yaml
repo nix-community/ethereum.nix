@@ -13,9 +13,12 @@ jobs:
         uses: cachix/install-nix-action@v20
       - name: Update flake packages
         id: update
-        uses: selfuryon/nix-update-action@v0.1.0
+        uses: selfuryon/nix-update-action@v0.2.0
         with:
           blacklist: "bls,blst,evmc,mcl,besu,teku,docs,foundry,mev-geth,web3signer"
+          sign-commits: true
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
           pr-title: "chore: update packages"
           pr-labels: |
             dependencies

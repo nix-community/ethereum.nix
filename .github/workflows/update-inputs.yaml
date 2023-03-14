@@ -15,6 +15,9 @@ jobs:
         id: update
         uses: DeterminateSystems/update-flake-lock@v16
         with:
+          sign-commits: true
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
           pr-title: "chore: update flake.lock"
           commit-msg: "chore: update flake.lock"
           pr-labels: |
