@@ -142,4 +142,4 @@ A more detailed explanation of the backup process and its configuration options 
 }
 ```
 
-A more detailed explanation of the restore process and its configuration options can be [found here](./restore.md).
+A more detailed explanation of the restore process and its configuration options can be [found here](./restore-from-backup.md).

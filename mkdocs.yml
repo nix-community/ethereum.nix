@@ -67,6 +67,7 @@ nav:
     - getting-started/running-geth.md
     - getting-started/running-prysm-beacon.md
     - getting-started/configuring-backups.md
+    - getting-started/restore-from-backup.md
   - Reference:
       - NixOS Module Options:
         - reference/module-options/erigon.md
