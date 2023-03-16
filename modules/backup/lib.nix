@@ -56,7 +56,7 @@ lib: {
       unencryptedRepoAccess = mkOption {
         type = types.bool;
         default = false;
-        description = mdDoc "Enable or disable unencrypted repo acceess check";
+        description = mdDoc "Enable or disable unencrypted repo access check";
       };
 
       lockWait = mkOption {
