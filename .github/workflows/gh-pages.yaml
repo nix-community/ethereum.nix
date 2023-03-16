@@ -1,7 +1,6 @@
 name: "Deploy content to Pages"
 on:
   pull_request:
-  workflow_dispatch:
   push:
     branches:
       - main
