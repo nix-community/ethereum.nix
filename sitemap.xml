@@ -6,17 +6,62 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://nix-community.github.io/ethereum.nix/contributing/</loc>
-         <lastmod>1980-01-01</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://nix-community.github.io/ethereum.nix/license/</loc>
          <lastmod>1980-01-01</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://nix-community.github.io/ethereum.nix/modules/reference/</loc>
+         <loc>https://nix-community.github.io/ethereum.nix/development/contributing/</loc>
+         <lastmod>1980-01-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://nix-community.github.io/ethereum.nix/getting-started/configuring-backups/</loc>
+         <lastmod>1980-01-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://nix-community.github.io/ethereum.nix/getting-started/installation/</loc>
+         <lastmod>1980-01-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://nix-community.github.io/ethereum.nix/getting-started/restore-from-backup/</loc>
+         <lastmod>1980-01-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://nix-community.github.io/ethereum.nix/getting-started/running-geth/</loc>
+         <lastmod>1980-01-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://nix-community.github.io/ethereum.nix/getting-started/running-prysm-beacon/</loc>
+         <lastmod>1980-01-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://nix-community.github.io/ethereum.nix/reference/module-options/erigon/</loc>
+         <lastmod>1980-01-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://nix-community.github.io/ethereum.nix/reference/module-options/geth-bootnode/</loc>
+         <lastmod>1980-01-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://nix-community.github.io/ethereum.nix/reference/module-options/geth/</loc>
+         <lastmod>1980-01-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://nix-community.github.io/ethereum.nix/reference/module-options/nethermind/</loc>
+         <lastmod>1980-01-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://nix-community.github.io/ethereum.nix/reference/module-options/prysm-beacon/</loc>
          <lastmod>1980-01-01</lastmod>
          <changefreq>daily</changefreq>
     </url>
