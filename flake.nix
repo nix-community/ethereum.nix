@@ -16,6 +16,7 @@
     # packages
     nixpkgs.url = "github:nixos/nixpkgs/22.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    hercules-ci-effects.url = "github:hercules-ci/hercules-ci-effects";
 
     foundry-nix = {
       url = "github:shazow/foundry.nix/monthly";
@@ -48,6 +49,7 @@
   }: let
     lib = nixpkgs.lib.extend (final: _: import ./nix/lib final);
     #    lib = import ./nix/lib {inherit (nixpkgs) lib;} // nixpkgs.lib;
+    inherit (builtins) filter match;
   in
     (flake-parts.lib.evalFlakeModule
       {
@@ -56,7 +58,7 @@
           inherit lib; # make custom lib available to parent functions
         };
       }
-      {
+      rec {
         imports = [
           ({inputs', ...}: {
             # make custom lib available to all `perSystem` functions
@@ -66,6 +68,7 @@
           ./packages
           ./modules
           ./mkdocs.nix
+          inputs.hercules-ci-effects.flakeModule
         ];
         systems = [
           "x86_64-linux"
@@ -73,6 +76,7 @@
           "x86_64-darwin"
           "aarch64-darwin"
         ];
+        herculesCI.ciSystems = filter (system: (match ".*-darwin" system) == null) systems;
       })
     .config
     .flake;
