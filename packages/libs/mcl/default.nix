@@ -5,13 +5,13 @@
 }:
 stdenv.mkDerivation rec {
   pname = "mcl";
-  version = "1.71.1";
+  version = "1.81";
 
   src = fetchFromGitHub {
     owner = "herumi";
     repo = "mcl";
     rev = "v${version}";
-    sha256 = "sha256-wqAAQ9h6HPJjoIx7oZKyY9w04zwzC1PUEvfrWhCakzc=";
+    sha256 = "sha256-aVuBt5T+tNjrK1QahzaCxuimUDQVtoKfK/v0LTT3hy8=";
   };
 
   buildInputs = [gmpxx];

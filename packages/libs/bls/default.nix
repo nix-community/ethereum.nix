@@ -6,14 +6,14 @@
 }:
 stdenv.mkDerivation rec {
   pname = "bls";
-  version = "1.29.1";
+  version = "1.35";
 
   src = fetchFromGitHub {
     owner = "herumi";
     repo = "bls";
     rev = "v${version}";
     fetchSubmodules = true;
-    sha256 = "sha256-6vik2E2wIivpf+hIz3ub+COApcJbyu+W6jNzZI6HWq8=";
+    sha256 = "sha256-fHwNiZ0B5ow9GBWjO5c+rpK/jlziaMF5Bh+HQayIBUI=";
   };
 
   nativeBuildInputs = [cmake];

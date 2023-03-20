@@ -61,21 +61,20 @@ nav:
   - index.md
   - license.md
   - Development:
-    - development/contributing.md
+      - development/contributing.md
   - Getting Started:
-    - getting-started/installation.md
-    - getting-started/running-geth.md
-    - getting-started/running-prysm-beacon.md
-    - getting-started/configuring-backups.md
-    - getting-started/restore-from-backup.md
+      - getting-started/installation.md
+      - getting-started/running-geth.md
+      - getting-started/running-prysm-beacon.md
+      - getting-started/configuring-backups.md
+      - getting-started/restore-from-backup.md
   - Reference:
       - NixOS Module Options:
-        - reference/module-options/erigon.md
-        - reference/module-options/geth.md
-        - reference/module-options/geth-bootnode.md
-        - reference/module-options/nethermind.md
-        - reference/module-options/prysm-beacon.md
-
+          - reference/module-options/erigon.md
+          - reference/module-options/geth.md
+          - reference/module-options/geth-bootnode.md
+          - reference/module-options/nethermind.md
+          - reference/module-options/prysm-beacon.md
 
 extra:
   homepage: https://nix-community.github.io/ethereum.nix
@@ -84,6 +83,5 @@ extra:
       link: https://github.com/nix-community/ethereum.nix
       name: Ethereum.nix on Github
   generator: false # hide the line "Made with Material for MkDocs"
-
 
 copyright: Copyright &copy; 41North and Ethereum.nix contributors

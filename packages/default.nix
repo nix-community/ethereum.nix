@@ -46,7 +46,7 @@
       mev-rs = callPackage ./mev/mev-rs {};
 
       # DVT
-      charon = callPackage ./dvt/charon {inherit bls mcl;};
+      charon = callPackageUnstable ./dvt/charon {inherit bls mcl;};
       ssvnode = callPackage ./dvt/ssvnode {inherit bls mcl;};
 
       # Utils
