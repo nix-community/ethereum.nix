@@ -1,6 +1,5 @@
 name: "Deploy content to Pages"
 on:
-  pull_request:
   push:
     branches:
       - main
