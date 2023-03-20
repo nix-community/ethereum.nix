@@ -18,6 +18,7 @@ jobs:
           sign-commits: true
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
           gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
+          gpg-fingerprint: ${{ secrets.GPG_FINGERPRINT }}
           pr-title: "chore: update flake.lock"
           commit-msg: "chore: update flake.lock"
           pr-labels: |
