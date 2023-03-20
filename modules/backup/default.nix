@@ -19,18 +19,7 @@
       (findEnabled config.services.ethereum)
     );
 
-  internalExcludes = [
-    # remove any lock files
-    "**/LOCK"
-  ];
-
-  excludeFile = cfg: let
-    # combine with internal excludes
-    excludes = internalExcludes ++ cfg.borg.exclude;
-  in
-    # Write each exclude pattern to a new line
-    pkgs.writeText "backup-excludes" (concatMapStrings (s: s + "\n") excludes);
-
+  # util script for converting the output of eth_getBlockByNumber to metadata.json format
   executionClientJq = pkgs.writeTextFile {
     name = "convert.jq";
     text = ''
@@ -47,6 +36,8 @@
     '';
   };
 
+  # util script for capturing metadata about a running ETH process
+  # TODO this is growing in complexity and would be better as a dedicated program
   metadataScript = pkgs.writeShellScript "metadata" ''
     set -euo pipefail
 
@@ -55,6 +46,7 @@
 
     SERVICE_NAME=$1
 
+    # check if the service is running
     PID=$(systemctl show --property MainPID $SERVICE_NAME | cut -d'=' -f2)
     if [ $PID -eq 0 ]; then
         echo "$SERVICE_NAME is not running, exiting"
@@ -106,6 +98,7 @@
     fi
   '';
 
+  # util script for extracting the chain height from metadata.json
   chainHeightScript = pkgs.writeShellScript "chain-height" ''
     set -euo pipefail
 
@@ -285,22 +278,59 @@
   };
 
   backupScript = with lib;
-    name: cfg:
+    name: cfg: let
+      inherit (cfg) restic;
+      excludeFlags =
+        if (restic.exclude != [])
+        then ["--exclude-file=${pkgs.writeText "exclude-patterns" (concatStringsSep "\n" restic.exclude)}"]
+        else [];
+    in
       pkgs.writeShellScript "backup" ''
         set -euo pipefail
 
-        REPO="${cfg.borg.repo}"
         SERVICE_NAME="${name}"
         SERVICE_STATE_DIRECTORY="/var/lib/$SERVICE_NAME"
-        BACKUP_METADATA_DIR="$SERVICE_STATE_DIRECTORY/.backup"
+        SERVICE_METADATA_DIR="$SERVICE_STATE_DIRECTORY/.backup"
 
         echo "Running backup for: $SERVICE_NAME"
 
         # first we ensure the repo exists
-        if ! borg list $REPO > /dev/null; then
-            echo "Creating repo: $REPO"
-            borg init --encryption ${cfg.borg.encryption.mode} $REPO
+        if ! $RESTIC_CMD snapshots > /dev/null; then
+            echo "Creating repo: $RESTIC_REPOSITORY"
+            $RESTIC_CMD init
         fi
+
+        build_tag_args() {
+            METADATA_JSON=$1
+
+            # check if the metadata file exists
+            if [ ! -f $METADATA_JSON ]; then
+                >&2 echo "Could not locate $METADATA_JSON"
+                exit 1
+            fi
+
+            TAGS="--tag name:$SERVICE_NAME"
+            for tag in $(cat $METADATA_JSON | sed -e 's/[" ,]//g' | grep "^\w.*" | tr '\n' ' ');
+            do
+                TAGS="--tag $tag $TAGS"
+            done
+
+            echo $TAGS
+        }
+
+        perform_backup() {
+            TARGET_DIR=$1
+            METADATA_DIR="$1/.backup"
+
+            cd $TARGET_DIR
+            echo "Backing up $TARGET_DIR"
+
+            $RESTIC_CMD backup \
+                --cache-dir=$CACHE_DIRECTORY \
+                $(build_tag_args $METADATA_DIR/metadata.json) \
+                ${concatStringsSep " " excludeFlags} \
+                ./
+        }
 
         backup_with_snapshot() {
             echo "Backing up with a snapshot, restarting $SERVICE_NAME"
@@ -346,26 +376,19 @@
                     continue
                 fi
 
-                if borg list $REPO::$SNAPSHOT > /dev/null; then
-                    echo "Archive $REPO::$SNAPSHOT already exists, skipping"
+                if [ $($RESTIC_CMD snapshots -c | grep "height:$SNAPSHOT" | wc -l) -ge 1 ]; then
+                    echo "Snapshot for height:$SNAPSHOT already exists, skipping"
                     continue
                 fi
 
-                cd $TARGET_DIR
-
-                borg create -s --verbose \
-                    --lock-wait ${toString cfg.borg.lockWait} \
-                    --compression ${cfg.borg.compression} \
-                    --exclude-from ${excludeFile cfg} \
-                    $REPO::$SNAPSHOT \
-                    ./
+                perform_backup $TARGET_DIR
             done
         }
 
         backup_in_situ() {
 
-            if [ ! -d $BACKUP_METADATA_DIR ]; then
-                echo "Backup metadata directory not found, cannot perform backup: $BACKUP_METADATA_DIR"
+            if [ ! -d $SERVICE_METADATA_DIR ]; then
+                echo "Backup metadata directory not found, cannot perform backup: $SERVICE_METADATA_DIR"
                 exit 1
             fi
 
@@ -374,31 +397,25 @@
             systemctl stop "$SERVICE_NAME.service"
 
             # check that the process stopped cleanly
-            EXIT_STATUS=$(cat $BACKUP_METADATA_DIR/exit-status)
+            EXIT_STATUS=$(cat $SERVICE_METADATA_DIR/exit-status)
 
             if [ $EXIT_STATUS -ne 0 ]; then
                 >&2 echo "Unclean shutdown detected, exit status: $EXIT_STATUS. Skipping backup"
             else
                 # determine chain height from metadata
-                METADATA_JSON="$BACKUP_METADATA_DIR/metadata.json"
+                METADATA_JSON="$SERVICE_METADATA_DIR/metadata.json"
                 HEIGHT=$(${chainHeightScript} $METADATA_JSON)
 
                 if [ -z $\{HEIGHT+x} ]; then
                     >&2 echo "Could not determine height from $METADATA_JSON, skipping backup";
                 else
-                    ARCHIVE=$HEIGHT
-                    if borg list $REPO::$HEIGHT > /dev/null; then
-                        echo "Archive $REPO::$HEIGHT already exists, skipping"
-                    else
-                        cd $SERVICE_STATE_DIRECTORY
 
-                        borg create -s --verbose \
-                            --lock-wait ${builtins.toString cfg.borg.lockWait} \
-                            --compression ${cfg.borg.compression} \
-                            --exclude-from ${excludeFile cfg} \
-                            $REPO::$HEIGHT \
-                            ./
+                    if [ $($RESTIC_CMD snapshots -c | grep "height:$HEIGHT" | wc -l) -ge 1 ]; then
+                        echo "Snapshot for height:$HEIGHT already exists, skipping"
+                        continue
                     fi
+
+                    perform_backup $SERVICE_STATE_DIRECTORY
                 fi
             fi
 
@@ -419,56 +436,76 @@
       '';
 
   mkBackupService = name: cfg:
-    lib.nameValuePair "${name}-backup" {
-      description = "Backup service for ${name}";
-      path = with pkgs; [
-        borgbackup
-        btrfs-progs
-        jq
-        openssh
-        systemd
-      ];
-      environment = with lib; {
-        BORG_RSH =
-          mkDefault
-          (concatStringsSep " " [
-            "ssh"
-            (optionalString (!cfg.borg.strictHostKeyChecking) "-o StrictHostKeyChecking=no")
-            (optionalString (cfg.borg.keyPath != null) "-i ${cfg.borg.keyPath}")
-          ]);
-        # suppress prompts
-        BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK = mkDefault (
-          if cfg.borg.unencryptedRepoAccess
-          then "yes"
-          else "no"
-        );
-        BORG_PASSCOMMAND =
-          mkIf
-          (cfg.borg.encryption.passCommand != null)
-          cfg.borg.encryption.passCommand;
-        BORG_PASSPHRASE =
-          mkIf
-          (cfg.borg.encryption.passPhrase != null)
-          cfg.borg.encryption.passPhrase;
-        SNAPSHOT_ENABLE =
-          if cfg.btrfs.enable
-          then "1"
-          else "0";
-        SNAPSHOT_DIRECTORY = cfg.btrfs.snapshotDirectory;
-        # 86400 seconds in a day
-        SNAPSHOT_RETENTION_SECONDS = builtins.toString (cfg.btrfs.snapshotRetention * 86400);
+    with lib; let
+      inherit (cfg) restic;
+      extraOptions = concatMapStrings (arg: " -o ${arg}") restic.extraOptions;
+      resticCmd = "${pkgs.restic}/bin/restic${extraOptions}";
+      # Helper functions for rclone remotes
+      rcloneRemoteName = builtins.elemAt (splitString ":" restic.repository) 1;
+      rcloneAttrToOpt = v: "RCLONE_" + toUpper (builtins.replaceStrings ["-"] ["_"] v);
+      rcloneAttrToConf = v: "RCLONE_CONFIG_" + toUpper (rcloneRemoteName + "_" + v);
+      toRcloneVal = v:
+        if lib.isBool v
+        then lib.boolToString v
+        else v;
+    in
+      lib.nameValuePair "${name}-backup" {
+        description = "Backup service for ${name}";
+        path = [
+          pkgs.restic
+          pkgs.btrfs-progs
+          pkgs.jq
+          pkgs.openssh
+          pkgs.systemd
+        ];
+
+        restartIfChanged = false;
+
+        environment =
+          {
+            RESTIC_PASSWORD_FILE = restic.passwordFile;
+            RESTIC_REPOSITORY = restic.repository;
+            RESTIC_REPOSITORY_FILE = restic.repositoryFile;
+            RESTIC_CMD = resticCmd;
+
+            SNAPSHOT_ENABLE =
+              if cfg.btrfs.enable
+              then "1"
+              else "0";
+            SNAPSHOT_DIRECTORY = cfg.btrfs.snapshotDirectory;
+            # 86400 seconds in a day
+            SNAPSHOT_RETENTION_SECONDS = builtins.toString (cfg.btrfs.snapshotRetention * 86400);
+          }
+          // optionalAttrs (restic.rcloneOptions != null) (mapAttrs'
+            (
+              name: value:
+                nameValuePair (rcloneAttrToOpt name) (toRcloneVal value)
+            )
+            restic.rcloneOptions)
+          // optionalAttrs (restic.rcloneConfigFile != null) {
+            RCLONE_CONFIG = restic.rcloneConfigFile;
+          }
+          // optionalAttrs (restic.rcloneConfig != null) (mapAttrs'
+            (
+              name: value:
+                nameValuePair (rcloneAttrToConf name) (toRcloneVal value)
+            )
+            restic.rcloneConfig);
+
+        serviceConfig = {
+          User = "root";
+          CPUSchedulingPolicy = "idle";
+          IOSchedulingClass = "idle";
+          ProtectSystem = "strict";
+          PrivateTmp = true;
+          EnvironmentFile = cfg.restic.environmentFile;
+          StateDirectory = "${name}-backup";
+          CacheDirectory = "${name}-backup";
+          CacheDirectoryMode = "0700";
+          ReadWritePaths = mkIf cfg.btrfs.enable [cfg.btrfs.snapshotDirectory];
+          ExecStart = "${backupScript name cfg} ${name}";
+        };
       };
-      serviceConfig = {
-        User = "root";
-        CPUSchedulingPolicy = "idle";
-        IOSchedulingClass = "idle";
-        ProtectSystem = "strict";
-        PrivateTmp = true;
-        StateDirectory = "${name}-backup";
-        ReadWritePaths = mkIf cfg.btrfs.enable [cfg.btrfs.snapshotDirectory];
-        ExecStart = "${backupScript name cfg} ${name}";
-      };
-    };
 
   mkBackupTimer = name: cfg:
     lib.nameValuePair "${name}-backup" {

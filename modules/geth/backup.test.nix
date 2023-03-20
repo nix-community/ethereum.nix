@@ -4,18 +4,17 @@
   module = {pkgs, ...}: let
     datadir = ./testing/datadir;
 
-    privateKey = pkgs.writeText "id_ed25519" ''
-      -----BEGIN OPENSSH PRIVATE KEY-----
-      b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
-      QyNTUxOQAAACBx8UB04Q6Q/fwDFjakHq904PYFzG9pU2TJ9KXpaPMcrwAAAJB+cF5HfnBe
-      RwAAAAtzc2gtZWQyNTUxOQAAACBx8UB04Q6Q/fwDFjakHq904PYFzG9pU2TJ9KXpaPMcrw
-      AAAEBN75NsJZSpt63faCuaD75Unko0JjlSDxMhYHAPJk2/xXHxQHThDpD9/AMWNqQer3Tg
-      9gXMb2lTZMn0pelo8xyvAAAADXJzY2h1ZXR6QGt1cnQ=
-      -----END OPENSSH PRIVATE KEY-----
-    '';
-    publicKey = ''
-      ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHHxQHThDpD9/AMWNqQer3Tg9gXMb2lTZMn0pelo8xyv root@client
-    '';
+    AWS_DEFAULT_REGION = "eu-west-1";
+    AWS_ACCESS_KEY_ID = "accessKey";
+    AWS_SECRET_ACCESS_KEY = "secretKey";
+
+    passFile = pkgs.writeTextFile {
+      name = "password.txt";
+      text = "!Pa55word";
+    };
+
+    RESTIC_REPOSITORY = "s3:http://backup:9000/test-bucket";
+    RESTIC_PASSWORD_FILE = "${passFile}";
   in {
     name = "geth-backup";
 
@@ -25,28 +24,33 @@
         pkgs,
         ...
       }: {
-        environment.variables = {
-          # stops borg from checking it's ok to list an unencrypted repository
-          BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK = "yes";
+        environment = {
+          variables = {
+            inherit RESTIC_REPOSITORY RESTIC_PASSWORD_FILE;
+            inherit AWS_DEFAULT_REGION AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY;
+          };
+
+          systemPackages = [
+            pkgs.findutils
+            pkgs.restic
+          ];
         };
 
-        environment.systemPackages = [
-          pkgs.borgbackup
-          pkgs.findutils
-        ];
-
-        services.openssh = {
+        services.minio = {
           enable = true;
-          # Note these settings have been moved under settings in nixpkgs-unstable
-          passwordAuthentication = false;
-          kbdInteractiveAuthentication = false;
+          listenAddress = "0.0.0.0:9000";
+          dataDir = ["/data/minio"];
+          region = "eu-west-1";
+          rootCredentialsFile = pkgs.writeTextFile {
+            name = "credentials.env";
+            text = ''
+              MINIO_ROOT_USER=${AWS_ACCESS_KEY_ID}
+              MINIO_ROOT_PASSWORD=${AWS_SECRET_ACCESS_KEY}
+            '';
+          };
         };
 
-        services.borgbackup.repos.ethereum = {
-          authorizedKeysAppendOnly = [publicKey];
-          allowSubRepos = true;
-          path = "/data";
-        };
+        networking.firewall.allowedTCPPorts = [9000];
       };
 
       ext4 = {
@@ -71,12 +75,19 @@
             enable = true;
             # increase to 5 seconds to speed up testing
             metadata.interval = 5;
-            borg = {
-              repo = "ssh://borg@backup/data/geth-test";
-              keyPath = "/root/id_ed25519";
-              encryption.mode = "none";
-              strictHostKeyChecking = false;
-              unencryptedRepoAccess = true;
+            restic = {
+              repository = RESTIC_REPOSITORY;
+              passwordFile = RESTIC_PASSWORD_FILE;
+              environmentFile = let
+                envFile = pkgs.writeTextFile {
+                  name = "restic.env";
+                  text = ''
+                    AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
+                    AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+                    AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+                  '';
+                };
+              in "${envFile}";
             };
           };
         };
@@ -86,13 +97,9 @@
     testScript = ''
 
       backup.start()
-      backup.wait_for_unit("sshd.service")
+      backup.wait_for_unit("minio.service")
 
       def setup_state(node, service_name, block_number):
-        # copy private key for backup, ensure permissions are correct
-        node.succeed("cp ${privateKey} /root/id_ed25519")
-        node.succeed("chmod 0600 /root/id_ed25519")
-
         # copy the datadir with the specific number of blocks already mined into the state directory for the service
         state_directory=f'/var/lib/private/{service_name}'
 
@@ -123,16 +130,15 @@
         # geth should be restarted after the backup completes
         wait_for_geth(node, service_name)
 
-      def verify_backup(service_name, block_number):
-        backup.succeed(f'borg list /data/{service_name} | head -n1 | cut -d\' \' -f1')
-        backup.succeed(f'borg check --verify-data /data/{service_name}')
+      def verify_backup(block_number):
+        print(backup.succeed("restic snapshots latest"))
 
         # mount the backup
         mount_dir = backup.succeed("mktemp -d").rstrip()
-        backup.succeed(f'borg mount /data/{service_name}::{block_number} {mount_dir}')
+        backup.succeed(f'restic restore latest --target {mount_dir}')
 
         # compare the content hash contained within the backup with a fresh hash of the mount
-        expected_content_hash = backup.succeed(f'cat {mount_dir}/.backup/content-hash').rstrip()
+        expected_content_hash = backup.wait_until_succeeds(f'cat {mount_dir}/.backup/content-hash').rstrip()
         actual_content_hash = backup.succeed(f'find {mount_dir} -path {mount_dir}/.backup -prune -type f -exec md5sum {{}} + | LC_ALL=C sort | md5sum').rstrip()
 
         backup.succeed(f'[ "{expected_content_hash}" = "{actual_content_hash}" ]')
@@ -149,7 +155,8 @@
       wait_for_metadata(node, service_name, block_number)
 
       trigger_backup(node, service_name)
-      verify_backup(service_name, block_number)
+      verify_backup(block_number)
+
     '';
   };
 }
