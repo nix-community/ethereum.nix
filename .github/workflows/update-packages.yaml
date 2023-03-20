@@ -19,6 +19,7 @@ jobs:
           sign-commits: true
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
           gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
+          gpg-fingerprint: ${{ secrets.GPG_FINGERPRINT }}
           pr-title: "chore: update packages"
           pr-labels: |
             dependencies
