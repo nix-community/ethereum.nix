@@ -28,16 +28,17 @@
 
       # we only perform a restore if the directory is empty
 
-      # move to the correct directory
-      cd $STATE_DIRECTORY
-
       # restore from the repo
-      echo "BORG_REPO=$BORG_REPO"
+      echo "RESTIC_REPOSITORY=$RESTIC_REPOSITORY"
       echo "SNAPSHOT=$SNAPSHOT"
 
-      borg extract --lock-wait ${builtins.toString cfg.borg.lockWait} --list ::"$SNAPSHOT"
+      $RESTIC_CMD restore \
+        --target $STATE_DIRECTORY \
+        --cache-dir=$CACHE_DIRECTORY \
+        $SNAPSHOT
 
       # fix permissions
+      cd $STATE_DIRECTORY
       chown -R $USER:$USER /var/lib/private/$USER
       chmod -R 750 /var/lib/private/$USER
 
@@ -61,44 +62,57 @@
       echo "Restoration complete"
     '';
 
-  mkClientService = name: cfg: {
-    environment = with lib; {
-      SNAPSHOT = cfg.snapshot;
-      BORG_REPO = cfg.borg.repo;
-      BORG_RSH =
-        mkDefault
-        (concatStringsSep " " [
-          "ssh"
-          (optionalString (!cfg.borg.strictHostKeyChecking) "-o StrictHostKeyChecking=no")
-          (optionalString (cfg.borg.keyPath != null) "-i ${cfg.borg.keyPath}")
-        ]);
-      BORG_PASSCOMMAND =
-        mkIf
-        (cfg.borg.encryption.passCommand != null)
-        cfg.borg.encryption.passCommand;
-      BORG_PASSPHRASE =
-        mkIf
-        (cfg.borg.encryption.passPhrase != null)
-        cfg.borg.encryption.passPhrase;
-      # suppress prompts
-      BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK = mkDefault (
-        if cfg.borg.unencryptedRepoAccess
-        then "yes"
-        else "no"
-      );
-    };
-    path = with pkgs; [
-      borgbackup
-      tree
-    ];
-    serviceConfig = with lib; {
-      # btrfs subvolume setup ExecStartPre script if enabled is configured with mkBefore which is equivalent to mkOrder 500
-      # we want any potential restore to happen after that so we set our mkOrder to 501
-      ExecStartPre = mkOrder 501 [
-        "+${mkRestoreScript cfg}"
+  mkClientService = name: cfg:
+    with lib; let
+      inherit (cfg) restic;
+      extraOptions = concatMapStrings (arg: " -o ${arg}") restic.extraOptions;
+      resticCmd = "${pkgs.restic}/bin/restic${extraOptions}";
+      # Helper functions for rclone remotes
+      rcloneRemoteName = builtins.elemAt (splitString ":" restic.repository) 1;
+      rcloneAttrToOpt = v: "RCLONE_" + toUpper (builtins.replaceStrings ["-"] ["_"] v);
+      rcloneAttrToConf = v: "RCLONE_CONFIG_" + toUpper (rcloneRemoteName + "_" + v);
+      toRcloneVal = v:
+        if lib.isBool v
+        then lib.boolToString v
+        else v;
+    in {
+      environment =
+        {
+          SNAPSHOT = cfg.snapshot;
+          RESTIC_PASSWORD_FILE = restic.passwordFile;
+          RESTIC_REPOSITORY = restic.repository;
+          RESTIC_REPOSITORY_FILE = restic.repositoryFile;
+          RESTIC_CMD = resticCmd;
+        }
+        // optionalAttrs (restic.rcloneOptions != null) (mapAttrs'
+          (
+            name: value:
+              nameValuePair (rcloneAttrToOpt name) (toRcloneVal value)
+          )
+          restic.rcloneOptions)
+        // optionalAttrs (restic.rcloneConfigFile != null) {
+          RCLONE_CONFIG = restic.rcloneConfigFile;
+        }
+        // optionalAttrs (restic.rcloneConfig != null) (mapAttrs'
+          (
+            name: value:
+              nameValuePair (rcloneAttrToConf name) (toRcloneVal value)
+          )
+          restic.rcloneConfig);
+      path = [
+        pkgs.restic
       ];
+      serviceConfig = with lib; {
+        CacheDirectory = "${name}";
+        CacheDirectoryMode = "0700";
+        EnvironmentFile = [cfg.restic.environmentFile];
+        # btrfs subvolume setup ExecStartPre script if enabled is configured with mkBefore which is equivalent to mkOrder 500
+        # we want any potential restore to happen after that so we set our mkOrder to 501
+        ExecStartPre = mkOrder 501 [
+          "+${mkRestoreScript cfg}"
+        ];
+      };
     };
-  };
 in {
   config.systemd.services = with lib; mapAttrs mkClientService cfg;
 }
