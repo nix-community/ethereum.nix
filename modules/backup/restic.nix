@@ -1,3 +1,4 @@
+# adapted from https://github.com/NixOS/nixpkgs/blob/nixos-22.11/nixos/modules/services/backup/restic.nix
 lib:
 with lib; {
   passwordFile = mkOption {
@@ -76,7 +77,7 @@ with lib; {
     description = lib.mdDoc ''
       repository to backup to.
     '';
-    example = "sftp:backup@192.168.1.100:/backups/${name}";
+    example = "sftp:backup@192.168.1.100:/backups/my-bucket";
   };
 
   repositoryFile = mkOption {
