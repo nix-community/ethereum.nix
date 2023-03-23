@@ -431,20 +431,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#configuring-backups" class="md-nav__link">
-    Configuring backups
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#restoring-from-a-backup" class="md-nav__link">
-    Restoring from a backup
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -474,22 +460,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../configuring-backups/" class="md-nav__link">
-        Configuring backups
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../restore-from-backup/" class="md-nav__link">
-        Restoring from a backup
+      <a href="../backup-and-restore/" class="md-nav__link">
+        Backup and restore
       </a>
     </li>
   
@@ -695,20 +667,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#configuring-backups" class="md-nav__link">
-    Configuring backups
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#restoring-from-a-backup" class="md-nav__link">
-    Restoring from a backup
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -907,82 +865,6 @@ If set to <code>true</code>, firewall rules are added which will expose the foll
 </table>
 <p><strong>Note:</strong> it is important when running multiple instances of Geth on the same machine that you ensure they are configured
 with different ports.</p>
-<h2 id="configuring-backups">Configuring backups</h2>
-<div class="language-nix highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">server.nix</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1"> 1</a></span>
-<span class="normal"><a href="#__codelineno-2-2"> 2</a></span>
-<span class="normal"><a href="#__codelineno-2-3"> 3</a></span>
-<span class="normal"><a href="#__codelineno-2-4"> 4</a></span>
-<span class="normal"><a href="#__codelineno-2-5"> 5</a></span>
-<span class="normal"><a href="#__codelineno-2-6"> 6</a></span>
-<span class="normal"><a href="#__codelineno-2-7"> 7</a></span>
-<span class="normal"><a href="#__codelineno-2-8"> 8</a></span>
-<span class="normal"><a href="#__codelineno-2-9"> 9</a></span>
-<span class="normal"><a href="#__codelineno-2-10">10</a></span>
-<span class="normal"><a href="#__codelineno-2-11">11</a></span>
-<span class="normal"><a href="#__codelineno-2-12">12</a></span>
-<span class="normal"><a href="#__codelineno-2-13">13</a></span>
-<span class="normal"><a href="#__codelineno-2-14">14</a></span>
-<span class="normal"><a href="#__codelineno-2-15">15</a></span>
-<span class="normal"><a href="#__codelineno-2-16">16</a></span>
-<span class="normal"><a href="#__codelineno-2-17">17</a></span>
-<span class="normal"><a href="#__codelineno-2-18">18</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="p">{</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>  services<span class="o">.</span>ethereum<span class="o">.</span>geth<span class="o">.</span><span class="ss">sepolia =</span> <span class="p">{</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a>    <span class="o">...</span>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a>    <span class="ss">backup =</span> <span class="p">{</span>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a>      <span class="ss">enable =</span> <span class="no">true</span><span class="p">;</span>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6"></a>      <span class="c1"># by default a backup is taken every 24 hours</span>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7"></a>      <span class="ss">schedule =</span> <span class="s2">&quot;0/1:00:00&quot;</span><span class="p">;</span>
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8"></a>
-</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9"></a>      <span class="ss">borg =</span> <span class="p">{</span>
-</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10"></a>        <span class="ss">repo =</span> <span class="s2">&quot;ssh://borg@backup/data/borgbackup/ethereum/geth-sepolia&quot;</span><span class="p">;</span>
-</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11"></a>        <span class="ss">keyPath =</span> <span class="s2">&quot;/root/ed25519&quot;</span><span class="p">;</span>
-</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12"></a>        encryption<span class="o">.</span><span class="ss">mode =</span> <span class="s2">&quot;none&quot;</span><span class="p">;</span>
-</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13"></a>        <span class="ss">strictHostKeyChecking =</span> <span class="no">false</span><span class="p">;</span>
-</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14"></a>        <span class="ss">unencryptedRepoAccess =</span> <span class="no">true</span><span class="p">;</span>
-</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15"></a>      <span class="p">};</span>
-</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16"></a>    <span class="p">};</span>
-</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17"></a>  <span class="p">};</span>
-</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18"></a><span class="p">}</span>
-</span></code></pre></div></td></tr></table></div>
-<p>A more detailed explanation of the backup process and its configuration options can be <a href="../configuring-backups/">found here</a>.</p>
-<h2 id="restoring-from-a-backup">Restoring from a backup</h2>
-<div class="language-nix highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">server.nix</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1"> 1</a></span>
-<span class="normal"><a href="#__codelineno-3-2"> 2</a></span>
-<span class="normal"><a href="#__codelineno-3-3"> 3</a></span>
-<span class="normal"><a href="#__codelineno-3-4"> 4</a></span>
-<span class="normal"><a href="#__codelineno-3-5"> 5</a></span>
-<span class="normal"><a href="#__codelineno-3-6"> 6</a></span>
-<span class="normal"><a href="#__codelineno-3-7"> 7</a></span>
-<span class="normal"><a href="#__codelineno-3-8"> 8</a></span>
-<span class="normal"><a href="#__codelineno-3-9"> 9</a></span>
-<span class="normal"><a href="#__codelineno-3-10">10</a></span>
-<span class="normal"><a href="#__codelineno-3-11">11</a></span>
-<span class="normal"><a href="#__codelineno-3-12">12</a></span>
-<span class="normal"><a href="#__codelineno-3-13">13</a></span>
-<span class="normal"><a href="#__codelineno-3-14">14</a></span>
-<span class="normal"><a href="#__codelineno-3-15">15</a></span>
-<span class="normal"><a href="#__codelineno-3-16">16</a></span>
-<span class="normal"><a href="#__codelineno-3-17">17</a></span>
-<span class="normal"><a href="#__codelineno-3-18">18</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="p">{</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a>  services<span class="o">.</span>ethereum<span class="o">.</span>geth<span class="o">.</span><span class="ss">sepolia =</span> <span class="p">{</span>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a>    <span class="o">...</span>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a>    <span class="ss">restore =</span> <span class="p">{</span>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5"></a>      <span class="ss">enable =</span> <span class="no">true</span><span class="p">;</span>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6"></a>
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7"></a>      <span class="c1"># the backup id is the chain height when the backup was created</span>
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8"></a>      <span class="ss">snapshot =</span> <span class="s2">&quot;2960283&quot;</span><span class="p">;</span>
-</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9"></a>
-</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10"></a>      <span class="ss">borg =</span> <span class="p">{</span>
-</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11"></a>        <span class="ss">repo =</span> <span class="s2">&quot;ssh://borg@dione/data/borgbackup/ethereum/geth-sepolia&quot;</span><span class="p">;</span>
-</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12"></a>        <span class="ss">keyPath =</span> <span class="s2">&quot;/root/ed25519&quot;</span><span class="p">;</span>
-</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13"></a>        <span class="ss">strictHostKeyChecking =</span> <span class="no">false</span><span class="p">;</span>
-</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14"></a>        <span class="ss">unencryptedRepoAccess =</span> <span class="no">true</span><span class="p">;</span>
-</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15"></a>      <span class="p">};</span>
-</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16"></a>    <span class="p">};</span>
-</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17"></a>  <span class="p">};</span>
-</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18"></a><span class="p">}</span>
-</span></code></pre></div></td></tr></table></div>
-<p>A more detailed explanation of the restore process and its configuration options can be <a href="../restore-from-backup/">found here</a>.</p>
 
 
 

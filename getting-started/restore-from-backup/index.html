@@ -324,16 +324,14 @@
 
   
   
-    
-  
   
     
       
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
       
       
       
@@ -398,91 +396,9 @@
   
   
     <li class="md-nav__item">
-      <a href="../configuring-backups/" class="md-nav__link">
-        Configuring backups
+      <a href="../backup-and-restore/" class="md-nav__link">
+        Backup and restore
       </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-    
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Restoring from a backup
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
-        Restoring from a backup
-      </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#basic-configuration" class="md-nav__link">
-    Basic configuration
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#borg-backup" class="md-nav__link">
-    Borg Backup
-  </a>
-  
-    <nav class="md-nav" aria-label="Borg Backup">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#host-key-checking" class="md-nav__link">
-    Host key checking
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#repository-encryption" class="md-nav__link">
-    Repository encryption
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -719,7 +635,7 @@
 <li><a href="../running-prysm-beacon/">Prysm Beacon</a></li>
 <li><a href="./running-nethermind.md">Nethermind</a></li>
 </ul>
-<p>For an overview of how to configure backups please <a href="../configuring-backups/">see here</a></p>
+<p>For an overview of how to configure backups please <a href="./configuring-backups.md">see here</a></p>
 <h2 id="basic-configuration">Basic configuration</h2>
 <p>Restore options are set inside the <code>restore</code> section of supporting modules.</p>
 <div class="language-nix highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">server.nix</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
@@ -815,42 +731,6 @@ remote machine's known host list.</p>
       </main>
       
         <footer class="md-footer">
-  
-    
-    <nav class="md-footer__inner md-grid" aria-label="Footer" >
-      
-        
-        <a href="../configuring-backups/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Configuring backups" rel="prev">
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
-          </div>
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Previous
-              </span>
-              Configuring backups
-            </div>
-          </div>
-        </a>
-      
-      
-        
-        <a href="../../reference/module-options/erigon/" class="md-footer__link md-footer__link--next" aria-label="Next: Erigon" rel="next">
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              Erigon
-            </div>
-          </div>
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
-          </div>
-        </a>
-      
-    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">

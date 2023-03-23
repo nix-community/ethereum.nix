@@ -10,14 +10,14 @@
       
       
       
-        <link rel="canonical" href="https://nix-community.github.io/ethereum.nix/getting-started/configuring-backups/">
+        <link rel="canonical" href="https://nix-community.github.io/ethereum.nix/getting-started/backup-and-restore/">
       
       <link rel="icon" href="../../assets/favicon.png">
       <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.4.3">
     
     
       
-        <title>Configuring backups - Ethereum.nix</title>
+        <title>Backup and restore - Ethereum.nix</title>
       
     
     
@@ -68,7 +68,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#configuring-backups" class="md-skip">
+        <a href="#backup-and-restore" class="md-skip">
           Skip to content
         </a>
       
@@ -100,7 +100,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Configuring backups
+              Backup and restore
             
           </span>
         </div>
@@ -408,12 +408,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Configuring backups
+          Backup and restore
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Configuring backups
+        Backup and restore
       </a>
       
         
@@ -432,51 +432,23 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#backup-providers" class="md-nav__link">
-    Backup providers
+  <a href="#storage-providers" class="md-nav__link">
+    Storage providers
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#basic-configuration" class="md-nav__link">
-    Basic configuration
+  <a href="#configuring-backups" class="md-nav__link">
+    Configuring backups
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#systemd-services" class="md-nav__link">
-    Systemd services
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#borg-backup" class="md-nav__link">
-    Borg Backup
-  </a>
-  
-    <nav class="md-nav" aria-label="Borg Backup">
+    <nav class="md-nav" aria-label="Configuring backups">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#repository-layout" class="md-nav__link">
-    Repository layout
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#host-key-checking" class="md-nav__link">
-    Host key checking
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#repository-encryption" class="md-nav__link">
-    Repository encryption
+  <a href="#systemd-services" class="md-nav__link">
+    Systemd services
   </a>
   
 </li>
@@ -486,24 +458,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#restoring-from-backup" class="md-nav__link">
+    Restoring from backup
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
       
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../restore-from-backup/" class="md-nav__link">
-        Restoring from a backup
-      </a>
     </li>
   
 
@@ -681,57 +646,36 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#backup-providers" class="md-nav__link">
-    Backup providers
+  <a href="#storage-providers" class="md-nav__link">
+    Storage providers
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#basic-configuration" class="md-nav__link">
-    Basic configuration
+  <a href="#configuring-backups" class="md-nav__link">
+    Configuring backups
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#systemd-services" class="md-nav__link">
-    Systemd services
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#borg-backup" class="md-nav__link">
-    Borg Backup
-  </a>
-  
-    <nav class="md-nav" aria-label="Borg Backup">
+    <nav class="md-nav" aria-label="Configuring backups">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#repository-layout" class="md-nav__link">
-    Repository layout
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#host-key-checking" class="md-nav__link">
-    Host key checking
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#repository-encryption" class="md-nav__link">
-    Repository encryption
+  <a href="#systemd-services" class="md-nav__link">
+    Systemd services
   </a>
   
 </li>
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#restoring-from-backup" class="md-nav__link">
+    Restoring from backup
+  </a>
   
 </li>
       
@@ -748,26 +692,39 @@
               
                 
 
-  <a href="https://github.com/nix-community/ethereum.nix/edit/main/docs/getting-started/configuring-backups.md" title="Edit this page" class="md-content__button md-icon">
+  <a href="https://github.com/nix-community/ethereum.nix/edit/main/docs/getting-started/backup-and-restore.md" title="Edit this page" class="md-content__button md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
   </a>
 
 
-<h1 id="configuring-backups">Configuring backups</h1>
+<h1 id="backup-and-restore">Backup and restore</h1>
 <p>The following service modules support backups:</p>
 <ul>
 <li><a href="../running-geth/">Geth</a></li>
 <li><a href="../running-prysm-beacon/">Prysm Beacon</a></li>
 <li><a href="./running-nethermind.md">Nethermind</a></li>
 </ul>
-<p>Backup functionality is currently implemented with <a href="https://www.borgbackup.org/">Borg Backup</a>.</p>
-<p>At some point in the future this may be expanded to other backup solutions such as <a href="https://restic.net/">Restic</a>.</p>
-<h2 id="backup-providers">Backup providers</h2>
-<p>Storage boxes, such as those available from <a href="https://www.hetzner.com/storage/storage-box">Hetzner</a>, support Borg Backup
-by default.</p>
-<p>Alternatively it is straightforward to set up a backup server using NixOS.</p>
-<div class="language-nix highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">backup-server.nix</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
+<p>Backup and restore functionality is implemented with <a href="https://restic.net/">Restic</a>.</p>
+<h2 id="storage-providers">Storage providers</h2>
+<p>At the time of writing <a href="https://restic.readthedocs.io/en/stable/030_preparing_a_new_repo.html">Restic supports</a> the following storage backends:</p>
+<ul>
+<li>Local</li>
+<li>SFTP</li>
+<li>REST Server</li>
+<li>Amazon S3</li>
+<li>Minio Server</li>
+<li>Wasabi</li>
+<li>Alibaba Cloud Object Storage System</li>
+<li>OpenStack Swift</li>
+<li>Backblaze B3</li>
+<li>Microsoft Azure Blob Storage</li>
+<li>Google Cloud Storage</li>
+<li>Other services vis RClone</li>
+</ul>
+<h2 id="configuring-backups">Configuring backups</h2>
+<p>Backup options are set inside the <code>backup</code> section of supporting modules.</p>
+<div class="language-nix highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">backup.nix</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-0-3"> 3</a></span>
 <span class="normal"><a href="#__codelineno-0-4"> 4</a></span>
@@ -780,61 +737,34 @@ by default.</p>
 <span class="normal"><a href="#__codelineno-0-11">11</a></span>
 <span class="normal"><a href="#__codelineno-0-12">12</a></span>
 <span class="normal"><a href="#__codelineno-0-13">13</a></span>
-<span class="normal"><a href="#__codelineno-0-14">14</a></span>
-<span class="normal"><a href="#__codelineno-0-15">15</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="p">{</span>pkgs<span class="p">,</span> <span class="o">...</span><span class="p">}:</span> <span class="p">{</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>  environment<span class="o">.</span><span class="ss">systemPackages =</span> <span class="p">[</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a>    pkgs<span class="o">.</span>borgbackup
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a>  <span class="p">];</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a>  services<span class="o">.</span>borgbackup<span class="o">.</span>repos<span class="o">.</span><span class="ss">ethereum =</span> <span class="p">{</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7"></a>    <span class="ss">path =</span> <span class="s2">&quot;/data/borgbackup/ethereum&quot;</span><span class="p">;</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8"></a>    <span class="c1"># Allow clients to create repositories in subdirectories of the specified path</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9"></a>    <span class="ss">allowSubRepos =</span> <span class="no">true</span><span class="p">;</span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10"></a>    <span class="c1"># Public SSH keys that can only be used to append new data (archives) to the repository</span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11"></a>    <span class="ss">authorizedKeysAppendOnly =</span> <span class="p">[</span>
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12"></a>      <span class="s2">&quot;ssh-ed25519 AAAAC3N...&quot;</span>
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13"></a>    <span class="p">];</span>
-</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14"></a>  <span class="p">};</span>
-</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="p">}</span>
+<span class="normal"><a href="#__codelineno-0-14">14</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="p">{</span> pkgs<span class="p">,</span> <span class="o">...</span><span class="p">}:</span> <span class="p">{</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>  services<span class="o">.</span>ethereum<span class="o">.</span>geth<span class="o">.</span><span class="ss">sepolia =</span> <span class="p">{</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a>    <span class="o">...</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a>    <span class="ss">backup =</span> <span class="p">{</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a>      <span class="ss">enable =</span> <span class="no">true</span><span class="p">;</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a>      <span class="ss">schedule =</span> <span class="s2">&quot;0/1:00:00&quot;</span><span class="p">;</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7"></a>      <span class="ss">restic =</span> <span class="p">{</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8"></a>        <span class="ss">repository =</span> <span class="s2">&quot;s3:http://dione:9000/geth-sepolia&quot;</span><span class="p">;</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9"></a>        <span class="ss">passwordFile =</span> sops<span class="o">.</span>secrets<span class="o">.</span>restic_password<span class="o">.</span>path<span class="p">;</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10"></a>        <span class="ss">environmentFile =</span> sops<span class="o">.</span>secrets<span class="o">.</span>restic_env<span class="o">.</span>path<span class="p">;</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11"></a>      <span class="p">};</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12"></a>    <span class="p">};</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13"></a>  <span class="p">};</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="p">}</span>
 </span></code></pre></div></td></tr></table></div>
-<p>For a detailed list of options please <a href="https://search.nixos.org/options?channel=22.11&amp;show=services.borgbackup.repos&amp;from=0&amp;size=50&amp;sort=relevance&amp;type=packages&amp;query=borg">see here</a>.</p>
-<h2 id="basic-configuration">Basic configuration</h2>
-<p>Backup options are set inside the <code>backup</code> section of supporting modules.</p>
-<div class="language-nix highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">server.nix</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1"> 1</a></span>
-<span class="normal"><a href="#__codelineno-1-2"> 2</a></span>
-<span class="normal"><a href="#__codelineno-1-3"> 3</a></span>
-<span class="normal"><a href="#__codelineno-1-4"> 4</a></span>
-<span class="normal"><a href="#__codelineno-1-5"> 5</a></span>
-<span class="normal"><a href="#__codelineno-1-6"> 6</a></span>
-<span class="normal"><a href="#__codelineno-1-7"> 7</a></span>
-<span class="normal"><a href="#__codelineno-1-8"> 8</a></span>
-<span class="normal"><a href="#__codelineno-1-9"> 9</a></span>
-<span class="normal"><a href="#__codelineno-1-10">10</a></span>
-<span class="normal"><a href="#__codelineno-1-11">11</a></span>
-<span class="normal"><a href="#__codelineno-1-12">12</a></span>
-<span class="normal"><a href="#__codelineno-1-13">13</a></span>
-<span class="normal"><a href="#__codelineno-1-14">14</a></span>
-<span class="normal"><a href="#__codelineno-1-15">15</a></span>
-<span class="normal"><a href="#__codelineno-1-16">16</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="p">{</span> pkgs<span class="p">,</span> <span class="o">...</span><span class="p">}:</span> <span class="p">{</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a>  services<span class="o">.</span>ethereum<span class="o">.</span>geth<span class="o">.</span><span class="ss">sepolia =</span> <span class="p">{</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a>    <span class="o">...</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4"></a>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5"></a>    <span class="ss">backup =</span> <span class="p">{</span>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6"></a>      <span class="ss">enable =</span> <span class="no">true</span><span class="p">;</span>
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7"></a>
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8"></a>      <span class="ss">borg =</span> <span class="p">{</span>
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9"></a>        <span class="ss">repo =</span> <span class="s2">&quot;ssh://borg@backup.server/data/borgbackup/ethereum/geth-sepolia&quot;</span><span class="p">;</span>
-</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10"></a>        <span class="ss">keyPath =</span> <span class="s2">&quot;/root/ed25519&quot;</span><span class="p">;</span>
-</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11"></a>        encryption<span class="o">.</span><span class="ss">mode =</span> <span class="s2">&quot;none&quot;</span><span class="p">;</span>
-</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12"></a>        <span class="ss">unencryptedRepoAccess =</span> <span class="no">true</span><span class="p">;</span>
-</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13"></a>      <span class="p">};</span>
-</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14"></a>    <span class="p">};</span>
-</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15"></a>  <span class="p">};</span>
-</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16"></a><span class="p">}</span>
+<p>By default, backups are scheduled daily. This can be modified through the <a href="../../reference/module-options/geth/#servicesethereumgethnamebackupschedule">schedule</a> option which follows the same format as <a href="https://manpages.org/systemdtime/7">systemd.time</a>.</p>
+<p>To access a Restic repository, a password (also called a key) must be specified. This can be done via <code>restic.passwordFile</code>.</p>
+<p>And since Restic can be configured with a wide variety of storage providers, an environment file can be provided to accommodate their configuration.
+When using an <a href="https://aws.amazon.com/s3/">Amazon S3</a> backend for example the environment file might look like this:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">aws.env</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
+<span class="normal"><a href="#__codelineno-1-2">2</a></span>
+<span class="normal"><a href="#__codelineno-1-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>AWS_DEFAULT_REGION=eu-west-1
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a>AWS_ACCESS_KEY_ID=my_access_key
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a>AWS_SECRET_ACCESS_KEY=my_secret_key
 </span></code></pre></div></td></tr></table></div>
-<h2 id="systemd-services">Systemd services</h2>
-<p>When backups are enabled for a given Ethereum service several new Systemd services and timers will be introduced to
-facilitate the backup process.</p>
+<p>For a detailed list of options please <a href="../../reference/module-options/geth/#servicesethereumgethnamebackupenable">see here</a>.</p>
+<h3 id="systemd-services">Systemd services</h3>
+<p>When backups are enabled several new Systemd services and timers will be introduced to facilitate the backup process.</p>
 <p>For an instance of Geth named <code>sepolia</code> for example, the following services will be added:</p>
 <ul>
 <li><code>geth-sepolia-metadata.service</code> which captures metadata such as chain height and persists it in the state directory.</li>
@@ -842,28 +772,40 @@ facilitate the backup process.</p>
 <li><code>geth-sepolia-backup.service</code> which is responsible for stopping <code>geth-sepolia.service</code>, backing up its state directory, and restarting it.</li>
 <li><code>geth-sepolia-backup.timer</code> which triggers the backup service once daily by default. This schedule is configurable via <a href="../../reference/module-options/geth/#servicesethereumgethnamebackupschedule">backup.schedule</a>.</li>
 </ul>
-<h2 id="borg-backup">Borg Backup</h2>
-<h3 id="repository-layout">Repository layout</h3>
-<p>Archives within a repository are named using the last recorded chain height, as determined by the metadata service for the respective process.</p>
-<p>Here is a sample list of archives for an instance of Geth.</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
-<span class="normal"><a href="#__codelineno-2-2">2</a></span>
-<span class="normal"><a href="#__codelineno-2-3">3</a></span>
-<span class="normal"><a href="#__codelineno-2-4">4</a></span>
-<span class="normal"><a href="#__codelineno-2-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>backup# borg list geth-sepolia
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>2851887                              Tue, 2023-02-07 13:55:54 [3e7c1be0554e9120ed61da89a98301ebc578409e8941ba216528398f16232ac6]
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a>2852055                              Tue, 2023-02-07 13:57:28 [f8b114fc69719c987dd8126625ddd41c042f6c0a17591764a8a79e490e3e7085]
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a>2852078                              Tue, 2023-02-07 14:20:14 [9ab743fb58f3e1184dcef9ec69c591f4f399d171c2b70f51c8ba6b300e8b554b]
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a>2852102                              Tue, 2023-02-07 14:20:42 [19e85cc31d5c9e4609f5a3b2e71c5e2490548173de076f21f1101e4ed9e301ee]
+<h2 id="restoring-from-backup">Restoring from backup</h2>
+<p>Restore options are set inside the <code>restore</code> section of supporting modules and share many of the same config options as
+<a href="#configuring-backups">backups</a>.</p>
+<div class="language-nix highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">restore.nix</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-2-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-2-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-2-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-2-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-2-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-2-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-2-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-2-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-2-10">10</a></span>
+<span class="normal"><a href="#__codelineno-2-11">11</a></span>
+<span class="normal"><a href="#__codelineno-2-12">12</a></span>
+<span class="normal"><a href="#__codelineno-2-13">13</a></span>
+<span class="normal"><a href="#__codelineno-2-14">14</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="p">{</span> pkgs<span class="p">,</span> <span class="o">...</span><span class="p">}:</span> <span class="p">{</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>  services<span class="o">.</span>ethereum<span class="o">.</span>geth<span class="o">.</span><span class="ss">sepolia =</span> <span class="p">{</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a>    <span class="o">...</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a>    <span class="ss">restore =</span> <span class="p">{</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a>      <span class="ss">enable =</span> <span class="no">true</span><span class="p">;</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6"></a>      <span class="ss">snapshot =</span> <span class="s2">&quot;latest&quot;</span><span class="p">;</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7"></a>      <span class="ss">restic =</span> <span class="p">{</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8"></a>        <span class="ss">repository =</span> <span class="s2">&quot;s3:http://dione:9000/geth-sepolia&quot;</span><span class="p">;</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9"></a>        <span class="ss">passwordFile =</span> sops<span class="o">.</span>secrets<span class="o">.</span>restic_password<span class="o">.</span>path<span class="p">;</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10"></a>        <span class="ss">environmentFile =</span> sops<span class="o">.</span>secrets<span class="o">.</span>restic_env<span class="o">.</span>path<span class="p">;</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11"></a>      <span class="p">};</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12"></a>    <span class="p">};</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13"></a>  <span class="p">};</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14"></a><span class="p">}</span>
 </span></code></pre></div></td></tr></table></div>
-<h3 id="host-key-checking">Host key checking</h3>
-<p>Borg Backup uses ssh when connecting to a remote repository and as such requires an ssh private key. This key path can be provided
-via the <a href="../../reference/module-options/geth/#servicesethereumgethnamebackupborgkeypath">keyPath</a> option.</p>
-<p>When connecting to a backup host for the first time a backup may fail if the provided host key has not been added to the
-remote machine's known host list.</p>
-<p>For testing and development purposes this check can be disabled via the <a href="../../reference/module-options/geth/#servicesethereumgethnamebackupborgstricthostkeychecking">strictHostKeyChecking</a> option.</p>
-<p>For production setups it is recommended to update the remote server's known host list first before any backups are scheduled.</p>
-<div class="language-nix highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">server.nix</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1"> 1</a></span>
+<p>The one key difference is the <code>snapshot</code> option which details which snapshot to restore from. This can be <code>latest</code> as
+seen in the example above, or a specific snapshot id as listed by running <code>restic snapshots</code>:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-3-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-3-3"> 3</a></span>
 <span class="normal"><a href="#__codelineno-3-4"> 4</a></span>
@@ -879,61 +821,29 @@ remote machine's known host list.</p>
 <span class="normal"><a href="#__codelineno-3-14">14</a></span>
 <span class="normal"><a href="#__codelineno-3-15">15</a></span>
 <span class="normal"><a href="#__codelineno-3-16">16</a></span>
-<span class="normal"><a href="#__codelineno-3-17">17</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="p">{</span> pkgs<span class="p">,</span> <span class="o">...</span><span class="p">}:</span> <span class="p">{</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a>  services<span class="o">.</span>ethereum<span class="o">.</span>geth<span class="o">.</span><span class="ss">sepolia =</span> <span class="p">{</span>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a>    <span class="o">...</span>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5"></a>    <span class="ss">backup =</span> <span class="p">{</span>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6"></a>      <span class="ss">enable =</span> <span class="no">true</span><span class="p">;</span>
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7"></a>
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8"></a>      <span class="ss">borg =</span> <span class="p">{</span>
-</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9"></a>        <span class="ss">repo =</span> <span class="s2">&quot;ssh://borg@dione/data/borgbackup/ethereum/geth-sepolia&quot;</span><span class="p">;</span>
-</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10"></a>        <span class="ss">keyPath =</span> <span class="s2">&quot;/root/ed25519&quot;</span><span class="p">;</span>
-</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11"></a>        <span class="ss">strictHostKeyChecking =</span> <span class="no">false</span><span class="p">;</span>
-</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12"></a>      <span class="p">};</span>
-</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13"></a>
-</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14"></a>      <span class="ss">schedule =</span> <span class="s2">&quot;0/1:00:00&quot;</span><span class="p">;</span>
-</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15"></a>    <span class="p">};</span>
-</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16"></a>  <span class="p">};</span>
-</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17"></a><span class="p">}</span>
+<span class="normal"><a href="#__codelineno-3-17">17</a></span>
+<span class="normal"><a href="#__codelineno-3-18">18</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>❯ restic snapshots -c | head
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a>ID        Time                 Host    Tags
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a>-------------------------------------------------------------------------------------------------------------------
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a>5e2006e9  2023-03-22 07:00:07  phoebe  height:3139753
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5"></a>                                       number:0x2fe8a9
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6"></a>                                       stateRoot:0x1be15cbc48fbd1ddb2fee1332f5fd6eacca60a737b4e87874c82be32810b19a5
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7"></a>                                       hash:0x04a53f7cc92888de4ea743419855abdfff4ba84454db211846d984609578b265
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8"></a>                                       name:geth-sepolia
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9"></a>bdf903fc  2023-03-22 08:00:18  phoebe  height:3140008
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10"></a>                                       number:0x2fe9a8
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11"></a>                                       stateRoot:0xac1fd086f4e5afe152afd110f67ce86a5787895ca75c3fffa516229fc10ec9b2
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12"></a>                                       hash:0x330594bc56d97b30c9794f33c692f32f3e29a6de1acb495cc4e66b0a437dc4c3
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13"></a>                                       name:geth-sepolia
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14"></a>e83e3f49  2023-03-22 09:00:17  phoebe  height:3140256
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15"></a>                                       number:0x2feaa0
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16"></a>                                       stateRoot:0x0a82d296b70638063187208707681d8976769594e65cd823da7429e215cce2a7
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17"></a>                                       hash:0x6b39cfca2375b0cfb11e59c9f159e7a19108aa25cfbf4a88de53a9c1e089e233
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18"></a>                                       name:geth-sepolia
 </span></code></pre></div></td></tr></table></div>
-<h3 id="repository-encryption">Repository encryption</h3>
-<p>There are several encryption schemes available for securing backup repositories.</p>
-<p><strong>Note: </strong> The encryption mode can only be configured when creating a new repository - you can neither configure it on a per-archive basis nor change the encryption mode of an existing repository.</p>
-<p>If the encryption mode is set to <code>none</code> it is necessary to set <code>unencryptedRepoAccess</code> to <code>true</code> otherwise the backup process
-will fail to connect to the backup repository.</p>
-<div class="language-nix highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">server.nix</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1"> 1</a></span>
-<span class="normal"><a href="#__codelineno-4-2"> 2</a></span>
-<span class="normal"><a href="#__codelineno-4-3"> 3</a></span>
-<span class="normal"><a href="#__codelineno-4-4"> 4</a></span>
-<span class="normal"><a href="#__codelineno-4-5"> 5</a></span>
-<span class="normal"><a href="#__codelineno-4-6"> 6</a></span>
-<span class="normal"><a href="#__codelineno-4-7"> 7</a></span>
-<span class="normal"><a href="#__codelineno-4-8"> 8</a></span>
-<span class="normal"><a href="#__codelineno-4-9"> 9</a></span>
-<span class="normal"><a href="#__codelineno-4-10">10</a></span>
-<span class="normal"><a href="#__codelineno-4-11">11</a></span>
-<span class="normal"><a href="#__codelineno-4-12">12</a></span>
-<span class="normal"><a href="#__codelineno-4-13">13</a></span>
-<span class="normal"><a href="#__codelineno-4-14">14</a></span>
-<span class="normal"><a href="#__codelineno-4-15">15</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="p">{</span> pkgs<span class="p">,</span> <span class="o">...</span><span class="p">}:</span> <span class="p">{</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>  services<span class="o">.</span>ethereum<span class="o">.</span>geth<span class="o">.</span><span class="ss">sepolia =</span> <span class="p">{</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a>    <span class="o">...</span>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a>    <span class="ss">backup =</span> <span class="p">{</span>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5"></a>      <span class="ss">enable =</span> <span class="no">true</span><span class="p">;</span>
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6"></a>
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7"></a>      <span class="ss">borg =</span> <span class="p">{</span>
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8"></a>        <span class="ss">repo =</span> <span class="s2">&quot;ssh://borg@backup.server/data/borgbackup/ethereum/geth-sepolia&quot;</span><span class="p">;</span>
-</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9"></a>        <span class="ss">keyPath =</span> <span class="s2">&quot;/root/ed25519&quot;</span><span class="p">;</span>
-</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10"></a>        encryption<span class="o">.</span><span class="ss">mode =</span> <span class="s2">&quot;none&quot;</span><span class="p">;</span>
-</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11"></a>        <span class="ss">unencryptedRepoAccess =</span> <span class="no">true</span><span class="p">;</span>
-</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12"></a>      <span class="p">};</span>
-</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13"></a>    <span class="p">};</span>
-</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14"></a>  <span class="p">};</span>
-</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15"></a><span class="p">}</span>
-</span></code></pre></div></td></tr></table></div>
-<p>For an overview of the encryption schemes available please refer to the <a href="https://borgbackup.readthedocs.io/en/stable/usage/init.html">borg backup official docs</a>.</p>
-<p>Suitable corresponding NixOS options for configuring encryption <a href="../../reference/module-options/geth/#servicesethereumgethnamebackupborgencryptionmode">are available</a>.</p>
+<p><strong>Note:</strong> restoring from backup will <em>only be attempted</em> if the state directory for the service in question is empty. The
+presence of any files will cause the restoration attempt to be aborted.</p>
+<p>This means it is safe to leave the restore config in place as it only has an effect when initialising a fresh instance.</p>
 
 
 
@@ -973,13 +883,13 @@ will fail to connect to the backup repository.</p>
       
       
         
-        <a href="../restore-from-backup/" class="md-footer__link md-footer__link--next" aria-label="Next: Restoring from a backup" rel="next">
+        <a href="../../reference/module-options/erigon/" class="md-footer__link md-footer__link--next" aria-label="Next: Erigon" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Restoring from a backup
+              Erigon
             </div>
           </div>
           <div class="md-footer__button md-icon">
