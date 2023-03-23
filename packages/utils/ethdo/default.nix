@@ -9,13 +9,13 @@
 }:
 buildGoModule rec {
   pname = "ethdo";
-  version = "1.28.4";
+  version = "1.28.5";
 
   src = fetchFromGitHub {
     owner = "wealdtech";
     repo = "ethdo";
     rev = "v${version}";
-    hash = "sha256-sZYOC/LAyiXRTy2tOxmf/8NPjjD9la/i3DpA1ZowbdY=";
+    hash = "sha256-tB5ImigIa0BNR1gTMa6YUokqMT/zPCs2LEeUO0q7U9A=";
   };
 
   runVend = true;
