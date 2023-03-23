@@ -4,18 +4,17 @@
   module = {pkgs, ...}: let
     datadir = ./testing/datadir;
 
-    privateKey = pkgs.writeText "id_ed25519" ''
-      -----BEGIN OPENSSH PRIVATE KEY-----
-      b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
-      QyNTUxOQAAACBx8UB04Q6Q/fwDFjakHq904PYFzG9pU2TJ9KXpaPMcrwAAAJB+cF5HfnBe
-      RwAAAAtzc2gtZWQyNTUxOQAAACBx8UB04Q6Q/fwDFjakHq904PYFzG9pU2TJ9KXpaPMcrw
-      AAAEBN75NsJZSpt63faCuaD75Unko0JjlSDxMhYHAPJk2/xXHxQHThDpD9/AMWNqQer3Tg
-      9gXMb2lTZMn0pelo8xyvAAAADXJzY2h1ZXR6QGt1cnQ=
-      -----END OPENSSH PRIVATE KEY-----
-    '';
-    publicKey = ''
-      ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHHxQHThDpD9/AMWNqQer3Tg9gXMb2lTZMn0pelo8xyv root@client
-    '';
+    AWS_DEFAULT_REGION = "eu-west-1";
+    AWS_ACCESS_KEY_ID = "accessKey";
+    AWS_SECRET_ACCESS_KEY = "secretKey";
+
+    passFile = pkgs.writeTextFile {
+      name = "password.txt";
+      text = "!Pa55word";
+    };
+
+    RESTIC_REPOSITORY = "s3:http://backup:9000/test-bucket";
+    RESTIC_PASSWORD_FILE = "${passFile}";
   in {
     name = "geth-restore";
 
@@ -25,23 +24,33 @@
         pkgs,
         ...
       }: {
-        environment.systemPackages = [
-          pkgs.borgbackup
-          pkgs.findutils
-        ];
+        environment = {
+          variables = {
+            inherit RESTIC_REPOSITORY RESTIC_PASSWORD_FILE;
+            inherit AWS_DEFAULT_REGION AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY;
+          };
 
-        services.openssh = {
+          systemPackages = [
+            pkgs.findutils
+            pkgs.restic
+          ];
+        };
+
+        services.minio = {
           enable = true;
-          # Note these settings have been moved under settings in nixpkgs-unstable
-          passwordAuthentication = false;
-          kbdInteractiveAuthentication = false;
+          listenAddress = "0.0.0.0:9000";
+          dataDir = ["/data/minio"];
+          region = "eu-west-1";
+          rootCredentialsFile = pkgs.writeTextFile {
+            name = "credentials.env";
+            text = ''
+              MINIO_ROOT_USER=${AWS_ACCESS_KEY_ID}
+              MINIO_ROOT_PASSWORD=${AWS_SECRET_ACCESS_KEY}
+            '';
+          };
         };
 
-        services.borgbackup.repos.ethereum = {
-          authorizedKeysAppendOnly = [publicKey];
-          allowSubRepos = true;
-          path = "/data";
-        };
+        networking.firewall.allowedTCPPorts = [9000];
       };
 
       ext4 = {
@@ -64,12 +73,21 @@
 
           restore = {
             enable = true;
-            snapshot = "40";
-            borg = {
-              repo = "ssh://borg@backup/data/geth-test";
-              keyPath = "/root/id_ed25519";
-              strictHostKeyChecking = false;
-              unencryptedRepoAccess = true;
+            snapshot = "latest";
+
+            restic = {
+              repository = RESTIC_REPOSITORY;
+              passwordFile = RESTIC_PASSWORD_FILE;
+              environmentFile = let
+                envFile = pkgs.writeTextFile {
+                  name = "restic.env";
+                  text = ''
+                    AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
+                    AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+                    AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+                  '';
+                };
+              in "${envFile}";
             };
           };
         };
@@ -83,20 +101,13 @@
 
     testScript = ''
 
-      ext4.succeed("cp ${privateKey} /root/id_ed25519")
-      ext4.succeed("chmod 0600 /root/id_ed25519")
-      ext4.shutdown()
-
       repo = '/data/geth-test'
       block_number = 40
       service_name = 'geth-test'
 
       backup.succeed(f'cp -R ${datadir}/{block_number} /tmp/{block_number}')
-      backup.succeed(f'borg init --encryption none {repo}')
-      backup.succeed(f'cd /tmp/{block_number}; borg create -s --verbose {repo}::{block_number} ./')
-
-      # change permissions to match the borg service
-      backup.succeed(f'chown -R borg:borg {repo}')
+      backup.succeed("restic init")
+      backup.succeed(f'cd /tmp/{block_number} && restic backup ./')
 
       # wait for startup
       ext4.wait_for_unit("geth-test.service")
