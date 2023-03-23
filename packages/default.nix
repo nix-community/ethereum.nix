@@ -30,7 +30,6 @@
       erigon = callPackage ./clients/execution/erigon {};
       besu = callPackage ./clients/execution/besu {};
       geth = callPackage ./clients/execution/geth {};
-      plugeth = callPackage ./clients/execution/plugeth {};
       geth-sealer = callPackage ./clients/execution/geth-sealer {};
       nethermind = callPackage ./clients/execution/nethermind {};
 
@@ -103,8 +102,6 @@
         nethermind.bin = "Nethermind.Cli";
         nethermind-runner.bin = "Nethermind.Runner";
       };
-
-      plugeth.bin = "geth";
 
       # dvt
       charon.bin = "charon";
