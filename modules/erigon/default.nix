@@ -10,7 +10,7 @@
   inherit (lib) zipAttrsWith filterAttrsRecursive optionalAttrs filterAttrs mapAttrs mapAttrs' mapAttrsToList;
   inherit (lib) optionalString literalExpression mkEnableOption mkIf mkMerge mkBefore mkOption types concatStringsSep;
 
-  modulesLib = import ../../lib.nix {inherit lib pkgs;};
+  modulesLib = import ../lib.nix {inherit lib pkgs;};
   inherit (modulesLib) baseServiceConfig mkArgs scripts;
 
   eachErigon = config.services.ethereum.erigon;
