@@ -41,8 +41,10 @@
       vouch = callPackage ./validators/vouch {inherit bls mcl;};
 
       # MEV
-      mev-boost-relay = callPackage ./mev/mev-boost-relay {inherit blst;};
       mev-boost = callPackage ./mev/mev-boost {inherit blst;};
+      mev-boost-builder = callPackage ./mev/mev-boost-builder {inherit blst;};
+      mev-boost-relay = callPackage ./mev/mev-boost-relay {inherit blst;};
+
       mev-rs = callPackage ./mev/mev-rs {};
 
       # DVT
@@ -109,8 +111,10 @@
       ssvnode.bin = "ssvnode";
 
       # mev
+      mev-boost-builder.bin = "geth";
       mev-boost-relay.bin = "mev-boost-relay";
       mev-boost.bin = "mev-boost";
+
       mev-rs.bin = "mev";
 
       # Signers
