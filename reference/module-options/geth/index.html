@@ -939,6 +939,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamerestoretimeout" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.restore.timeout
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1443,6 +1450,13 @@
         <li class="md-nav__item">
   <a href="#servicesethereumgethnamerestoresnapshot" class="md-nav__link">
     services.ethereum.geth.&lt;name&gt;.restore.snapshot
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumgethnamerestoretimeout" class="md-nav__link">
+    services.ethereum.geth.&lt;name&gt;.restore.timeout
   </a>
   
 </li>
@@ -2048,6 +2062,16 @@ null or path</p>
 <p>The id of the snapshot to restore from</p>
 <p><em><em>Type</em></em>:
 string</p>
+<h2 id="servicesethereumgethnamerestoretimeout">services.ethereum.geth.&lt;name&gt;.restore.timeout</h2>
+<p>The max time to wait before timing out on startup. This value is used for TimeoutStartSec in the systemd service config.</p>
+<p><em><em>Type</em></em>:
+signed integer</p>
+<p><em><em>Default</em></em>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-84-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-84-1"><a id="__codelineno-84-1" name="__codelineno-84-1"></a>600
+</span></code></pre></div></td></tr></table></div></p>
+<p><em><em>Example</em></em>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-85-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-85-1"><a id="__codelineno-85-1" name="__codelineno-85-1"></a>&quot;900&quot;
+</span></code></pre></div></td></tr></table></div></p>
 
 
 
