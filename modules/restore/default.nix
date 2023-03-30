@@ -27,7 +27,10 @@
           exit 0
       fi
 
+      SERVICE_NAME=$(basename $STATE_DIRECTORY)
+
       $RESTIC_CMD restore \
+        --tag "name:$SERVICE_NAME" \
         --target $STATE_DIRECTORY \
         --cache-dir=$CACHE_DIRECTORY \
         $SNAPSHOT
@@ -96,6 +99,7 @@
           restic.rcloneConfig);
       path = [
         pkgs.restic
+        pkgs.coreutils
       ];
       serviceConfig = with lib; {
         CacheDirectory = "${name}";
@@ -106,6 +110,8 @@
         ExecStartPre = mkOrder 501 [
           "+${mkRestoreScript cfg}"
         ];
+        # increase start timeout
+        TimeoutStartSec = cfg.timeout;
       };
     };
 in {

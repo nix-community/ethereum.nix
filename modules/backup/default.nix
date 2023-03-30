@@ -438,7 +438,7 @@
     with lib; let
       inherit (cfg) restic;
       extraOptions = concatMapStrings (arg: " -o ${arg}") restic.extraOptions;
-      resticCmd = "${pkgs.restic}/bin/restic${extraOptions}";
+      resticCmd = "${pkgs.restic}/bin/restic${extraOptions} -vv";
       # Helper functions for rclone remotes
       rcloneRemoteName = builtins.elemAt (splitString ":" restic.repository) 1;
       rcloneAttrToOpt = v: "RCLONE_" + toUpper (builtins.replaceStrings ["-"] ["_"] v);

@@ -107,7 +107,7 @@
 
       backup.succeed(f'cp -R ${datadir}/{block_number} /tmp/{block_number}')
       backup.succeed("restic init")
-      backup.succeed(f'cd /tmp/{block_number} && restic backup ./')
+      backup.succeed(f'cd /tmp/{block_number} && restic backup --tag name:geth-test ./')
 
       # wait for startup
       ext4.wait_for_unit("geth-test.service")
