@@ -21,16 +21,11 @@
 
       echo "Running restore"
 
+      # we only perform a restore if the directory is empty
       if [ "$(ls -A $STATE_DIRECTORY)" ]; then
           echo "$STATE_DIRECTORY is not empty, restore will exit"
           exit 0
       fi
-
-      # we only perform a restore if the directory is empty
-
-      # restore from the repo
-      echo "RESTIC_REPOSITORY=$RESTIC_REPOSITORY"
-      echo "SNAPSHOT=$SNAPSHOT"
 
       $RESTIC_CMD restore \
         --target $STATE_DIRECTORY \
