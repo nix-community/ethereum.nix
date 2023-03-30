@@ -296,7 +296,6 @@
 
         # first we ensure the repo exists
         if ! $RESTIC_CMD snapshots > /dev/null; then
-            echo "Creating repo: $RESTIC_REPOSITORY"
             $RESTIC_CMD init
         fi
 
