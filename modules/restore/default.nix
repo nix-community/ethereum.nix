@@ -106,6 +106,8 @@
         ExecStartPre = mkOrder 501 [
           "+${mkRestoreScript cfg}"
         ];
+        # increase start timeout
+        TimeoutStartSec = cfg.timeout;
       };
     };
 in {
