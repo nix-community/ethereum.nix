@@ -6,18 +6,18 @@
     inputs',
     ...
   }: let
-    inherit (config.mission-control) installToDevShell;
     inherit (pkgs) mkShellNoCC;
     inherit (inputs'.nixpkgs-unstable.legacyPackages) nix-update statix mkdocs;
   in {
-    devShells.default = installToDevShell (mkShellNoCC {
+    devShells.default = mkShellNoCC {
       name = "ethereum.nix";
+      inputsFrom = [config.mission-control.devShell];
       packages = [
         nix-update
         statix
         mkdocs
         pkgs.python310Packages.mkdocs-material
       ];
-    });
+    };
   };
 }
