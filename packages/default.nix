@@ -54,6 +54,7 @@
       # Utils
       ethdo = callPackage ./utils/ethdo {inherit bls mcl;};
       sedge = callPackage ./utils/sedge {inherit bls mcl;};
+      zcli = callPackage ./utils/zcli {};
 
       # Dev
       foundry = inputs.foundry-nix.defaultPackage.${system}.overrideAttrs (oldAttrs: {
@@ -133,6 +134,7 @@
       # utils
       ethdo.bin = "ethdo";
       sedge.bin = "sedge";
+      zcli.bin = "zcli";
     };
 
     overlayAttrs = self'.packages;
