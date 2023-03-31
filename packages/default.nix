@@ -35,7 +35,7 @@
 
       # Signers
       dirk = callPackage ./signers/dirk {inherit bls mcl;};
-      remote-signer = callPackage ./signers/remote-signer {inherit blst mcl;};
+      remote-signer = callPackage ./signers/remote-signer {inherit bls blst mcl;};
       web3signer = callPackage ./signers/web3signer {};
 
       # Validators

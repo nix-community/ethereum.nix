@@ -1,7 +1,9 @@
 {
+  bls,
   blst,
   buildGoModule,
   fetchFromGitHub,
+  hidapi,
   lib,
   mcl,
 }:
@@ -20,7 +22,7 @@ buildGoModule rec {
 
   subPackages = ["."];
 
-  buildInputs = [blst mcl];
+  buildInputs = [bls blst mcl hidapi];
 
   ldflags = ["-s" "-w"];
 
