@@ -52,6 +52,7 @@
       ssvnode = callPackage ./dvt/ssvnode {inherit bls mcl;};
 
       # Utils
+      eth2-testnet-genesis = callPackage ./utils/eth2-testnet-genesis {inherit bls;};
       ethdo = callPackage ./utils/ethdo {inherit bls mcl;};
       sedge = callPackage ./utils/sedge {inherit bls mcl;};
       zcli = callPackage ./utils/zcli {};
