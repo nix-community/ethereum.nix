@@ -34,8 +34,9 @@
       nethermind = callPackage ./clients/execution/nethermind {};
 
       # Signers
-      web3signer = callPackage ./signers/web3signer {};
       dirk = callPackage ./signers/dirk {inherit bls mcl;};
+      remote-signer = callPackage ./signers/remote-signer {inherit blst mcl;};
+      web3signer = callPackage ./signers/web3signer {};
 
       # Validators
       vouch = callPackage ./validators/vouch {inherit bls mcl;};
@@ -119,6 +120,7 @@
       mev-rs.bin = "mev";
 
       # Signers
+      remote-signer.bin = "server";
       dirk.bin = "dirk";
 
       # Validators
