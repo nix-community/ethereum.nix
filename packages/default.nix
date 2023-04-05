@@ -41,6 +41,7 @@
       vouch = callPackage ./validators/vouch {inherit bls mcl;};
 
       # MEV
+      dreamboat = callPackage ./mev/dreamboat {inherit blst;};
       mev-boost = callPackage ./mev/mev-boost {inherit blst;};
       mev-boost-builder = callPackage ./mev/mev-boost-builder {inherit blst;};
       mev-boost-prysm = callPackage ./mev/mev-boost-prysm {inherit bls blst;};
@@ -114,6 +115,7 @@
       ssvnode.bin = "ssvnode";
 
       # mev
+      dreamboat.bin = "dreamboat";
       mev-boost-builder.bin = "geth";
       mev-boost-prysm.bin = "beacon-chain";
       mev-boost-relay.bin = "mev-boost-relay";
