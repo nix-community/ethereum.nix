@@ -95,7 +95,9 @@ Optional: [install direnv](https://github.com/direnv/direnv#basic-installation),
 
 ### Docs
 
-To serve the docs run `, docs`. You can edit the docs in `./docs`.
+To serve the docs run `, docs-serve`. You can edit the docs in `./docs`.
+
+To build the docs run `, docs-build`. The output will be inside of `./result`.
 
 ### Running tests
 
