@@ -64,6 +64,10 @@
         meta.platforms = [system];
       });
 
+      # Editors
+      vscode-plugin-ackee-blockchain-solidity-tools = callPackage ./editors/vscode/extensions/ackee-blockchain.solidity-tools {};
+      vscode-plugin-consensys-vscode-solidity-visual-editor = callPackage ./editors/vscode/extensions/consensys.vscode-solidity-auditor {};
+
       # Libs
       evmc = callPackage ./libs/evmc {};
       mcl = callPackage ./libs/mcl {};
