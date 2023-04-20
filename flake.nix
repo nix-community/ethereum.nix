@@ -18,6 +18,11 @@
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     hercules-ci-effects.url = "github:hercules-ci/hercules-ci-effects";
 
+    dream2nix = {
+      url = "github:nix-community/dream2nix";
+      inputs.nixpkgsV1.follows = "nixpkgs";
+    };
+
     foundry-nix = {
       url = "github:shazow/foundry.nix/monthly";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -66,15 +71,16 @@
           })
           ./nix
           ./packages
+          ./packages/lodestar
           ./modules
           ./mkdocs.nix
           inputs.hercules-ci-effects.flakeModule
         ];
         systems = [
           "x86_64-linux"
-          "aarch64-linux"
-          "x86_64-darwin"
-          "aarch64-darwin"
+          # "aarch64-linux"
+          # "x86_64-darwin"
+          # "aarch64-darwin"
         ];
         herculesCI.ciSystems = filter (system: (match ".*-darwin" system) == null) systems;
       })
