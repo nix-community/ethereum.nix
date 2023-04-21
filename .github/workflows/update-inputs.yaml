@@ -13,7 +13,7 @@ jobs:
         uses: cachix/install-nix-action@v20
       - name: Update flake inputs
         id: update
-        uses: DeterminateSystems/update-flake-lock@v16
+        uses: DeterminateSystems/update-flake-lock@v19
         with:
           sign-commits: true
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
