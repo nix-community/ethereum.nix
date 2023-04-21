@@ -37,13 +37,13 @@
 in
   rustPlatform.buildRustPackage rec {
     pname = "lighthouse";
-    version = "4.0.2-rc.0";
+    version = "4.1.0";
 
     src = fetchFromGitHub {
       owner = "sigp";
       repo = pname;
       rev = "v${version}";
-      sha256 = "sha256-10DpoG9MS6jIod0towzIsmyyakfiT62NIJBKxqsgsK0=";
+      sha256 = "sha256-QVAFzV9sao8+eegI7bLfm+pPHyvDFhnADS80+nqqgtE=";
     };
 
     cargoSha256 = "sha256-KlTQF1iL2PYAk+nmQIm72guy2PxGkN/YzhgCNv1FZGM=";
@@ -51,8 +51,8 @@ in
       lockFile = "${src}/Cargo.lock";
       outputHashes = {
         "amcl-0.3.0" = "sha256-Mj4dXTlGVSleFfuTKgVDQ7S3jANMsdtVE5L90WGxA4U=";
-        "arbitrary-1.2.2" = "sha256-39ZefB5Xok28y8lIdKleILBv4aokY90eMOssxUtU7yA=";
-        "beacon-api-client-0.1.0" = "sha256-vqTC7bKXgliN7qd5LstNM5O6jRnn4aV/paj88Mua+Bc=";
+        "arbitrary-1.3.0" = "sha256-BMxcBfxBRf+Kb0Tz55jtFbwokSeD2GPtB+KV8Wbne0g=";
+        "beacon-api-client-0.1.0" = "sha256-fI8qST6HZrchg7yr/nVtRNrsW3f5ONSX+mGRYW+iiqA=";
         "ethereum-consensus-0.1.1" = "sha256-aBrZ786Me0BWpnncxQc5MT3r+O0yLQhqGKFBiNTdqSA=";
         "libmdbx-0.1.4" = "sha256-NMsR/Wl1JIj+YFPyeMMkrJFfoS07iEAKEQawO89a+/Q=";
         "lmdb-rkv-0.14.0" = "sha256-sxmguwqqcyOlfXOZogVz1OLxfJPo+Q0+UjkROkbbOCk=";
