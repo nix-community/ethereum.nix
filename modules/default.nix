@@ -13,6 +13,7 @@
       ./nethermind
       ./erigon
       ./prysm-beacon
+      ./prysm-validator
       ./mev-boost
     ];
   };
