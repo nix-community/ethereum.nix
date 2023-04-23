@@ -81,7 +81,7 @@ in {
                 else "" ;
             in ''
               --accept-terms-of-use ${network} ${jwtSecret} \
-              --datadir ${cfg.args.dataDir} \
+              ${datadir} \
               ${concatStringsSep " \\\n" filteredArgs} \
               ${lib.escapeShellArgs cfg.extraArgs}
             '';
