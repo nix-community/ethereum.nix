@@ -46,6 +46,7 @@ in {
       (
         validatorName: let
           serviceName = "prysm-validator-${validatorName}";
+          beaconServiceName = "prysm-beacon-${validatorName}";
         in
           cfg: let
             scriptArgs = let
@@ -73,7 +74,7 @@ in {
               datadir =
                 if cfg.args.datadir != null
                 then "--datadir ${cfg.args.datadir}"
-                else "--datadir %S/prysm-beacon-${validatorName}";
+                else "--datadir %S/${beaconServiceName}";
               graffiti =  # Needs quoting
                 if cfg.args.graffiti != null
                 then "--graffiti \"${cfg.args.graffiti}\""
@@ -99,7 +100,7 @@ in {
               serviceConfig = mkMerge [
                 baseServiceConfig
                 {
-                  User = serviceName;
+                  User = beaconServiceName;
                   StateDirectory = serviceName;
                   ExecStart = "${cfg.package}/bin/validator ${scriptArgs}";
                   MemoryDenyWriteExecute = "false"; # causes a library loading error
