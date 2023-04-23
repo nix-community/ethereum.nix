@@ -46,7 +46,6 @@ in {
       (
         validatorName: let
           serviceName = "prysm-validator-${validatorName}";
-          beaconServiceName = "prysm-beacon-${validatorName}";
         in
           cfg: let
             scriptArgs = let
@@ -60,7 +59,7 @@ in {
                 };
 
               # filter out certain args which need to be treated differently
-              specialArgs = ["--network" "--rpc-enable" "--graffiti"];
+              specialArgs = ["--network" "--datadir" "--rpc-enable" "--graffiti" "--user"];
               isNormalArg = name: (findFirst (arg: hasPrefix arg name) null specialArgs) == null;
               filteredArgs = builtins.filter isNormalArg args;
 
@@ -74,7 +73,7 @@ in {
               datadir =
                 if cfg.args.datadir != null
                 then "--datadir ${cfg.args.datadir}"
-                else "--datadir %S/${beaconServiceName}";
+                else "" ;
               graffiti =  # Needs quoting
                 if cfg.args.graffiti != null
                 then "--graffiti \"${cfg.args.graffiti}\""
@@ -100,8 +99,9 @@ in {
               serviceConfig = mkMerge [
                 baseServiceConfig
                 {
-                  User = beaconServiceName;
-                  StateDirectory = serviceName;
+                  DynamicUser = false;
+                  User = cfg.args.user;
+                  #StateDirectory = serviceName;
                   ExecStart = "${cfg.package}/bin/validator ${scriptArgs}";
                   MemoryDenyWriteExecute = "false"; # causes a library loading error
                 }

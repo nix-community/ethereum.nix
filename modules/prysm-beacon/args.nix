@@ -110,4 +110,10 @@ with lib; {
     default = null;
     description = mdDoc "Data directory for the databases.";
   };
+
+  user = mkOption {
+    type = types.str;
+    default = "prysm";
+    description = mdDoc "User to run the systemd service.";
+  };
 }

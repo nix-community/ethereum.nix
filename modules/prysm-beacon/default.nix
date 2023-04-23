@@ -61,7 +61,6 @@ in {
                 };
 
               # filter out certain args which need to be treated differently
-              specialArgs = ["--network" "--jwt-secret"];
               specialArgs = ["--network" "--jwt-secret" "--datadir" "--user"];
               isNormalArg = name: (findFirst (arg: hasPrefix arg name) null specialArgs) == null;
               filteredArgs = builtins.filter isNormalArg args;
@@ -101,8 +100,9 @@ in {
               serviceConfig = mkMerge [
                 baseServiceConfig
                 {
-                  User = serviceName;
-                  StateDirectory = serviceName;
+                  DynamicUser = false;
+                  User = cfg.args.user;
+                  #StateDirectory = serviceName;
                   ExecStart = "${cfg.package}/bin/beacon-chain ${scriptArgs}";
                   MemoryDenyWriteExecute = "false"; # causes a library loading error
                 }
