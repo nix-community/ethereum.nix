@@ -59,7 +59,7 @@ in {
                 };
 
               # filter out certain args which need to be treated differently
-              specialArgs = ["--network" "--rpc-enable"];
+              specialArgs = ["--network" "--rpc-enable" "--graffiti"];
               isNormalArg = name: (findFirst (arg: hasPrefix arg name) null specialArgs) == null;
               filteredArgs = builtins.filter isNormalArg args;
 
@@ -74,6 +74,10 @@ in {
                 if cfg.args.datadir != null
                 then "--datadir ${cfg.args.datadir}"
                 else "--datadir %S/prysm-beacon-${validatorName}";
+              graffiti =  # Needs quoting
+                if cfg.args.graffiti != null
+                then "--graffiti \"${cfg.args.graffiti}\""
+                else "";
             in ''
               --accept-terms-of-use ${network} \
               ${datadir} \
