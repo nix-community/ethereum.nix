@@ -104,4 +104,10 @@ with lib; {
     default = 6060;
     description = mdDoc "pprof HTTP server listening port.";
   };
+
+  datadir = mkOption {
+    type = types.nullOr types.str;
+    default = null;
+    description = mdDoc "Data directory for the databases.";
+  };
 }

@@ -62,6 +62,7 @@ in {
 
               # filter out certain args which need to be treated differently
               specialArgs = ["--network" "--jwt-secret"];
+              specialArgs = ["--network" "--jwt-secret" "--datadir" "--user"];
               isNormalArg = name: (findFirst (arg: hasPrefix arg name) null specialArgs) == null;
               filteredArgs = builtins.filter isNormalArg args;
 
@@ -74,9 +75,14 @@ in {
                 if cfg.args.jwt-secret != null
                 then "--jwt-secret %d/jwt-secret"
                 else "";
+
+              datadir =
+                if cfg.args.datadir != null
+                then "--datadir ${cfg.args.datadir}"
+                else "" ;
             in ''
               --accept-terms-of-use ${network} ${jwtSecret} \
-              --datadir %S/${serviceName} \
+              --datadir ${cfg.args.dataDir} \
               ${concatStringsSep " \\\n" filteredArgs} \
               ${lib.escapeShellArgs cfg.extraArgs}
             '';
