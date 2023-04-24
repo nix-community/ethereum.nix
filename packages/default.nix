@@ -10,7 +10,6 @@
   perSystem = {
     self',
     inputs',
-    config,
     pkgs,
     system,
     ...
@@ -61,7 +60,7 @@
       zcli = callPackage ./utils/zcli {};
 
       # Dev
-      foundry = inputs.foundry-nix.defaultPackage.${system}.overrideAttrs (oldAttrs: {
+      foundry = inputs.foundry-nix.defaultPackage.${system}.overrideAttrs (_oldAttrs: {
         meta.platforms = [system];
       });
 

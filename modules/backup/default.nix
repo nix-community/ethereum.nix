@@ -1,19 +1,27 @@
 {
-  options,
   config,
   lib,
   pkgs,
   ...
 }: let
-  inherit (lib) mdDoc types mkOption mkEnableOption mkIf mkBefore mkAfter mkMerge filterAttrs attrValues forEach mapAttrs;
-  inherit (lib) flatten nameValuePair concatMapStrings;
+  inherit
+    (lib)
+    concatMapStrings
+    filterAttrs
+    mapAttrs
+    mkAfter
+    mkBefore
+    mkIf
+    mkMerge
+    nameValuePair
+    ;
   inherit (builtins) concatStringsSep attrNames map;
 
   modulesLib = import ../lib.nix {inherit lib pkgs;};
   inherit (modulesLib) findEnabled;
 
   cfg = with lib;
-    filterAttrs (n: v: v.enable)
+    filterAttrs (_n: v: v.enable)
     (
       mapAttrs (_: attrByPath ["backup"] {enable = false;})
       (findEnabled config.services.ethereum)

@@ -8,7 +8,6 @@
     (builtins)
     isBool
     isList
-    isNull
     toString
     ;
   inherit
@@ -19,25 +18,17 @@
     findFirst
     flatten
     hasPrefix
-    literalExpression
     mapAttrs'
-    mapAttrsRecursive
     mapAttrsToList
-    mdDoc
-    mkEnableOption
     mkIf
-    mkBefore
     mkMerge
-    mkOption
     nameValuePair
-    optionalAttrs
     optionals
-    types
     zipAttrsWith
     ;
 
   modulesLib = import ../lib.nix {inherit lib pkgs;};
-  inherit (modulesLib) mkArgs baseServiceConfig scripts;
+  inherit (modulesLib) mkArgs baseServiceConfig;
 
   # capture config for all configured netherminds
   eachNethermind = config.services.ethereum.nethermind;
@@ -65,7 +56,7 @@ in {
         )
         openFirewall;
     in
-      zipAttrsWith (name: flatten) perService;
+      zipAttrsWith (_name: flatten) perService;
 
     # create a service for each instance
     systemd.services =
@@ -90,11 +81,11 @@ in {
 
               # custom arg formatter for nethermind
               argFormatter = {
-                opt,
                 path,
                 value,
                 argReducer,
                 pathReducer,
+                ...
               }: let
                 arg = pathReducer path;
               in "${arg} ${argReducer value}";

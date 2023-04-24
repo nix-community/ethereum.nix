@@ -5,17 +5,25 @@
   config,
   lib,
   pkgs,
-  modulesPath,
   ...
 }: let
+  modulesLib = import ../lib.nix {inherit lib pkgs;};
+
   inherit (lib.lists) optionals findFirst;
   inherit (lib.strings) hasPrefix;
-  inherit (lib.attrsets) zipAttrsWith mapAttrsRecursive optionalAttrs;
-  inherit (lib) mdDoc flatten nameValuePair filterAttrs mapAttrs mapAttrs' mapAttrsToList;
-  inherit (lib) optionalString literalExpression mkEnableOption mkIf mkMerge mkBefore mkOption types concatStringsSep;
-
-  modulesLib = import ../lib.nix {inherit lib pkgs;};
-  inherit (modulesLib) mkArgs baseServiceConfig scripts;
+  inherit (lib.attrsets) zipAttrsWith;
+  inherit
+    (lib)
+    concatStringsSep
+    filterAttrs
+    flatten
+    mapAttrs'
+    mapAttrsToList
+    mkIf
+    mkMerge
+    nameValuePair
+    ;
+  inherit (modulesLib) mkArgs baseServiceConfig;
 
   # capture config for all configured geths
   eachGeth = config.services.ethereum.geth;
@@ -47,7 +55,7 @@ in {
         )
         openFirewall;
     in
-      zipAttrsWith (name: flatten) perService;
+      zipAttrsWith (_name: flatten) perService;
 
     # create a service for each instance
     systemd.services =

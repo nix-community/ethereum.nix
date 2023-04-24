@@ -19,11 +19,7 @@
     name = "geth-restore";
 
     nodes = {
-      backup = {
-        self,
-        pkgs,
-        ...
-      }: {
+      backup = {pkgs, ...}: {
         environment = {
           variables = {
             inherit RESTIC_REPOSITORY RESTIC_PASSWORD_FILE;

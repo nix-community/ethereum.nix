@@ -1,6 +1,5 @@
 {
   perSystem = {
-    lib,
     pkgs,
     config,
     inputs',

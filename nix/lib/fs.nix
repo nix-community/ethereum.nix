@@ -41,5 +41,5 @@ lib: rec {
 
     files = builtins.readDir dirPath;
   in
-    lib.filterAttrs (n: v: v != {}) (lib.mapAttrs' collect files);
+    lib.filterAttrs (_n: v: v != {}) (lib.mapAttrs' collect files);
 }

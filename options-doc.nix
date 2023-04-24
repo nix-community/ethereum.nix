@@ -2,8 +2,6 @@
   lib,
   nixosOptionsDoc,
   runCommand,
-  fetchurl,
-  pandoc,
 }: let
   eachOptions = with lib;
     filterAttrs
