@@ -8,7 +8,6 @@
   openssl,
   protobuf,
   rustPlatform,
-  postgresql,
 }: let
   slasherContractVersion = "0.12.1";
   slasherContractSrc = fetchurl {
@@ -62,10 +61,14 @@ in
       };
     };
 
+    cargoBuildFlags = [
+      "--package lighthouse"
+    ];
+
     buildNoDefaultFeatures = true;
     buildFeatures = ["modern" "slasher-mdbx"];
 
-    nativeBuildInputs = [cmake clang postgresql];
+    nativeBuildInputs = [cmake clang];
     buildInputs = [openssl protobuf];
 
     # Needed to get openssl-sys to use pkg-config.
