@@ -9,8 +9,6 @@
     system,
     ...
   }: let
-    cfg = config.testing;
-
     # create a custom nixpkgs with our flake packages available
     pkgs = import inputs.nixpkgs {
       inherit system;

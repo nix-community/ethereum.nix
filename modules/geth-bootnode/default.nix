@@ -8,7 +8,7 @@
   ...
 }: let
   modulesLib = import ../lib.nix {inherit lib pkgs;};
-  inherit (modulesLib) mkArgs baseServiceConfig scripts;
+  inherit (modulesLib) mkArgs baseServiceConfig;
 
   # capture config for all configured geths
   eachBootnode = config.services.ethereum.geth-bootnode;
@@ -39,7 +39,7 @@ in {
           )
           openFirewall;
       in
-        zipAttrsWith (name: flatten) perService;
+        zipAttrsWith (_name: flatten) perService;
 
       # create a service for each instance
       systemd.services =
@@ -69,11 +69,6 @@ in {
                 isNormalArg = name: (findFirst (arg: arg == name) null specialArgs) == null;
 
                 filteredArgs = builtins.filter isNormalArg args;
-
-                nodekey =
-                  if cfg.args.nodekey != null
-                  then "-nodekey %d/nodekey"
-                  else "";
               in ''
                 ${concatStringsSep " \\\n" filteredArgs} \
                 ${lib.escapeShellArgs cfg.extraArgs}

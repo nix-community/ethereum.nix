@@ -1,18 +1,10 @@
-{
-  lib,
-  pkgs,
-  ...
-}: let
+{lib, ...}: let
   inherit (builtins) isString toString isList;
   inherit (lib) types;
-  inherit (lib.lists) flatten;
   inherit (lib.options) isOption;
   inherit (lib.strings) concatStringsSep;
   inherit (lib.asserts) assertMsg;
-  inherit (lib.attrsets) attrByPath foldAttrs hasAttrByPath getAttrByPath filterAttrsRecursive;
-  inherit (lib.attrsets) mapAttrsRecursive mapAttrsRecursiveCond collect;
-
-  tomlGenerator = pkgs.formats.toml {};
+  inherit (lib.attrsets) attrByPath hasAttrByPath mapAttrsRecursiveCond collect;
 
   defaultArgReducer = value:
     if (isList value)
