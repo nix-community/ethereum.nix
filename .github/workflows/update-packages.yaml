@@ -2,7 +2,7 @@ name: "Update Flake Packages ❄️"
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 10 * * 3" # https://crontab.guru/#0_10_*_*_3
+    - cron: "0 10 * * *" # https://crontab.guru/#0_10_*_*_*
 jobs:
   updateFlakePackages:
     runs-on: ubuntu-latest
