@@ -3,11 +3,12 @@
   buildGoModule,
   fetchFromGitHub,
   mcl,
+  mockgen,
 }: let
   pname = "sedge";
   version = "1.1.0";
 in
-  buildGoModule rec {
+  buildGoModule {
     inherit pname version;
 
     src = fetchFromGitHub {
@@ -16,19 +17,21 @@ in
       rev = "v${version}";
       sha256 = "sha256-rIBHRiVZT3XXZB8zuFOoX02/g/DhBvIwa+sdis1XSYs=";
     };
-
-    vendorHash = "sha256-MM8Uo4SMpRanhYRB0+Swjccza4sCCpp/YByXx+ptSB8=";
-
-    #doCheck = false;
+    vendorHash = "sha256-aLH+Ob9jRrE6z5FqJUZpdUMtsHYtw+QiTJrV3LsW0CU=";
+    proxyVendor = true;
 
     buildInputs = [bls mcl];
+    nativeBuildInputs = [mockgen];
+
+    preBuild = ''
+      go generate ./...
+    '';
 
     ldflags = [
       "-s"
       "-w"
       "-X github.com/NethermindEth/sedge/internal/utils.Version=v${version}"
     ];
-
     subPackages = ["cmd/sedge"];
 
     meta = {
