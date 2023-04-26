@@ -48,33 +48,29 @@
     ...
   }: let
     lib = nixpkgs.lib.extend (final: _: import ./nix/lib final);
-    #    lib = import ./nix/lib {inherit (nixpkgs) lib;} // nixpkgs.lib;
     inherit (builtins) filter match;
   in
-    (flake-parts.lib.evalFlakeModule
-      {
-        inherit inputs;
-        specialArgs = {
-          inherit lib; # make custom lib available to parent functions
-        };
-      }
-      rec {
-        imports = [
-          {_module.args.lib = lib;} # make custom lib available to all `perSystem` functions
-          ./nix
-          ./packages
-          ./modules
-          ./mkdocs.nix
-          inputs.hercules-ci-effects.flakeModule
-        ];
-        systems = [
-          "x86_64-linux"
-          "aarch64-linux"
-          "x86_64-darwin"
-          "aarch64-darwin"
-        ];
-        herculesCI.ciSystems = filter (system: (match ".*-darwin" system) == null) systems;
-      })
-    .config
-    .flake;
+    flake-parts.lib.mkFlake {
+      inherit inputs;
+      specialArgs = {
+        inherit lib; # make custom lib available to parent functions
+      };
+    }
+    rec {
+      imports = [
+        {_module.args.lib = lib;} # make custom lib available to all `perSystem` functions
+        ./nix
+        ./packages
+        ./modules
+        ./mkdocs.nix
+        inputs.hercules-ci-effects.flakeModule
+      ];
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
+        "x86_64-darwin"
+        "aarch64-darwin"
+      ];
+      herculesCI.ciSystems = filter (system: (match ".*-darwin" system) == null) systems;
+    };
 }
