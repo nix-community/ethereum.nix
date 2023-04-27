@@ -42,7 +42,7 @@
       # MEV
       dreamboat = callPackage ./mev/dreamboat {inherit blst;};
       mev-boost = callPackage ./mev/mev-boost {inherit blst;};
-      mev-boost-builder = callPackage ./mev/mev-boost-builder {inherit blst;};
+      mev-boost-builder = callPackageUnstable ./mev/mev-boost-builder {inherit blst;};
       mev-boost-prysm = callPackage ./mev/mev-boost-prysm {inherit bls blst;};
       mev-boost-relay = callPackage ./mev/mev-boost-relay {inherit blst;};
 
