@@ -46,7 +46,7 @@ in {
               allowedTCPPorts =
                 [port authrpc.port torrent.port]
                 ++ (optionals http.enable [http.port])
-                ++ (optionals ws.enable [ws.port])
+                ++ (optionals ws.enable [ ])
                 ++ (optionals metrics.enable [metrics.port]);
             }
         )
