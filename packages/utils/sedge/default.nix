@@ -15,7 +15,7 @@ in
       owner = "NethermindEth";
       repo = pname;
       rev = "v${version}";
-      sha256 = "sha256-rIBHRiVZT3XXZB8zuFOoX02/g/DhBvIwa+sdis1XSYs=";
+      hash = "sha256-rIBHRiVZT3XXZB8zuFOoX02/g/DhBvIwa+sdis1XSYs=";
     };
     vendorHash = "sha256-aLH+Ob9jRrE6z5FqJUZpdUMtsHYtw+QiTJrV3LsW0CU=";
     proxyVendor = true;
