@@ -74,15 +74,12 @@
     ########################################
     ## Commands
     ########################################
-    config.mission-control.scripts = let
-      category = "Testing";
-    in {
-      test = {
-        inherit category;
-        description = "Build and run a test";
-        exec = ''
-          set -euo pipefail
-
+    config.devshells.default.commands = [
+      {
+        name = "test";
+        category = "Testing";
+        help = "Build and run a test";
+        command = ''
           Help() {
                # Display Help
                echo "  Build and run a test"
@@ -134,7 +131,7 @@
           set -x
           ./result/bin/nixos-test-driver "''${DRIVER_ARGS[@]}"
         '';
-      };
-    };
+      }
+    ];
   };
 }

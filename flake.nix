@@ -10,16 +10,10 @@
     # packages
     nixpkgs.url = "github:nixos/nixpkgs/22.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    hercules-ci-effects.url = "github:hercules-ci/hercules-ci-effects";
 
     foundry-nix = {
       url = "github:shazow/foundry.nix/monthly";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    flake-compat = {
-      url = "github:edolstra/flake-compat";
-      flake = false;
     };
 
     # flake-parts
@@ -28,11 +22,20 @@
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
     flake-root.url = "github:srid/flake-root";
-    mission-control.url = "github:Platonic-Systems/mission-control";
+    hercules-ci-effects.url = "github:hercules-ci/hercules-ci-effects";
 
     # utils
+    devshell = {
+      url = "github:numtide/devshell";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    flake-compat = {
+      url = "github:edolstra/flake-compat";
+      flake = false;
     };
   };
 
@@ -42,7 +45,6 @@
     ...
   }: let
     lib = nixpkgs.lib.extend (final: _: import ./nix/lib final);
-    inherit (builtins) filter match;
   in
     flake-parts.lib.mkFlake {
       inherit inputs;
@@ -65,6 +67,6 @@
         "x86_64-darwin"
         "aarch64-darwin"
       ];
-      herculesCI.ciSystems = filter (system: (match ".*-darwin" system) == null) systems;
+      herculesCI.ciSystems = with builtins; filter (system: (match ".*-darwin" system) == null) systems;
     };
 }
