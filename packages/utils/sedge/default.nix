@@ -2,29 +2,41 @@
   bls,
   buildGoModule,
   fetchFromGitHub,
-  lib,
   mcl,
-}:
-buildGoModule rec {
+  mockgen,
+}: let
   pname = "sedge";
-  version = "0.6.0";
+  version = "1.1.0";
+in
+  buildGoModule {
+    inherit pname version;
 
-  src = fetchFromGitHub {
-    owner = "NethermindEth";
-    repo = pname;
-    rev = "v${version}";
-    sha256 = "sha256-U48ZM/J/Wj8chQvVB1DuqS3zl/qFMxDzlWS7Y3+U43Y=";
-  };
+    src = fetchFromGitHub {
+      owner = "NethermindEth";
+      repo = pname;
+      rev = "v${version}";
+      hash = "sha256-rIBHRiVZT3XXZB8zuFOoX02/g/DhBvIwa+sdis1XSYs=";
+    };
+    vendorHash = "sha256-aLH+Ob9jRrE6z5FqJUZpdUMtsHYtw+QiTJrV3LsW0CU=";
+    proxyVendor = true;
 
-  vendorSha256 = "sha256-zT6KX01NZbhuf8RqBuNqE3w4KDseBZBaXD1dqbyyC3U=";
+    buildInputs = [bls mcl];
+    nativeBuildInputs = [mockgen];
 
-  buildInputs = [bls mcl];
+    preBuild = ''
+      go generate ./...
+    '';
 
-  subPackages = ["cmd/sedge"];
+    ldflags = [
+      "-s"
+      "-w"
+      "-X github.com/NethermindEth/sedge/internal/utils.Version=v${version}"
+    ];
+    subPackages = ["cmd/sedge"];
 
-  meta = with lib; {
-    homepage = "https://docs.sedge.nethermind.io/";
-    description = "A one-click setup tool for PoS network/chain validators and nodes.";
-    platforms = ["x86_64-linux"];
-  };
-}
+    meta = {
+      homepage = "https://docs.sedge.nethermind.io/";
+      description = "A one-click setup tool for PoS network/chain validators and nodes.";
+      platforms = ["x86_64-linux"];
+    };
+  }

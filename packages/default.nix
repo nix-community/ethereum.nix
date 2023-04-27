@@ -56,7 +56,7 @@
       eth2-testnet-genesis = callPackage ./utils/eth2-testnet-genesis {inherit bls;};
       ethdo = callPackage ./utils/ethdo {inherit bls mcl;};
       ethereal = callPackage ./utils/ethereal {inherit bls mcl;};
-      sedge = callPackage ./utils/sedge {inherit bls mcl;};
+      sedge = callPackageUnstable ./utils/sedge {inherit bls mcl;};
       zcli = callPackage ./utils/zcli {};
 
       # Dev
