@@ -6,13 +6,13 @@
 }:
 buildGoModule rec {
   pname = "ssv";
-  version = "0.5.1";
+  version = "0.5.2";
 
   src = fetchFromGitHub {
     owner = "bloxapp";
     repo = "${pname}";
     rev = "v${version}";
-    sha256 = "sha256-Iwi9+tYg0tL8LdI7vLbdFjNEJmE7DWZeE0RG29X80F8=";
+    sha256 = "sha256-GKUtA3a0M4+WhrVxCpBv0oBi49G0XKIA0YBCYgwpz5U=";
   };
 
   vendorSha256 = "sha256-u5/TVnpSBOdt3Hq3+JVVyfUwBy1iw51JRdtlB799nXY=";
