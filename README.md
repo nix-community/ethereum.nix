@@ -70,7 +70,7 @@ To serve the docs locally (after building them previously) run `docs-serve`. You
 
 To run all tests you can use `check` (alias for `nix flake check`), it will build all packages and run all tests.
 
-To execute a specific test you can use `test -h` which will provide more information.
+To execute a specific test you can use `tests -h` which will provide more information.
 
 ### Formatting
 

@@ -76,7 +76,7 @@
     ########################################
     config.devshells.default.commands = [
       {
-        name = "test";
+        name = "tests";
         category = "Testing";
         help = "Build and run a test";
         command = ''
