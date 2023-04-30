@@ -3,6 +3,7 @@
 
 # Nix build output
 /result*
+/repl-result*
 
 # IDE
 .idea/
