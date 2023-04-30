@@ -45,28 +45,30 @@
 
       passthru.serve = pkgs.writeShellScriptBin "serve" ''
         set -euo pipefail
+
         # link in options reference
         rm -f ${docsPath}
         ln -s ${options-doc} ${docsPath}
 
-        mkdocs serve
+        ${my-mkdocs}/bin/mkdocs serve
       '';
     };
 
-    mission-control.scripts = let
+    devshells.default.commands = let
       category = "Docs";
-    in
-      with lib; {
-        docs-serve = {
-          inherit category;
-          description = "Serve docs";
-          exec = "nix run .#docs.serve";
-        };
-        docs-build = {
-          inherit category;
-          description = "Build docs";
-          exec = "nix build .#docs";
-        };
-      };
+    in [
+      {
+        inherit category;
+        name = "docs-serve";
+        help = "Serve docs";
+        command = "nix run .#docs.serve";
+      }
+      {
+        inherit category;
+        name = "docs-build";
+        help = "Build docs";
+        command = "nix build .#docs";
+      }
+    ];
   };
 }
