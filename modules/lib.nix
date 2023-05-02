@@ -97,7 +97,7 @@ lib: let
   };
 in {
   inherit baseServiceConfig;
-  inherit mkArg mkArgs defaultPathReducer dotPathReducer;
+  inherit mkArg mkArgs defaultPathReducer defaultArgReducer defaultArgFormatter dotPathReducer;
 
   findEnabled = with lib;
     tree: let
