@@ -15,16 +15,46 @@
         ];
       } ''
         mkdir -p $out/bin
+
         cat <<MKDOCS > $out/bin/mkdocs
         #!${pkgs.bash}/bin/bash
         set -euo pipefail
         export PYTHONPATH=$PYTHONPATH
         exec ${mkdocs}/bin/mkdocs "\$@"
         MKDOCS
+
         chmod +x $out/bin/mkdocs
       '';
 
-    options-doc = pkgs.callPackage ./options-doc.nix {inherit lib;};
+    options-doc = let
+      eachOptions = with lib;
+        filterAttrs
+        (_: hasSuffix "options.nix")
+        (fs.flattenTree {tree = fs.rakeLeaves ./modules;});
+
+      eachOptionsDoc = with lib;
+        mapAttrs' (
+          name: value:
+            nameValuePair
+            # take geth.options and turn it into just geth
+            (head (splitString "." name))
+            # generate options doc
+            (pkgs.nixosOptionsDoc {options = evalModules {modules = [value];};})
+        )
+        eachOptions;
+
+      statements = with lib;
+        concatStringsSep "\n"
+        (mapAttrsToList (n: v: ''
+            path=$out/${n}.md
+            cat ${v.optionsCommonMark} >> $path
+          '')
+          eachOptionsDoc);
+    in
+      pkgs.runCommand "nixos-options" {} ''
+        mkdir $out
+        ${statements}
+      '';
     docsPath = "./docs/reference/module-options";
   in {
     packages.docs = stdenv.mkDerivation {
