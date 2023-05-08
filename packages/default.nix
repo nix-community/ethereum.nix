@@ -57,6 +57,7 @@
       ethdo = callPackage ./utils/ethdo {inherit bls mcl;};
       ethereal = callPackage ./utils/ethereal {inherit bls mcl;};
       sedge = callPackageUnstable ./utils/sedge {inherit bls mcl;};
+      staking-deposit-cli = callPackage ./utils/staking-deposit-cli {};
       zcli = callPackage ./utils/zcli {};
 
       # Dev
@@ -144,6 +145,7 @@
       ethdo.bin = "ethdo";
       ethereal.bin = "ethereal";
       sedge.bin = "sedge";
+      staking-deposit-cli.bin = "deposit";
       zcli.bin = "zcli";
     };
 
