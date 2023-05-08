@@ -83,4 +83,4 @@ extra:
       name: Ethereum.nix on Github
   generator: false # hide the line "Made with Material for MkDocs"
 
-copyright: Copyright &copy; 41North and Ethereum.nix contributors
+copyright: Copyright &copy; Ethereum.nix contributors
