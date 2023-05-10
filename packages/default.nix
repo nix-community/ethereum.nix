@@ -142,6 +142,7 @@
       };
 
       # utils
+      eth2-testnet-genesis.bin = "eth2-testnet-genesis";
       ethdo.bin = "ethdo";
       ethereal.bin = "ethereal";
       sedge.bin = "sedge";

@@ -42,7 +42,7 @@ in
       owner = "sigp";
       repo = pname;
       rev = "v${version}";
-      sha256 = "sha256-QVAFzV9sao8+eegI7bLfm+pPHyvDFhnADS80+nqqgtE=";
+      hash = "sha256-QVAFzV9sao8+eegI7bLfm+pPHyvDFhnADS80+nqqgtE=";
     };
 
     cargoSha256 = "sha256-KlTQF1iL2PYAk+nmQIm72guy2PxGkN/YzhgCNv1FZGM=";
@@ -96,12 +96,13 @@ in
     # LIGHTHOUSE_WEB3SIGNER_BIN = websignerSrc;
     # LIGHTHOUSE_WEB3SIGNER_VERSION = "${websignerVersion}";
 
-    # Some tests are failing and we need to know why
+    # TODO: Some tests are failing and we need to know why
     doCheck = false;
 
     meta = {
       description = "Ethereum consensus client in Rust";
       homepage = "https://github.com/sigp/lighthouse";
+      mainProgram = "lighthouse";
       platforms = ["x86_64-linux"];
     };
   }

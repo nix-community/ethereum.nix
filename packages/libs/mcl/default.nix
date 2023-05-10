@@ -11,7 +11,7 @@ stdenv.mkDerivation rec {
     owner = "herumi";
     repo = "mcl";
     rev = "v${version}";
-    sha256 = "sha256-aVuBt5T+tNjrK1QahzaCxuimUDQVtoKfK/v0LTT3hy8=";
+    hash = "sha256-aVuBt5T+tNjrK1QahzaCxuimUDQVtoKfK/v0LTT3hy8=";
   };
 
   buildInputs = [gmpxx];

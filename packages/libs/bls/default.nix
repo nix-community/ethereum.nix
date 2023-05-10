@@ -13,7 +13,7 @@ stdenv.mkDerivation rec {
     repo = "bls";
     rev = "v${version}";
     fetchSubmodules = true;
-    sha256 = "sha256-fHwNiZ0B5ow9GBWjO5c+rpK/jlziaMF5Bh+HQayIBUI=";
+    hash = "sha256-fHwNiZ0B5ow9GBWjO5c+rpK/jlziaMF5Bh+HQayIBUI=";
   };
 
   nativeBuildInputs = [cmake];

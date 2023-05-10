@@ -12,7 +12,7 @@ stdenv.mkDerivation rec {
     owner = "ethereum";
     repo = "evmc";
     rev = "v${version}";
-    sha256 = "sha256-e6V7lNszvR8mmLhPk7pvFMh2LQUl/VHupzVgMfsNlsM=";
+    hash = "sha256-e6V7lNszvR8mmLhPk7pvFMh2LQUl/VHupzVgMfsNlsM=";
   };
 
   nativeBuildInputs = [cmake];

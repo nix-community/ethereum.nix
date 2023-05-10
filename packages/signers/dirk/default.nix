@@ -25,6 +25,7 @@ buildGoModule rec {
   meta = {
     description = "An Ethereum 2 distributed remote keymanager, focused on security and long-term performance of signing operations";
     homepage = "https://github.com/attestantio/dirk";
+    mainProgram = "dirk";
     platforms = ["x86_64-linux"];
   };
 }

@@ -12,7 +12,7 @@ buildGoModule rec {
     owner = "manifoldfinance";
     repo = "geth-sealer";
     rev = "${version}";
-    sha256 = "sha256-aMIYxEfdOMhwN9pJEiqNPDLhEbFyFey6nq0spc+A1VE=";
+    hash = "sha256-aMIYxEfdOMhwN9pJEiqNPDLhEbFyFey6nq0spc+A1VE=";
   };
 
   vendorSha256 = "sha256-Y1srOcXZ4rQ0QIQx4LdYzYG6goGk6oO30C+OW+s81z4=";
@@ -27,9 +27,10 @@ buildGoModule rec {
   tags = ["urfave_cli_no_docs"];
 
   meta = with lib; {
-    homepage = "https://github.com/manifoldfinance/geth-sealer";
     description = "Geth Sealer implementation";
+    homepage = "https://github.com/manifoldfinance/geth-sealer";
     license = with licenses; [lgpl3Plus gpl3Plus];
+    mainProgram = "geth";
     platforms = ["x86_64-linux"];
   };
 }

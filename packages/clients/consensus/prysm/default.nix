@@ -32,6 +32,7 @@ buildGo119Module rec {
   meta = {
     description = "Go implementation of Ethereum proof of stake";
     homepage = "https://github.com/prysmaticlabs/prysm";
+    mainProgram = "beacon-chain";
     platforms = ["x86_64-linux"];
   };
 }

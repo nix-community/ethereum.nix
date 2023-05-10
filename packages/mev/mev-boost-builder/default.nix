@@ -11,7 +11,7 @@ buildGoModule rec {
     owner = "flashbots";
     repo = "${pname}";
     rev = "v${version}";
-    sha256 = "sha256-UbbsL1qzitBCp7t8uDPPFhB8PjK3zan6BNdKrHA+bY0=";
+    hash = "sha256-UbbsL1qzitBCp7t8uDPPFhB8PjK3zan6BNdKrHA+bY0=";
   };
 
   vendorSha256 = "sha256-Fh72oZNSJrglW3TiZDd8aHQixmZfipB0e2gQMXUaZzI=";
@@ -28,6 +28,7 @@ buildGoModule rec {
   meta = {
     description = "Flashbots mev-boost block builder";
     homepage = "https://github.com/flashbots/builder";
+    mainProgram = "geth";
     platforms = ["x86_64-linux"];
   };
 }

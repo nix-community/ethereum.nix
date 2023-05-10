@@ -60,9 +60,10 @@ in
     tags = ["urfave_cli_no_docs"];
 
     meta = with lib; {
-      homepage = "https://geth.ethereum.org/";
       description = "Official golang implementation of the Ethereum protocol";
+      homepage = "https://geth.ethereum.org/";
       license = with licenses; [lgpl3Plus gpl3Plus];
+      mainProgram = "geth";
       platforms = ["x86_64-linux"];
     };
   }

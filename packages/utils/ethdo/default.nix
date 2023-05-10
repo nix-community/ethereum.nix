@@ -30,6 +30,7 @@ buildGoModule rec {
     description = "A command-line tool for managing common tasks in Ethereum 2";
     homepage = "https://github.com/wealdtech/ethdo";
     license = licenses.apsl20;
+    mainProgram = "ethdo";
     platforms = ["x86_64-linux" "aarch64-darwin"];
   };
 }

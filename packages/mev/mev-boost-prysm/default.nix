@@ -29,6 +29,7 @@ buildGoModule rec {
   meta = {
     description = "Our custom Prysm fork for boost relay and builder CL. Sends payload attributes for block building on every slot to trigger building";
     homepage = "https://github.com/flashbots/prysm";
+    mainProgram = "beacon-chain";
     platforms = ["x86_64-linux"];
   };
 }
