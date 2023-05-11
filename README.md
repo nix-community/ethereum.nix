@@ -40,7 +40,7 @@ We are using [`devshell`](https://github.com/numtide/devshell) to have nice deve
 
 [Testing]
 
-  test       - Build and run a test
+  tests      - Build and run a test
 
 [Tools]
 
