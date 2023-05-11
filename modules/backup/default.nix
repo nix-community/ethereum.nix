@@ -17,7 +17,7 @@
     ;
   inherit (builtins) concatStringsSep attrNames map;
 
-  modulesLib = import ../lib.nix {inherit lib pkgs;};
+  modulesLib = import ../lib.nix lib;
   inherit (modulesLib) findEnabled;
 
   cfg = with lib;

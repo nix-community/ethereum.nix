@@ -1,4 +1,4 @@
-{lib, ...}: let
+lib: let
   inherit (builtins) isString toString isList;
   inherit (lib) types;
   inherit (lib.options) isOption;
