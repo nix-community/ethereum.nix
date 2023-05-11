@@ -68,7 +68,6 @@ in {
                 };
 
               # filter out certain args which need to be treated differently
-              specialArgs = ["--network" "--jwt-secret"];
               specialArgs = ["--network" "--jwt-secret" "--datadir" "--user"];
               isNormalArg = name: (findFirst (arg: hasPrefix arg name) null specialArgs) == null;
               filteredArgs = builtins.filter isNormalArg args;
@@ -86,10 +85,10 @@ in {
               datadir =
                 if cfg.args.datadir != null
                 then "--datadir ${cfg.args.datadir}"
-                else "" ;
+                else "--datadir %S/${serviceName}";
             in ''
               --accept-terms-of-use ${network} ${jwtSecret} \
-              --datadir ${cfg.args.dataDir} \
+              ${datadir} \
               ${concatStringsSep " \\\n" filteredArgs} \
               ${lib.escapeShellArgs cfg.extraArgs}
             '';
@@ -108,7 +107,10 @@ in {
               serviceConfig = mkMerge [
                 baseServiceConfig
                 {
-                  User = serviceName;
+                  User =
+                    if cfg.args.user != null
+                    then cfg.args.user
+                    else serviceName;
                   StateDirectory = serviceName;
                   ExecStart = "${cfg.package}/bin/beacon-chain ${scriptArgs}";
                   MemoryDenyWriteExecute = "false"; # causes a library loading error

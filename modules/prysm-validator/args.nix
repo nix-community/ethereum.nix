@@ -77,16 +77,22 @@ with lib; {
   suggested-fee-recipient = mkOption {
     type = types.nullOr types.str;
     default = null;
-    description = mdDoc ''Sets ALL validators' mapping to a suggested eth\
-                        address to receive gas fees when proposing a block. note\
-                        that this is only a suggestion when integrating with a Builder API,\
-                        which may choose to specify a different fee recipient as payment\
-                        for the blocks it builds.'';
+    description = mdDoc ''      Sets ALL validators' mapping to a suggested eth\
+                              address to receive gas fees when proposing a block. note\
+                              that this is only a suggestion when integrating with a Builder API,\
+                              which may choose to specify a different fee recipient as payment\
+                              for the blocks it builds.'';
   };
 
   graffiti = mkOption {
     type = types.nullOr types.str;
     default = null;
     description = mdDoc "String to include in proposed blocks";
+  };
+
+  user = mkOption {
+    type = types.nullOr types.str;
+    default = null;
+    description = mdDoc "User to run the systemd service.";
   };
 }
