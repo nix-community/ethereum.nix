@@ -35,8 +35,9 @@ in
     subPackages = ["cmd/sedge"];
 
     meta = {
-      homepage = "https://docs.sedge.nethermind.io/";
       description = "A one-click setup tool for PoS network/chain validators and nodes.";
+      homepage = "https://docs.sedge.nethermind.io/";
+      mainProgram = "sedge";
       platforms = ["x86_64-linux"];
     };
   }

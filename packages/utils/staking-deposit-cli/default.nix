@@ -28,8 +28,8 @@ stdenv.mkDerivation rec {
   '';
 
   meta = {
-    homepage = "https://github.com/ethereum/staking-deposit-cli";
     description = "Secure key generation for deposits";
+    homepage = "https://github.com/ethereum/staking-deposit-cli";
     mainProgram = "deposit";
     platforms = ["x86_64-linux"];
   };

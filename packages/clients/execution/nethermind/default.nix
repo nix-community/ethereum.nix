@@ -18,7 +18,7 @@ buildDotnetModule rec {
     owner = "NethermindEth";
     repo = pname;
     rev = version;
-    sha256 = "sha256-wmXV6g4DfSd+lklnUFaUjzdUR9lu2SHMTvc0ECO4eU0=";
+    hash = "sha256-wmXV6g4DfSd+lklnUFaUjzdUR9lu2SHMTvc0ECO4eU0=";
     fetchSubmodules = true;
   };
 
@@ -54,6 +54,7 @@ buildDotnetModule rec {
     description = "Our flagship Ethereum client for Linux, Windows, and macOS—full and actively developed";
     homepage = "https://nethermind.io/nethermind-client";
     license = licenses.gpl3;
+    mainProgram = "Nethermind.Runner";
     platforms = ["x86_64-linux"];
   };
 }

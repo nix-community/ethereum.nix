@@ -11,7 +11,7 @@ stdenv.mkDerivation rec {
 
   src = fetchzip {
     url = "https://artifacts.consensys.net/public/${pname}/raw/names/${pname}.tar.gz/versions/${version}/${pname}-${version}.tar.gz";
-    sha256 = "sha256-IBDwa7ukQt4gWmgY2GW8a4HXTakbL2yEU8Gdda7GDtY=";
+    hash = "sha256-IBDwa7ukQt4gWmgY2GW8a4HXTakbL2yEU8Gdda7GDtY=";
   };
 
   nativeBuildInputs = [makeWrapper];
@@ -28,7 +28,8 @@ stdenv.mkDerivation rec {
     description = "Web3Signer is an open-source signing service capable of signing on multiple platforms (Ethereum1 and 2, Filecoin) using private keys stored in an external vault, or encrypted on a disk";
     homepage = "https://github.com/ConsenSys/web3signer";
     license = licenses.apsl20;
-    sourceProvenance = with sourceTypes; [binaryBytecode];
+    mainProgram = "web3signer";
     platforms = ["x86_64-linux"];
+    sourceProvenance = with sourceTypes; [binaryBytecode];
   };
 }

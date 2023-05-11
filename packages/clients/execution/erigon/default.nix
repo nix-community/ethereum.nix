@@ -11,7 +11,7 @@ buildGoModule rec {
     owner = "ledgerwatch";
     repo = pname;
     rev = "v${version}";
-    sha256 = "sha256-3o7vu2bA8lB1CiVaSF6YU9WjwNliQAK5AcGl82GCqFg=";
+    hash = "sha256-3o7vu2bA8lB1CiVaSF6YU9WjwNliQAK5AcGl82GCqFg=";
     fetchSubmodules = true;
   };
 
@@ -30,8 +30,9 @@ buildGoModule rec {
   ];
 
   meta = with lib; {
-    homepage = "https://github.com/ledgerwatch/erigon/";
     description = "Ethereum node implementation focused on scalability and modularity";
+    homepage = "https://github.com/ledgerwatch/erigon/";
+    mainProgram = "erigon";
     platforms = ["x86_64-linux"];
   };
 }

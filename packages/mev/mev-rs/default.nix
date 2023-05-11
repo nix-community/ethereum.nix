@@ -12,7 +12,7 @@ rustPlatform.buildRustPackage rec {
     owner = "ralexstokes";
     repo = pname;
     rev = "v${version}";
-    sha256 = "sha256-d8HIZx33ZRcZgdEBAuCa21/ivh/XKlQf+Sn2aZbth4E=";
+    hash = "sha256-d8HIZx33ZRcZgdEBAuCa21/ivh/XKlQf+Sn2aZbth4E=";
   };
 
   cargoSha256 = "sha256-XwJDis7lfmlYFSRVesusa9jHUGoAoDOsFo8DCFiQMzU=";
@@ -25,8 +25,9 @@ rustPlatform.buildRustPackage rec {
   OPENSSL_DIR = "${lib.getDev openssl}";
 
   meta = {
-    homepage = "https://github.com/ralexstokes/mev-rs";
     description = "A gateway to a network of block builders";
+    homepage = "https://github.com/ralexstokes/mev-rs";
+    mainProgram = "mev";
     platforms = ["x86_64-linux"];
   };
 }
