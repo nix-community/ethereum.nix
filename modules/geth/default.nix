@@ -7,7 +7,7 @@
   pkgs,
   ...
 }: let
-  modulesLib = import ../lib.nix {inherit lib pkgs;};
+  modulesLib = import ../lib.nix lib;
 
   inherit (lib.lists) optionals findFirst;
   inherit (lib.strings) hasPrefix;
