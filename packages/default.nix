@@ -22,7 +22,7 @@
     packages = platformPkgs system rec {
       # Consensus Clients
       lighthouse = callPackageUnstable ./clients/consensus/lighthouse {};
-      prysm = callPackage ./clients/consensus/prysm {inherit bls blst;};
+      prysm = callPackageUnstable ./clients/consensus/prysm {inherit bls blst;};
       teku = callPackage ./clients/consensus/teku {};
 
       # Execution Clients
