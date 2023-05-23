@@ -7,13 +7,13 @@
 }:
 buildGoModule rec {
   pname = "prysm";
-  version = "4.0.4";
+  version = "4.0.5";
 
   src = fetchFromGitHub {
     owner = "prysmaticlabs";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-NgFX81co51Iab2PL0TqXI8lUbS8m7f6YEmR8KRUr3xg=";
+    hash = "sha256-UwM18Y7mHzhcvsAgaPe4tszhxkFKO4g5FZoCUWQNAxk=";
   };
 
   vendorHash = "sha256-mnMINLAP929IfIQuI4fQatR+dr1HID1/FdJk7z6U3M8=";
