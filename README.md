@@ -14,21 +14,25 @@
   </a>
 </p>
 
-This is an experimental Nix project for integrating the most interesting / important projects in the Ethereum ecosystem as Nix packages / NixOS modules.
+The ultimate goal of `ethereum.nix` is to integrate the most exciting / prominent projects in the Ethereum ecosystem as Nix packages / NixOS modules.
 
-Many of the packages found on `ethereum.nix` will be added to `nixpkgs` repository once they're stable / mature enough. But for some others, more experimental ones, they can reside here.
+For the uninitiated, using `ethereum.nix` will give you the following benefits:
 
-This project is developed entirely in [Nix Flakes](https://nixos.wiki/wiki/Flakes) (but it offers compatiblity with legacy Nix thanks to [`flake-compat`](https://github.com/nix-community/flake-compat)).
+- Access to a wide range of Ethereum applications packaged with Nix, ready to run without fuss. Nix guarantees you don't have to worry about version conflicts, missing dependencies or even what state your OS is in.
+- We aim that every Ethereum application stored in the repository is constructed from its source, including all input dependencies. This approach guarantees the code's reproducibility and trustworthiness. Furthermore, with Nix, expert users can tweak and adjust the build process to any degree of detail as required.
+- We develop custom NixOS modules to streamline operations with applications such as Execution and Consensus clients (including performing backups). Moreover, we aim to introduce further abstractions that simplify everyday tasks, such as running a development environment effortlessly without needing docker.
+
+This project is developed entirely in [Nix Flakes](https://nixos.wiki/wiki/Flakes) (but it offers compatibility with legacy Nix thanks to [`flake-compat`](https://github.com/nix-community/flake-compat)).
 
 ## Documentation
 
-We recommend you [to have a look at our documentation](https://nix-community.github.io/ethereum.nix/) that shows how to use `ethereum.nix` effectively.
+We recommend you [look at our documentation](https://nix-community.github.io/ethereum.nix/) that shows how to use `ethereum.nix` effectively.
 
-Any PR improving documentation is welcomed.
+Any PR improving documentation is welcome.
 
 ## Development
 
-We are using [`devshell`](https://github.com/numtide/devshell) to have nice development environments. When prompted run `direnv allow` and you will then be met with the following prompt:
+We use [`devshell`](https://github.com/numtide/devshell) to have nice development environments. Below you can find the list of available commands:
 
 ```bash
 🔨 Welcome to ethereum.nix
@@ -55,22 +59,24 @@ direnv: export +DEVSHELL_DIR +IN_NIX_SHELL +NIXPKGS_PATH +PRJ_DATA_DIR +PRJ_ROOT
 
 ### Requirements
 
-To make the most of this repo you should have the following installed:
+To make the most of this repository, you should have the following installed:
 
 - [Nix](https://nixos.org/)
 - [Direnv](https://direnv.net/)
 
+After cloning this repository and entering inside, run `direnv allow` when prompted, and you will be met with the previous prompt.
+
 ### Docs
 
-To build the docs locally run `docs-build`. The output will be inside of `./result`.
+To build the docs locally, run `docs-build`. The output will be inside of `./result`.
 
-To serve the docs locally (after building them previously) run `docs-serve`. You can edit the docs in `./docs`.
+Run `docs-serve` to serve the docs locally (after building them previously). You can edit the docs in `./docs`.
 
 ### Running tests
 
-To run all tests you can use `check` (alias for `nix flake check`), it will build all packages and run all tests.
+To run all tests, you can use `check` (alias for `nix flake check`); it will build all packages and run all tests.
 
-To execute a specific test you can use `tests -h` which will provide more information.
+You can use `tests -h` to execute a specific test, which will provide more information.
 
 ### Formatting
 
@@ -78,11 +84,11 @@ You can manually format the source using the `fmt` command.
 
 ## Contribute
 
-We welcome any kind of contribution or support to this project but before to do so:
+We welcome any contribution or support to this project, but before doing so:
 
 - Make sure you have read the [contribution guide](/.github/CONTRIBUTING.md) for more details on how to submit a good PR (pull request).
 
-In addition you can always:
+In addition, you can always:
 
 - Add a [GitHub Star 🌟](https://github.com/nix-community/ethereum.nix/stargazers) to the project.
 - Tweet about this project.
@@ -91,6 +97,6 @@ In addition you can always:
 
 This project has been inspired by the awesome work of:
 
-- [`cosmos.nix`](https://github.com/informalsystems/cosmos.nix) by [Informal Systems](https://github.com/informalsystems) which this repository takes inspiration on it's README and several other places.
+- [`cosmos.nix`](https://github.com/informalsystems/cosmos.nix) by [Informal Systems](https://github.com/informalsystems), which this repository takes inspiration from its README and several other places.
 
 - [willruggiano](https://github.com/willruggiano) on his work done in [`eth-nix`](https://github.com/willruggiano/eth-nix) repository that served as the initial kick-start for working on this project.
