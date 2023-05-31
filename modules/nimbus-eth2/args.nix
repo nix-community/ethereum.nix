@@ -119,4 +119,10 @@ with lib; {
     example = "http://localhost:5052/";
     description = mdDoc "URL for Trusted Node Sync.";
   };
+
+  backfill = mkOption {
+    type = types.nullOr types.bool;
+    default = true;
+    description = mdDoc "History backfill.";
+  };
 }

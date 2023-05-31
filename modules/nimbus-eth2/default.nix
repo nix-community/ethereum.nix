@@ -69,6 +69,11 @@ in {
               then ''--trusted-node-url="${cfg.args.trusted-node-url}"''
               else "";
 
+            backfilling =
+              if cfg.args.trusted-node-url != null
+              then ''--backfill=${lib.boolToString cfg.args.backfill}''
+              else "";
+
             web3Url =
               if cfg.args.web3-urls != null
               then ''--web3-url=${concatStringsSep " --web3-url=" cfg.args.web3-urls}''
@@ -113,7 +118,7 @@ in {
                   inherit pathReducer;
                 };
               # filter out certain args which need to be treated differently
-              specialArgs = ["--network" "--jwt-secret" "--web3-urls" "--trusted-node-url"];
+              specialArgs = ["--network" "--jwt-secret" "--web3-urls" "--trusted-node-url" "--backfill"];
               isNormalArg = name: (findFirst (arg: hasPrefix arg name) null specialArgs) == null;
               filteredArgs = builtins.filter isNormalArg args;
             in ''
@@ -127,7 +132,8 @@ in {
             nodeSyncArgs = ''
               ${network} \
               ${dataDir} \
-              ${trustedNodeUrl}
+              ${trustedNodeUrl} \
+              ${backfilling}
             '';
 
             entrypoint =
