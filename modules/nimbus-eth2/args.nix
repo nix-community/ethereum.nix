@@ -112,4 +112,11 @@ with lib; {
     example = ["http://localhost:8551/"];
     description = mdDoc "Mandatory URL(s) for the Web3 RPC endpoints.";
   };
+
+  trusted-node-url = mkOption {
+    type = types.nullOr types.str;
+    default = null;
+    example = "http://localhost:5052/";
+    description = mdDoc "URL for Trusted Node Sync.";
+  };
 }

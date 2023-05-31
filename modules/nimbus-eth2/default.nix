@@ -54,7 +54,29 @@ in {
           serviceName = "nimbus-eth2";
         in
           cfg: let
-            scriptArgs = let
+            network =
+              if cfg.args.network != null
+              then "--network=${cfg.args.network}"
+              else "";
+
+            jwtSecret =
+              if cfg.args.jwt-secret != null
+              then ''--jwt-secret="%d/jwt-secret"''
+              else "";
+
+            trustedNodeUrl =
+              if cfg.args.trusted-node-url != null
+              then ''--trusted-node-url="${cfg.args.trusted-node-url}"''
+              else "";
+
+            web3Url =
+              if cfg.args.web3-urls != null
+              then ''--web3-url=${concatStringsSep " --web3-url=" cfg.args.web3-urls}''
+              else "";
+
+            dataDir = ''--data-dir="%S/${serviceName}"'';
+
+            beaconNodeArgs = let
               # generate args
               args = let
                 opts = import ./args.nix lib;
@@ -90,33 +112,34 @@ in {
                   inherit argFormatter;
                   inherit pathReducer;
                 };
-
               # filter out certain args which need to be treated differently
-              specialArgs = ["--network" "--jwt-secret" "--web3-urls"];
+              specialArgs = ["--network" "--jwt-secret" "--web3-urls" "--trusted-node-url"];
               isNormalArg = name: (findFirst (arg: hasPrefix arg name) null specialArgs) == null;
               filteredArgs = builtins.filter isNormalArg args;
-
-              network =
-                if cfg.args.network != null
-                then "--network=${cfg.args.network}"
-                else "";
-
-              jwtSecret =
-                if cfg.args.jwt-secret != null
-                then ''--jwt-secret="%d/jwt-secret"''
-                else "";
-
-              web3Url =
-                if cfg.args.web3-urls != null
-                then ''--web3-url=${concatStringsSep " --web3-url=" cfg.args.web3-urls}''
-                else "";
             in ''
               ${network} ${jwtSecret} \
               ${web3Url} \
-              --data-dir="%S/${serviceName}" \
+              ${dataDir} \
               ${concatStringsSep " \\\n" filteredArgs} \
               ${lib.escapeShellArgs cfg.extraArgs}
             '';
+
+            nodeSyncArgs = ''
+              ${network} \
+              ${dataDir} \
+              ${trustedNodeUrl}
+            '';
+
+            entrypoint =
+              if cfg.args.trusted-node-url != null
+              then ''
+                ${cfg.package}/bin/nimbus_beacon_node trustedNodeSync ${nodeSyncArgs} \
+                && \
+                ${cfg.package}/bin/nimbus_beacon_node ${beaconNodeArgs}
+              ''
+              else ''
+                ${cfg.package}/bin/nimbus_beacon_node ${beaconNodeArgs}
+              '';
           in
             nameValuePair serviceName (mkIf cfg.enable {
               after = ["network.target"];
@@ -129,7 +152,7 @@ in {
                 {
                   User = serviceName;
                   StateDirectory = serviceName;
-                  ExecStart = "${cfg.package}/bin/nimbus_beacon_node ${scriptArgs}";
+                  ExecStart = entrypoint;
                   MemoryDenyWriteExecute = "false"; # causes a library loading error
                 }
                 (mkIf (cfg.args.jwt-secret != null) {
