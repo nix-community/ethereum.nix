@@ -1,10 +1,10 @@
 {
   bls,
   mcl,
-  buildGoModule,
+  buildGo119Module,
   fetchFromGitHub,
 }:
-buildGoModule rec {
+buildGo119Module rec {
   pname = "ssv";
   version = "0.5.4";
 

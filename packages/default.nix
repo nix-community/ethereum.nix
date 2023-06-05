@@ -9,14 +9,12 @@
 
   perSystem = {
     self',
-    inputs',
     pkgs,
     system,
     ...
   }: let
     inherit (pkgs) callPackage;
     inherit (lib.flake) platformPkgs platformApps;
-
     #callPackageUnstable = inputs'.nixpkgs-unstable.legacyPackages.callPackage;
   in {
     packages = platformPkgs system rec {
