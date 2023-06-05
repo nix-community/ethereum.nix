@@ -37,7 +37,7 @@
   (fetchNuGet {
     pname = "Ckzg.Bindings";
     version = "0.1.2.402";
-    sha256 = "sha256-7V+sOYNRGvnURZoE5RmnB5pXnd3g0wyRB6VGjRQchQo=";
+    sha256 = "02l53ha8sim50y8hrlz0vnfmg6h7lwcya14s8pagj6jihcwsqpzd";
   })
   (fetchNuGet {
     pname = "Colorful.Console";

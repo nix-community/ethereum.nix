@@ -1,6 +1,5 @@
 {
   buildDotnetModule,
-  dotnet-sdk_7,
   dotnetCorePackages,
   fetchFromGitHub,
   lib,
@@ -47,13 +46,12 @@ buildDotnetModule rec {
   ];
 
   dotnet-sdk = dotnetCorePackages.sdk_7_0;
-  dotnet-test-sdk = dotnet-sdk_7;
   dotnet-runtime = dotnetCorePackages.aspnetcore_7_0;
 
-  meta = with lib; {
+  meta = {
     description = "Our flagship Ethereum client for Linux, Windows, and macOS—full and actively developed";
     homepage = "https://nethermind.io/nethermind-client";
-    license = licenses.gpl3;
+    license = lib.licenses.gpl3;
     mainProgram = "Nethermind.Runner";
     platforms = ["x86_64-linux"];
   };
