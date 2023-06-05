@@ -19,7 +19,7 @@ buildGoModule rec {
   };
 
   runVend = true;
-  vendorSha256 = "sha256-X6DeaSd5/NkPUN0J/0QeRhC+2oVjNbH7Vxfn6eWXrqc=";
+  vendorHash = "sha256-X6DeaSd5/NkPUN0J/0QeRhC+2oVjNbH7Vxfn6eWXrqc=";
 
   nativeBuildInputs = [clang];
   buildInputs = [mcl bls];

@@ -16,7 +16,7 @@ buildGoModule rec {
   };
 
   runVend = true;
-  vendorSha256 = "sha256-JGcoIhA9FaJvpwIxBhJwCsZ064BYpKG7SjnXu7JMofw=";
+  vendorHash = "sha256-JGcoIhA9FaJvpwIxBhJwCsZ064BYpKG7SjnXu7JMofw=";
 
   buildInputs = [mcl bls];
 

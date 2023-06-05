@@ -14,7 +14,7 @@ buildGoModule rec {
     hash = "sha256-UbbsL1qzitBCp7t8uDPPFhB8PjK3zan6BNdKrHA+bY0=";
   };
 
-  vendorSha256 = "sha256-Fh72oZNSJrglW3TiZDd8aHQixmZfipB0e2gQMXUaZzI=";
+  vendorHash = "sha256-Fh72oZNSJrglW3TiZDd8aHQixmZfipB0e2gQMXUaZzI=";
 
   buildInputs = [blst];
 
