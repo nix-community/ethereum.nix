@@ -12,8 +12,14 @@
       
         <link rel="canonical" href="https://nix-community.github.io/ethereum.nix/reference/module-options/nethermind/">
       
+      
+        <link rel="prev" href="../geth-bootnode/">
+      
+      
+        <link rel="next" href="../prysm-beacon/">
+      
       <link rel="icon" href="../../../assets/favicon.png">
-      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.4.3">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.8">
     
     
       
@@ -21,13 +27,13 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.6b80c2a2.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ded33207.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.cbb835fc.min.css">
-        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.a0c5b2b5.min.css">
       
       
+
     
     
     
@@ -46,6 +52,7 @@
 
     
     
+    
   </head>
   
   
@@ -56,7 +63,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="teal" data-md-color-accent="amber">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="amber">
   
     
     
@@ -68,7 +75,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#_moduleargs" class="md-skip">
+        <a href="#servicesethereumnethermind" class="md-skip">
           Skip to content
         </a>
       
@@ -80,7 +87,9 @@
     
       
 
-<header class="md-header" data-md-component="header">
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="https://nix-community.github.io/ethereum.nix" title="Ethereum.nix" class="md-header__button md-logo" aria-label="Ethereum.nix" data-md-component="logo">
       
@@ -107,36 +116,41 @@
       </div>
     </div>
     
-      <form class="md-header__option" data-md-component="palette">
-        
+      
+        <form class="md-header__option" data-md-component="palette">
           
+            
+            
+            
+            <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="amber"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+            
+              <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_3" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9h-1.9M20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69m-9.15 3.96h2.3L12 9l-1.15 3.65Z"/></svg>
+              </label>
+            
           
-          <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="" data-md-color-primary="teal" data-md-color-accent="amber"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+            
+            
+            
+            <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="amber"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_2">
+            
+              <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-2.69L23.31 12 20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69Z"/></svg>
+              </label>
+            
           
-            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_3" hidden>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9h-1.9M20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69m-9.15 3.96h2.3L12 9l-1.15 3.65Z"/></svg>
-            </label>
+            
+            
+            
+            <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="amber"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_3">
+            
+              <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_2" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 2c-1.82 0-3.53.5-5 1.35C8 5.08 10 8.3 10 12s-2 6.92-5 8.65C6.47 21.5 8.18 22 10 22a10 10 0 0 0 10-10A10 10 0 0 0 10 2Z"/></svg>
+              </label>
+            
           
-        
-          
-          
-          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="amber"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_2">
-          
-            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-2.69L23.31 12 20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69Z"/></svg>
-            </label>
-          
-        
-          
-          
-          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="amber"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_3">
-          
-            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_2" hidden>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 2c-1.82 0-3.53.5-5 1.35C8 5.08 10 8.3 10 12s-2 6.92-5 8.65C6.47 21.5 8.18 22 10 22a10 10 0 0 0 10-10A10 10 0 0 0 10 2Z"/></svg>
-            </label>
-          
-        
-      </form>
+        </form>
+      
     
     
     
@@ -154,11 +168,11 @@
       </label>
       <nav class="md-search__options" aria-label="Search">
         
-          <a href="javascript:void(0)" class="md-search__icon md-icon" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08Z"/></svg>
           </a>
         
-        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
         </button>
       </nav>
@@ -172,7 +186,7 @@
           <div class="md-search-result__meta">
             Initializing search
           </div>
-          <ol class="md-search-result__list"></ol>
+          <ol class="md-search-result__list" role="presentation"></ol>
         </div>
       </div>
     </div>
@@ -184,7 +198,7 @@
         <a href="https://github.com/nix-community/ethereum.nix" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
   </div>
   <div class="md-source__repository">
     GitHub
@@ -228,7 +242,7 @@
       <a href="https://github.com/nix-community/ethereum.nix" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
   </div>
   <div class="md-source__repository">
     GitHub
@@ -281,17 +295,18 @@
     <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
       
       
       
-      
-        <label class="md-nav__link" for="__nav_3">
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
           Development
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" aria-label="Development" data-md-level="1">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_3">
           <span class="md-nav__icon md-icon"></span>
           Development
@@ -331,17 +346,18 @@
     <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
       
       
       
-      
-        <label class="md-nav__link" for="__nav_4">
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
           Getting Started
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" aria-label="Getting Started" data-md-level="1">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_4">
           <span class="md-nav__icon md-icon"></span>
           Getting Started
@@ -425,17 +441,18 @@
     <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" checked>
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
       
       
       
-      
-        <label class="md-nav__link" for="__nav_5">
+        <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
           Reference
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" aria-label="Reference" data-md-level="1">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_5">
           <span class="md-nav__icon md-icon"></span>
           Reference
@@ -453,17 +470,18 @@
     <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_1" type="checkbox" id="__nav_5_1" checked>
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_1" checked>
       
       
       
-      
-        <label class="md-nav__link" for="__nav_5_1">
+        <label class="md-nav__link" for="__nav_5_1" id="__nav_5_1_label" tabindex="0">
           NixOS Module Options
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" aria-label="NixOS Module Options" data-md-level="2">
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_1_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_5_1">
           <span class="md-nav__icon md-icon"></span>
           NixOS Module Options
@@ -521,7 +539,7 @@
   
     <li class="md-nav__item md-nav__item--active">
       
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
       
@@ -548,344 +566,337 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_moduleargs" class="md-nav__link">
-    _module.args
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#servicesethereumnethermind" class="md-nav__link">
-    services.ethereum.nethermind
+    services46ethereum46nethermind
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnameargsbasedbpath" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.args.baseDbPath
+  <a href="#servicesethereumnethermindenable" class="md-nav__link">
+    services46ethereum46nethermind46\46enable
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnameargsconfig" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.args.config
+  <a href="#servicesethereumnethermindpackage" class="md-nav__link">
+    services46ethereum46nethermind46\46package
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnameargsconfigsdirectory" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.args.configsDirectory
+  <a href="#servicesethereumnethermindargsbasedbpath" class="md-nav__link">
+    services46ethereum46nethermind46\46args46baseDbPath
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnameargslog" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.args.log
+  <a href="#servicesethereumnethermindargsconfig" class="md-nav__link">
+    services46ethereum46nethermind46\46args46config
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnameargsloggerconfigsource" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.args.loggerConfigSource
+  <a href="#servicesethereumnethermindargsconfigsdirectory" class="md-nav__link">
+    services46ethereum46nethermind46\46args46configsDirectory
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnameargsmoduleshealthchecksenabled" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.args.modules.HealthChecks.Enabled
+  <a href="#servicesethereumnethermindargslog" class="md-nav__link">
+    services46ethereum46nethermind46\46args46log
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnameargsmodulesjsonrpcenabled" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.args.modules.JsonRpc.Enabled
+  <a href="#servicesethereumnethermindargsloggerconfigsource" class="md-nav__link">
+    services46ethereum46nethermind46\46args46loggerConfigSource
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnameargsmodulesjsonrpcenginehost" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.args.modules.JsonRpc.EngineHost
+  <a href="#servicesethereumnethermindargsmoduleshealthchecksenabled" class="md-nav__link">
+    services46ethereum46nethermind46\46args46modules46HealthChecks46Enabled
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnameargsmodulesjsonrpcengineport" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.args.modules.JsonRpc.EnginePort
+  <a href="#servicesethereumnethermindargsmodulesjsonrpcenabled" class="md-nav__link">
+    services46ethereum46nethermind46\46args46modules46JsonRpc46Enabled
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnameargsmodulesjsonrpcjwtsecretfile" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.args.modules.JsonRpc.JwtSecretFile
+  <a href="#servicesethereumnethermindargsmodulesjsonrpcenginehost" class="md-nav__link">
+    services46ethereum46nethermind46\46args46modules46JsonRpc46EngineHost
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnameargsmodulesjsonrpcport" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.args.modules.JsonRpc.Port
+  <a href="#servicesethereumnethermindargsmodulesjsonrpcengineport" class="md-nav__link">
+    services46ethereum46nethermind46\46args46modules46JsonRpc46EnginePort
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnameargsmodulesjsonrpcwebsocketsport" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.args.modules.JsonRpc.WebSocketsPort
+  <a href="#servicesethereumnethermindargsmodulesjsonrpcjwtsecretfile" class="md-nav__link">
+    services46ethereum46nethermind46\46args46modules46JsonRpc46JwtSecretFile
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnameargsmodulesmetricsenabled" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.args.modules.Metrics.Enabled
+  <a href="#servicesethereumnethermindargsmodulesjsonrpcport" class="md-nav__link">
+    services46ethereum46nethermind46\46args46modules46JsonRpc46Port
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnameargsmodulesmetricsexposeport" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.args.modules.Metrics.ExposePort
+  <a href="#servicesethereumnethermindargsmodulesjsonrpcwebsocketsport" class="md-nav__link">
+    services46ethereum46nethermind46\46args46modules46JsonRpc46WebSocketsPort
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnameargsmodulesnetworkdiscoveryport" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.args.modules.Network.DiscoveryPort
+  <a href="#servicesethereumnethermindargsmodulesmetricsenabled" class="md-nav__link">
+    services46ethereum46nethermind46\46args46modules46Metrics46Enabled
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnameargsmodulesnetworkp2pport" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.args.modules.Network.P2PPort
+  <a href="#servicesethereumnethermindargsmodulesmetricsexposeport" class="md-nav__link">
+    services46ethereum46nethermind46\46args46modules46Metrics46ExposePort
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamebackupbtrfsenable" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.backup.btrfs.enable
+  <a href="#servicesethereumnethermindargsmodulesnetworkdiscoveryport" class="md-nav__link">
+    services46ethereum46nethermind46\46args46modules46Network46DiscoveryPort
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamebackupbtrfssnapshotdirectory" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.backup.btrfs.snapshotDirectory
+  <a href="#servicesethereumnethermindargsmodulesnetworkp2pport" class="md-nav__link">
+    services46ethereum46nethermind46\46args46modules46Network46P2PPort
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamebackupbtrfssnapshotretention" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.backup.btrfs.snapshotRetention
+  <a href="#servicesethereumnethermindbackupenable" class="md-nav__link">
+    services46ethereum46nethermind46\46backup46enable
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamebackupenable" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.backup.enable
+  <a href="#servicesethereumnethermindbackupbtrfsenable" class="md-nav__link">
+    services46ethereum46nethermind46\46backup46btrfs46enable
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamebackupmetadatainterval" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.backup.metadata.interval
+  <a href="#servicesethereumnethermindbackupbtrfssnapshotdirectory" class="md-nav__link">
+    services46ethereum46nethermind46\46backup46btrfs46snapshotDirectory
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamebackupresticenvironmentfile" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.backup.restic.environmentFile
+  <a href="#servicesethereumnethermindbackupbtrfssnapshotretention" class="md-nav__link">
+    services46ethereum46nethermind46\46backup46btrfs46snapshotRetention
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamebackupresticexclude" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.backup.restic.exclude
+  <a href="#servicesethereumnethermindbackupmetadatainterval" class="md-nav__link">
+    services46ethereum46nethermind46\46backup46metadata46interval
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamebackupresticextraoptions" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.backup.restic.extraOptions
+  <a href="#servicesethereumnethermindbackupresticenvironmentfile" class="md-nav__link">
+    services46ethereum46nethermind46\46backup46restic46environmentFile
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamebackupresticpasswordfile" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.backup.restic.passwordFile
+  <a href="#servicesethereumnethermindbackupresticexclude" class="md-nav__link">
+    services46ethereum46nethermind46\46backup46restic46exclude
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamebackupresticrcloneconfig" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.backup.restic.rcloneConfig
+  <a href="#servicesethereumnethermindbackupresticextraoptions" class="md-nav__link">
+    services46ethereum46nethermind46\46backup46restic46extraOptions
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamebackupresticrcloneconfigfile" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.backup.restic.rcloneConfigFile
+  <a href="#servicesethereumnethermindbackupresticpasswordfile" class="md-nav__link">
+    services46ethereum46nethermind46\46backup46restic46passwordFile
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamebackupresticrcloneoptions" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.backup.restic.rcloneOptions
+  <a href="#servicesethereumnethermindbackupresticrcloneconfig" class="md-nav__link">
+    services46ethereum46nethermind46\46backup46restic46rcloneConfig
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamebackupresticrepository" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.backup.restic.repository
+  <a href="#servicesethereumnethermindbackupresticrcloneconfigfile" class="md-nav__link">
+    services46ethereum46nethermind46\46backup46restic46rcloneConfigFile
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamebackupresticrepositoryfile" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.backup.restic.repositoryFile
+  <a href="#servicesethereumnethermindbackupresticrcloneoptions" class="md-nav__link">
+    services46ethereum46nethermind46\46backup46restic46rcloneOptions
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamebackupschedule" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.backup.schedule
+  <a href="#servicesethereumnethermindbackupresticrepository" class="md-nav__link">
+    services46ethereum46nethermind46\46backup46restic46repository
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnameenable" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.enable
+  <a href="#servicesethereumnethermindbackupresticrepositoryfile" class="md-nav__link">
+    services46ethereum46nethermind46\46backup46restic46repositoryFile
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnameextraargs" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.extraArgs
+  <a href="#servicesethereumnethermindbackupschedule" class="md-nav__link">
+    services46ethereum46nethermind46\46backup46schedule
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnameopenfirewall" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.openFirewall
+  <a href="#servicesethereumnethermindextraargs" class="md-nav__link">
+    services46ethereum46nethermind46\46extraArgs
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamepackage" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.package
+  <a href="#servicesethereumnethermindopenfirewall" class="md-nav__link">
+    services46ethereum46nethermind46\46openFirewall
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamerestoreenable" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.restore.enable
+  <a href="#servicesethereumnethermindrestoreenable" class="md-nav__link">
+    services46ethereum46nethermind46\46restore46enable
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamerestoreresticenvironmentfile" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.restore.restic.environmentFile
+  <a href="#servicesethereumnethermindrestoreresticenvironmentfile" class="md-nav__link">
+    services46ethereum46nethermind46\46restore46restic46environmentFile
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamerestoreresticexclude" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.restore.restic.exclude
+  <a href="#servicesethereumnethermindrestoreresticexclude" class="md-nav__link">
+    services46ethereum46nethermind46\46restore46restic46exclude
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamerestoreresticextraoptions" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.restore.restic.extraOptions
+  <a href="#servicesethereumnethermindrestoreresticextraoptions" class="md-nav__link">
+    services46ethereum46nethermind46\46restore46restic46extraOptions
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamerestoreresticpasswordfile" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.restore.restic.passwordFile
+  <a href="#servicesethereumnethermindrestoreresticpasswordfile" class="md-nav__link">
+    services46ethereum46nethermind46\46restore46restic46passwordFile
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamerestoreresticrcloneconfig" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.restore.restic.rcloneConfig
+  <a href="#servicesethereumnethermindrestoreresticrcloneconfig" class="md-nav__link">
+    services46ethereum46nethermind46\46restore46restic46rcloneConfig
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamerestoreresticrcloneconfigfile" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.restore.restic.rcloneConfigFile
+  <a href="#servicesethereumnethermindrestoreresticrcloneconfigfile" class="md-nav__link">
+    services46ethereum46nethermind46\46restore46restic46rcloneConfigFile
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamerestoreresticrcloneoptions" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.restore.restic.rcloneOptions
+  <a href="#servicesethereumnethermindrestoreresticrcloneoptions" class="md-nav__link">
+    services46ethereum46nethermind46\46restore46restic46rcloneOptions
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamerestoreresticrepository" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.restore.restic.repository
+  <a href="#servicesethereumnethermindrestoreresticrepository" class="md-nav__link">
+    services46ethereum46nethermind46\46restore46restic46repository
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamerestoreresticrepositoryfile" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.restore.restic.repositoryFile
+  <a href="#servicesethereumnethermindrestoreresticrepositoryfile" class="md-nav__link">
+    services46ethereum46nethermind46\46restore46restic46repositoryFile
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamerestoresnapshot" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.restore.snapshot
+  <a href="#servicesethereumnethermindrestoresnapshot" class="md-nav__link">
+    services46ethereum46nethermind46\46restore46snapshot
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamerestoretimeout" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.restore.timeout
+  <a href="#servicesethereumnethermindrestoretimeout" class="md-nav__link">
+    services46ethereum46nethermind46\46restore46timeout
   </a>
   
 </li>
@@ -951,344 +962,337 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_moduleargs" class="md-nav__link">
-    _module.args
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#servicesethereumnethermind" class="md-nav__link">
-    services.ethereum.nethermind
+    services46ethereum46nethermind
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnameargsbasedbpath" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.args.baseDbPath
+  <a href="#servicesethereumnethermindenable" class="md-nav__link">
+    services46ethereum46nethermind46\46enable
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnameargsconfig" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.args.config
+  <a href="#servicesethereumnethermindpackage" class="md-nav__link">
+    services46ethereum46nethermind46\46package
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnameargsconfigsdirectory" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.args.configsDirectory
+  <a href="#servicesethereumnethermindargsbasedbpath" class="md-nav__link">
+    services46ethereum46nethermind46\46args46baseDbPath
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnameargslog" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.args.log
+  <a href="#servicesethereumnethermindargsconfig" class="md-nav__link">
+    services46ethereum46nethermind46\46args46config
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnameargsloggerconfigsource" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.args.loggerConfigSource
+  <a href="#servicesethereumnethermindargsconfigsdirectory" class="md-nav__link">
+    services46ethereum46nethermind46\46args46configsDirectory
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnameargsmoduleshealthchecksenabled" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.args.modules.HealthChecks.Enabled
+  <a href="#servicesethereumnethermindargslog" class="md-nav__link">
+    services46ethereum46nethermind46\46args46log
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnameargsmodulesjsonrpcenabled" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.args.modules.JsonRpc.Enabled
+  <a href="#servicesethereumnethermindargsloggerconfigsource" class="md-nav__link">
+    services46ethereum46nethermind46\46args46loggerConfigSource
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnameargsmodulesjsonrpcenginehost" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.args.modules.JsonRpc.EngineHost
+  <a href="#servicesethereumnethermindargsmoduleshealthchecksenabled" class="md-nav__link">
+    services46ethereum46nethermind46\46args46modules46HealthChecks46Enabled
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnameargsmodulesjsonrpcengineport" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.args.modules.JsonRpc.EnginePort
+  <a href="#servicesethereumnethermindargsmodulesjsonrpcenabled" class="md-nav__link">
+    services46ethereum46nethermind46\46args46modules46JsonRpc46Enabled
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnameargsmodulesjsonrpcjwtsecretfile" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.args.modules.JsonRpc.JwtSecretFile
+  <a href="#servicesethereumnethermindargsmodulesjsonrpcenginehost" class="md-nav__link">
+    services46ethereum46nethermind46\46args46modules46JsonRpc46EngineHost
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnameargsmodulesjsonrpcport" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.args.modules.JsonRpc.Port
+  <a href="#servicesethereumnethermindargsmodulesjsonrpcengineport" class="md-nav__link">
+    services46ethereum46nethermind46\46args46modules46JsonRpc46EnginePort
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnameargsmodulesjsonrpcwebsocketsport" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.args.modules.JsonRpc.WebSocketsPort
+  <a href="#servicesethereumnethermindargsmodulesjsonrpcjwtsecretfile" class="md-nav__link">
+    services46ethereum46nethermind46\46args46modules46JsonRpc46JwtSecretFile
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnameargsmodulesmetricsenabled" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.args.modules.Metrics.Enabled
+  <a href="#servicesethereumnethermindargsmodulesjsonrpcport" class="md-nav__link">
+    services46ethereum46nethermind46\46args46modules46JsonRpc46Port
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnameargsmodulesmetricsexposeport" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.args.modules.Metrics.ExposePort
+  <a href="#servicesethereumnethermindargsmodulesjsonrpcwebsocketsport" class="md-nav__link">
+    services46ethereum46nethermind46\46args46modules46JsonRpc46WebSocketsPort
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnameargsmodulesnetworkdiscoveryport" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.args.modules.Network.DiscoveryPort
+  <a href="#servicesethereumnethermindargsmodulesmetricsenabled" class="md-nav__link">
+    services46ethereum46nethermind46\46args46modules46Metrics46Enabled
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnameargsmodulesnetworkp2pport" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.args.modules.Network.P2PPort
+  <a href="#servicesethereumnethermindargsmodulesmetricsexposeport" class="md-nav__link">
+    services46ethereum46nethermind46\46args46modules46Metrics46ExposePort
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamebackupbtrfsenable" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.backup.btrfs.enable
+  <a href="#servicesethereumnethermindargsmodulesnetworkdiscoveryport" class="md-nav__link">
+    services46ethereum46nethermind46\46args46modules46Network46DiscoveryPort
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamebackupbtrfssnapshotdirectory" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.backup.btrfs.snapshotDirectory
+  <a href="#servicesethereumnethermindargsmodulesnetworkp2pport" class="md-nav__link">
+    services46ethereum46nethermind46\46args46modules46Network46P2PPort
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamebackupbtrfssnapshotretention" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.backup.btrfs.snapshotRetention
+  <a href="#servicesethereumnethermindbackupenable" class="md-nav__link">
+    services46ethereum46nethermind46\46backup46enable
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamebackupenable" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.backup.enable
+  <a href="#servicesethereumnethermindbackupbtrfsenable" class="md-nav__link">
+    services46ethereum46nethermind46\46backup46btrfs46enable
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamebackupmetadatainterval" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.backup.metadata.interval
+  <a href="#servicesethereumnethermindbackupbtrfssnapshotdirectory" class="md-nav__link">
+    services46ethereum46nethermind46\46backup46btrfs46snapshotDirectory
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamebackupresticenvironmentfile" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.backup.restic.environmentFile
+  <a href="#servicesethereumnethermindbackupbtrfssnapshotretention" class="md-nav__link">
+    services46ethereum46nethermind46\46backup46btrfs46snapshotRetention
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamebackupresticexclude" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.backup.restic.exclude
+  <a href="#servicesethereumnethermindbackupmetadatainterval" class="md-nav__link">
+    services46ethereum46nethermind46\46backup46metadata46interval
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamebackupresticextraoptions" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.backup.restic.extraOptions
+  <a href="#servicesethereumnethermindbackupresticenvironmentfile" class="md-nav__link">
+    services46ethereum46nethermind46\46backup46restic46environmentFile
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamebackupresticpasswordfile" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.backup.restic.passwordFile
+  <a href="#servicesethereumnethermindbackupresticexclude" class="md-nav__link">
+    services46ethereum46nethermind46\46backup46restic46exclude
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamebackupresticrcloneconfig" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.backup.restic.rcloneConfig
+  <a href="#servicesethereumnethermindbackupresticextraoptions" class="md-nav__link">
+    services46ethereum46nethermind46\46backup46restic46extraOptions
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamebackupresticrcloneconfigfile" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.backup.restic.rcloneConfigFile
+  <a href="#servicesethereumnethermindbackupresticpasswordfile" class="md-nav__link">
+    services46ethereum46nethermind46\46backup46restic46passwordFile
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamebackupresticrcloneoptions" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.backup.restic.rcloneOptions
+  <a href="#servicesethereumnethermindbackupresticrcloneconfig" class="md-nav__link">
+    services46ethereum46nethermind46\46backup46restic46rcloneConfig
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamebackupresticrepository" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.backup.restic.repository
+  <a href="#servicesethereumnethermindbackupresticrcloneconfigfile" class="md-nav__link">
+    services46ethereum46nethermind46\46backup46restic46rcloneConfigFile
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamebackupresticrepositoryfile" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.backup.restic.repositoryFile
+  <a href="#servicesethereumnethermindbackupresticrcloneoptions" class="md-nav__link">
+    services46ethereum46nethermind46\46backup46restic46rcloneOptions
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamebackupschedule" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.backup.schedule
+  <a href="#servicesethereumnethermindbackupresticrepository" class="md-nav__link">
+    services46ethereum46nethermind46\46backup46restic46repository
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnameenable" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.enable
+  <a href="#servicesethereumnethermindbackupresticrepositoryfile" class="md-nav__link">
+    services46ethereum46nethermind46\46backup46restic46repositoryFile
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnameextraargs" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.extraArgs
+  <a href="#servicesethereumnethermindbackupschedule" class="md-nav__link">
+    services46ethereum46nethermind46\46backup46schedule
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnameopenfirewall" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.openFirewall
+  <a href="#servicesethereumnethermindextraargs" class="md-nav__link">
+    services46ethereum46nethermind46\46extraArgs
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamepackage" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.package
+  <a href="#servicesethereumnethermindopenfirewall" class="md-nav__link">
+    services46ethereum46nethermind46\46openFirewall
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamerestoreenable" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.restore.enable
+  <a href="#servicesethereumnethermindrestoreenable" class="md-nav__link">
+    services46ethereum46nethermind46\46restore46enable
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamerestoreresticenvironmentfile" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.restore.restic.environmentFile
+  <a href="#servicesethereumnethermindrestoreresticenvironmentfile" class="md-nav__link">
+    services46ethereum46nethermind46\46restore46restic46environmentFile
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamerestoreresticexclude" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.restore.restic.exclude
+  <a href="#servicesethereumnethermindrestoreresticexclude" class="md-nav__link">
+    services46ethereum46nethermind46\46restore46restic46exclude
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamerestoreresticextraoptions" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.restore.restic.extraOptions
+  <a href="#servicesethereumnethermindrestoreresticextraoptions" class="md-nav__link">
+    services46ethereum46nethermind46\46restore46restic46extraOptions
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamerestoreresticpasswordfile" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.restore.restic.passwordFile
+  <a href="#servicesethereumnethermindrestoreresticpasswordfile" class="md-nav__link">
+    services46ethereum46nethermind46\46restore46restic46passwordFile
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamerestoreresticrcloneconfig" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.restore.restic.rcloneConfig
+  <a href="#servicesethereumnethermindrestoreresticrcloneconfig" class="md-nav__link">
+    services46ethereum46nethermind46\46restore46restic46rcloneConfig
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamerestoreresticrcloneconfigfile" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.restore.restic.rcloneConfigFile
+  <a href="#servicesethereumnethermindrestoreresticrcloneconfigfile" class="md-nav__link">
+    services46ethereum46nethermind46\46restore46restic46rcloneConfigFile
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamerestoreresticrcloneoptions" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.restore.restic.rcloneOptions
+  <a href="#servicesethereumnethermindrestoreresticrcloneoptions" class="md-nav__link">
+    services46ethereum46nethermind46\46restore46restic46rcloneOptions
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamerestoreresticrepository" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.restore.restic.repository
+  <a href="#servicesethereumnethermindrestoreresticrepository" class="md-nav__link">
+    services46ethereum46nethermind46\46restore46restic46repository
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamerestoreresticrepositoryfile" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.restore.restic.repositoryFile
+  <a href="#servicesethereumnethermindrestoreresticrepositoryfile" class="md-nav__link">
+    services46ethereum46nethermind46\46restore46restic46repositoryFile
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamerestoresnapshot" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.restore.snapshot
+  <a href="#servicesethereumnethermindrestoresnapshot" class="md-nav__link">
+    services46ethereum46nethermind46\46restore46snapshot
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereumnethermindnamerestoretimeout" class="md-nav__link">
-    services.ethereum.nethermind.&lt;name&gt;.restore.timeout
+  <a href="#servicesethereumnethermindrestoretimeout" class="md-nav__link">
+    services46ethereum46nethermind46\46restore46timeout
   </a>
   
 </li>
@@ -1301,554 +1305,597 @@
               </div>
             
           
-          <div class="md-content" data-md-component="content">
-            <article class="md-content__inner md-typeset">
-              
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
                 
+                  
 
-  <a href="https://github.com/nix-community/ethereum.nix/edit/main/docs/reference/module-options/nethermind.md" title="Edit this page" class="md-content__button md-icon">
+  
+    <a href="https://github.com/nix-community/ethereum.nix/edit/main/docs/reference/module-options/nethermind.md" title="Edit this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"/></svg>
+    </a>
+  
+  
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
-  </a>
+      
+    
+    <a href="https://github.com/nix-community/ethereum.nix/raw/main/docs/reference/module-options/nethermind.md" title="View source of this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.15 8.15 0 0 1-1.23-2Z"/></svg>
+    </a>
+  
 
 
   <h1>Nethermind</h1>
 
-<h2 id="_moduleargs">_module.args</h2>
-<p>Additional arguments passed to each module in addition to ones
-like <literal>lib</literal>, <literal>config</literal>,
-and <literal>pkgs</literal>, <literal>modulesPath</literal>.</p>
-<p>This option is also available to all submodules. Submodules do not
-inherit args from their parent module, nor do they provide args to
-their parent module or sibling submodules. The sole exception to
-this is the argument <literal>name</literal> which is provided by
-parent modules to a submodule and contains the attribute name
-the submodule is bound to, or a unique generated name if it is
-not bound to an attribute.</p>
-<p>Some arguments are already passed by default, of which the
-following <emphasis>cannot</emphasis> be changed with this option:</p>
-<p><itemizedlist>
-<listitem><para><varname>lib</varname>: The nixpkgs library.</p>
-<p></para></listitem>
-<listitem><para><varname>config</varname>: The results of all options after merging the values from all modules together.</p>
-<p></para></listitem>
-<listitem><para><varname>options</varname>: The options declared in all modules.</p>
-<p></para></listitem>
-<listitem><para><varname>specialArgs</varname>: The <literal>specialArgs</literal> argument passed to <literal>evalModules</literal>.</p>
-<p></para></listitem>
-<listitem><para>All attributes of <varname>specialArgs</varname></p>
-<p>Whereas option values can generally depend on other option values
-thanks to laziness, this does not apply to <literal>imports</literal>, which
-must be computed statically before anything else.</p>
-<p>For this reason, callers of the module system can provide <literal>specialArgs</literal>
-which are available during import resolution.</p>
-<p>For NixOS, <literal>specialArgs</literal> includes
-<varname>modulesPath</varname>, which allows you to import
-extra modules from the nixpkgs package tree without having to
-somehow make the module aware of the location of the
-<literal>nixpkgs</literal> or NixOS directories.</p>
-<p><programlisting>
-{ modulesPath, ... }: {
-  imports = [
-    (modulesPath + "/profiles/minimal.nix")
-  ];
-}
-</programlisting></para></listitem></p>
-<p></itemizedlist>For NixOS, the default value for this option includes at least this argument:</p>
-<p><itemizedlist>
-<listitem><para><varname>pkgs</varname>: The nixpkgs package set according to
-the <option>nixpkgs.pkgs</option> option.</para></listitem></p>
-<p></itemizedlist></p>
-<p><em><em>Type</em></em>:
-lazy attribute set of raw value</p>
 <h2 id="servicesethereumnethermind">services.ethereum.nethermind</h2>
 <p>Specification of one or more Nethermind instances.</p>
-<p><em><em>Type</em></em>:
+<p><em>Type:</em>
 attribute set of (submodule)</p>
-<p><em><em>Default</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>{}
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnameargsbasedbpath">services.ethereum.nethermind.&lt;name&gt;.args.baseDbPath</h2>
-<p>Configures the path of the Nethermind's database folder.</p>
-<p><em><em>Type</em></em>:
-null or path</p>
-<p><em><em>Default</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>null
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnameargsconfig">services.ethereum.nethermind.&lt;name&gt;.args.config</h2>
-<p>Determines the configuration file of the network on which Nethermind will be running.</p>
-<p><em><em>Type</em></em>:
-null or string</p>
-<p><em><em>Default</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>null
-</span></code></pre></div></td></tr></table></div></p>
-<p><em><em>Example</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>&quot;mainnet&quot;
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnameargsconfigsdirectory">services.ethereum.nethermind.&lt;name&gt;.args.configsDirectory</h2>
-<p>Changes the source directory of your configuration files.</p>
-<p><em><em>Type</em></em>:
-null or path</p>
-<p><em><em>Default</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>null
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnameargslog">services.ethereum.nethermind.&lt;name&gt;.args.log</h2>
-<p>Changes the logging level.</p>
-<p><em><em>Type</em></em>:
-one of "OFF", "TRACE", "DEBUG", "INFO", "WARN", "ERROR"</p>
-<p><em><em>Default</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>&quot;INFO&quot;
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnameargsloggerconfigsource">services.ethereum.nethermind.&lt;name&gt;.args.loggerConfigSource</h2>
-<p>Changes the path of the NLog.config file.</p>
-<p><em><em>Type</em></em>:
-null or string</p>
-<p><em><em>Default</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>null
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnameargsmoduleshealthchecksenabled">services.ethereum.nethermind.&lt;name&gt;.args.modules.HealthChecks.Enabled</h2>
-<p>If 'true' then Health Check endpoints is enabled at /health.</p>
-<p><em><em>Type</em></em>:
+<p><em>Default:</em>
+<code>{ }</code></p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindenable">services.ethereum.nethermind.\<name>.enable</h2>
+<p>Whether to enable Nethermind Ethereum Node…</p>
+<p><em>Type:</em>
 boolean</p>
-<p><em><em>Default</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>true
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnameargsmodulesjsonrpcenabled">services.ethereum.nethermind.&lt;name&gt;.args.modules.JsonRpc.Enabled</h2>
-<p>Defines whether the JSON RPC service is enabled on node startup.</p>
-<p><em><em>Type</em></em>:
-boolean</p>
-<p><em><em>Default</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>true
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnameargsmodulesjsonrpcenginehost">services.ethereum.nethermind.&lt;name&gt;.args.modules.JsonRpc.EngineHost</h2>
-<p>Host for JSON RPC calls.</p>
-<p><em><em>Type</em></em>:
-string</p>
-<p><em><em>Default</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a>&quot;127.0.0.1&quot;
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnameargsmodulesjsonrpcengineport">services.ethereum.nethermind.&lt;name&gt;.args.modules.JsonRpc.EnginePort</h2>
-<p>Port for Execution Engine calls.</p>
-<p><em><em>Type</em></em>:
-16 bit unsigned integer; between 0 and 65535 (both inclusive)</p>
-<p><em><em>Default</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1"></a>8551
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnameargsmodulesjsonrpcjwtsecretfile">services.ethereum.nethermind.&lt;name&gt;.args.modules.JsonRpc.JwtSecretFile</h2>
-<p>Path to file with hex encoded secret for jwt authentication.</p>
-<p><em><em>Type</em></em>:
-null or string</p>
-<p><em><em>Default</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1"></a>null
-</span></code></pre></div></td></tr></table></div></p>
-<p><em><em>Example</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1"></a>&quot;/var/run/geth/jwtsecret&quot;
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnameargsmodulesjsonrpcport">services.ethereum.nethermind.&lt;name&gt;.args.modules.JsonRpc.Port</h2>
-<p>Port number for JSON RPC calls.</p>
-<p><em><em>Type</em></em>:
-16 bit unsigned integer; between 0 and 65535 (both inclusive)</p>
-<p><em><em>Default</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1"></a>8545
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnameargsmodulesjsonrpcwebsocketsport">services.ethereum.nethermind.&lt;name&gt;.args.modules.JsonRpc.WebSocketsPort</h2>
-<p>Port number for JSON RPC web sockets calls.</p>
-<p><em><em>Type</em></em>:
-16 bit unsigned integer; between 0 and 65535 (both inclusive)</p>
-<p><em><em>Default</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1"></a>8545
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnameargsmodulesmetricsenabled">services.ethereum.nethermind.&lt;name&gt;.args.modules.Metrics.Enabled</h2>
-<p>If 'true',the node publishes various metrics to Prometheus Pushgateway at given interval.</p>
-<p><em><em>Type</em></em>:
-boolean</p>
-<p><em><em>Default</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-15-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1"></a>true
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnameargsmodulesmetricsexposeport">services.ethereum.nethermind.&lt;name&gt;.args.modules.Metrics.ExposePort</h2>
-<p>If 'true' then Health Check endpoints is enabled at /health</p>
-<p><em><em>Type</em></em>:
-null or 16 bit unsigned integer; between 0 and 65535 (both inclusive)</p>
-<p><em><em>Default</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-16-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1"></a>null
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnameargsmodulesnetworkdiscoveryport">services.ethereum.nethermind.&lt;name&gt;.args.modules.Network.DiscoveryPort</h2>
-<p>UDP port number for incoming discovery connections.</p>
-<p><em><em>Type</em></em>:
-16 bit unsigned integer; between 0 and 65535 (both inclusive)</p>
-<p><em><em>Default</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-17-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1"></a>30303
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnameargsmodulesnetworkp2pport">services.ethereum.nethermind.&lt;name&gt;.args.modules.Network.P2PPort</h2>
-<p>TPC/IP port number for incoming P2P connections.</p>
-<p><em><em>Type</em></em>:
-16 bit unsigned integer; between 0 and 65535 (both inclusive)</p>
-<p><em><em>Default</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-18-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1"></a>30303
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnamebackupbtrfsenable">services.ethereum.nethermind.&lt;name&gt;.backup.btrfs.enable</h2>
-<p>Whether to enable Enable btrfs snapshots for the state directory, if supported by the underlying filesystem.</p>
-<p><em><em>Type</em></em>:
-boolean</p>
-<p><em><em>Default</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-19-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1"></a>false
-</span></code></pre></div></td></tr></table></div></p>
-<p><em><em>Example</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-20-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1"></a>true
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnamebackupbtrfssnapshotdirectory">services.ethereum.nethermind.&lt;name&gt;.backup.btrfs.snapshotDirectory</h2>
-<p>Directory in which to create the btrfs snapshots. Must be located on the same volume as the state directory</p>
-<p><em><em>Type</em></em>:
-path</p>
-<p><em><em>Default</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-21-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1"></a>&quot;/snapshots&quot;
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnamebackupbtrfssnapshotretention">services.ethereum.nethermind.&lt;name&gt;.backup.btrfs.snapshotRetention</h2>
-<p>Number of days to retain snapshots</p>
-<p><em><em>Type</em></em>:
-signed integer</p>
-<p><em><em>Default</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-22-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1"></a>7
-</span></code></pre></div></td></tr></table></div></p>
-<p><em><em>Example</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-23-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1"></a>&quot;10&quot;
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnamebackupenable">services.ethereum.nethermind.&lt;name&gt;.backup.enable</h2>
-<p>Whether to enable Enable backup.</p>
-<p><em><em>Type</em></em>:
-boolean</p>
-<p><em><em>Default</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-24-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1"></a>false
-</span></code></pre></div></td></tr></table></div></p>
-<p><em><em>Example</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-25-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1"></a>true
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnamebackupmetadatainterval">services.ethereum.nethermind.&lt;name&gt;.backup.metadata.interval</h2>
-<p>Time interval in seconds between capturing backup metadata</p>
-<p><em><em>Type</em></em>:
-integer between 1 and 60 (both inclusive)</p>
-<p><em><em>Default</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-26-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1"></a>10
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnamebackupresticenvironmentfile">services.ethereum.nethermind.&lt;name&gt;.backup.restic.environmentFile</h2>
-<p>file containing the credentials to access the repository, in the
-format of an EnvironmentFile as described by systemd.exec(5)</p>
-<p><em><em>Type</em></em>:
-null or string</p>
-<p><em><em>Default</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-27-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1"></a>null
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnamebackupresticexclude">services.ethereum.nethermind.&lt;name&gt;.backup.restic.exclude</h2>
-<p>Patterns to exclude when backing up. See
-https://restic.readthedocs.io/en/latest/040_backup.html#excluding-files for
-details on syntax.</p>
-<p><em><em>Type</em></em>:
-list of string</p>
-<p><em><em>Default</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-28-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1"></a>[&quot;**/LOCK&quot;,&quot;keystore&quot;,&quot;**/nodekey&quot;]
-</span></code></pre></div></td></tr></table></div></p>
-<p><em><em>Example</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-29-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1"></a>[&quot;/var/cache&quot;,&quot;/home/*/.cache&quot;,&quot;.git&quot;]
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnamebackupresticextraoptions">services.ethereum.nethermind.&lt;name&gt;.backup.restic.extraOptions</h2>
-<p>Extra extended options to be passed to the restic --option flag.</p>
-<p><em><em>Type</em></em>:
-list of string</p>
-<p><em><em>Default</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-30-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1"></a>[]
-</span></code></pre></div></td></tr></table></div></p>
-<p><em><em>Example</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-31-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1"></a>[&quot;sftp.command=&#39;ssh backup@192.168.1.100 -i /home/user/.ssh/id_rsa -s sftp&#39;&quot;]
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnamebackupresticpasswordfile">services.ethereum.nethermind.&lt;name&gt;.backup.restic.passwordFile</h2>
-<p>Read the repository password from a file.</p>
-<p><em><em>Type</em></em>:
-string</p>
-<p><em><em>Example</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-32-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1"></a>&quot;/etc/nixos/restic-password&quot;
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnamebackupresticrcloneconfig">services.ethereum.nethermind.&lt;name&gt;.backup.restic.rcloneConfig</h2>
-<p>Configuration for the rclone remote being used for backup.
-See the remote's specific options under rclone's docs at
-<link xlink:href="https://rclone.org/docs/"></link>. When specifying
-option names, use the "config" name specified in the docs.
-For example, to set <literal>--b2-hard-delete</literal> for a B2
-remote, use <literal>hard_delete = true</literal> in the
-attribute set.
-Warning: Secrets set in here will be world-readable in the Nix
-store! Consider using the <literal>rcloneConfigFile</literal>
-option instead to specify secret values separately. Note that
-options set here will override those set in the config file.</p>
-<p><em><em>Type</em></em>:
-null or (attribute set of (string or boolean))</p>
-<p><em><em>Default</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-33-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1"></a>null
-</span></code></pre></div></td></tr></table></div></p>
-<p><em><em>Example</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-34-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1"></a>{&quot;account&quot;:&quot;xxx&quot;,&quot;hard_delete&quot;:true,&quot;key&quot;:&quot;xxx&quot;,&quot;type&quot;:&quot;b2&quot;}
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnamebackupresticrcloneconfigfile">services.ethereum.nethermind.&lt;name&gt;.backup.restic.rcloneConfigFile</h2>
-<p>Path to the file containing rclone configuration. This file
-must contain configuration for the remote specified in this backup
-set and also must be readable by root. Options set in
-<literal>rcloneConfig</literal> will override those set in this
-file.</p>
-<p><em><em>Type</em></em>:
-null or path</p>
-<p><em><em>Default</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-35-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1"></a>null
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnamebackupresticrcloneoptions">services.ethereum.nethermind.&lt;name&gt;.backup.restic.rcloneOptions</h2>
-<p>Options to pass to rclone to control its behavior.
-See <link xlink:href="https://rclone.org/docs/#options"></link> for
-available options. When specifying option names, strip the
-leading <literal>--</literal>. To set a flag such as
-<literal>--drive-use-trash</literal>, which does not take a value,
-set the value to the Boolean <literal>true</literal>.</p>
-<p><em><em>Type</em></em>:
-null or (attribute set of (string or boolean))</p>
-<p><em><em>Default</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-36-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1"></a>null
-</span></code></pre></div></td></tr></table></div></p>
-<p><em><em>Example</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-37-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1"></a>{&quot;bwlimit&quot;:&quot;10M&quot;,&quot;drive-use-trash&quot;:&quot;true&quot;}
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnamebackupresticrepository">services.ethereum.nethermind.&lt;name&gt;.backup.restic.repository</h2>
-<p>repository to backup to.</p>
-<p><em><em>Type</em></em>:
-null or string</p>
-<p><em><em>Default</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-38-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-38-1"><a id="__codelineno-38-1" name="__codelineno-38-1"></a>null
-</span></code></pre></div></td></tr></table></div></p>
-<p><em><em>Example</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-39-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-39-1"><a id="__codelineno-39-1" name="__codelineno-39-1"></a>&quot;sftp:backup@192.168.1.100:/backups/my-bucket&quot;
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnamebackupresticrepositoryfile">services.ethereum.nethermind.&lt;name&gt;.backup.restic.repositoryFile</h2>
-<p>Path to the file containing the repository location to backup to.</p>
-<p><em><em>Type</em></em>:
-null or path</p>
-<p><em><em>Default</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-40-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-40-1"><a id="__codelineno-40-1" name="__codelineno-40-1"></a>null
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnamebackupschedule">services.ethereum.nethermind.&lt;name&gt;.backup.schedule</h2>
-<p>Schedule for creating a backup. Format is the same as systemd.time</p>
-<p><em><em>Type</em></em>:
-string</p>
-<p><em><em>Default</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-41-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-41-1"><a id="__codelineno-41-1" name="__codelineno-41-1"></a>&quot;hourly&quot;
-</span></code></pre></div></td></tr></table></div></p>
-<p><em><em>Example</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-42-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-42-1"><a id="__codelineno-42-1" name="__codelineno-42-1"></a>&quot;daily&quot;
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnameenable">services.ethereum.nethermind.&lt;name&gt;.enable</h2>
-<p>Whether to enable Nethermind Ethereum Node..</p>
-<p><em><em>Type</em></em>:
-boolean</p>
-<p><em><em>Default</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-43-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-43-1"><a id="__codelineno-43-1" name="__codelineno-43-1"></a>false
-</span></code></pre></div></td></tr></table></div></p>
-<p><em><em>Example</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-44-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-44-1"><a id="__codelineno-44-1" name="__codelineno-44-1"></a>true
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnameextraargs">services.ethereum.nethermind.&lt;name&gt;.extraArgs</h2>
-<p>Additional arguments to pass to Nethermind.</p>
-<p><em><em>Type</em></em>:
-list of string</p>
-<p><em><em>Default</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-45-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-45-1"><a id="__codelineno-45-1" name="__codelineno-45-1"></a>[]
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnameopenfirewall">services.ethereum.nethermind.&lt;name&gt;.openFirewall</h2>
-<p>Open ports in the firewall for any enabled networking services</p>
-<p><em><em>Type</em></em>:
-boolean</p>
-<p><em><em>Default</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-46-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-46-1"><a id="__codelineno-46-1" name="__codelineno-46-1"></a>false
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnamepackage">services.ethereum.nethermind.&lt;name&gt;.package</h2>
+<p><em>Default:</em>
+<code>false</code></p>
+<p><em>Example:</em>
+<code>true</code></p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindpackage">services.ethereum.nethermind.\<name>.package</h2>
 <p>Package to use as Nethermind.</p>
-<p><em><em>Type</em></em>:
+<p><em>Type:</em>
 package</p>
-<p><em><em>Default</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-47-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-47-1"><a id="__codelineno-47-1" name="__codelineno-47-1"></a>{&quot;_type&quot;:&quot;literalExpression&quot;,&quot;text&quot;:&quot;pkgs.nethermind&quot;}
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnamerestoreenable">services.ethereum.nethermind.&lt;name&gt;.restore.enable</h2>
-<p>Whether to enable Enable restore from snapshot.</p>
-<p><em><em>Type</em></em>:
+<p><em>Default:</em>
+<code>pkgs.nethermind</code></p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindargsbasedbpath">services.ethereum.nethermind.\<name>.args.baseDbPath</h2>
+<p>Configures the path of the Nethermind’s database folder.</p>
+<p><em>Type:</em>
+null or path</p>
+<p><em>Default:</em>
+<code>null</code></p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindargsconfig">services.ethereum.nethermind.\<name>.args.config</h2>
+<p>Determines the configuration file of the network on which Nethermind will be running.</p>
+<p><em>Type:</em>
+null or string</p>
+<p><em>Default:</em>
+<code>null</code></p>
+<p><em>Example:</em>
+<code>"mainnet"</code></p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindargsconfigsdirectory">services.ethereum.nethermind.\<name>.args.configsDirectory</h2>
+<p>Changes the source directory of your configuration files.</p>
+<p><em>Type:</em>
+null or path</p>
+<p><em>Default:</em>
+<code>null</code></p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindargslog">services.ethereum.nethermind.\<name>.args.log</h2>
+<p>Changes the logging level.</p>
+<p><em>Type:</em>
+one of “OFF”, “TRACE”, “DEBUG”, “INFO”, “WARN”, “ERROR”</p>
+<p><em>Default:</em>
+<code>"INFO"</code></p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindargsloggerconfigsource">services.ethereum.nethermind.\<name>.args.loggerConfigSource</h2>
+<p>Changes the path of the NLog.config file.</p>
+<p><em>Type:</em>
+null or string</p>
+<p><em>Default:</em>
+<code>null</code></p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindargsmoduleshealthchecksenabled">services.ethereum.nethermind.\<name>.args.modules.HealthChecks.Enabled</h2>
+<p>If ‘true’ then Health Check endpoints is enabled at /health.</p>
+<p><em>Type:</em>
 boolean</p>
-<p><em><em>Default</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-48-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-48-1"><a id="__codelineno-48-1" name="__codelineno-48-1"></a>false
-</span></code></pre></div></td></tr></table></div></p>
-<p><em><em>Example</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-49-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-49-1"><a id="__codelineno-49-1" name="__codelineno-49-1"></a>true
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnamerestoreresticenvironmentfile">services.ethereum.nethermind.&lt;name&gt;.restore.restic.environmentFile</h2>
+<p><em>Default:</em>
+<code>true</code></p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindargsmodulesjsonrpcenabled">services.ethereum.nethermind.\<name>.args.modules.JsonRpc.Enabled</h2>
+<p>Defines whether the JSON RPC service is enabled on node startup.</p>
+<p><em>Type:</em>
+boolean</p>
+<p><em>Default:</em>
+<code>true</code></p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindargsmodulesjsonrpcenginehost">services.ethereum.nethermind.\<name>.args.modules.JsonRpc.EngineHost</h2>
+<p>Host for JSON RPC calls.</p>
+<p><em>Type:</em>
+string</p>
+<p><em>Default:</em>
+<code>"127.0.0.1"</code></p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindargsmodulesjsonrpcengineport">services.ethereum.nethermind.\<name>.args.modules.JsonRpc.EnginePort</h2>
+<p>Port for Execution Engine calls.</p>
+<p><em>Type:</em>
+16 bit unsigned integer; between 0 and 65535 (both inclusive)</p>
+<p><em>Default:</em>
+<code>8551</code></p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindargsmodulesjsonrpcjwtsecretfile">services.ethereum.nethermind.\<name>.args.modules.JsonRpc.JwtSecretFile</h2>
+<p>Path to file with hex encoded secret for jwt authentication.</p>
+<p><em>Type:</em>
+null or string</p>
+<p><em>Default:</em>
+<code>null</code></p>
+<p><em>Example:</em>
+<code>"/var/run/geth/jwtsecret"</code></p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindargsmodulesjsonrpcport">services.ethereum.nethermind.\<name>.args.modules.JsonRpc.Port</h2>
+<p>Port number for JSON RPC calls.</p>
+<p><em>Type:</em>
+16 bit unsigned integer; between 0 and 65535 (both inclusive)</p>
+<p><em>Default:</em>
+<code>8545</code></p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindargsmodulesjsonrpcwebsocketsport">services.ethereum.nethermind.\<name>.args.modules.JsonRpc.WebSocketsPort</h2>
+<p>Port number for JSON RPC web sockets calls.</p>
+<p><em>Type:</em>
+16 bit unsigned integer; between 0 and 65535 (both inclusive)</p>
+<p><em>Default:</em>
+<code>8545</code></p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindargsmodulesmetricsenabled">services.ethereum.nethermind.\<name>.args.modules.Metrics.Enabled</h2>
+<p>If ‘true’,the node publishes various metrics to Prometheus Pushgateway at given interval.</p>
+<p><em>Type:</em>
+boolean</p>
+<p><em>Default:</em>
+<code>true</code></p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindargsmodulesmetricsexposeport">services.ethereum.nethermind.\<name>.args.modules.Metrics.ExposePort</h2>
+<p>If ‘true’ then Health Check endpoints is enabled at /health</p>
+<p><em>Type:</em>
+null or 16 bit unsigned integer; between 0 and 65535 (both inclusive)</p>
+<p><em>Default:</em>
+<code>null</code></p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindargsmodulesnetworkdiscoveryport">services.ethereum.nethermind.\<name>.args.modules.Network.DiscoveryPort</h2>
+<p>UDP port number for incoming discovery connections.</p>
+<p><em>Type:</em>
+16 bit unsigned integer; between 0 and 65535 (both inclusive)</p>
+<p><em>Default:</em>
+<code>30303</code></p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindargsmodulesnetworkp2pport">services.ethereum.nethermind.\<name>.args.modules.Network.P2PPort</h2>
+<p>TPC/IP port number for incoming P2P connections.</p>
+<p><em>Type:</em>
+16 bit unsigned integer; between 0 and 65535 (both inclusive)</p>
+<p><em>Default:</em>
+<code>30303</code></p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindbackupenable">services.ethereum.nethermind.\<name>.backup.enable</h2>
+<p>Whether to enable Enable backup.</p>
+<p><em>Type:</em>
+boolean</p>
+<p><em>Default:</em>
+<code>false</code></p>
+<p><em>Example:</em>
+<code>true</code></p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindbackupbtrfsenable">services.ethereum.nethermind.\<name>.backup.btrfs.enable</h2>
+<p>Whether to enable Enable btrfs snapshots for the state directory, if supported by the underlying filesystem.</p>
+<p><em>Type:</em>
+boolean</p>
+<p><em>Default:</em>
+<code>false</code></p>
+<p><em>Example:</em>
+<code>true</code></p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindbackupbtrfssnapshotdirectory">services.ethereum.nethermind.\<name>.backup.btrfs.snapshotDirectory</h2>
+<p>Directory in which to create the btrfs snapshots. Must be located on the same volume as the state directory</p>
+<p><em>Type:</em>
+path</p>
+<p><em>Default:</em>
+<code>"/snapshots"</code></p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindbackupbtrfssnapshotretention">services.ethereum.nethermind.\<name>.backup.btrfs.snapshotRetention</h2>
+<p>Number of days to retain snapshots</p>
+<p><em>Type:</em>
+signed integer</p>
+<p><em>Default:</em>
+<code>7</code></p>
+<p><em>Example:</em>
+<code>"10"</code></p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindbackupmetadatainterval">services.ethereum.nethermind.\<name>.backup.metadata.interval</h2>
+<p>Time interval in seconds between capturing backup metadata</p>
+<p><em>Type:</em>
+integer between 1 and 60 (both inclusive)</p>
+<p><em>Default:</em>
+<code>10</code></p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindbackupresticenvironmentfile">services.ethereum.nethermind.\<name>.backup.restic.environmentFile</h2>
 <p>file containing the credentials to access the repository, in the
 format of an EnvironmentFile as described by systemd.exec(5)</p>
-<p><em><em>Type</em></em>:
+<p><em>Type:</em>
 null or string</p>
-<p><em><em>Default</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-50-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-50-1"><a id="__codelineno-50-1" name="__codelineno-50-1"></a>null
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnamerestoreresticexclude">services.ethereum.nethermind.&lt;name&gt;.restore.restic.exclude</h2>
+<p><em>Default:</em>
+<code>null</code></p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindbackupresticexclude">services.ethereum.nethermind.\<name>.backup.restic.exclude</h2>
 <p>Patterns to exclude when backing up. See
 https://restic.readthedocs.io/en/latest/040_backup.html#excluding-files for
 details on syntax.</p>
-<p><em><em>Type</em></em>:
+<p><em>Type:</em>
 list of string</p>
-<p><em><em>Default</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-51-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-51-1"><a id="__codelineno-51-1" name="__codelineno-51-1"></a>[&quot;**/LOCK&quot;,&quot;keystore&quot;,&quot;**/nodekey&quot;]
-</span></code></pre></div></td></tr></table></div></p>
-<p><em><em>Example</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-52-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-52-1"><a id="__codelineno-52-1" name="__codelineno-52-1"></a>[&quot;/var/cache&quot;,&quot;/home/*/.cache&quot;,&quot;.git&quot;]
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnamerestoreresticextraoptions">services.ethereum.nethermind.&lt;name&gt;.restore.restic.extraOptions</h2>
+<p><em>Default:</em></p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
+<span class="normal"><a href="#__codelineno-0-2">2</a></span>
+<span class="normal"><a href="#__codelineno-0-3">3</a></span>
+<span class="normal"><a href="#__codelineno-0-4">4</a></span>
+<span class="normal"><a href="#__codelineno-0-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>[
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>  &quot;**/LOCK&quot;
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a>  &quot;keystore&quot;
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a>  &quot;**/nodekey&quot;
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a>]
+</span></code></pre></div></td></tr></table></div>
+<p><em>Example:</em></p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
+<span class="normal"><a href="#__codelineno-1-2">2</a></span>
+<span class="normal"><a href="#__codelineno-1-3">3</a></span>
+<span class="normal"><a href="#__codelineno-1-4">4</a></span>
+<span class="normal"><a href="#__codelineno-1-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>[
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a>  &quot;/var/cache&quot;
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a>  &quot;/home/*/.cache&quot;
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4"></a>  &quot;.git&quot;
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5"></a>]
+</span></code></pre></div></td></tr></table></div>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindbackupresticextraoptions">services.ethereum.nethermind.\<name>.backup.restic.extraOptions</h2>
 <p>Extra extended options to be passed to the restic --option flag.</p>
-<p><em><em>Type</em></em>:
+<p><em>Type:</em>
 list of string</p>
-<p><em><em>Default</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-53-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-53-1"><a id="__codelineno-53-1" name="__codelineno-53-1"></a>[]
-</span></code></pre></div></td></tr></table></div></p>
-<p><em><em>Example</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-54-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-54-1"><a id="__codelineno-54-1" name="__codelineno-54-1"></a>[&quot;sftp.command=&#39;ssh backup@192.168.1.100 -i /home/user/.ssh/id_rsa -s sftp&#39;&quot;]
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnamerestoreresticpasswordfile">services.ethereum.nethermind.&lt;name&gt;.restore.restic.passwordFile</h2>
+<p><em>Default:</em>
+<code>[ ]</code></p>
+<p><em>Example:</em></p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
+<span class="normal"><a href="#__codelineno-2-2">2</a></span>
+<span class="normal"><a href="#__codelineno-2-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>[
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>  &quot;sftp.command=&#39;ssh backup@192.168.1.100 -i /home/user/.ssh/id_rsa -s sftp&#39;&quot;
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a>]
+</span></code></pre></div></td></tr></table></div>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindbackupresticpasswordfile">services.ethereum.nethermind.\<name>.backup.restic.passwordFile</h2>
 <p>Read the repository password from a file.</p>
-<p><em><em>Type</em></em>:
+<p><em>Type:</em>
 string</p>
-<p><em><em>Example</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-55-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-55-1"><a id="__codelineno-55-1" name="__codelineno-55-1"></a>&quot;/etc/nixos/restic-password&quot;
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnamerestoreresticrcloneconfig">services.ethereum.nethermind.&lt;name&gt;.restore.restic.rcloneConfig</h2>
+<p><em>Example:</em>
+<code>"/etc/nixos/restic-password"</code></p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindbackupresticrcloneconfig">services.ethereum.nethermind.\<name>.backup.restic.rcloneConfig</h2>
 <p>Configuration for the rclone remote being used for backup.
-See the remote's specific options under rclone's docs at
-<link xlink:href="https://rclone.org/docs/"></link>. When specifying
-option names, use the "config" name specified in the docs.
-For example, to set <literal>--b2-hard-delete</literal> for a B2
-remote, use <literal>hard_delete = true</literal> in the
+See the remote’s specific options under rclone’s docs at
+<a href="https://rclone.org/docs/">https://rclone.org/docs/</a>. When specifying
+option names, use the “config” name specified in the docs.
+For example, to set <code>--b2-hard-delete</code> for a B2
+remote, use <code>hard_delete = true</code> in the
 attribute set.
 Warning: Secrets set in here will be world-readable in the Nix
-store! Consider using the <literal>rcloneConfigFile</literal>
+store! Consider using the <code>rcloneConfigFile</code>
 option instead to specify secret values separately. Note that
 options set here will override those set in the config file.</p>
-<p><em><em>Type</em></em>:
+<p><em>Type:</em>
 null or (attribute set of (string or boolean))</p>
-<p><em><em>Default</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-56-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-56-1"><a id="__codelineno-56-1" name="__codelineno-56-1"></a>null
-</span></code></pre></div></td></tr></table></div></p>
-<p><em><em>Example</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-57-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-57-1"><a id="__codelineno-57-1" name="__codelineno-57-1"></a>{&quot;account&quot;:&quot;xxx&quot;,&quot;hard_delete&quot;:true,&quot;key&quot;:&quot;xxx&quot;,&quot;type&quot;:&quot;b2&quot;}
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnamerestoreresticrcloneconfigfile">services.ethereum.nethermind.&lt;name&gt;.restore.restic.rcloneConfigFile</h2>
+<p><em>Default:</em>
+<code>null</code></p>
+<p><em>Example:</em></p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span>
+<span class="normal"><a href="#__codelineno-3-2">2</a></span>
+<span class="normal"><a href="#__codelineno-3-3">3</a></span>
+<span class="normal"><a href="#__codelineno-3-4">4</a></span>
+<span class="normal"><a href="#__codelineno-3-5">5</a></span>
+<span class="normal"><a href="#__codelineno-3-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>{
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a>  account = &quot;xxx&quot;;
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a>  hard_delete = true;
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a>  key = &quot;xxx&quot;;
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5"></a>  type = &quot;b2&quot;;
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6"></a>}
+</span></code></pre></div></td></tr></table></div>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindbackupresticrcloneconfigfile">services.ethereum.nethermind.\<name>.backup.restic.rcloneConfigFile</h2>
 <p>Path to the file containing rclone configuration. This file
 must contain configuration for the remote specified in this backup
 set and also must be readable by root. Options set in
-<literal>rcloneConfig</literal> will override those set in this
+<code>rcloneConfig</code> will override those set in this
 file.</p>
-<p><em><em>Type</em></em>:
+<p><em>Type:</em>
 null or path</p>
-<p><em><em>Default</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-58-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-58-1"><a id="__codelineno-58-1" name="__codelineno-58-1"></a>null
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnamerestoreresticrcloneoptions">services.ethereum.nethermind.&lt;name&gt;.restore.restic.rcloneOptions</h2>
+<p><em>Default:</em>
+<code>null</code></p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindbackupresticrcloneoptions">services.ethereum.nethermind.\<name>.backup.restic.rcloneOptions</h2>
 <p>Options to pass to rclone to control its behavior.
-See <link xlink:href="https://rclone.org/docs/#options"></link> for
+See <a href="https://rclone.org/docs/#options">https://rclone.org/docs/#options</a> for
 available options. When specifying option names, strip the
-leading <literal>--</literal>. To set a flag such as
-<literal>--drive-use-trash</literal>, which does not take a value,
-set the value to the Boolean <literal>true</literal>.</p>
-<p><em><em>Type</em></em>:
+leading <code>--</code>. To set a flag such as
+<code>--drive-use-trash</code>, which does not take a value,
+set the value to the Boolean <code>true</code>.</p>
+<p><em>Type:</em>
 null or (attribute set of (string or boolean))</p>
-<p><em><em>Default</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-59-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-59-1"><a id="__codelineno-59-1" name="__codelineno-59-1"></a>null
-</span></code></pre></div></td></tr></table></div></p>
-<p><em><em>Example</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-60-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-60-1"><a id="__codelineno-60-1" name="__codelineno-60-1"></a>{&quot;bwlimit&quot;:&quot;10M&quot;,&quot;drive-use-trash&quot;:&quot;true&quot;}
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnamerestoreresticrepository">services.ethereum.nethermind.&lt;name&gt;.restore.restic.repository</h2>
+<p><em>Default:</em>
+<code>null</code></p>
+<p><em>Example:</em></p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
+<span class="normal"><a href="#__codelineno-4-2">2</a></span>
+<span class="normal"><a href="#__codelineno-4-3">3</a></span>
+<span class="normal"><a href="#__codelineno-4-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a>{
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a>  bwlimit = &quot;10M&quot;;
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a>  drive-use-trash = &quot;true&quot;;
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a>}
+</span></code></pre></div></td></tr></table></div>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindbackupresticrepository">services.ethereum.nethermind.\<name>.backup.restic.repository</h2>
 <p>repository to backup to.</p>
-<p><em><em>Type</em></em>:
+<p><em>Type:</em>
 null or string</p>
-<p><em><em>Default</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-61-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-61-1"><a id="__codelineno-61-1" name="__codelineno-61-1"></a>null
-</span></code></pre></div></td></tr></table></div></p>
-<p><em><em>Example</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-62-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-62-1"><a id="__codelineno-62-1" name="__codelineno-62-1"></a>&quot;sftp:backup@192.168.1.100:/backups/my-bucket&quot;
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnamerestoreresticrepositoryfile">services.ethereum.nethermind.&lt;name&gt;.restore.restic.repositoryFile</h2>
+<p><em>Default:</em>
+<code>null</code></p>
+<p><em>Example:</em>
+<code>"sftp:backup@192.168.1.100:/backups/my-bucket"</code></p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindbackupresticrepositoryfile">services.ethereum.nethermind.\<name>.backup.restic.repositoryFile</h2>
 <p>Path to the file containing the repository location to backup to.</p>
-<p><em><em>Type</em></em>:
+<p><em>Type:</em>
 null or path</p>
-<p><em><em>Default</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-63-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-63-1"><a id="__codelineno-63-1" name="__codelineno-63-1"></a>null
-</span></code></pre></div></td></tr></table></div></p>
-<h2 id="servicesethereumnethermindnamerestoresnapshot">services.ethereum.nethermind.&lt;name&gt;.restore.snapshot</h2>
-<p>The id of the snapshot to restore from</p>
-<p><em><em>Type</em></em>:
+<p><em>Default:</em>
+<code>null</code></p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindbackupschedule">services.ethereum.nethermind.\<name>.backup.schedule</h2>
+<p>Schedule for creating a backup. Format is the same as systemd.time</p>
+<p><em>Type:</em>
 string</p>
-<h2 id="servicesethereumnethermindnamerestoretimeout">services.ethereum.nethermind.&lt;name&gt;.restore.timeout</h2>
+<p><em>Default:</em>
+<code>"hourly"</code></p>
+<p><em>Example:</em>
+<code>"daily"</code></p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindextraargs">services.ethereum.nethermind.\<name>.extraArgs</h2>
+<p>Additional arguments to pass to Nethermind.</p>
+<p><em>Type:</em>
+list of string</p>
+<p><em>Default:</em>
+<code>[ ]</code></p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindopenfirewall">services.ethereum.nethermind.\<name>.openFirewall</h2>
+<p>Open ports in the firewall for any enabled networking services</p>
+<p><em>Type:</em>
+boolean</p>
+<p><em>Default:</em>
+<code>false</code></p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindrestoreenable">services.ethereum.nethermind.\<name>.restore.enable</h2>
+<p>Whether to enable Enable restore from snapshot.</p>
+<p><em>Type:</em>
+boolean</p>
+<p><em>Default:</em>
+<code>false</code></p>
+<p><em>Example:</em>
+<code>true</code></p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindrestoreresticenvironmentfile">services.ethereum.nethermind.\<name>.restore.restic.environmentFile</h2>
+<p>file containing the credentials to access the repository, in the
+format of an EnvironmentFile as described by systemd.exec(5)</p>
+<p><em>Type:</em>
+null or string</p>
+<p><em>Default:</em>
+<code>null</code></p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindrestoreresticexclude">services.ethereum.nethermind.\<name>.restore.restic.exclude</h2>
+<p>Patterns to exclude when backing up. See
+https://restic.readthedocs.io/en/latest/040_backup.html#excluding-files for
+details on syntax.</p>
+<p><em>Type:</em>
+list of string</p>
+<p><em>Default:</em></p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span>
+<span class="normal"><a href="#__codelineno-5-2">2</a></span>
+<span class="normal"><a href="#__codelineno-5-3">3</a></span>
+<span class="normal"><a href="#__codelineno-5-4">4</a></span>
+<span class="normal"><a href="#__codelineno-5-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>[
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a>  &quot;**/LOCK&quot;
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3"></a>  &quot;keystore&quot;
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4"></a>  &quot;**/nodekey&quot;
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5"></a>]
+</span></code></pre></div></td></tr></table></div>
+<p><em>Example:</em></p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span>
+<span class="normal"><a href="#__codelineno-6-2">2</a></span>
+<span class="normal"><a href="#__codelineno-6-3">3</a></span>
+<span class="normal"><a href="#__codelineno-6-4">4</a></span>
+<span class="normal"><a href="#__codelineno-6-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>[
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a>  &quot;/var/cache&quot;
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3"></a>  &quot;/home/*/.cache&quot;
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4"></a>  &quot;.git&quot;
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5"></a>]
+</span></code></pre></div></td></tr></table></div>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindrestoreresticextraoptions">services.ethereum.nethermind.\<name>.restore.restic.extraOptions</h2>
+<p>Extra extended options to be passed to the restic --option flag.</p>
+<p><em>Type:</em>
+list of string</p>
+<p><em>Default:</em>
+<code>[ ]</code></p>
+<p><em>Example:</em></p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span>
+<span class="normal"><a href="#__codelineno-7-2">2</a></span>
+<span class="normal"><a href="#__codelineno-7-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>[
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2"></a>  &quot;sftp.command=&#39;ssh backup@192.168.1.100 -i /home/user/.ssh/id_rsa -s sftp&#39;&quot;
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3"></a>]
+</span></code></pre></div></td></tr></table></div>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindrestoreresticpasswordfile">services.ethereum.nethermind.\<name>.restore.restic.passwordFile</h2>
+<p>Read the repository password from a file.</p>
+<p><em>Type:</em>
+string</p>
+<p><em>Example:</em>
+<code>"/etc/nixos/restic-password"</code></p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindrestoreresticrcloneconfig">services.ethereum.nethermind.\<name>.restore.restic.rcloneConfig</h2>
+<p>Configuration for the rclone remote being used for backup.
+See the remote’s specific options under rclone’s docs at
+<a href="https://rclone.org/docs/">https://rclone.org/docs/</a>. When specifying
+option names, use the “config” name specified in the docs.
+For example, to set <code>--b2-hard-delete</code> for a B2
+remote, use <code>hard_delete = true</code> in the
+attribute set.
+Warning: Secrets set in here will be world-readable in the Nix
+store! Consider using the <code>rcloneConfigFile</code>
+option instead to specify secret values separately. Note that
+options set here will override those set in the config file.</p>
+<p><em>Type:</em>
+null or (attribute set of (string or boolean))</p>
+<p><em>Default:</em>
+<code>null</code></p>
+<p><em>Example:</em></p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span>
+<span class="normal"><a href="#__codelineno-8-2">2</a></span>
+<span class="normal"><a href="#__codelineno-8-3">3</a></span>
+<span class="normal"><a href="#__codelineno-8-4">4</a></span>
+<span class="normal"><a href="#__codelineno-8-5">5</a></span>
+<span class="normal"><a href="#__codelineno-8-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>{
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2"></a>  account = &quot;xxx&quot;;
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3"></a>  hard_delete = true;
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4"></a>  key = &quot;xxx&quot;;
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5"></a>  type = &quot;b2&quot;;
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6"></a>}
+</span></code></pre></div></td></tr></table></div>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindrestoreresticrcloneconfigfile">services.ethereum.nethermind.\<name>.restore.restic.rcloneConfigFile</h2>
+<p>Path to the file containing rclone configuration. This file
+must contain configuration for the remote specified in this backup
+set and also must be readable by root. Options set in
+<code>rcloneConfig</code> will override those set in this
+file.</p>
+<p><em>Type:</em>
+null or path</p>
+<p><em>Default:</em>
+<code>null</code></p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindrestoreresticrcloneoptions">services.ethereum.nethermind.\<name>.restore.restic.rcloneOptions</h2>
+<p>Options to pass to rclone to control its behavior.
+See <a href="https://rclone.org/docs/#options">https://rclone.org/docs/#options</a> for
+available options. When specifying option names, strip the
+leading <code>--</code>. To set a flag such as
+<code>--drive-use-trash</code>, which does not take a value,
+set the value to the Boolean <code>true</code>.</p>
+<p><em>Type:</em>
+null or (attribute set of (string or boolean))</p>
+<p><em>Default:</em>
+<code>null</code></p>
+<p><em>Example:</em></p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span>
+<span class="normal"><a href="#__codelineno-9-2">2</a></span>
+<span class="normal"><a href="#__codelineno-9-3">3</a></span>
+<span class="normal"><a href="#__codelineno-9-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a>{
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2"></a>  bwlimit = &quot;10M&quot;;
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3"></a>  drive-use-trash = &quot;true&quot;;
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4"></a>}
+</span></code></pre></div></td></tr></table></div>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindrestoreresticrepository">services.ethereum.nethermind.\<name>.restore.restic.repository</h2>
+<p>repository to backup to.</p>
+<p><em>Type:</em>
+null or string</p>
+<p><em>Default:</em>
+<code>null</code></p>
+<p><em>Example:</em>
+<code>"sftp:backup@192.168.1.100:/backups/my-bucket"</code></p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindrestoreresticrepositoryfile">services.ethereum.nethermind.\<name>.restore.restic.repositoryFile</h2>
+<p>Path to the file containing the repository location to backup to.</p>
+<p><em>Type:</em>
+null or path</p>
+<p><em>Default:</em>
+<code>null</code></p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindrestoresnapshot">services.ethereum.nethermind.\<name>.restore.snapshot</h2>
+<p>The id of the snapshot to restore from</p>
+<p><em>Type:</em>
+string</p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
+<h2 id="servicesethereumnethermindrestoretimeout">services.ethereum.nethermind.\<name>.restore.timeout</h2>
 <p>The max time to wait before timing out on startup. This value is used for TimeoutStartSec in the systemd service config.</p>
-<p><em><em>Type</em></em>:
+<p><em>Type:</em>
 signed integer</p>
-<p><em><em>Default</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-64-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-64-1"><a id="__codelineno-64-1" name="__codelineno-64-1"></a>600
-</span></code></pre></div></td></tr></table></div></p>
-<p><em><em>Example</em></em>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-65-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-65-1"><a id="__codelineno-65-1" name="__codelineno-65-1"></a>&quot;900&quot;
-</span></code></pre></div></td></tr></table></div></p>
+<p><em>Default:</em>
+<code>600</code></p>
+<p><em>Example:</em>
+<code>"900"</code></p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix">/nix/store/1k6f6rxbknmzqy3nadp5l8j55ycsyk16-source/modules/nethermind/options.nix</a></p>
 
 
 
 
-              
-            </article>
-            
-          </div>
+
+                
+              </article>
+            </div>
+          
+          
         </div>
         
-          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
             Back to top
-          </a>
+          </button>
         
       </main>
       
         <footer class="md-footer">
-  
-    
-    <nav class="md-footer__inner md-grid" aria-label="Footer" >
-      
-        
-        <a href="../geth-bootnode/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Geth bootnode" rel="prev">
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
-          </div>
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Previous
-              </span>
-              Geth bootnode
-            </div>
-          </div>
-        </a>
-      
-      
-        
-        <a href="../prysm-beacon/" class="md-footer__link md-footer__link--next" aria-label="Next: Prysm beacon" rel="next">
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              Prysm beacon
-            </div>
-          </div>
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
-          </div>
-        </a>
-      
-    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
@@ -1865,8 +1912,10 @@ signed integer</p>
   
     
     
+    
+    
     <a href="https://github.com/nix-community/ethereum.nix" target="_blank" rel="noopener" title="Ethereum.nix on Github" class="md-social__link">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
     </a>
   
 </div>
@@ -1880,10 +1929,10 @@ signed integer</p>
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.instant", "navigation.tracking", "navigation.sections", "navigation.top", "toc.follow", "content.action.edit", "content.action.view", "content.code.annotate", "search.suggest", "search.highlight", "search.share"], "search": "../../../assets/javascripts/workers/search.ecf98df9.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.instant", "navigation.tracking", "navigation.sections", "navigation.top", "toc.follow", "content.action.edit", "content.action.view", "content.code.annotate", "search.suggest", "search.highlight", "search.share"], "search": "../../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.2ab50757.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.51198bba.min.js"></script>
       
     
   </body>
