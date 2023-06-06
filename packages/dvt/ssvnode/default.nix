@@ -1,10 +1,10 @@
 {
   bls,
   mcl,
-  buildGoModule,
+  buildGo119Module,
   fetchFromGitHub,
 }:
-buildGoModule rec {
+buildGo119Module rec {
   pname = "ssv";
   version = "0.5.4";
 
@@ -15,7 +15,7 @@ buildGoModule rec {
     hash = "sha256-tMk91zKURbqREdeBnz6bc2UqKOBZA1TY6ueJdU0vAFM=";
   };
 
-  vendorSha256 = "sha256-u5/TVnpSBOdt3Hq3+JVVyfUwBy1iw51JRdtlB799nXY=";
+  vendorHash = "sha256-u5/TVnpSBOdt3Hq3+JVVyfUwBy1iw51JRdtlB799nXY=";
 
   buildInputs = [bls mcl];
 

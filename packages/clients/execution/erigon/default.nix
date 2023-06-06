@@ -1,7 +1,6 @@
 {
   buildGoModule,
   fetchFromGitHub,
-  lib,
 }:
 buildGoModule rec {
   pname = "erigon";
@@ -15,7 +14,7 @@ buildGoModule rec {
     fetchSubmodules = true;
   };
 
-  vendorSha256 = "sha256-JhMefeUxo9ksyCnNsLgAhGG0Ix7kxCA/cYyiELd0H64=";
+  vendorHash = "sha256-JhMefeUxo9ksyCnNsLgAhGG0Ix7kxCA/cYyiELd0H64=";
   proxyVendor = true;
 
   # Build errors in mdbx when format hardening is enabled:
@@ -29,7 +28,7 @@ buildGoModule rec {
     "cmd/rlpdump"
   ];
 
-  meta = with lib; {
+  meta = {
     description = "Ethereum node implementation focused on scalability and modularity";
     homepage = "https://github.com/ledgerwatch/erigon/";
     mainProgram = "erigon";

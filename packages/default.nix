@@ -9,20 +9,18 @@
 
   perSystem = {
     self',
-    inputs',
     pkgs,
     system,
     ...
   }: let
     inherit (pkgs) callPackage;
     inherit (lib.flake) platformPkgs platformApps;
-
-    callPackageUnstable = inputs'.nixpkgs-unstable.legacyPackages.callPackage;
+    #callPackageUnstable = inputs'.nixpkgs-unstable.legacyPackages.callPackage;
   in {
     packages = platformPkgs system rec {
       # Consensus Clients
-      lighthouse = callPackageUnstable ./clients/consensus/lighthouse {};
-      prysm = callPackageUnstable ./clients/consensus/prysm {inherit bls blst;};
+      lighthouse = callPackage ./clients/consensus/lighthouse {};
+      prysm = callPackage ./clients/consensus/prysm {inherit bls blst;};
       teku = callPackage ./clients/consensus/teku {};
 
       # Execution Clients
@@ -42,21 +40,21 @@
       # MEV
       dreamboat = callPackage ./mev/dreamboat {inherit blst;};
       mev-boost = callPackage ./mev/mev-boost {inherit blst;};
-      mev-boost-builder = callPackageUnstable ./mev/mev-boost-builder {inherit blst;};
+      mev-boost-builder = callPackage ./mev/mev-boost-builder {inherit blst;};
       mev-boost-prysm = callPackage ./mev/mev-boost-prysm {inherit bls blst;};
       mev-boost-relay = callPackage ./mev/mev-boost-relay {inherit blst;};
 
       mev-rs = callPackage ./mev/mev-rs {};
 
       # DVT
-      charon = callPackageUnstable ./dvt/charon {inherit bls mcl;};
+      charon = callPackage ./dvt/charon {inherit bls mcl;};
       ssvnode = callPackage ./dvt/ssvnode {inherit bls mcl;};
 
       # Utils
       eth2-testnet-genesis = callPackage ./utils/eth2-testnet-genesis {inherit bls;};
       ethdo = callPackage ./utils/ethdo {inherit bls mcl;};
       ethereal = callPackage ./utils/ethereal {inherit bls mcl;};
-      sedge = callPackageUnstable ./utils/sedge {inherit bls mcl;};
+      sedge = callPackage ./utils/sedge {inherit bls mcl;};
       staking-deposit-cli = callPackage ./utils/staking-deposit-cli {};
       zcli = callPackage ./utils/zcli {};
 
