@@ -38,7 +38,17 @@ in {
                 };
 
               # filter out certain args which need to be treated differently
-              specialArgs = ["-goerli -mainnet -sepolia -relays -relay -relay-monitors -relay-monitor"];
+              specialArgs = [
+                "--network"
+                "-goerli"
+                "-mainnet"
+                "-relay-monitor"
+                "-relay-monitors"
+                "-relay"
+                "-relays"
+                "-sepolia"
+                "-zhejiang"
+              ];
               isNormalArg = name: (findFirst (arg: hasPrefix arg name) null specialArgs) == null;
               filteredArgs = builtins.filter isNormalArg args;
 
