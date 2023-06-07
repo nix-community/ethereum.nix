@@ -56,6 +56,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://nix-community.github.io/ethereum.nix/reference/module-options/mev-boost/</loc>
+         <lastmod>1980-01-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://nix-community.github.io/ethereum.nix/reference/module-options/nethermind/</loc>
          <lastmod>1980-01-01</lastmod>
          <changefreq>daily</changefreq>
