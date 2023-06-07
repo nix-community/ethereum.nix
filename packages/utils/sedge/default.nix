@@ -6,7 +6,7 @@
   mockgen,
 }: let
   pname = "sedge";
-  version = "1.1.0";
+  version = "1.2.0";
 in
   buildGoModule {
     inherit pname version;
@@ -15,9 +15,9 @@ in
       owner = "NethermindEth";
       repo = pname;
       rev = "v${version}";
-      hash = "sha256-rIBHRiVZT3XXZB8zuFOoX02/g/DhBvIwa+sdis1XSYs=";
+      hash = "sha256-Kk7OD0CA6JcnVzISg0l1oC/r9ZQidHe6t6Dxz9aB7Tw=";
     };
-    vendorHash = "sha256-aLH+Ob9jRrE6z5FqJUZpdUMtsHYtw+QiTJrV3LsW0CU=";
+    vendorHash = "sha256-Fasmr5h8CyWEPNHMKp1OL+s/A9TObx2fq1EgRf9HN4o=";
     proxyVendor = true;
 
     buildInputs = [bls mcl];
