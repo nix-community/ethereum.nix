@@ -58,7 +58,13 @@ in {
                 };
 
               # filter out certain args which need to be treated differently
-              specialArgs = ["--network" "--rpc-enable" "--graffiti" "--user"];
+              specialArgs = [
+                "--datadir"
+                "--graffiti"
+                "--network"
+                "--rpc-enable"
+                "--user"
+              ];
               isNormalArg = name: (findFirst (arg: hasPrefix arg name) null specialArgs) == null;
               filteredArgs = builtins.filter isNormalArg args;
 
@@ -72,7 +78,8 @@ in {
                 then "--datadir ${cfg.args.datadir}"
                 else "--datadir %S/${beaconServiceName}";
             in ''
-              --accept-terms-of-use ${network} \
+              --accept-terms-of-use \
+              ${network} \
               ${datadir} \
               ${concatStringsSep " \\\n" filteredArgs} \
               ${lib.escapeShellArgs cfg.extraArgs}
