@@ -8,6 +8,8 @@
   openssl,
   protobuf,
   rustPlatform,
+  nodePackages,
+  postgresql,
 }: let
   slasherContractVersion = "0.12.1";
   slasherContractSrc = fetchurl {
@@ -96,8 +98,28 @@ in
     # LIGHTHOUSE_WEB3SIGNER_BIN = websignerSrc;
     # LIGHTHOUSE_WEB3SIGNER_VERSION = "${websignerVersion}";
 
-    # TODO: Some tests are failing and we need to know why
-    doCheck = false;
+    #doCheck = false;
+    cargoTestFlags = [
+      "--workspace"
+      "--exclude beacon_node"
+      "--exclude http_api"
+      "--exclude beacon_chain"
+      "--exclude lighthouse"
+      "--exclude lighthouse_network"
+      "--exclude slashing_protection"
+      "--exclude watch"
+      "--exclude web3signer_tests"
+    ];
+
+    # All of these tests require network access
+    checkFlags = [
+      "--skip service::tests::tests::test_dht_persistence"
+      "--skip time::test::test_reinsertion_updates_timeout"
+    ];
+    nativeCheckInputs = [
+      nodePackages.ganache
+      postgresql
+    ];
 
     meta = {
       description = "Ethereum consensus client in Rust";
