@@ -70,4 +70,9 @@
          <lastmod>1980-01-01</lastmod>
          <changefreq>daily</changefreq>
     </url>
+    <url>
+         <loc>https://nix-community.github.io/ethereum.nix/reference/module-options/prysm-validator/</loc>
+         <lastmod>1980-01-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
 </urlset>

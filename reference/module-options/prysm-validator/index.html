@@ -10,7 +10,7 @@
       
       
       
-        <link rel="canonical" href="https://nix-community.github.io/ethereum.nix/reference/module-options/mev-boost/">
+        <link rel="canonical" href="https://nix-community.github.io/ethereum.nix/reference/module-options/prysm-validator/">
       
       
       
@@ -19,7 +19,7 @@
     
     
       
-        <title>Mev boost - Ethereum.nix</title>
+        <title>Prysm validator - Ethereum.nix</title>
       
     
     
@@ -71,7 +71,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#servicesethereummev-boost" class="md-skip">
+        <a href="#servicesethereumprysm-validator" class="md-skip">
           Skip to content
         </a>
       
@@ -105,7 +105,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Mev boost
+              Prysm validator
             
           </span>
         </div>
@@ -588,316 +588,330 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#servicesethereummev-boost" class="md-nav__link">
-    services46ethereum46mev-boost
+  <a href="#servicesethereumprysm-validator" class="md-nav__link">
+    services46ethereum46prysm-validator
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereummev-boostenable" class="md-nav__link">
-    services46ethereum46mev-boost46\46enable
+  <a href="#servicesethereumprysm-validatorenable" class="md-nav__link">
+    services46ethereum46prysm-validator46\46enable
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereummev-boostpackage" class="md-nav__link">
-    services46ethereum46mev-boost46\46package
+  <a href="#servicesethereumprysm-validatorpackage" class="md-nav__link">
+    services46ethereum46prysm-validator46\46package
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereummev-boostargsaddr" class="md-nav__link">
-    services46ethereum46mev-boost46\46args46addr
+  <a href="#servicesethereumprysm-validatorargsdatadir" class="md-nav__link">
+    services46ethereum46prysm-validator46\46args46datadir
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereummev-boostargsjson" class="md-nav__link">
-    services46ethereum46mev-boost46\46args46json
+  <a href="#servicesethereumprysm-validatorargsdisable-monitoring" class="md-nav__link">
+    services46ethereum46prysm-validator46\46args46disable-monitoring
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereummev-boostargslog-no-version" class="md-nav__link">
-    services46ethereum46mev-boost46\46args46log-no-version
+  <a href="#servicesethereumprysm-validatorargsgraffiti" class="md-nav__link">
+    services46ethereum46prysm-validator46\46args46graffiti
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereummev-boostargslog-service" class="md-nav__link">
-    services46ethereum46mev-boost46\46args46log-service
+  <a href="#servicesethereumprysm-validatorargsgrpc-gateway-host" class="md-nav__link">
+    services46ethereum46prysm-validator46\46args46grpc-gateway-host
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereummev-boostargsloglevel" class="md-nav__link">
-    services46ethereum46mev-boost46\46args46loglevel
+  <a href="#servicesethereumprysm-validatorargsgrpc-gateway-port" class="md-nav__link">
+    services46ethereum46prysm-validator46\46args46grpc-gateway-port
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereummev-boostargsmin-bid" class="md-nav__link">
-    services46ethereum46mev-boost46\46args46min-bid
+  <a href="#servicesethereumprysm-validatorargsmonitoring-host" class="md-nav__link">
+    services46ethereum46prysm-validator46\46args46monitoring-host
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereummev-boostargsnetwork" class="md-nav__link">
-    services46ethereum46mev-boost46\46args46network
+  <a href="#servicesethereumprysm-validatorargsmonitoring-port" class="md-nav__link">
+    services46ethereum46prysm-validator46\46args46monitoring-port
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereummev-boostargsrelay-check" class="md-nav__link">
-    services46ethereum46mev-boost46\46args46relay-check
+  <a href="#servicesethereumprysm-validatorargsnetwork" class="md-nav__link">
+    services46ethereum46prysm-validator46\46args46network
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereummev-boostargsrelay-monitors" class="md-nav__link">
-    services46ethereum46mev-boost46\46args46relay-monitors
+  <a href="#servicesethereumprysm-validatorargsrpcenable" class="md-nav__link">
+    services46ethereum46prysm-validator46\46args46rpc46enable
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereummev-boostargsrelays" class="md-nav__link">
-    services46ethereum46mev-boost46\46args46relays
+  <a href="#servicesethereumprysm-validatorargsrpchost" class="md-nav__link">
+    services46ethereum46prysm-validator46\46args46rpc46host
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereummev-boostargsrequest-max-retries" class="md-nav__link">
-    services46ethereum46mev-boost46\46args46request-max-retries
+  <a href="#servicesethereumprysm-validatorargsrpcport" class="md-nav__link">
+    services46ethereum46prysm-validator46\46args46rpc46port
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereummev-boostargsrequest-timeout-getheader" class="md-nav__link">
-    services46ethereum46mev-boost46\46args46request-timeout-getheader
+  <a href="#servicesethereumprysm-validatorargssuggested-fee-recipient" class="md-nav__link">
+    services46ethereum46prysm-validator46\46args46suggested-fee-recipient
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereummev-boostargsrequest-timeout-getpayload" class="md-nav__link">
-    services46ethereum46mev-boost46\46args46request-timeout-getpayload
+  <a href="#servicesethereumprysm-validatorargsuser" class="md-nav__link">
+    services46ethereum46prysm-validator46\46args46user
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereummev-boostargsrequest-timeout-regval" class="md-nav__link">
-    services46ethereum46mev-boost46\46args46request-timeout-regval
+  <a href="#servicesethereumprysm-validatorargswallet-dir" class="md-nav__link">
+    services46ethereum46prysm-validator46\46args46wallet-dir
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereummev-boostbackupenable" class="md-nav__link">
-    services46ethereum46mev-boost46\46backup46enable
+  <a href="#servicesethereumprysm-validatorargswallet-password-file" class="md-nav__link">
+    services46ethereum46prysm-validator46\46args46wallet-password-file
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereummev-boostbackupbtrfsenable" class="md-nav__link">
-    services46ethereum46mev-boost46\46backup46btrfs46enable
+  <a href="#servicesethereumprysm-validatorbackupenable" class="md-nav__link">
+    services46ethereum46prysm-validator46\46backup46enable
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereummev-boostbackupbtrfssnapshotdirectory" class="md-nav__link">
-    services46ethereum46mev-boost46\46backup46btrfs46snapshotDirectory
+  <a href="#servicesethereumprysm-validatorbackupbtrfsenable" class="md-nav__link">
+    services46ethereum46prysm-validator46\46backup46btrfs46enable
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereummev-boostbackupbtrfssnapshotretention" class="md-nav__link">
-    services46ethereum46mev-boost46\46backup46btrfs46snapshotRetention
+  <a href="#servicesethereumprysm-validatorbackupbtrfssnapshotdirectory" class="md-nav__link">
+    services46ethereum46prysm-validator46\46backup46btrfs46snapshotDirectory
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereummev-boostbackupmetadatainterval" class="md-nav__link">
-    services46ethereum46mev-boost46\46backup46metadata46interval
+  <a href="#servicesethereumprysm-validatorbackupbtrfssnapshotretention" class="md-nav__link">
+    services46ethereum46prysm-validator46\46backup46btrfs46snapshotRetention
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereummev-boostbackupresticenvironmentfile" class="md-nav__link">
-    services46ethereum46mev-boost46\46backup46restic46environmentFile
+  <a href="#servicesethereumprysm-validatorbackupmetadatainterval" class="md-nav__link">
+    services46ethereum46prysm-validator46\46backup46metadata46interval
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereummev-boostbackupresticexclude" class="md-nav__link">
-    services46ethereum46mev-boost46\46backup46restic46exclude
+  <a href="#servicesethereumprysm-validatorbackupresticenvironmentfile" class="md-nav__link">
+    services46ethereum46prysm-validator46\46backup46restic46environmentFile
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereummev-boostbackupresticextraoptions" class="md-nav__link">
-    services46ethereum46mev-boost46\46backup46restic46extraOptions
+  <a href="#servicesethereumprysm-validatorbackupresticexclude" class="md-nav__link">
+    services46ethereum46prysm-validator46\46backup46restic46exclude
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereummev-boostbackupresticpasswordfile" class="md-nav__link">
-    services46ethereum46mev-boost46\46backup46restic46passwordFile
+  <a href="#servicesethereumprysm-validatorbackupresticextraoptions" class="md-nav__link">
+    services46ethereum46prysm-validator46\46backup46restic46extraOptions
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereummev-boostbackupresticrcloneconfig" class="md-nav__link">
-    services46ethereum46mev-boost46\46backup46restic46rcloneConfig
+  <a href="#servicesethereumprysm-validatorbackupresticpasswordfile" class="md-nav__link">
+    services46ethereum46prysm-validator46\46backup46restic46passwordFile
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereummev-boostbackupresticrcloneconfigfile" class="md-nav__link">
-    services46ethereum46mev-boost46\46backup46restic46rcloneConfigFile
+  <a href="#servicesethereumprysm-validatorbackupresticrcloneconfig" class="md-nav__link">
+    services46ethereum46prysm-validator46\46backup46restic46rcloneConfig
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereummev-boostbackupresticrcloneoptions" class="md-nav__link">
-    services46ethereum46mev-boost46\46backup46restic46rcloneOptions
+  <a href="#servicesethereumprysm-validatorbackupresticrcloneconfigfile" class="md-nav__link">
+    services46ethereum46prysm-validator46\46backup46restic46rcloneConfigFile
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereummev-boostbackupresticrepository" class="md-nav__link">
-    services46ethereum46mev-boost46\46backup46restic46repository
+  <a href="#servicesethereumprysm-validatorbackupresticrcloneoptions" class="md-nav__link">
+    services46ethereum46prysm-validator46\46backup46restic46rcloneOptions
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereummev-boostbackupresticrepositoryfile" class="md-nav__link">
-    services46ethereum46mev-boost46\46backup46restic46repositoryFile
+  <a href="#servicesethereumprysm-validatorbackupresticrepository" class="md-nav__link">
+    services46ethereum46prysm-validator46\46backup46restic46repository
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereummev-boostbackupschedule" class="md-nav__link">
-    services46ethereum46mev-boost46\46backup46schedule
+  <a href="#servicesethereumprysm-validatorbackupresticrepositoryfile" class="md-nav__link">
+    services46ethereum46prysm-validator46\46backup46restic46repositoryFile
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereummev-boostextraargs" class="md-nav__link">
-    services46ethereum46mev-boost46\46extraArgs
+  <a href="#servicesethereumprysm-validatorbackupschedule" class="md-nav__link">
+    services46ethereum46prysm-validator46\46backup46schedule
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereummev-boostrestoreenable" class="md-nav__link">
-    services46ethereum46mev-boost46\46restore46enable
+  <a href="#servicesethereumprysm-validatorextraargs" class="md-nav__link">
+    services46ethereum46prysm-validator46\46extraArgs
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereummev-boostrestoreresticenvironmentfile" class="md-nav__link">
-    services46ethereum46mev-boost46\46restore46restic46environmentFile
+  <a href="#servicesethereumprysm-validatoropenfirewall" class="md-nav__link">
+    services46ethereum46prysm-validator46\46openFirewall
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereummev-boostrestoreresticexclude" class="md-nav__link">
-    services46ethereum46mev-boost46\46restore46restic46exclude
+  <a href="#servicesethereumprysm-validatorrestoreenable" class="md-nav__link">
+    services46ethereum46prysm-validator46\46restore46enable
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereummev-boostrestoreresticextraoptions" class="md-nav__link">
-    services46ethereum46mev-boost46\46restore46restic46extraOptions
+  <a href="#servicesethereumprysm-validatorrestoreresticenvironmentfile" class="md-nav__link">
+    services46ethereum46prysm-validator46\46restore46restic46environmentFile
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereummev-boostrestoreresticpasswordfile" class="md-nav__link">
-    services46ethereum46mev-boost46\46restore46restic46passwordFile
+  <a href="#servicesethereumprysm-validatorrestoreresticexclude" class="md-nav__link">
+    services46ethereum46prysm-validator46\46restore46restic46exclude
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereummev-boostrestoreresticrcloneconfig" class="md-nav__link">
-    services46ethereum46mev-boost46\46restore46restic46rcloneConfig
+  <a href="#servicesethereumprysm-validatorrestoreresticextraoptions" class="md-nav__link">
+    services46ethereum46prysm-validator46\46restore46restic46extraOptions
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereummev-boostrestoreresticrcloneconfigfile" class="md-nav__link">
-    services46ethereum46mev-boost46\46restore46restic46rcloneConfigFile
+  <a href="#servicesethereumprysm-validatorrestoreresticpasswordfile" class="md-nav__link">
+    services46ethereum46prysm-validator46\46restore46restic46passwordFile
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereummev-boostrestoreresticrcloneoptions" class="md-nav__link">
-    services46ethereum46mev-boost46\46restore46restic46rcloneOptions
+  <a href="#servicesethereumprysm-validatorrestoreresticrcloneconfig" class="md-nav__link">
+    services46ethereum46prysm-validator46\46restore46restic46rcloneConfig
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereummev-boostrestoreresticrepository" class="md-nav__link">
-    services46ethereum46mev-boost46\46restore46restic46repository
+  <a href="#servicesethereumprysm-validatorrestoreresticrcloneconfigfile" class="md-nav__link">
+    services46ethereum46prysm-validator46\46restore46restic46rcloneConfigFile
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereummev-boostrestoreresticrepositoryfile" class="md-nav__link">
-    services46ethereum46mev-boost46\46restore46restic46repositoryFile
+  <a href="#servicesethereumprysm-validatorrestoreresticrcloneoptions" class="md-nav__link">
+    services46ethereum46prysm-validator46\46restore46restic46rcloneOptions
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereummev-boostrestoresnapshot" class="md-nav__link">
-    services46ethereum46mev-boost46\46restore46snapshot
+  <a href="#servicesethereumprysm-validatorrestoreresticrepository" class="md-nav__link">
+    services46ethereum46prysm-validator46\46restore46restic46repository
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#servicesethereummev-boostrestoretimeout" class="md-nav__link">
-    services46ethereum46mev-boost46\46restore46timeout
+  <a href="#servicesethereumprysm-validatorrestoreresticrepositoryfile" class="md-nav__link">
+    services46ethereum46prysm-validator46\46restore46restic46repositoryFile
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-validatorrestoresnapshot" class="md-nav__link">
+    services46ethereum46prysm-validator46\46restore46snapshot
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#servicesethereumprysm-validatorrestoretimeout" class="md-nav__link">
+    services46ethereum46prysm-validator46\46restore46timeout
   </a>
   
 </li>
@@ -917,7 +931,7 @@
                   
 
   
-    <a href="https://github.com/nix-community/ethereum.nix/edit/main/docs/reference/module-options/mev-boost.md" title="Edit this page" class="md-content__button md-icon">
+    <a href="https://github.com/nix-community/ethereum.nix/edit/main/docs/reference/module-options/prysm-validator.md" title="Edit this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"/></svg>
     </a>
@@ -926,25 +940,25 @@
     
       
     
-    <a href="https://github.com/nix-community/ethereum.nix/raw/main/docs/reference/module-options/mev-boost.md" title="View source of this page" class="md-content__button md-icon">
+    <a href="https://github.com/nix-community/ethereum.nix/raw/main/docs/reference/module-options/prysm-validator.md" title="View source of this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.15 8.15 0 0 1-1.23-2Z"/></svg>
     </a>
   
 
 
-  <h1>Mev boost</h1>
+  <h1>Prysm validator</h1>
 
-<h2 id="servicesethereummev-boost">services.ethereum.mev-boost</h2>
-<p>Specification of one or more MEV-Boost chain instances.</p>
+<h2 id="servicesethereumprysm-validator">services.ethereum.prysm-validator</h2>
+<p>Specification of one or more prysm validator instances.</p>
 <p><em>Type:</em>
 attribute set of (submodule)</p>
 <p><em>Default:</em>
 <code>{ }</code></p>
 <p><em>Declared by:</em>
- - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix</a></p>
-<h2 id="servicesethereummev-boostenable">services.ethereum.mev-boost.\<name>.enable</h2>
-<p>Whether to enable MEV-Boost from Flashbots.</p>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatorenable">services.ethereum.prysm-validator.\<name>.enable</h2>
+<p>Whether to enable Ethereum Prysm validator client.</p>
 <p><em>Type:</em>
 boolean</p>
 <p><em>Default:</em>
@@ -952,126 +966,140 @@ boolean</p>
 <p><em>Example:</em>
 <code>true</code></p>
 <p><em>Declared by:</em>
- - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix</a></p>
-<h2 id="servicesethereummev-boostpackage">services.ethereum.mev-boost.\<name>.package</h2>
-<p>Package to use for mev-boost binary</p>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatorpackage">services.ethereum.prysm-validator.\<name>.package</h2>
+<p>Package to use for Prysm binary</p>
 <p><em>Type:</em>
 package</p>
 <p><em>Default:</em>
-<code>pkgs.mev-boost</code></p>
+<code>pkgs.prysm</code></p>
 <p><em>Declared by:</em>
- - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix</a></p>
-<h2 id="servicesethereummev-boostargsaddr">services.ethereum.mev-boost.\<name>.args.addr</h2>
-<p>listen-address for mev-boost server (default ‘localhost:18550’)</p>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatorargsdatadir">services.ethereum.prysm-validator.\<name>.args.datadir</h2>
+<p>Data directory for the databases. Defaults to the default datadir for Prysm Beacon</p>
+<p><em>Type:</em>
+null or string</p>
+<p><em>Default:</em>
+<code>null</code></p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatorargsdisable-monitoring">services.ethereum.prysm-validator.\<name>.args.disable-monitoring</h2>
+<p>Disable monitoring service.</p>
+<p><em>Type:</em>
+boolean</p>
+<p><em>Default:</em>
+<code>false</code></p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatorargsgraffiti">services.ethereum.prysm-validator.\<name>.args.graffiti</h2>
+<p>String to include in proposed blocks</p>
+<p><em>Type:</em>
+null or string</p>
+<p><em>Default:</em>
+<code>null</code></p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatorargsgrpc-gateway-host">services.ethereum.prysm-validator.\<name>.args.grpc-gateway-host</h2>
+<p>The host on which the gateway server runs on.</p>
 <p><em>Type:</em>
 string</p>
 <p><em>Default:</em>
-<code>"localhost:18550"</code></p>
+<code>"127.0.0.1"</code></p>
 <p><em>Declared by:</em>
- - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix</a></p>
-<h2 id="servicesethereummev-boostargsjson">services.ethereum.mev-boost.\<name>.args.json</h2>
-<p>log in JSON format instead of text</p>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatorargsgrpc-gateway-port">services.ethereum.prysm-validator.\<name>.args.grpc-gateway-port</h2>
+<p>The port on which the gateway server runs.</p>
 <p><em>Type:</em>
-boolean</p>
+16 bit unsigned integer; between 0 and 65535 (both inclusive)</p>
 <p><em>Default:</em>
-<code>false</code></p>
+<code>7500</code></p>
 <p><em>Declared by:</em>
- - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix</a></p>
-<h2 id="servicesethereummev-boostargslog-no-version">services.ethereum.mev-boost.\<name>.args.log-no-version</h2>
-<p>disables adding the version to every log entry</p>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatorargsmonitoring-host">services.ethereum.prysm-validator.\<name>.args.monitoring-host</h2>
+<p>Host used to listen and respond with metrics for prometheus.</p>
 <p><em>Type:</em>
-boolean</p>
+string</p>
 <p><em>Default:</em>
-<code>false</code></p>
+<code>"127.0.0.1"</code></p>
 <p><em>Declared by:</em>
- - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix</a></p>
-<h2 id="servicesethereummev-boostargslog-service">services.ethereum.mev-boost.\<name>.args.log-service</h2>
-<p>add a ‘service=…’ tag to all log messages</p>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatorargsmonitoring-port">services.ethereum.prysm-validator.\<name>.args.monitoring-port</h2>
+<p>Port used to listen and respond with metrics for prometheus.</p>
 <p><em>Type:</em>
-boolean</p>
+16 bit unsigned integer; between 0 and 65535 (both inclusive)</p>
 <p><em>Default:</em>
-<code>false</code></p>
+<code>8081</code></p>
 <p><em>Declared by:</em>
- - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix</a></p>
-<h2 id="servicesethereummev-boostargsloglevel">services.ethereum.mev-boost.\<name>.args.loglevel</h2>
-<p>minimum loglevel</p>
-<p><em>Type:</em>
-null or one of “trace”, “debug”, “info”, “warn”, “error”, “fatal”, “panic”</p>
-<p><em>Default:</em>
-<code>"info"</code></p>
-<p><em>Declared by:</em>
- - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix</a></p>
-<h2 id="servicesethereummev-boostargsmin-bid">services.ethereum.mev-boost.\<name>.args.min-bid</h2>
-<p>minimum bid to accept from a relay [eth]</p>
-<p><em>Type:</em>
-null or floating point number</p>
-<p><em>Default:</em>
-<code>null</code></p>
-<p><em>Declared by:</em>
- - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix</a></p>
-<h2 id="servicesethereummev-boostargsnetwork">services.ethereum.mev-boost.\<name>.args.network</h2>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatorargsnetwork">services.ethereum.prysm-validator.\<name>.args.network</h2>
 <p>The network to connect to. Mainnet (null) is the default ethereum network.</p>
 <p><em>Type:</em>
-null or one of “mainnet”, “goerli”, “sepolia”, “zhejiang”</p>
+null or one of “goerli”, “prater”, “ropsten”, “sepolia”</p>
 <p><em>Default:</em>
 <code>null</code></p>
 <p><em>Declared by:</em>
- - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix</a></p>
-<h2 id="servicesethereummev-boostargsrelay-check">services.ethereum.mev-boost.\<name>.args.relay-check</h2>
-<p>check relay status on startup and on the status API call</p>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatorargsrpcenable">services.ethereum.prysm-validator.\<name>.args.rpc.enable</h2>
+<p>Enable the Enables the RPC server for the validator.</p>
 <p><em>Type:</em>
 boolean</p>
 <p><em>Default:</em>
 <code>false</code></p>
 <p><em>Declared by:</em>
- - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix</a></p>
-<h2 id="servicesethereummev-boostargsrelay-monitors">services.ethereum.mev-boost.\<name>.args.relay-monitors</h2>
-<p>relay urls</p>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatorargsrpchost">services.ethereum.prysm-validator.\<name>.args.rpc.host</h2>
+<p>Host on which the RPC server should listen.</p>
 <p><em>Type:</em>
-null or (list of string)</p>
+string</p>
+<p><em>Default:</em>
+<code>"127.0.0.1"</code></p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatorargsrpcport">services.ethereum.prysm-validator.\<name>.args.rpc.port</h2>
+<p>RPC port exposed by a validator client.</p>
+<p><em>Type:</em>
+16 bit unsigned integer; between 0 and 65535 (both inclusive)</p>
+<p><em>Default:</em>
+<code>7000</code></p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatorargssuggested-fee-recipient">services.ethereum.prysm-validator.\<name>.args.suggested-fee-recipient</h2>
+<p>Sets ALL validators’ mapping to a suggested eth<br />
+address to receive gas fees when proposing a block. note<br />
+that this is only a suggestion when integrating with a Builder API,<br />
+which may choose to specify a different fee recipient as payment<br />
+for the blocks it builds.</p>
+<p><em>Type:</em>
+null or string</p>
 <p><em>Default:</em>
 <code>null</code></p>
 <p><em>Declared by:</em>
- - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix</a></p>
-<h2 id="servicesethereummev-boostargsrelays">services.ethereum.mev-boost.\<name>.args.relays</h2>
-<p>relay urls</p>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatorargsuser">services.ethereum.prysm-validator.\<name>.args.user</h2>
+<p>User to run the systemd service.</p>
 <p><em>Type:</em>
-list of string</p>
-<p><em>Declared by:</em>
- - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix</a></p>
-<h2 id="servicesethereummev-boostargsrequest-max-retries">services.ethereum.mev-boost.\<name>.args.request-max-retries</h2>
-<p>maximum number of retries for a relay get payload request</p>
-<p><em>Type:</em>
-signed integer</p>
+null or string</p>
 <p><em>Default:</em>
-<code>5</code></p>
+<code>null</code></p>
 <p><em>Declared by:</em>
- - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix</a></p>
-<h2 id="servicesethereummev-boostargsrequest-timeout-getheader">services.ethereum.mev-boost.\<name>.args.request-timeout-getheader</h2>
-<p>timeout for getHeader requests to the relay [ms]</p>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatorargswallet-dir">services.ethereum.prysm-validator.\<name>.args.wallet-dir</h2>
+<p>Path to a wallet directory on-disk for Prysm validator accounts</p>
 <p><em>Type:</em>
-signed integer</p>
+null or string</p>
 <p><em>Default:</em>
-<code>950</code></p>
+<code>null</code></p>
 <p><em>Declared by:</em>
- - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix</a></p>
-<h2 id="servicesethereummev-boostargsrequest-timeout-getpayload">services.ethereum.mev-boost.\<name>.args.request-timeout-getpayload</h2>
-<p>timeout for getPayload requests to the relay [ms]</p>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatorargswallet-password-file">services.ethereum.prysm-validator.\<name>.args.wallet-password-file</h2>
+<p>Path to a plain-text, .txt file containing your wallet password</p>
 <p><em>Type:</em>
-signed integer</p>
+null or string</p>
 <p><em>Default:</em>
-<code>4000</code></p>
+<code>null</code></p>
 <p><em>Declared by:</em>
- - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix</a></p>
-<h2 id="servicesethereummev-boostargsrequest-timeout-regval">services.ethereum.mev-boost.\<name>.args.request-timeout-regval</h2>
-<p>timeout for registerValidator requests [ms]</p>
-<p><em>Type:</em>
-signed integer</p>
-<p><em>Default:</em>
-<code>3000</code></p>
-<p><em>Declared by:</em>
- - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix</a></p>
-<h2 id="servicesethereummev-boostbackupenable">services.ethereum.mev-boost.\<name>.backup.enable</h2>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatorbackupenable">services.ethereum.prysm-validator.\<name>.backup.enable</h2>
 <p>Whether to enable Enable backup.</p>
 <p><em>Type:</em>
 boolean</p>
@@ -1080,8 +1108,8 @@ boolean</p>
 <p><em>Example:</em>
 <code>true</code></p>
 <p><em>Declared by:</em>
- - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix</a></p>
-<h2 id="servicesethereummev-boostbackupbtrfsenable">services.ethereum.mev-boost.\<name>.backup.btrfs.enable</h2>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatorbackupbtrfsenable">services.ethereum.prysm-validator.\<name>.backup.btrfs.enable</h2>
 <p>Whether to enable Enable btrfs snapshots for the state directory, if supported by the underlying filesystem.</p>
 <p><em>Type:</em>
 boolean</p>
@@ -1090,16 +1118,16 @@ boolean</p>
 <p><em>Example:</em>
 <code>true</code></p>
 <p><em>Declared by:</em>
- - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix</a></p>
-<h2 id="servicesethereummev-boostbackupbtrfssnapshotdirectory">services.ethereum.mev-boost.\<name>.backup.btrfs.snapshotDirectory</h2>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatorbackupbtrfssnapshotdirectory">services.ethereum.prysm-validator.\<name>.backup.btrfs.snapshotDirectory</h2>
 <p>Directory in which to create the btrfs snapshots. Must be located on the same volume as the state directory</p>
 <p><em>Type:</em>
 path</p>
 <p><em>Default:</em>
 <code>"/snapshots"</code></p>
 <p><em>Declared by:</em>
- - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix</a></p>
-<h2 id="servicesethereummev-boostbackupbtrfssnapshotretention">services.ethereum.mev-boost.\<name>.backup.btrfs.snapshotRetention</h2>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatorbackupbtrfssnapshotretention">services.ethereum.prysm-validator.\<name>.backup.btrfs.snapshotRetention</h2>
 <p>Number of days to retain snapshots</p>
 <p><em>Type:</em>
 signed integer</p>
@@ -1108,16 +1136,16 @@ signed integer</p>
 <p><em>Example:</em>
 <code>"10"</code></p>
 <p><em>Declared by:</em>
- - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix</a></p>
-<h2 id="servicesethereummev-boostbackupmetadatainterval">services.ethereum.mev-boost.\<name>.backup.metadata.interval</h2>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatorbackupmetadatainterval">services.ethereum.prysm-validator.\<name>.backup.metadata.interval</h2>
 <p>Time interval in seconds between capturing backup metadata</p>
 <p><em>Type:</em>
 integer between 1 and 60 (both inclusive)</p>
 <p><em>Default:</em>
 <code>10</code></p>
 <p><em>Declared by:</em>
- - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix</a></p>
-<h2 id="servicesethereummev-boostbackupresticenvironmentfile">services.ethereum.mev-boost.\<name>.backup.restic.environmentFile</h2>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatorbackupresticenvironmentfile">services.ethereum.prysm-validator.\<name>.backup.restic.environmentFile</h2>
 <p>file containing the credentials to access the repository, in the
 format of an EnvironmentFile as described by systemd.exec(5)</p>
 <p><em>Type:</em>
@@ -1125,8 +1153,8 @@ null or string</p>
 <p><em>Default:</em>
 <code>null</code></p>
 <p><em>Declared by:</em>
- - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix</a></p>
-<h2 id="servicesethereummev-boostbackupresticexclude">services.ethereum.mev-boost.\<name>.backup.restic.exclude</h2>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatorbackupresticexclude">services.ethereum.prysm-validator.\<name>.backup.restic.exclude</h2>
 <p>Patterns to exclude when backing up. See
 https://restic.readthedocs.io/en/latest/040_backup.html#excluding-files for
 details on syntax.</p>
@@ -1155,8 +1183,8 @@ list of string</p>
 </span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5"></a>]
 </span></code></pre></div></td></tr></table></div>
 <p><em>Declared by:</em>
- - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix</a></p>
-<h2 id="servicesethereummev-boostbackupresticextraoptions">services.ethereum.mev-boost.\<name>.backup.restic.extraOptions</h2>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatorbackupresticextraoptions">services.ethereum.prysm-validator.\<name>.backup.restic.extraOptions</h2>
 <p>Extra extended options to be passed to the restic --option flag.</p>
 <p><em>Type:</em>
 list of string</p>
@@ -1170,16 +1198,16 @@ list of string</p>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a>]
 </span></code></pre></div></td></tr></table></div>
 <p><em>Declared by:</em>
- - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix</a></p>
-<h2 id="servicesethereummev-boostbackupresticpasswordfile">services.ethereum.mev-boost.\<name>.backup.restic.passwordFile</h2>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatorbackupresticpasswordfile">services.ethereum.prysm-validator.\<name>.backup.restic.passwordFile</h2>
 <p>Read the repository password from a file.</p>
 <p><em>Type:</em>
 string</p>
 <p><em>Example:</em>
 <code>"/etc/nixos/restic-password"</code></p>
 <p><em>Declared by:</em>
- - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix</a></p>
-<h2 id="servicesethereummev-boostbackupresticrcloneconfig">services.ethereum.mev-boost.\<name>.backup.restic.rcloneConfig</h2>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatorbackupresticrcloneconfig">services.ethereum.prysm-validator.\<name>.backup.restic.rcloneConfig</h2>
 <p>Configuration for the rclone remote being used for backup.
 See the remote’s specific options under rclone’s docs at
 <a href="https://rclone.org/docs/">https://rclone.org/docs/</a>. When specifying
@@ -1209,8 +1237,8 @@ null or (attribute set of (string or boolean))</p>
 </span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6"></a>}
 </span></code></pre></div></td></tr></table></div>
 <p><em>Declared by:</em>
- - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix</a></p>
-<h2 id="servicesethereummev-boostbackupresticrcloneconfigfile">services.ethereum.mev-boost.\<name>.backup.restic.rcloneConfigFile</h2>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatorbackupresticrcloneconfigfile">services.ethereum.prysm-validator.\<name>.backup.restic.rcloneConfigFile</h2>
 <p>Path to the file containing rclone configuration. This file
 must contain configuration for the remote specified in this backup
 set and also must be readable by root. Options set in
@@ -1221,8 +1249,8 @@ null or path</p>
 <p><em>Default:</em>
 <code>null</code></p>
 <p><em>Declared by:</em>
- - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix</a></p>
-<h2 id="servicesethereummev-boostbackupresticrcloneoptions">services.ethereum.mev-boost.\<name>.backup.restic.rcloneOptions</h2>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatorbackupresticrcloneoptions">services.ethereum.prysm-validator.\<name>.backup.restic.rcloneOptions</h2>
 <p>Options to pass to rclone to control its behavior.
 See <a href="https://rclone.org/docs/#options">https://rclone.org/docs/#options</a> for
 available options. When specifying option names, strip the
@@ -1243,8 +1271,8 @@ null or (attribute set of (string or boolean))</p>
 </span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a>}
 </span></code></pre></div></td></tr></table></div>
 <p><em>Declared by:</em>
- - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix</a></p>
-<h2 id="servicesethereummev-boostbackupresticrepository">services.ethereum.mev-boost.\<name>.backup.restic.repository</h2>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatorbackupresticrepository">services.ethereum.prysm-validator.\<name>.backup.restic.repository</h2>
 <p>repository to backup to.</p>
 <p><em>Type:</em>
 null or string</p>
@@ -1253,16 +1281,16 @@ null or string</p>
 <p><em>Example:</em>
 <code>"sftp:backup@192.168.1.100:/backups/my-bucket"</code></p>
 <p><em>Declared by:</em>
- - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix</a></p>
-<h2 id="servicesethereummev-boostbackupresticrepositoryfile">services.ethereum.mev-boost.\<name>.backup.restic.repositoryFile</h2>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatorbackupresticrepositoryfile">services.ethereum.prysm-validator.\<name>.backup.restic.repositoryFile</h2>
 <p>Path to the file containing the repository location to backup to.</p>
 <p><em>Type:</em>
 null or path</p>
 <p><em>Default:</em>
 <code>null</code></p>
 <p><em>Declared by:</em>
- - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix</a></p>
-<h2 id="servicesethereummev-boostbackupschedule">services.ethereum.mev-boost.\<name>.backup.schedule</h2>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatorbackupschedule">services.ethereum.prysm-validator.\<name>.backup.schedule</h2>
 <p>Schedule for creating a backup. Format is the same as systemd.time</p>
 <p><em>Type:</em>
 string</p>
@@ -1271,16 +1299,24 @@ string</p>
 <p><em>Example:</em>
 <code>"daily"</code></p>
 <p><em>Declared by:</em>
- - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix</a></p>
-<h2 id="servicesethereummev-boostextraargs">services.ethereum.mev-boost.\<name>.extraArgs</h2>
-<p>Additional arguments to pass to MEV-Boost.</p>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatorextraargs">services.ethereum.prysm-validator.\<name>.extraArgs</h2>
+<p>Additional arguments to pass to Prysm validator.</p>
 <p><em>Type:</em>
 list of string</p>
 <p><em>Default:</em>
 <code>[ ]</code></p>
 <p><em>Declared by:</em>
- - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix</a></p>
-<h2 id="servicesethereummev-boostrestoreenable">services.ethereum.mev-boost.\<name>.restore.enable</h2>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatoropenfirewall">services.ethereum.prysm-validator.\<name>.openFirewall</h2>
+<p>Open ports in the firewall for any enabled networking services</p>
+<p><em>Type:</em>
+boolean</p>
+<p><em>Default:</em>
+<code>false</code></p>
+<p><em>Declared by:</em>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatorrestoreenable">services.ethereum.prysm-validator.\<name>.restore.enable</h2>
 <p>Whether to enable Enable restore from snapshot.</p>
 <p><em>Type:</em>
 boolean</p>
@@ -1289,8 +1325,8 @@ boolean</p>
 <p><em>Example:</em>
 <code>true</code></p>
 <p><em>Declared by:</em>
- - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix</a></p>
-<h2 id="servicesethereummev-boostrestoreresticenvironmentfile">services.ethereum.mev-boost.\<name>.restore.restic.environmentFile</h2>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatorrestoreresticenvironmentfile">services.ethereum.prysm-validator.\<name>.restore.restic.environmentFile</h2>
 <p>file containing the credentials to access the repository, in the
 format of an EnvironmentFile as described by systemd.exec(5)</p>
 <p><em>Type:</em>
@@ -1298,8 +1334,8 @@ null or string</p>
 <p><em>Default:</em>
 <code>null</code></p>
 <p><em>Declared by:</em>
- - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix</a></p>
-<h2 id="servicesethereummev-boostrestoreresticexclude">services.ethereum.mev-boost.\<name>.restore.restic.exclude</h2>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatorrestoreresticexclude">services.ethereum.prysm-validator.\<name>.restore.restic.exclude</h2>
 <p>Patterns to exclude when backing up. See
 https://restic.readthedocs.io/en/latest/040_backup.html#excluding-files for
 details on syntax.</p>
@@ -1328,8 +1364,8 @@ list of string</p>
 </span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5"></a>]
 </span></code></pre></div></td></tr></table></div>
 <p><em>Declared by:</em>
- - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix</a></p>
-<h2 id="servicesethereummev-boostrestoreresticextraoptions">services.ethereum.mev-boost.\<name>.restore.restic.extraOptions</h2>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatorrestoreresticextraoptions">services.ethereum.prysm-validator.\<name>.restore.restic.extraOptions</h2>
 <p>Extra extended options to be passed to the restic --option flag.</p>
 <p><em>Type:</em>
 list of string</p>
@@ -1343,16 +1379,16 @@ list of string</p>
 </span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3"></a>]
 </span></code></pre></div></td></tr></table></div>
 <p><em>Declared by:</em>
- - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix</a></p>
-<h2 id="servicesethereummev-boostrestoreresticpasswordfile">services.ethereum.mev-boost.\<name>.restore.restic.passwordFile</h2>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatorrestoreresticpasswordfile">services.ethereum.prysm-validator.\<name>.restore.restic.passwordFile</h2>
 <p>Read the repository password from a file.</p>
 <p><em>Type:</em>
 string</p>
 <p><em>Example:</em>
 <code>"/etc/nixos/restic-password"</code></p>
 <p><em>Declared by:</em>
- - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix</a></p>
-<h2 id="servicesethereummev-boostrestoreresticrcloneconfig">services.ethereum.mev-boost.\<name>.restore.restic.rcloneConfig</h2>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatorrestoreresticrcloneconfig">services.ethereum.prysm-validator.\<name>.restore.restic.rcloneConfig</h2>
 <p>Configuration for the rclone remote being used for backup.
 See the remote’s specific options under rclone’s docs at
 <a href="https://rclone.org/docs/">https://rclone.org/docs/</a>. When specifying
@@ -1382,8 +1418,8 @@ null or (attribute set of (string or boolean))</p>
 </span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6"></a>}
 </span></code></pre></div></td></tr></table></div>
 <p><em>Declared by:</em>
- - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix</a></p>
-<h2 id="servicesethereummev-boostrestoreresticrcloneconfigfile">services.ethereum.mev-boost.\<name>.restore.restic.rcloneConfigFile</h2>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatorrestoreresticrcloneconfigfile">services.ethereum.prysm-validator.\<name>.restore.restic.rcloneConfigFile</h2>
 <p>Path to the file containing rclone configuration. This file
 must contain configuration for the remote specified in this backup
 set and also must be readable by root. Options set in
@@ -1394,8 +1430,8 @@ null or path</p>
 <p><em>Default:</em>
 <code>null</code></p>
 <p><em>Declared by:</em>
- - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix</a></p>
-<h2 id="servicesethereummev-boostrestoreresticrcloneoptions">services.ethereum.mev-boost.\<name>.restore.restic.rcloneOptions</h2>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatorrestoreresticrcloneoptions">services.ethereum.prysm-validator.\<name>.restore.restic.rcloneOptions</h2>
 <p>Options to pass to rclone to control its behavior.
 See <a href="https://rclone.org/docs/#options">https://rclone.org/docs/#options</a> for
 available options. When specifying option names, strip the
@@ -1416,8 +1452,8 @@ null or (attribute set of (string or boolean))</p>
 </span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4"></a>}
 </span></code></pre></div></td></tr></table></div>
 <p><em>Declared by:</em>
- - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix</a></p>
-<h2 id="servicesethereummev-boostrestoreresticrepository">services.ethereum.mev-boost.\<name>.restore.restic.repository</h2>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatorrestoreresticrepository">services.ethereum.prysm-validator.\<name>.restore.restic.repository</h2>
 <p>repository to backup to.</p>
 <p><em>Type:</em>
 null or string</p>
@@ -1426,22 +1462,22 @@ null or string</p>
 <p><em>Example:</em>
 <code>"sftp:backup@192.168.1.100:/backups/my-bucket"</code></p>
 <p><em>Declared by:</em>
- - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix</a></p>
-<h2 id="servicesethereummev-boostrestoreresticrepositoryfile">services.ethereum.mev-boost.\<name>.restore.restic.repositoryFile</h2>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatorrestoreresticrepositoryfile">services.ethereum.prysm-validator.\<name>.restore.restic.repositoryFile</h2>
 <p>Path to the file containing the repository location to backup to.</p>
 <p><em>Type:</em>
 null or path</p>
 <p><em>Default:</em>
 <code>null</code></p>
 <p><em>Declared by:</em>
- - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix</a></p>
-<h2 id="servicesethereummev-boostrestoresnapshot">services.ethereum.mev-boost.\<name>.restore.snapshot</h2>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatorrestoresnapshot">services.ethereum.prysm-validator.\<name>.restore.snapshot</h2>
 <p>The id of the snapshot to restore from</p>
 <p><em>Type:</em>
 string</p>
 <p><em>Declared by:</em>
- - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix</a></p>
-<h2 id="servicesethereummev-boostrestoretimeout">services.ethereum.mev-boost.\<name>.restore.timeout</h2>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
+<h2 id="servicesethereumprysm-validatorrestoretimeout">services.ethereum.prysm-validator.\<name>.restore.timeout</h2>
 <p>The max time to wait before timing out on startup. This value is used for TimeoutStartSec in the systemd service config.</p>
 <p><em>Type:</em>
 signed integer</p>
@@ -1450,7 +1486,7 @@ signed integer</p>
 <p><em>Example:</em>
 <code>"900"</code></p>
 <p><em>Declared by:</em>
- - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/mev-boost/options.nix</a></p>
+ - <a href="file:///nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix">/nix/store/qj6l3bdxw53cfp30qnx07abj00k0jpdn-source/modules/prysm-validator/options.nix</a></p>
 
 
 
