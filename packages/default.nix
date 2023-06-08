@@ -22,6 +22,7 @@
       lighthouse = callPackage ./clients/consensus/lighthouse {inherit foundry;};
       prysm = callPackage ./clients/consensus/prysm {inherit bls blst;};
       teku = callPackage ./clients/consensus/teku {};
+      nimbus = callPackage ./clients/consensus/nimbus {};
 
       # Execution Clients
       erigon = callPackage ./clients/execution/erigon {};
@@ -88,6 +89,9 @@
 
       # consensus / lighthouse
       lighthouse.bin = "lighthouse";
+
+      # consensus / nimbus
+      nimbus.bin = "nimbus_beacon_node";
 
       # execution clients
       besu.bin = "besu";
