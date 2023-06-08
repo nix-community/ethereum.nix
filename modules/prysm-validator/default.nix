@@ -9,41 +9,30 @@
   inherit (lib.lists) optionals findFirst;
   inherit (lib.strings) hasPrefix;
   inherit (lib.attrsets) zipAttrsWith;
-  inherit
-    (lib)
-    concatStringsSep
-    filterAttrs
-    flatten
-    mapAttrs'
-    mapAttrsToList
-    mkIf
-    mkMerge
-    nameValuePair
-    ;
+  inherit (lib) flatten nameValuePair filterAttrs mapAttrs' mapAttrsToList;
+  inherit (lib) mkIf mkMerge concatStringsSep;
   inherit (modulesLib) mkArgs baseServiceConfig;
 
-  eachBeacon = config.services.ethereum.prysm-beacon;
+  eachValidator = config.services.ethereum.prysm-validator;
 in {
   ###### interface
   inherit (import ./options.nix {inherit lib pkgs;}) options;
 
   ###### implementation
 
-  config = mkIf (eachBeacon != {}) {
+  config = mkIf (eachValidator != {}) {
     # configure the firewall for each service
     networking.firewall = let
-      openFirewall = filterAttrs (_: cfg: cfg.openFirewall) eachBeacon;
+      openFirewall = filterAttrs (_: cfg: cfg.openFirewall) eachValidator;
       perService =
         mapAttrsToList
         (
           _: cfg:
             with cfg.args; {
-              allowedUDPPorts = [p2p-udp-port];
               allowedTCPPorts =
-                [rpc-port p2p-tcp-port]
-                ++ (optionals (!disable-monitoring) [monitoring-port])
-                ++ (optionals (!disable-grpc-gateway) [grpc-gateway-port])
-                ++ (optionals pprof [pprofport]);
+                [grpc-gateway-port]
+                ++ (optionals rpc.enable [rpc.port])
+                ++ (optionals (!disable-monitoring) [monitoring-port]);
             }
         )
         openFirewall;
@@ -53,8 +42,9 @@ in {
     systemd.services =
       mapAttrs'
       (
-        beaconName: let
-          serviceName = "prysm-beacon-${beaconName}";
+        validatorName: let
+          serviceName = "prysm-validator-${validatorName}";
+          beaconServiceName = "prysm-beacon-${validatorName}";
         in
           cfg: let
             scriptArgs = let
@@ -68,7 +58,13 @@ in {
                 };
 
               # filter out certain args which need to be treated differently
-              specialArgs = ["--network" "--jwt-secret" "--datadir" "--user"];
+              specialArgs = [
+                "--datadir"
+                "--graffiti"
+                "--network"
+                "--rpc-enable"
+                "--user"
+              ];
               isNormalArg = name: (findFirst (arg: hasPrefix arg name) null specialArgs) == null;
               filteredArgs = builtins.filter isNormalArg args;
 
@@ -77,17 +73,13 @@ in {
                 then "--${cfg.args.network}"
                 else "";
 
-              jwtSecret =
-                if cfg.args.jwt-secret != null
-                then "--jwt-secret %d/jwt-secret"
-                else "";
-
               datadir =
                 if cfg.args.datadir != null
                 then "--datadir ${cfg.args.datadir}"
-                else "--datadir %S/${serviceName}";
+                else "--datadir %S/${beaconServiceName}";
             in ''
-              --accept-terms-of-use ${network} ${jwtSecret} \
+              --accept-terms-of-use \
+              ${network} \
               ${datadir} \
               ${concatStringsSep " \\\n" filteredArgs} \
               ${lib.escapeShellArgs cfg.extraArgs}
@@ -96,7 +88,7 @@ in {
             nameValuePair serviceName (mkIf cfg.enable {
               after = ["network.target"];
               wantedBy = ["multi-user.target"];
-              description = "Prysm Beacon Node (${beaconName})";
+              description = "Prysm Validator Node (${validatorName})";
 
               environment = {
                 GRPC_GATEWAY_HOST = cfg.args.grpc-gateway-host;
@@ -110,17 +102,14 @@ in {
                   User =
                     if cfg.args.user != null
                     then cfg.args.user
-                    else serviceName;
+                    else beaconServiceName;
                   StateDirectory = serviceName;
-                  ExecStart = "${cfg.package}/bin/beacon-chain ${scriptArgs}";
+                  ExecStart = "${cfg.package}/bin/validator ${scriptArgs}";
                   MemoryDenyWriteExecute = "false"; # causes a library loading error
                 }
-                (mkIf (cfg.args.jwt-secret != null) {
-                  LoadCredential = ["jwt-secret:${cfg.args.jwt-secret}"];
-                })
               ];
             })
       )
-      eachBeacon;
+      eachValidator;
   };
 }

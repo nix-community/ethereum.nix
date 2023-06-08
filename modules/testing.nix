@@ -53,6 +53,7 @@
         nameValuePair "testing-${removeSuffix ".test" name}"
         (nixos-lib.runTest {
           hostPkgs = pkgs;
+
           # speed up evaluation by skipping docs
           defaults.documentation.enable = lib.mkDefault false;
 
