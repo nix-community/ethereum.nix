@@ -9,25 +9,27 @@ theme:
   name: material
   logo: assets/logo.svg
   favicon: assets/favicon.png
-
+  font:
+    text: IBM Plex Sans
+    code: IBM Plex Mono
   palette:
     # Palette toggle for automatic mode
     - media: "(prefers-color-scheme)"
-      primary: teal
+      primary: deep purple
       accent: amber
       toggle:
         icon: material/brightness-auto
         name: Switch to light mode
-
+    # Palette toggle for dark mode
     - scheme: default
-      primary: teal
+      primary: deep purple
       accent: amber
       toggle:
         icon: material/brightness-5
         name: Switch to dark mode
-
+    # Palette toggle for light mode
     - scheme: slate
-      primary: blue grey
+      primary: deep purple
       accent: amber
       toggle:
         icon: material/brightness-2
