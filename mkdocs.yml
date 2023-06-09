@@ -68,14 +68,13 @@ markdown_extensions:
 
 nav:
   - index.md
-  - license.md
-  - Development:
-      - development/contributing.md
   - Getting Started:
       - getting-started/installation.md
       - getting-started/running-geth.md
       - getting-started/running-prysm-beacon.md
       - getting-started/backup-and-restore.md
+  - Development:
+      - development/contributing.md
   - Reference:
       - NixOS Module Options:
           - reference/module-options/erigon.md
@@ -83,6 +82,7 @@ nav:
           - reference/module-options/geth-bootnode.md
           - reference/module-options/nethermind.md
           - reference/module-options/prysm-beacon.md
+  - license.md
 
 extra:
   homepage: https://nix-community.github.io/ethereum.nix
