@@ -4,7 +4,7 @@
 }:
 buildGoModule rec {
   pname = "erigon";
-  version = "2.44.0";
+  version = "2.45.1";
 
   src = fetchFromGitHub {
     owner = "ledgerwatch";
