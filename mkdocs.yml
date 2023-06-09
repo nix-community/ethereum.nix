@@ -54,15 +54,17 @@ theme:
       permalink: true
 
 markdown_extensions:
-  - tables
+  - admonition
+  - pymdownx.details
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
   - pymdownx.highlight:
       linenums: true
       anchor_linenums: true
       line_spans: __span
       pygments_lang_class: true
-  - pymdownx.inlinehilite
-  - pymdownx.snippets
-  - pymdownx.superfences
+  - tables
 
 nav:
   - index.md
