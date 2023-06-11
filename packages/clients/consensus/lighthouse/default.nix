@@ -8,6 +8,8 @@
   openssl,
   protobuf,
   rustPlatform,
+  postgresql,
+  foundry,
 }: let
   slasherContractVersion = "0.12.1";
   slasherContractSrc = fetchurl {
@@ -20,19 +22,6 @@
     url = "https://raw.githubusercontent.com/sigp/unsafe-eth2-deposit-contract/v${slasherContractTestVersion}/unsafe_validator_registration.json";
     sha256 = "sha256-aeTeHRT3QtxBRSNMCITIWmx89vGtox2OzSff8vZ+RYY=";
   };
-  # TODO: need to make a PR to lighthouse to make possible to set a path to web3signer externally.
-  # websignerVersion = "23.3.1";
-  # websignerSrc = fetchzip {
-  #   url = "https://artifacts.consensys.net/public/web3signer/raw/names/web3signer.zip/versions/${websignerVersion}/web3signer-${websignerVersion}.zip";
-  #   sha256 = "sha256-oIm45A0BgFyAwd4g7qzdBMNxoeDuFvPHyG2/65wWecI=";
-  #   name = "web3signer";
-  #   extension = "zip";
-  #   stripRoot = false;
-  #   postFetch = ''
-  #     mv $out/web3signer-${websignerVersion} $out/web3signer
-  #     echo -n "${websignerVersion}" > $out/version
-  #   '';
-  # };
 in
   rustPlatform.buildRustPackage rec {
     pname = "lighthouse";
@@ -61,15 +50,13 @@ in
       };
     };
 
-    cargoBuildFlags = [
-      "--package lighthouse"
-    ];
-
-    buildNoDefaultFeatures = true;
-    buildFeatures = ["modern" "slasher-mdbx"];
+    cargoBuildFlags = ["--package lighthouse"];
 
     nativeBuildInputs = [cmake clang];
     buildInputs = [openssl protobuf];
+
+    buildNoDefaultFeatures = true;
+    buildFeatures = ["modern" "slasher-mdbx"];
 
     # Needed to get openssl-sys to use pkg-config.
     OPENSSL_NO_VENDOR = 1;
@@ -90,14 +77,30 @@ in
     # see: https://github.com/sigp/lighthouse/blob/stable/common/deposit_contract/build.rs#L33
     LIGHTHOUSE_DEPOSIT_CONTRACT_TESTNET_URL = "file:${slasherContractTestnetSrc}";
 
-    # web3signer_tests crate will try to download form Github
-    # see: https://github.com/sigp/lighthouse/blob/stable/testing/web3signer_tests/build.rs
-    # and https://github.com/sigp/lighthouse/blob/stable/testing/web3signer_tests/src/lib.rs
-    # LIGHTHOUSE_WEB3SIGNER_BIN = websignerSrc;
-    # LIGHTHOUSE_WEB3SIGNER_VERSION = "${websignerVersion}";
+    cargoTestFlags = [
+      "--workspace"
+      "--exclude beacon_node"
+      "--exclude http_api"
+      "--exclude beacon_chain"
+      "--exclude lighthouse"
+      "--exclude lighthouse_network"
+      "--exclude slashing_protection"
+      "--exclude watch"
+      "--exclude web3signer_tests"
+    ];
 
-    # TODO: Some tests are failing and we need to know why
-    doCheck = false;
+    nativeCheckInputs = [
+      postgresql
+      foundry
+    ];
+
+    checkFeatures = [];
+
+    # All of these tests require network access
+    checkFlags = [
+      "--skip service::tests::tests::test_dht_persistence"
+      "--skip time::test::test_reinsertion_updates_timeout"
+    ];
 
     meta = {
       description = "Ethereum consensus client in Rust";
