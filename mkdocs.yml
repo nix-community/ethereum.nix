@@ -50,11 +50,13 @@ theme:
     - search.share
     - search.suggest
     - toc.follow
-    - toc:
-      permalink: true
 
 markdown_extensions:
   - admonition
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
   - pymdownx.details
   - pymdownx.inlinehilite
   - pymdownx.snippets
