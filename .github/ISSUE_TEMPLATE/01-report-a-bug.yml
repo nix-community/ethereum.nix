@@ -1,0 +1,60 @@
+name: Report a bug
+description: Something is not working? Report a bug
+body:
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: >-
+        This field is optional. You may provide additional context for the bug
+        you want to report, helping us to understand what you are working on and
+        what you are trying to achieve. If the context is not relevant, you can
+        leave this field empty. [More](https://nix-community.github.io/ethereum.nix/contributing/reporting-a-bug/#context)
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug description
+      description: >-
+        Please give a detailed description of the bug. Explain where ethereum.nix
+        does not behave as you would expect it to. Be as specific as possible. 
+        If you have found a workaround or a fix for the problem,
+        please let us maintainers (and all other users) know. [More](https://nix-community.github.io/ethereum.nix/contributing/reporting-a-bug/#description)
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: Steps to reproduce
+      description: >-
+        Please provide a detailed list of instructions, guiding us maintainers
+        through the required steps, helping us to recreate the problem using the
+        minimal reproduction you provided. Be as specific as possible and as
+        verbose as necessary – try not to leave anything out. [More](https://nix-community.github.io/ethereum.nix/contributing/reporting-a-bug/#steps-to-reproduce)
+      placeholder: |-
+        1. ...
+        2. ...
+        3. ...
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Before submitting
+      description: >-
+        Please ensure your bug report fulfills all of the following requirements.
+        If you are not sure what a specific requirement means, follow the link
+        to learn about it and understand why it is necessary before ticking the
+        box. This will save the maintainers and you valuable time.
+      options:
+        - label: >-
+            I have read and followed the [bug reporting guidelines](https://nix-community.github.io/ethereum.nix/contributing/reporting-a-bug/).
+          required: true
+        - label: >-
+            I have attached links to [the documentation](https://nix-community.github.io/ethereum.nix),
+            and possibly related [issues](https://github.com/nix-community/ethereum.nix/issues)
+            and [discussions](https://github.com/nix-community/ethereum.nix/discussions).
+          required: true
