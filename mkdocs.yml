@@ -13,26 +13,16 @@ theme:
     text: IBM Plex Sans
     code: IBM Plex Mono
   palette:
-    # Palette toggle for automatic mode
-    - media: "(prefers-color-scheme)"
-      primary: deep purple
-      accent: amber
-      toggle:
-        icon: material/brightness-auto
-        name: Switch to light mode
     # Palette toggle for dark mode
     - scheme: default
-      primary: deep purple
-      accent: amber
+      primary: white
       toggle:
-        icon: material/brightness-5
+        icon: material/weather-night
         name: Switch to dark mode
     # Palette toggle for light mode
     - scheme: slate
-      primary: deep purple
-      accent: amber
       toggle:
-        icon: material/brightness-2
+        icon: material/weather-sunny
         name: Switch to light mode
   features:
     - content.action.edit
