@@ -4,9 +4,8 @@ The following service modules support restoring from backups:
 
 - [Geth](./running-geth.md)
 - [Prysm Beacon](./running-prysm-beacon.md)
-- [Nethermind](./running-nethermind.md)
 
-For an overview of how to configure backups please [see here](./configuring-backups.md)
+For an overview of how to configure backups please [see here](./backup-and-restore.md)
 
 ## Basic configuration
 

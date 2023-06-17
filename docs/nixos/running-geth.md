@@ -83,8 +83,8 @@ To configure [Geth Sealer](https://github.com/manifoldfinance/geth-sealer) for e
 By default, [openFirewall](../reference/module-options/geth.md#servicesethereumgethnameopenfirewall) is set to `false`.
 If set to `true`, firewall rules are added which will expose the following ports:
 
-| Protocol | Config                                                                                      | Default value |
-| :------- | :------------------------------------------------------------------------------------------ | :------------ |
+| Protocol | Config                                                                                         | Default value |
+| :------- | :--------------------------------------------------------------------------------------------- | :------------ |
 | TCP, UDP | [port](../reference/module-options/geth.md#servicesethereumgethnameargsport)                | 30303         |
 | TCP      | [authrpc.port](../reference/module-options/geth.md#servicesethereumgethnameargsauthrpcport) | 8551          |
 | TCP      | [http.port](../reference/module-options/geth.md#servicesethereumgethnameargshttpport)       | 8545          |
