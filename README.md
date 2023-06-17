@@ -14,9 +14,10 @@
   </a>
 </p>
 
-The ultimate goal of `ethereum.nix` is to integrate the most exciting / prominent projects in the Ethereum ecosystem as Nix packages / NixOS modules.
+Ethereum.nix is a collection of [Nix](https://nixos.org) packages and [NixOS](https://nixos.wiki/wiki/NixOS_modules) modules
+designed to make it easier to operate [Ethereum](https://ethereum.org) related services and infrastructure.
 
-For the uninitiated, using `ethereum.nix` will give you the following benefits:
+For the uninitiated, using Ethereum.nix will give you the following benefits:
 
 - Access to a wide range of Ethereum applications packaged with Nix, ready to run without fuss. Nix guarantees you don't have to worry about version conflicts, missing dependencies or even what state your OS is in.
 - We aim that every Ethereum application stored in the repository is constructed from its source, including all input dependencies. This approach guarantees the code's reproducibility and trustworthiness. Furthermore, with Nix, expert users can tweak and adjust the build process to any degree of detail as required.
@@ -26,7 +27,7 @@ This project is developed entirely in [Nix Flakes](https://nixos.wiki/wiki/Flake
 
 ## Documentation
 
-We recommend you [look at our documentation](https://nix-community.github.io/ethereum.nix/) that shows how to use `ethereum.nix` effectively.
+We recommend you [look at our documentation](https://nix-community.github.io/ethereum.nix/) that shows how to use Ethereum.nix effectively.
 
 Any PR improving documentation is welcome.
 
