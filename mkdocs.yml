@@ -65,22 +65,32 @@ markdown_extensions:
   - tables
 
 nav:
-  - index.md
+  - Home: index.md
   - Getting Started:
       - getting-started/installation.md
-      - getting-started/running-geth.md
-      - getting-started/running-prysm-beacon.md
-      - getting-started/backup-and-restore.md
-  - Development:
-      - development/contributing.md
-  - Reference:
-      - NixOS Module Options:
+  - apps.md
+  - NixOS:
+      - nixos/installation.md
+      - Services:
+          - nixos/running-geth.md
+          - nixos/running-prysm-beacon.md
+          - nixos/backup-and-restore.md
+      - Module Options:
           - reference/module-options/erigon.md
-          - reference/module-options/geth.md
           - reference/module-options/geth-bootnode.md
+          - reference/module-options/geth.md
+          - reference/module-options/mev-boost.md
           - reference/module-options/nethermind.md
           - reference/module-options/prysm-beacon.md
-  - license.md
+          - reference/module-options/prysm-validator.md
+  - Contributing:
+      - contributing/index.md
+      - Reporting a bug: contributing/reporting-a-bug.md
+      - Reporting a docs issue: contributing/reporting-a-docs-issue.md
+      - Requesting a change: contributing/reporting-a-change.md
+      - Asking a question: https://github.com/nix-community/ethereum.nix/discussions
+  - Other:
+      - license.md
 
 extra:
   homepage: https://nix-community.github.io/ethereum.nix
