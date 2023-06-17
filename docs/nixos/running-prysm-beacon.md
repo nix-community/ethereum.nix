@@ -77,8 +77,8 @@ To configure a custom fork for example:
 By default, [openFirewall](../reference/module-options/prysm-beacon.md#servicesethereumprysm-beaconnameopenfirewall) is set to `false`.
 If set to `true` firewall rules are added which will expose the following ports:
 
-| Protocol | Config                                                                                                                 | Default value |
-| :------- | :--------------------------------------------------------------------------------------------------------------------- | :------------ |
+| Protocol | Config                                                                                                                    | Default value |
+| :------- | :------------------------------------------------------------------------------------------------------------------------ | :------------ |
 | UDP      | [p2p-udp-port](../reference/module-options/prysm-beacon.md#servicesethereumprysm-beaconnameargsp2p-udp-port)           | 12000         |
 | TCP      | [p2p-tcp-port](../reference/module-options/prysm-beacon.md#servicesethereumprysm-beaconnameargsp2p-tcp-port)           | 13000         |
 | TCP      | [grpc-gateway-port](../reference/module-options/prysm-beacon.md#servicesethereumprysm-beaconnameargsgrpc-gateway-port) | 3500          |

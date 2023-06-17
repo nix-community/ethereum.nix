@@ -4,7 +4,6 @@ The following service modules support backups:
 
 - [Geth](./running-geth.md)
 - [Prysm Beacon](./running-prysm-beacon.md)
-- [Nethermind](./running-nethermind.md)
 
 Backup and restore functionality is implemented with [Restic](https://restic.net/).
 
