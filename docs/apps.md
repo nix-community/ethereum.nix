@@ -57,14 +57,14 @@ The following extensions are supported:
 
 Maximal extractable value (MEV) refers to the maximum value that can be extracted from block production in excess of the standard block reward and gas fees by including, excluding, and changing the order of transactions in a block.
 
-| App                                                             | Supported                                  | Command            |
-| --------------------------------------------------------------- | ------------------------------------------ | ------------------ |
-| [Dreamboat](https://github.com/blocknative/dreamboat)           | :material-check:{ style="color: #4DB6AC" } | `nix run .#dreamboat`   |
-| [mev-boost](https://github.com/flashbots/mev-boost)             | :material-check:{ style="color: #4DB6AC" } | `nix run .#mev-boost` |
+| App                                                             | Supported                                  | Command                       |
+| --------------------------------------------------------------- | ------------------------------------------ | ----------------------------- |
+| [Dreamboat](https://github.com/blocknative/dreamboat)           | :material-check:{ style="color: #4DB6AC" } | `nix run .#dreamboat`         |
+| [mev-boost](https://github.com/flashbots/mev-boost)             | :material-check:{ style="color: #4DB6AC" } | `nix run .#mev-boost`         |
 | [mev-boost-builder](https://github.com/flashbots/builder)       | :material-check:{ style="color: #4DB6AC" } | `nix run .#mev-boost-builder` |
-| [mev-boost-prysm](https://github.com/flashbots/prysm)           | :material-check:{ style="color: #4DB6AC" } | `nix run .#mev-boost-prysm` |
-| [mev-boost-relay](https://github.com/flashbots/mev-boost-relay) | :material-check:{ style="color: #4DB6AC" } | `nix run .#mev-boost-relay` |
-| [mev-rs](https://github.com/ralexstokes/mev-rs)                 | :material-check:{ style="color: #4DB6AC" } | `nix run .#mev` |
+| [mev-boost-prysm](https://github.com/flashbots/prysm)           | :material-check:{ style="color: #4DB6AC" } | `nix run .#mev-boost-prysm`   |
+| [mev-boost-relay](https://github.com/flashbots/mev-boost-relay) | :material-check:{ style="color: #4DB6AC" } | `nix run .#mev-boost-relay`   |
+| [mev-rs](https://github.com/ralexstokes/mev-rs)                 | :material-check:{ style="color: #4DB6AC" } | `nix run .#mev`               |
 
 ## Signers
 
@@ -77,14 +77,14 @@ Maximal extractable value (MEV) refers to the maximum value that can be extracte
 
 Utilities and applications can't be categorized into any category of the above.
 
-| App                                                                         | Supported                                  | Command            |
-| --------------------------------------------------------------------------- | ------------------------------------------ | ------------------ |
-| [eth2-testnet-genesis](https://github.com/protolambda/eth2-testnet-genesis) | :material-check:{ style="color: #4DB6AC" } | `nix run .#eth2-testnet-genesis`   |
-| [ethdo](https://github.com/wealdtech/ethdo)                                 | :material-check:{ style="color: #4DB6AC" } | `nix run .#ethdo` |
-| [ethereal](https://github.com/wealdtech/ethereal)                           | :material-check:{ style="color: #4DB6AC" } | `nix run .#ethereal` |
-| [sedge](https://github.com/NethermindEth/sedge)                             | :material-check:{ style="color: #4DB6AC" } | `nix run .#sedge` |
-| [staking-deposit-cli](https://github.com/ethereum/staking-deposit-cli)      | :material-check:{ style="color: #4DB6AC" } | `nix run .#deposit` |
-| [zcli](https://github.com/protolambda/zcli)                                 | :material-check:{ style="color: #4DB6AC" } | `nix run .#zcli` |
+| App                                                                         | Supported                                  | Command                          |
+| --------------------------------------------------------------------------- | ------------------------------------------ | -------------------------------- |
+| [eth2-testnet-genesis](https://github.com/protolambda/eth2-testnet-genesis) | :material-check:{ style="color: #4DB6AC" } | `nix run .#eth2-testnet-genesis` |
+| [ethdo](https://github.com/wealdtech/ethdo)                                 | :material-check:{ style="color: #4DB6AC" } | `nix run .#ethdo`                |
+| [ethereal](https://github.com/wealdtech/ethereal)                           | :material-check:{ style="color: #4DB6AC" } | `nix run .#ethereal`             |
+| [sedge](https://github.com/NethermindEth/sedge)                             | :material-check:{ style="color: #4DB6AC" } | `nix run .#sedge`                |
+| [staking-deposit-cli](https://github.com/ethereum/staking-deposit-cli)      | :material-check:{ style="color: #4DB6AC" } | `nix run .#deposit`              |
+| [zcli](https://github.com/protolambda/zcli)                                 | :material-check:{ style="color: #4DB6AC" } | `nix run .#zcli`                 |
 
 ## Validators
 
