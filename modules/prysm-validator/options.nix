@@ -2,18 +2,18 @@
   lib,
   pkgs,
   ...
-}: let
+}: with lib; let
   args = import ./args.nix lib;
 
-  validatorOpts = with lib; {
+  validatorOpts = {
     options = {
-      enable = mkEnableOption (mdDoc "Ethereum Prysm validator client");
+      enable = mkEnableOption "Ethereum Prysm validator client.";
 
       inherit args;
 
       extraArgs = mkOption {
         type = types.listOf types.str;
-        description = mdDoc "Additional arguments to pass to Prysm validator.";
+        description = "Additional arguments to pass to Prysm validator.";
         default = [];
       };
 
@@ -21,13 +21,13 @@
         default = pkgs.prysm;
         defaultText = literalExpression "pkgs.prysm";
         type = types.package;
-        description = mdDoc "Package to use for Prysm binary";
+        description = "Package to use for Prysm binary.";
       };
 
       openFirewall = mkOption {
         type = types.bool;
         default = false;
-        description = lib.mdDoc "Open ports in the firewall for any enabled networking services";
+        description = "Open ports in the firewall for any enabled networking services.";
       };
 
       # mixin backup options
@@ -44,10 +44,10 @@
     };
   };
 in {
-  options.services.ethereum.prysm-validator = with lib;
+  options.services.ethereum.prysm-validator = 
     mkOption {
-      type = types.attrsOf (types.submodule validatorOpts);
+      type = with types; attrsOf (submodule validatorOpts);
       default = {};
-      description = mdDoc "Specification of one or more prysm validator instances.";
+      description = "Specification of one or more prysm validator instances.";
     };
 }
