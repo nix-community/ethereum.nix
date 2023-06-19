@@ -3,20 +3,20 @@ with lib; {
   baseDbPath = mkOption {
     type = types.nullOr types.path;
     default = null;
-    description = mdDoc "Configures the path of the Nethermind's database folder.";
+    description = "Configures the path of the Nethermind's database folder.";
   };
 
   config = mkOption {
     type = types.nullOr types.str;
     default = null;
     example = "mainnet";
-    description = mdDoc "Determines the configuration file of the network on which Nethermind will be running.";
+    description = "Determines the configuration file of the network on which Nethermind will be running.";
   };
 
   configsDirectory = mkOption {
     type = types.nullOr types.path;
     default = null;
-    description = mdDoc "Changes the source directory of your configuration files.";
+    description = "Changes the source directory of your configuration files.";
   };
 
   log = mkOption {
@@ -29,13 +29,13 @@ with lib; {
       "ERROR"
     ];
     default = "INFO";
-    description = mdDoc "Changes the logging level.";
+    description = "Changes the logging level.";
   };
 
   loggerConfigSource = mkOption {
     type = types.nullOr types.str;
     default = null;
-    description = mdDoc "Changes the path of the NLog.config file.";
+    description = "Changes the path of the NLog.config file.";
   };
 
   modules = {
@@ -44,13 +44,13 @@ with lib; {
       DiscoveryPort = mkOption {
         type = types.port;
         default = 30303;
-        description = mdDoc "UDP port number for incoming discovery connections.";
+        description = "UDP port number for incoming discovery connections.";
       };
 
       P2PPort = mkOption {
         type = types.port;
         default = 30303;
-        description = mdDoc "TPC/IP port number for incoming P2P connections.";
+        description = "TPC/IP port number for incoming P2P connections.";
       };
     };
 
@@ -59,37 +59,37 @@ with lib; {
       Enabled = mkOption {
         type = types.bool;
         default = true;
-        description = mdDoc "Defines whether the JSON RPC service is enabled on node startup.";
+        description = "Defines whether the JSON RPC service is enabled on node startup.";
       };
 
       Port = mkOption {
         type = types.port;
         default = 8545;
-        description = mdDoc "Port number for JSON RPC calls.";
+        description = "Port number for JSON RPC calls.";
       };
 
       WebSocketsPort = mkOption {
         type = types.port;
         default = 8545;
-        description = mdDoc "Port number for JSON RPC web sockets calls.";
+        description = "Port number for JSON RPC web sockets calls.";
       };
 
       EngineHost = mkOption {
         type = types.str;
         default = "127.0.0.1";
-        description = mdDoc "Host for JSON RPC calls.";
+        description = "Host for JSON RPC calls.";
       };
 
       EnginePort = mkOption {
         type = types.port;
         default = 8551;
-        description = mdDoc "Port for Execution Engine calls.";
+        description = "Port for Execution Engine calls.";
       };
 
       JwtSecretFile = mkOption {
         type = types.nullOr types.str;
         default = null;
-        description = mdDoc "Path to file with hex encoded secret for jwt authentication.";
+        description = "Path to file with hex encoded secret for jwt authentication.";
         example = "/var/run/geth/jwtsecret";
       };
     };
@@ -99,7 +99,7 @@ with lib; {
       Enabled = mkOption {
         type = types.bool;
         default = true;
-        description = mdDoc "If 'true' then Health Check endpoints is enabled at /health.";
+        description = "If `true` then Health Check endpoints is enabled at `/health`.";
       };
     };
 
@@ -108,13 +108,13 @@ with lib; {
       Enabled = mkOption {
         type = types.bool;
         default = true;
-        description = mdDoc "If 'true',the node publishes various metrics to Prometheus Pushgateway at given interval.";
+        description = "If 'true',the node publishes various metrics to Prometheus Pushgateway at given interval.";
       };
 
       ExposePort = mkOption {
         type = types.nullOr types.port;
         default = null;
-        description = mdDoc "If 'true' then Health Check endpoints is enabled at /health";
+        description = "If `true` then Health Check endpoints is enabled at `/health`.";
       };
     };
   };
