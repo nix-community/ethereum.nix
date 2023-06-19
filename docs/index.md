@@ -15,25 +15,25 @@ This project is developed entirely in [Nix Flakes](https://nixos.wiki/wiki/Flake
 
 ## Eager to use Ethereum.nix?
 
-#### :material-information:{ .lg .middle } __New to Ethereum.nix and Nix?__
+#### :material-information:{ .lg .middle } **New to Ethereum.nix and Nix?**
 
 Get started by installing Nix on your system and how to use it with Ethereum.nix.
 
 [Getting Started :octicons-arrow-right-24:](./getting-started/installation.md){ .md-button }
 
-#### :material-apps-box:{ .lg .middle } __Want to use an application?__
+#### :material-apps-box:{ .lg .middle } **Want to use an application?**
 
 See our list of supported applications ready to be used in seconds.
 
 [See supported Applications :octicons-arrow-right-24:](./apps.md){ .md-button }
 
-#### :simple-nixos:{ .lg .middle } __Want to run Ethereum services on NixOS?__
+#### :simple-nixos:{ .lg .middle } **Want to run Ethereum services on NixOS?**
 
 Run Ethereum services easily with our supported NixOS modules.
 
 [Run Ethereum services on NixOS :octicons-arrow-right-24:](./nixos/installation.md){ .md-button }
 
-#### :material-chat-question:{ .lg .middle } __Have a question or need help?__
+#### :material-chat-question:{ .lg .middle } **Have a question or need help?**
 
 Ask questions on our discussion board and get in touch with our community.
 
