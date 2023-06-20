@@ -63,11 +63,11 @@ markdown_extensions:
       emoji_index: !!python/name:materialx.emoji.twemoji
       emoji_generator: !!python/name:materialx.emoji.to_svg
   - tables
+  - footnotes
 
 nav:
   - Home: index.md
-  - Getting Started:
-      - getting-started/installation.md
+  - getting-started.md
   - apps.md
   - NixOS:
       - nixos/installation.md
