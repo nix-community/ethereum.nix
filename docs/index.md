@@ -19,7 +19,7 @@ This project is developed entirely in [Nix Flakes](https://nixos.wiki/wiki/Flake
 
 Get started by installing Nix on your system and how to use it with Ethereum.nix.
 
-[Getting Started :octicons-arrow-right-24:](./getting-started/installation.md){ .md-button }
+[Getting Started :octicons-arrow-right-24:](./getting-started.md){ .md-button }
 
 #### :material-apps-box:{ .lg .middle } **Want to use an application?**
 
