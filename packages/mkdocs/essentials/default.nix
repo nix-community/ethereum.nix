@@ -1,5 +1,4 @@
 {
-  lib,
   fetchFromGitHub,
   python3Packages,
 }:
