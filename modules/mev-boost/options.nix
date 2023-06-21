@@ -2,7 +2,8 @@
   lib,
   pkgs,
   ...
-}: with lib; let
+}:
+with lib; let
   args = import ./args.nix lib;
 
   mevBoostOpts = {
@@ -38,10 +39,9 @@
     };
   };
 in {
-  options.services.ethereum.mev-boost =
-    mkOption {
-      type = with types; attrsOf (submodule mevBoostOpts);
-      default = {};
-      description = "Specification of one or more MEV-Boost chain instances.";
-    };
+  options.services.ethereum.mev-boost = mkOption {
+    type = with types; attrsOf (submodule mevBoostOpts);
+    default = {};
+    description = "Specification of one or more MEV-Boost chain instances.";
+  };
 }

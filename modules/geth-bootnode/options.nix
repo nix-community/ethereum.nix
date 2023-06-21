@@ -2,7 +2,8 @@
   lib,
   pkgs,
   ...
-}: with lib; let
+}:
+with lib; let
   args = import ./args.nix lib;
 
   bootnodeOpts = {
@@ -32,10 +33,9 @@
     };
   };
 in {
-  options.services.ethereum.geth-bootnode = 
-    mkOption {
-      type = with types; attrsOf (submodule bootnodeOpts);
-      default = {};
-      description = "Specification of one or more geth bootnode instances.";
-    };
+  options.services.ethereum.geth-bootnode = mkOption {
+    type = with types; attrsOf (submodule bootnodeOpts);
+    default = {};
+    description = "Specification of one or more geth bootnode instances.";
+  };
 }

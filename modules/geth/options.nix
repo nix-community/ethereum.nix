@@ -2,7 +2,8 @@
   lib,
   pkgs,
   ...
-}: with lib; let
+}:
+with lib; let
   args = import ./args.nix lib;
 
   gethOpts = {
@@ -44,10 +45,9 @@
     };
   };
 in {
-  options.services.ethereum.geth =
-    mkOption {
-      type = with types; attrsOf (submodule gethOpts);
-      default = {};
-      description = "Specification of one or more geth instances.";
-    };
+  options.services.ethereum.geth = mkOption {
+    type = with types; attrsOf (submodule gethOpts);
+    default = {};
+    description = "Specification of one or more geth instances.";
+  };
 }
