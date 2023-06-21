@@ -42,10 +42,14 @@ theme:
     - search.suggest
     - toc.follow
 
+extra_css:
+  - stylesheets/neoteroi-mkdocs.css
+
 markdown_extensions:
   - admonition
   - attr_list
   - md_in_html
+  - neoteroi.cards
   - toc:
       permalink: true
   - pymdownx.details
@@ -83,6 +87,7 @@ nav:
           - reference/module-options/nethermind.md
           - reference/module-options/prysm-beacon.md
           - reference/module-options/prysm-validator.md
+          - reference/module-test.md
   - Contributing:
       - contributing/index.md
       - Reporting a bug: contributing/reporting-a-bug.md

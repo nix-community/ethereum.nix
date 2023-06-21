@@ -78,6 +78,11 @@
       bls = callPackage ./libs/bls {};
       blst = callPackage ./libs/blst {};
       crytic-compile = callPackageUnstable ./libs/crytic-compile {};
+
+      # TODO: Upstream these packages directly to nixpkgs
+      essentials = callPackage ./mkdocs/essentials {};
+      essentials-openapi = callPackage ./mkdocs/essentials-openapi {inherit essentials;};
+      mkdocs-plugins = callPackage ./mkdocs/mkdocs-plugins {inherit essentials-openapi;};
     };
 
     apps = platformApps self'.packages {

@@ -2,6 +2,7 @@
   perSystem = {
     lib,
     pkgs,
+    self',
     ...
   }: let
     inherit (pkgs) stdenv mkdocs python310Packages;
@@ -12,6 +13,7 @@
         buildInputs = [
           mkdocs
           python310Packages.mkdocs-material
+          self'.packages.mkdocs-plugins
         ];
       } ''
         mkdir -p $out/bin
