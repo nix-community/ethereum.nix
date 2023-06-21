@@ -2,7 +2,8 @@
   lib,
   pkgs,
   ...
-}: with lib; let
+}:
+with lib; let
   args = import ./args.nix lib;
 
   validatorOpts = {
@@ -44,10 +45,9 @@
     };
   };
 in {
-  options.services.ethereum.prysm-validator = 
-    mkOption {
-      type = with types; attrsOf (submodule validatorOpts);
-      default = {};
-      description = "Specification of one or more prysm validator instances.";
-    };
+  options.services.ethereum.prysm-validator = mkOption {
+    type = with types; attrsOf (submodule validatorOpts);
+    default = {};
+    description = "Specification of one or more prysm validator instances.";
+  };
 }

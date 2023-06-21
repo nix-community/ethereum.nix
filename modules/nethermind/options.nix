@@ -2,7 +2,8 @@
   lib,
   pkgs,
   ...
-}: with lib; let
+}:
+with lib; let
   args = import ./args.nix lib;
 
   nethermindOpts = {
@@ -44,10 +45,9 @@
     };
   };
 in {
-  options.services.ethereum.nethermind =
-    mkOption {
-      type = with types; attrsOf (submodule nethermindOpts);
-      default = {};
-      description = "Specification of one or more Nethermind instances.";
-    };
+  options.services.ethereum.nethermind = mkOption {
+    type = with types; attrsOf (submodule nethermindOpts);
+    default = {};
+    description = "Specification of one or more Nethermind instances.";
+  };
 }

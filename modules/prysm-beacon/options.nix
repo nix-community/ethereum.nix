@@ -2,7 +2,8 @@
   lib,
   pkgs,
   ...
-}: with lib; let
+}:
+with lib; let
   args = import ./args.nix lib;
 
   beaconOpts = {
@@ -44,10 +45,9 @@
     };
   };
 in {
-  options.services.ethereum.prysm-beacon = 
-    mkOption {
-      type = with types; attrsOf (submodule beaconOpts);
-      default = {};
-      description = "Specification of one or more prysm beacon chain instances.";
-    };
+  options.services.ethereum.prysm-beacon = mkOption {
+    type = with types; attrsOf (submodule beaconOpts);
+    default = {};
+    description = "Specification of one or more prysm beacon chain instances.";
+  };
 }

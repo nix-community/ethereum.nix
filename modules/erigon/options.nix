@@ -2,7 +2,8 @@
   lib,
   pkgs,
   ...
-}: with lib; let
+}:
+with lib; let
   args = import ./args.nix lib;
 
   erigonOpts = {
@@ -42,10 +43,9 @@
     };
   };
 in {
-  options.services.ethereum.erigon =
-    mkOption {
-      type = with types; attrsOf (submodule erigonOpts);
-      default = {};
-      description = "Specification of one or more erigon instances.";
-    };
+  options.services.ethereum.erigon = mkOption {
+    type = with types; attrsOf (submodule erigonOpts);
+    default = {};
+    description = "Specification of one or more erigon instances.";
+  };
 }

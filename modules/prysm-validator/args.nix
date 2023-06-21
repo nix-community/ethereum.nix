@@ -79,11 +79,11 @@ with lib; {
     type = types.nullOr types.str;
     default = null;
     description = ''
-    Sets ALL validators' mapping to a suggested eth\
-    address to receive gas fees when proposing a block. note\
-    that this is only a suggestion when integrating with a Builder API,\
-    which may choose to specify a different fee recipient as payment\
-    for the blocks it builds.'';
+      Sets ALL validators' mapping to a suggested eth\
+      address to receive gas fees when proposing a block. note\
+      that this is only a suggestion when integrating with a Builder API,\
+      which may choose to specify a different fee recipient as payment\
+      for the blocks it builds.'';
   };
 
   graffiti = mkOption {
