@@ -133,19 +133,14 @@ in {
               ${network} \
               ${dataDir} \
               ${trustedNodeUrl} \
-              ${backfilling}
-            '';
+              ${backfilling}'';
 
-            entrypoint =
+            trustedNodeSync =
               if cfg.args.trusted-node-url != null
               then ''
-                ${cfg.package}/bin/nimbus_beacon_node trustedNodeSync ${nodeSyncArgs} \
-                && \
-                ${cfg.package}/bin/nimbus_beacon_node ${beaconNodeArgs}
+                ${cfg.package}/bin/nimbus_beacon_node trustedNodeSync ${nodeSyncArgs}
               ''
-              else ''
-                ${cfg.package}/bin/nimbus_beacon_node ${beaconNodeArgs}
-              '';
+              else null;
           in
             nameValuePair serviceName (mkIf cfg.enable {
               after = ["network.target"];
@@ -158,7 +153,8 @@ in {
                 {
                   User = serviceName;
                   StateDirectory = serviceName;
-                  ExecStart = entrypoint;
+                  ExecStartPre = trustedNodeSync;
+                  ExecStart = ''${cfg.package}/bin/nimbus_beacon_node ${beaconNodeArgs}'';
                   MemoryDenyWriteExecute = "false"; # causes a library loading error
                 }
                 (mkIf (cfg.args.jwt-secret != null) {
