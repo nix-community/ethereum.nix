@@ -318,16 +318,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1687353701,
+        "lastModified": 1687432868,
         "narHash": "sha256-qTVz9JBblq0kTcMVfaF6ePXHq43vNRgnzoEoG3bohh4=",
         "owner": "numtide",
         "repo": "treefmt-nix",
-        "rev": "771a604ce09f39e1008282a1c462af36fcaf1c93",
+        "rev": "f82cbf218f10141258fb6495e5ab29a785ecd531",
         "type": "github"
       },
       "original": {
         "owner": "numtide",
-        "ref": "feat/mdformat",
         "repo": "treefmt-nix",
         "type": "github"
       }

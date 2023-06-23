@@ -30,7 +30,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     treefmt-nix = {
-      url = "github:numtide/treefmt-nix?ref=feat/mdformat"; # TODO: Restore when mdformat lands on main
+      url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     flake-compat.url = "github:nix-community/flake-compat";
