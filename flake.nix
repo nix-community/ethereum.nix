@@ -49,7 +49,15 @@
         inherit lib; # make custom lib available to parent functions
       };
     }
-    rec {
+    ({
+      withSystem,
+      flake-parts-lib,
+      ...
+    }: let
+      inherit (flake-parts-lib) importApply;
+      flakeModules.devnet = importApply ./flakeModules/devnet/flake-module.nix {inherit withSystem;};
+    in {
+      debug = true; # TODO: Only for testing purposes
       imports = [
         {_module.args.lib = lib;} # make custom lib available to all `perSystem` functions
         ./nix
@@ -57,6 +65,8 @@
         ./modules
         ./mkdocs.nix
         inputs.hercules-ci-effects.flakeModule
+        
+        flakeModules.devnet # TODO: only for testing purposes
       ];
       systems = [
         "x86_64-linux"
@@ -65,5 +75,5 @@
         "aarch64-darwin"
       ];
       herculesCI.ciSystems = with builtins; filter (system: (match ".*-darwin" system) == null) systems;
-    };
+    });
 }
