@@ -19,6 +19,12 @@
         default = [];
       };
 
+      blst-portable = mkOption {
+        type = types.bool;
+        default = false;
+        description = lib.mdDoc "Make blst library used by erigon build in portable mode. When this option is enabled, the package option is ignored.";
+      };
+
       package = mkOption {
         type = types.package;
         default = pkgs.erigon;

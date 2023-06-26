@@ -26,6 +26,9 @@
 
       # Execution Clients
       erigon = callPackage ./clients/execution/erigon {};
+      erigon-blst-portable = erigon.overrideAttrs (_finalAttrs: _previousAttrs: {
+        CGO_CFLAGS = "-O -D__BLST_PORTABLE__";
+      });
       besu = callPackage ./clients/execution/besu {};
       geth = callPackage ./clients/execution/geth {};
       geth-sealer = callPackage ./clients/execution/geth-sealer {};
