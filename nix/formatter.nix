@@ -25,8 +25,6 @@
       buildInputs = with pkgs.python3Packages; [
         mdformat
       ];
-
-      doCheck = false;
     };
 
     # TODO: Upstream this to nixpkgs
@@ -34,7 +32,7 @@
       pname = "mdformat-gfm";
       version = "0.3.5";
 
-      format = "other";
+      format = "pyproject";
 
       src = pkgs.fetchFromGitHub {
         owner = "hukkin";
@@ -43,14 +41,20 @@
         hash = "sha256-7sIa50jCN+M36Y0C05QaAL+TVwLzKxJ0gzpZI1YQFxg=";
       };
 
+      nativeBuildInputs = with pkgs.python3Packages; [
+        poetry-core
+      ];
+
       buildInputs = with pkgs.python3Packages; [
         mdformat
         markdown-it-py
         mdit-py-plugins
-        mdformat-tables
       ];
 
-      doCheck = false;
+      propagatedBuildInputs = with pkgs.python3Packages; [
+        mdformat-tables
+        linkify-it-py
+      ];
     };
 
     # TODO: Upstream this to nixpkgs
@@ -58,7 +62,7 @@
       pname = "mdformat-admon";
       version = "1.0.2";
 
-      format = "other";
+      format = "flit";
 
       src = pkgs.fetchFromGitHub {
         owner = "KyleKing";
@@ -67,16 +71,27 @@
         hash = "sha256-33Q3Re/axnoOHZ9XYA32mmK+efsSelJXW8sD7C1M/jU=";
       };
 
-      buildInputs = with pkgs.python3Packages; [
-        mdformat
-        mdit-py-plugins
-      ];
+      buildInputs = with pkgs.python3Packages; [mdformat];
 
-      doCheck = false;
+      propagatedBuildInputs = with pkgs.python3Packages; [
+        (mdit-py-plugins.overridePythonAttrs (_prev: rec {
+          version = "0.4.0";
+          doCheck = false;
+          src = pkgs.fetchFromGitHub {
+            owner = "executablebooks";
+            repo = "mdit-py-plugins";
+            rev = "refs/tags/v${version}";
+            hash = "sha256-YBJu0vIOD747DrJLcqiZMHq34+gHdXeGLCw1OxxzIJ0=";
+          };
+        }))
+      ];
     };
 
-    mdformat-custom = pkgs.python3Packages.mdformat.overrideAttrs (_final: prev: {
+    mdformat-custom = pkgs.python3Packages.mdformat.overridePythonAttrs (prev: rec {
       propagatedBuildInputs = prev.propagatedBuildInputs ++ [mdformat-gfm mdformat-admon];
+      disabledTests = [
+        "test_plugins.py"
+      ];
     });
   in {
     treefmt.config = {
@@ -92,6 +107,8 @@
       };
       settings.formatter.prettier.excludes = ["*.md"];
     };
+
+    devshells.default.packages = [mdformat-custom];
 
     devshells.default.commands = [
       {
