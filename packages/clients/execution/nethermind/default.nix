@@ -12,13 +12,13 @@
 }: let
   self = buildDotnetModule rec {
     pname = "nethermind";
-    version = "1.19.2";
+    version = "1.19.3";
 
     src = fetchFromGitHub {
       owner = "NethermindEth";
       repo = pname;
       rev = version;
-      hash = "sha256-+YJkHjX6x+/cjyAEbg967Pa9BmQWAMdet8X12XPlAxU=";
+      hash = "sha256-vqcgBT7kSyrgRl2hLehbCjsQ/AC4+a3LMOdAcmcNOFo=";
       fetchSubmodules = true;
     };
 
