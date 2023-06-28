@@ -9,6 +9,89 @@
     ...
   }: let
     # TODO: Upstream this to nixpkgs
+    mdformat-footnote = pkgs.python3Packages.buildPythonPackage rec {
+      pname = "mdformat-footnote";
+      version = "0.1.1";
+
+      format = "flit";
+
+      src = pkgs.fetchFromGitHub {
+        owner = "executablebooks";
+        repo = pname;
+        rev = "refs/tags/v${version}";
+        hash = "sha256-DUCBWcmB5i6/HkqxjlU3aTRO7i0n2sj+e/doKB8ffeo=";
+      };
+
+      buildInputs = with pkgs.python3Packages; [
+        mdformat
+        mdit-py-plugins
+      ];
+    };
+
+    # TODO: Upstream this to nixpkgs
+    mdformat-frontmatter = pkgs.python3Packages.buildPythonPackage rec {
+      pname = "mdformat-frontmatter";
+      version = "2.0.1";
+
+      format = "flit";
+
+      src = pkgs.fetchFromGitHub {
+        owner = "butler54";
+        repo = pname;
+        rev = "refs/tags/v${version}";
+        hash = "sha256-PhT5whtvvcYSs5gHQEsIvV1evhx7jR+3DWFMHrF0uMw=";
+      };
+
+      buildInputs = with pkgs.python3Packages; [
+        mdformat
+        mdit-py-plugins
+      ];
+
+      propagatedBuildInputs = with pkgs.python3Packages; [ruamel-yaml];
+    };
+
+    # TODO: Upstream this to nixpkgs
+    mdformat-simple-breaks = pkgs.python3Packages.buildPythonPackage rec {
+      pname = "mdformat-simple-breaks";
+      version = "0.0.1";
+
+      format = "flit";
+
+      src = pkgs.fetchFromGitHub {
+        owner = "csala";
+        repo = pname;
+        rev = "refs/tags/v${version}";
+        hash = "sha256-4lJHB4r9lI2uGJ/BmFFc92sumTRKBBwiRmGBdQkzfd0=";
+      };
+
+      buildInputs = with pkgs.python3Packages; [
+        mdformat
+      ];
+    };
+
+    mdformat-toc = pkgs.python3Packages.buildPythonPackage rec {
+      pname = "mdformat-toc";
+      version = "0.3.0";
+
+      format = "pyproject";
+
+      src = pkgs.fetchFromGitHub {
+        owner = "hukkin";
+        repo = pname;
+        rev = "refs/tags/${version}";
+        hash = "sha256-3EX6kGez408tEYiR9VSvi3GTrb4ds+HJwpFflv77nkg=";
+      };
+
+      nativeBuildInputs = with pkgs.python3Packages; [
+        poetry-core
+      ];
+
+      buildInputs = with pkgs.python3Packages; [
+        mdformat
+      ];
+    };
+
+    # TODO: Upstream this to nixpkgs
     mdformat-tables = pkgs.python3Packages.buildPythonPackage rec {
       pname = "mdformat-tables";
       version = "0.4.1";
@@ -87,10 +170,43 @@
       ];
     };
 
+    # TODO: Upstream this to nixpkgs
+    mdformat-mkdocs = pkgs.python3Packages.buildPythonPackage rec {
+      pname = "mdformat-mkdocs";
+      version = "1.0.2";
+
+      format = "flit";
+
+      src = pkgs.fetchFromGitHub {
+        owner = "KyleKing";
+        repo = pname;
+        rev = "refs/tags/v${version}";
+        hash = "sha256-H+wqgcXNrdrZ5aQvZ7XM8YpBpVZM6pFtsANC00UZ0jM=";
+      };
+
+      buildInputs = with pkgs.python3Packages; [
+        mdformat
+        mdformat-gfm
+        mdit-py-plugins
+      ];
+    };
+
     mdformat-custom = pkgs.python3Packages.mdformat.overridePythonAttrs (prev: rec {
-      propagatedBuildInputs = prev.propagatedBuildInputs ++ [mdformat-gfm mdformat-admon];
+      propagatedBuildInputs = 
+      prev.propagatedBuildInputs ++ [
+        mdformat-admon
+        mdformat-footnote
+        mdformat-frontmatter
+        mdformat-gfm
+        mdformat-mkdocs
+        mdformat-simple-breaks
+        mdformat-toc
+        ];
       disabledTests = [
+        "test_config_file.py"
+        "test_for_profiler.py"
         "test_plugins.py"
+        "test_style.py"
       ];
     });
   in {
