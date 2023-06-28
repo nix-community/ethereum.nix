@@ -192,15 +192,16 @@
     };
 
     mdformat-custom = pkgs.python3Packages.mdformat.overridePythonAttrs (prev: rec {
-      propagatedBuildInputs = 
-      prev.propagatedBuildInputs ++ [
-        mdformat-admon
-        mdformat-footnote
-        mdformat-frontmatter
-        mdformat-gfm
-        mdformat-mkdocs
-        mdformat-simple-breaks
-        mdformat-toc
+      propagatedBuildInputs =
+        prev.propagatedBuildInputs
+        ++ [
+          mdformat-admon
+          mdformat-footnote
+          mdformat-frontmatter
+          mdformat-gfm
+          mdformat-mkdocs
+          mdformat-simple-breaks
+          mdformat-toc
         ];
       disabledTests = [
         "test_config_file.py"
