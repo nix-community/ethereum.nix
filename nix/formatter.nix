@@ -191,11 +191,39 @@
       ];
     };
 
+    # TODO: Upstream this to nixpkgs
+    mdformat-beautysh = pkgs.python3Packages.buildPythonPackage rec {
+      pname = "mdformat-beautysh";
+      version = "0.1.1";
+
+      format = "pyproject";
+
+      src = pkgs.fetchFromGitHub {
+        owner = "hukkin";
+        repo = pname;
+        rev = "refs/tags/${version}";
+        hash = "sha256-mH9PN6QsPmnIzh/0vxa+5mYLzANUHRruXC0ql4h8myw=";
+      };
+
+      nativeBuildInputs = with pkgs.python3Packages; [
+        poetry-core
+      ];
+
+      buildInputs = with pkgs.python3Packages; [
+        mdformat
+        mdformat-gfm
+        mdit-py-plugins
+      ];
+
+      propagatedBuildInputs = with pkgs; [beautysh];
+    };
+
     mdformat-custom = pkgs.python3Packages.mdformat.overridePythonAttrs (prev: rec {
       propagatedBuildInputs =
         prev.propagatedBuildInputs
         ++ [
           mdformat-admon
+          mdformat-beautysh
           mdformat-footnote
           mdformat-frontmatter
           mdformat-gfm
