@@ -7,18 +7,18 @@ Of course, if you're a seasoned Nix user, these installation instructions can be
 ??? question "What is exactly Nix?"
     Some people might need clarification on what exactly is Nix. To clarify:
 
-      - [Nix is a cross-platform package manager](https://zero-to-nix.com/concepts/package-management) that utilizes a purely functional deployment model where software is installed into unique directories generated through cryptographic hashes.
-      - [Nix is also the name of the tool's programming language](https://zero-to-nix.com/concepts/nix-language).
-      - [NixOS is a Linux distribution based on the Nix package manager](https://zero-to-nix.com/concepts/nixos).
+    - [Nix is a cross-platform package manager](https://zero-to-nix.com/concepts/package-management) that utilizes a purely functional deployment model where software is installed into unique directories generated through cryptographic hashes.
+    - [Nix is also the name of the tool's programming language](https://zero-to-nix.com/concepts/nix-language).
+    - [NixOS is a Linux distribution based on the Nix package manager](https://zero-to-nix.com/concepts/nixos).
 
     We recommend you have a look at the following sources to get yourself familiar with the Nix ecosystem and mechanics first before starting with Ethereum.nix:
 
-      - [Zero to Nix](https://zero-to-nix.com/): A well-written guide with insightful information about using Nix and several important concepts.
-      - [Nix Reference Manual](https://nixos.org/manual/nix/stable/): This is a more comprenhensive guide (and also more notoriosly difficult) about Nix.
+    - [Zero to Nix](https://zero-to-nix.com/): A well-written guide with insightful information about using Nix and several important concepts.
+    - [Nix Reference Manual](https://nixos.org/manual/nix/stable/): This is a more comprenhensive guide (and also more notoriosly difficult) about Nix.
 
 ## Installation
 
-Nix, the package manager, [can be installed quite easily using the official installation script](https://nixos.org/download.html). We have left the installation instructions here for your convenience[^1]. Still, we recommend looking at the official source should you have more questions or want to customize the installation experience.
+Nix, the package manager, [can be installed quite easily using the official installation script](https://nixos.org/download.html). We have left the installation instructions here for your convenience\[^1\]. Still, we recommend looking at the official source should you have more questions or want to customize the installation experience.
 
 ### On non-Nix systems (Linux, MacOS, Windows WSL2, Docker)
 
@@ -30,17 +30,17 @@ For some systems, there are two installation methods:
 ??? question "Which type of installation should you choose? Multi-user or Single user?"
     This depends on your requirements, but here is a short list of reasons why it's recommended the multi-user installation:
 
-      **Pros**:
+    **Pros**:
 
-      - Better build isolation (and that is what Nix is all about).
-      - Better security (a build can not write somewhere in your home).
-      - Sharing builds between users.
+    - Better build isolation (and that is what Nix is all about).
+    - Better security (a build can not write somewhere in your home).
+    - Sharing builds between users.
 
-      **Cons**:
+    **Cons**:
 
-      - Requires root to run the daemon.
-      - More involved installation (creation of `nixbld*` users, installing a systemd unit, ...).
-      - Harder to uninstall.
+    - Requires root to run the daemon.
+    - More involved installation (creation of `nixbld*` users, installing a systemd unit, ...).
+    - Harder to uninstall.
 
 To run the installer:
 
@@ -108,11 +108,11 @@ This should print the version information for Nix.
 
 ### On NixOS
 
-If you're running NixOS, you don't need to install Nix, as it's already included!  
+If you're running NixOS, you don't need to install Nix, as it's already included!
 
 ## Enable Flakes Support
 
-Make sure [Nix Flakes](https://zero-to-nix.com/concepts/flakes) functionality is enabled to ease your operations when using Ethereum.nix. 
+Make sure [Nix Flakes](https://zero-to-nix.com/concepts/flakes) functionality is enabled to ease your operations when using Ethereum.nix.
 
 !!! question "Are not Nix Flakes experimental?"
     Nix flakes are still in the experimental stage within Nix, and there's no defined timeline for their official launch. While we don't expect significant changes to the user interface for flakes during the experimental phase, there could still be some minor changes.s.

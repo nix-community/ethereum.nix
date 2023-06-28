@@ -14,7 +14,7 @@ Restore options are set inside the `restore` section of supporting modules.
 ```nix title="server.nix"
 { pkgs, ...}: {
   services.ethereum.geth.sepolia = {
-    ...
+    # ...
     restore = {
       enable = true;
       snapshot = "3090378";
@@ -46,8 +46,7 @@ For production setups it is recommended to update the remote server's known host
 ```nix title="server.nix"
 { pkgs, ...}: {
   services.ethereum.geth.sepolia = {
-    ...
-
+    # ...
     restore = {
       enable = true;
       snapshot = "3090378";
@@ -66,7 +65,7 @@ For production setups it is recommended to update the remote server's known host
 
 There are several encryption schemes available for securing backup repositories.
 
-**Note: ** The encryption mode can only be configured when creating a new repository - you can neither configure it on a per-archive basis nor change the encryption mode of an existing repository.
+**Note:** The encryption mode can only be configured when creating a new repository - you can neither configure it on a per-archive basis nor change the encryption mode of an existing repository.
 
 For an overview of the encryption schemes available please refer to the [borg backup official docs](https://borgbackup.readthedocs.io/en/stable/usage/init.html).
 
