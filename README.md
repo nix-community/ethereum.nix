@@ -35,7 +35,7 @@ Any PR improving documentation is welcome.
 
 We use [`devshell`](https://github.com/numtide/devshell) to have nice development environments. Below you can find the list of available commands:
 
-```bash
+```txt
 🔨 Welcome to ethereum.nix
 
 [Docs]
