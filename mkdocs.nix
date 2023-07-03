@@ -7,13 +7,92 @@
   }: let
     inherit (pkgs) stdenv mkdocs python310Packages;
 
+    # TODO: Upstream this to nixpkgs
+    essentials = with pkgs.python3Packages;
+      buildPythonPackage rec {
+        pname = "essentials";
+        version = "1.1.5";
+
+        src = pkgs.fetchFromGitHub {
+          owner = "Neoteroi";
+          repo = pname;
+          rev = "v${version}";
+          hash = "sha256-WMHjBVkeSoQ4Naj1U7Bg9j2hcoErH1dx00BPKiom9T4=";
+        };
+
+        doCheck = false;
+      };
+
+    # TODO: Upstream this to nixpkgs
+    essentials-openapi = with pkgs.python3Packages;
+      buildPythonPackage rec {
+        pname = "essentials-openapi";
+        version = "1.0.7";
+
+        format = "pyproject";
+
+        src = pkgs.fetchFromGitHub {
+          owner = "Neoteroi";
+          repo = pname;
+          rev = "v${version}";
+          hash = "sha256-j0vEMNXZ9TrcFx8iIyTFQIwF49LEincLmnAt+qodYmA=";
+        };
+
+        nativeBuildInputs = [
+          hatchling
+          pyyaml
+        ];
+
+        propagatedBuildInputs = [
+          essentials
+        ];
+
+        doCheck = false;
+
+        pythonImportsCheck = ["openapidocs"];
+      };
+
+    # TODO: Upstream this to nixpkgs
+    mkdocs-plugins = with pkgs.python3Packages;
+      buildPythonPackage rec {
+        pname = "mkdocs-plugins";
+        version = "1.0.2";
+
+        format = "pyproject";
+
+        src = pkgs.fetchFromGitHub {
+          owner = "Neoteroi";
+          repo = pname;
+          rev = "v${version}";
+          hash = "sha256-C/HOqti8s/+V9scbS/Ch0i4sSFvRMF/K5+b6qzgTFSc=";
+        };
+
+        buildInputs = [
+          essentials-openapi
+          rich
+        ];
+
+        nativeBuildInputs = [
+          hatchling
+        ];
+
+        propagatedBuildInputs = [
+          httpx
+          mkdocs
+        ];
+
+        doCheck = false;
+
+        pythonImportsCheck = ["neoteroi.mkdocs"];
+      };
+
     my-mkdocs =
       pkgs.runCommand "my-mkdocs"
       {
         buildInputs = [
           mkdocs
           python310Packages.mkdocs-material
-          self'.packages.mkdocs-plugins
+          mkdocs-plugins
         ];
       } ''
         mkdir -p $out/bin
