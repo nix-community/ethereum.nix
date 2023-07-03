@@ -2,7 +2,6 @@
   perSystem = {
     lib,
     pkgs,
-    self',
     ...
   }: let
     inherit (pkgs) stdenv mkdocs python310Packages;

@@ -50,6 +50,7 @@ markdown_extensions:
   - attr_list
   - md_in_html
   - neoteroi.cards
+  - neoteroi.spantable
   - toc:
       permalink: true
   - pymdownx.details
