@@ -3,7 +3,7 @@
 One or more [Prysm Beacon](https://docs.prylabs.network/docs/how-prysm-works/beacon-node) services can be configured with the `services.ethereum.prysm-beacon` prefix.
 
 ```nix title="server.nix"
-{ pkgs, ...}: {
+{pkgs, ...}: {
   services.ethereum.prysm-beacon.sepolia = {
     enable = true;
     openFirewall = true;
@@ -21,7 +21,7 @@ One or more [Prysm Beacon](https://docs.prylabs.network/docs/how-prysm-works/bea
 
   services.ethereum.prysm-beacon.goerli = {
     enable = true;
-    ...
+    # More options...
   };
 }
 ```
@@ -63,11 +63,11 @@ A different version of Prysm Beacon can be configured via the [package](../refer
 To configure a custom fork for example:
 
 ```nix title="server.nix"
-{ pkgs, ...}: {
+{pkgs, ...}: {
   services.ethereum.prysm-beacon.sepolia = {
     enable = true;
     package = pkgs.my-prysm-beacon;
-    ...
+    # More options ...
   };
 }
 ```

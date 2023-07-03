@@ -16,7 +16,12 @@ Below you'll find several examples of how to use `ethereum.nix`. Choose appropri
     };
   };
 
-  outputs = inputs @ { self, ethereum-nix, nixpkgs, ... }: let
+  outputs = inputs @ {
+    self,
+    ethereum-nix,
+    nixpkgs,
+    ...
+  }: let
     system = "x86_64-linux";
   in {
     nixosConfigurations.my-system = nixpkgs.lib.nixosSystem {
@@ -26,12 +31,16 @@ Below you'll find several examples of how to use `ethereum.nix`. Choose appropri
         # optional: add nixos modules via the default nixosModule
         ethereum-nix.nixosModules.${system}.default
 
-        ({pkgs, system, ...}: {
-          environment.systemPackages = (with ethereum-nix.packages.${system}; [
+        ({
+          pkgs,
+          system,
+          ...
+        }: {
+          environment.systemPackages = with ethereum-nix.packages.${system}; [
             teku
             lighthouse
             # ...
-          ]);
+          ];
         })
       ];
     };
@@ -53,7 +62,12 @@ Below you'll find several examples of how to use `ethereum.nix`. Choose appropri
     };
   };
 
-  outputs = inputs @ { self, ethereum-nix, nixpkgs, ... }: let
+  outputs = inputs @ {
+    self,
+    ethereum-nix,
+    nixpkgs,
+    ...
+  }: let
     system = "x86_64-linux";
 
     pkgs = import inputs.nixpkgs {
@@ -63,7 +77,6 @@ Below you'll find several examples of how to use `ethereum.nix`. Choose appropri
         ethereum-nix.overlays.default
       ];
     };
-
   in {
     nixosConfigurations.my-system = nixpkgs.lib.nixosSystem {
       inherit system pkgs;
@@ -85,7 +98,8 @@ Below you'll find several examples of how to use `ethereum.nix`. Choose appropri
   ethereum-nix ? import (fetchTarball "https://github.com/nix-community/ethereum.nix/archive/main.tar.gz"),
   system ? "x86_64-linux",
   pkgs ?
-    import <nixpkgs> { # (1)!
+    import <nixpkgs> {
+      # (1)!
       inherit system;
       overlays = [
         # add packages via the default overlay

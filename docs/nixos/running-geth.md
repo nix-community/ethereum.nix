@@ -3,7 +3,7 @@
 One or more [Geth](https://github.com/ethereum/go-ethereum) services can be configured with the `services.ethereum.geth` prefix.
 
 ```nix title="server.nix"
-{ pkgs, ...}: {
+{pkgs, ...}: {
   services.ethereum.geth.sepolia = {
     enable = true;
     package = pkgs.geth;
@@ -27,7 +27,7 @@ One or more [Geth](https://github.com/ethereum/go-ethereum) services can be conf
 
   services.ethereum.geth.goerli = {
     enable = true;
-    ...
+    # More options ...
   };
 }
 ```
@@ -69,11 +69,11 @@ A different version of Geth can be configured via the [package](../reference/mod
 To configure [Geth Sealer](https://github.com/manifoldfinance/geth-sealer) for example:
 
 ```nix title="server.nix"
-{ pkgs, ...}: {
+{pkgs, ...}: {
   services.ethereum.geth.sepolia = {
     enable = true;
     package = pkgs.geth-sealer;
-    ...
+    # More options ...
   };
 }
 ```

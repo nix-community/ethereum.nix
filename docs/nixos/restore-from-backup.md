@@ -12,7 +12,7 @@ For an overview of how to configure backups please [see here](./backup-and-resto
 Restore options are set inside the `restore` section of supporting modules.
 
 ```nix title="server.nix"
-{ pkgs, ...}: {
+{pkgs, ...}: {
   services.ethereum.geth.sepolia = {
     # ...
     restore = {
@@ -44,7 +44,7 @@ For testing and development purposes this check can be disabled via the [strictH
 For production setups it is recommended to update the remote server's known host list first before any backups are scheduled.
 
 ```nix title="server.nix"
-{ pkgs, ...}: {
+{pkgs, ...}: {
   services.ethereum.geth.sepolia = {
     # ...
     restore = {

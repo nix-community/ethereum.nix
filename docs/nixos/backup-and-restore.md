@@ -29,9 +29,9 @@ At the time of writing [Restic supports](https://restic.readthedocs.io/en/stable
 Backup options are set inside the `backup` section of supporting modules.
 
 ```nix title="backup.nix"
-{ pkgs, ...}: {
+{pkgs, ...}: {
   services.ethereum.geth.sepolia = {
-    ...
+    # Other options ...
     backup = {
       enable = true;
       schedule = "0/1:00:00";
@@ -77,9 +77,9 @@ Restore options are set inside the `restore` section of supporting modules and s
 [backups](#configuring-backups).
 
 ```nix title="restore.nix"
-{ pkgs, ...}: {
+{pkgs, ...}: {
   services.ethereum.geth.sepolia = {
-    ...
+    # Other options ...
     restore = {
       enable = true;
       snapshot = "latest";
