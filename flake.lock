@@ -236,6 +236,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-mdformat": {
+      "locked": {
+        "lastModified": 1688382818,
+        "narHash": "sha256-vEV4qJeUatDAgY0w48zSobjjeiBlQs9fY2xBtoOf+L0=",
+        "owner": "aldoborrero",
+        "repo": "nixpkgs",
+        "rev": "fe3ed39edb90127a1ea525d021e729e0d100348b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "aldoborrero",
+        "ref": "feat/mdformat-plugins",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs-unstable": {
       "locked": {
         "lastModified": 1690054889,
@@ -292,6 +308,7 @@
         "foundry-nix": "foundry-nix",
         "hercules-ci-effects": "hercules-ci-effects",
         "nixpkgs": "nixpkgs_3",
+        "nixpkgs-mdformat": "nixpkgs-mdformat",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "treefmt-nix": "treefmt-nix"
       }

@@ -11,6 +11,9 @@
     nixpkgs.url = "github:nixos/nixpkgs/23.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
+    # TODO: Remove this once merged on upstream
+    nixpkgs-mdformat.url = "github:aldoborrero/nixpkgs?ref=feat/mdformat-plugins";
+
     foundry-nix = {
       url = "github:shazow/foundry.nix/monthly";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -50,6 +53,7 @@
       };
     }
     rec {
+      debug = true;
       imports = [
         {_module.args.lib = lib;} # make custom lib available to all `perSystem` functions
         ./nix
