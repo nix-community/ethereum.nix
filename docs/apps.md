@@ -10,7 +10,9 @@ The list of supported apps is growing every day! We plan to keep this list up to
 
     For brevity and consistency, all the commands are listed in the local variant.
 
-## Consenus Clients
+## Ethereum Clients
+
+### Consenus Clients
 
 The consensus client (also known as the Beacon Node, CL client or formerly the Eth2 client) implements the proof-of-stake consensus algorithm, which enables the network to achieve agreement based on validated data from the execution client.
 
@@ -30,28 +32,28 @@ The consensus client (also known as the Beacon Node, CL client or formerly the E
 
 ::end-spantable::
 
-## Execution Clients
+### Execution Clients
 
 The execution client (also known as the Execution Engine, EL client or formerly the Eth1 client) listens to new transactions broadcasted in the network, executes them in EVM, and holds the latest state and database of all current Ethereum data.
 
 ::spantable::
 
-| App                                             | Command                                                 |
-| ----------------------------------------------- | ------------------------------------------------------- |
-| [Besu](https://besu.hyperledger.org/en/stable/) | `nix run .#besu`                                        |
-| [Erigon](https://github.com/ledgerwatch/erigon) | `nix run .#erigon`                                      |
-| [Geth](https://geth.ethereum.org/) @span        | `nix run .#geth`                                        |
-|                                                 | `nix run .#geth-abidump`                                |
-|                                                 | `nix run .#geth-abigen`                                 |
-|                                                 | `nix run .#geth-bootnode`                               |
-|                                                 | `nix run .#geth-clef`                                   |
-|                                                 | `nix run .#geth-devp2p`                                 |
-|                                                 | `nix run .#geth-ethky`                                  |
-|                                                 | `nix run .#geth-evm`                                    |
-|                                                 | `nix run .#geth-faucet`                                 |
-|                                                 | `nix run .#geth-rlpdump`                                |
-| [Nethermind](https://nethermind.io/) @span      | `nix run .#nethermind-runner`                           |
-|                                                 | `nix run .#nethermind`                                  |
+| App                                             | Command                       |
+| ----------------------------------------------- | ----------------------------- |
+| [Besu](https://besu.hyperledger.org/en/stable/) | `nix run .#besu`              |
+| [Erigon](https://github.com/ledgerwatch/erigon) | `nix run .#erigon`            |
+| [Geth](https://geth.ethereum.org/) @span        | `nix run .#geth`              |
+|                                                 | `nix run .#geth-abidump`      |
+|                                                 | `nix run .#geth-abigen`       |
+|                                                 | `nix run .#geth-bootnode`     |
+|                                                 | `nix run .#geth-clef`         |
+|                                                 | `nix run .#geth-devp2p`       |
+|                                                 | `nix run .#geth-ethky`        |
+|                                                 | `nix run .#geth-evm`          |
+|                                                 | `nix run .#geth-faucet`       |
+|                                                 | `nix run .#geth-rlpdump`      |
+| [Nethermind](https://nethermind.io/) @span      | `nix run .#nethermind-runner` |
+|                                                 | `nix run .#nethermind`        |
 
 ::end-spantable::
 
@@ -95,9 +97,9 @@ Maximal extractable value (MEV) refers to the maximum value that can be extracte
 | [Dirk](https://github.com/attestantio/dirk)           | `nix run .#dirk`   |
 | [web3signer](https://github.com/ConsenSys/web3signer) | `nix run .#erigon` |
 
-## Utils
+## Utilities
 
-Utilities and applications can't be categorized into any category of the above.
+Utilities and applications that can't be categorized into any category of the above.
 
 | App                                                                         | Command                          |
 | --------------------------------------------------------------------------- | -------------------------------- |
