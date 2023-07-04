@@ -236,29 +236,13 @@
         "type": "github"
       }
     },
-    "nixpkgs-mdformat": {
-      "locked": {
-        "lastModified": 1688382818,
-        "narHash": "sha256-vEV4qJeUatDAgY0w48zSobjjeiBlQs9fY2xBtoOf+L0=",
-        "owner": "aldoborrero",
-        "repo": "nixpkgs",
-        "rev": "fe3ed39edb90127a1ea525d021e729e0d100348b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "aldoborrero",
-        "ref": "feat/mdformat-plugins",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1690054889,
-        "narHash": "sha256-6C54QTmFFvos8jgkEcAXiBi+Tz6dzir67zgqUHUTupM=",
+        "lastModified": 1688465017,
+        "narHash": "sha256-xzFcCnzPOgQaX7Acprfqo+tqHJ2UKWC38pXrcqvdXHU=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "883fd35c940aa304654f9bc796e6d53ad627a9c8",
+        "rev": "0d5682acc109add20f70440269587a1b169cc2fe",
         "type": "github"
       },
       "original": {
@@ -308,7 +292,6 @@
         "foundry-nix": "foundry-nix",
         "hercules-ci-effects": "hercules-ci-effects",
         "nixpkgs": "nixpkgs_3",
-        "nixpkgs-mdformat": "nixpkgs-mdformat",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "treefmt-nix": "treefmt-nix"
       }

@@ -9,10 +9,9 @@
     system,
     ...
   }: let
-    # TODO: Remove this once mdformat updates lands on upstream
-    nixpkgs-mdformat = inputs.nixpkgs-mdformat.legacyPackages.${system};
+    nixpkgs-unstable = inputs.nixpkgs-unstable.legacyPackages.${system};
 
-    mdformat-custom = nixpkgs-mdformat.python3Packages.mdformat.withPlugins (with nixpkgs-mdformat.python3Packages; [
+    mdformat-custom = nixpkgs-unstable.python3Packages.mdformat.withPlugins (with nixpkgs-unstable.python3Packages; [
       mdformat-admon
       mdformat-beautysh
       mdformat-footnote
