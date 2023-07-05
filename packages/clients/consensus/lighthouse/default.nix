@@ -25,13 +25,13 @@
 in
   rustPlatform.buildRustPackage rec {
     pname = "lighthouse";
-    version = "4.2.0";
+    version = "4.3.0";
 
     src = fetchFromGitHub {
       owner = "sigp";
       repo = pname;
       rev = "v${version}";
-      hash = "sha256-6fxquTTKZvD297VbsyVFrjz3ItZiRXR0/39g42d6xRI=";
+      hash = "sha256-KYivfUsxsCgD20s0jg6MMGl5e0eiuF7KU80BLuwdVIM=";
     };
 
     cargoSha256 = "sha256-KlTQF1iL2PYAk+nmQIm72guy2PxGkN/YzhgCNv1FZGM=";
