@@ -40,22 +40,20 @@ We use [`devshell`](https://github.com/numtide/devshell) to have nice developmen
 
 [Docs]
 
-  docs-build - Build docs
-  docs-serve - Serve docs
+  docs  - Commands for docs
 
 [Testing]
 
-  tests      - Build and run a test
+  tests - Build and run a test
 
 [Tools]
 
-  fmt        - Format the source tree
+  check - Checks the source tree
+  fmt   - Format the source tree
 
 [general commands]
 
-  menu       - prints this menu
-
-direnv: export +DEVSHELL_DIR +IN_NIX_SHELL +NIXPKGS_PATH +PRJ_DATA_DIR +PRJ_ROOT +name ~PATH ~XDG_DATA_DIRS
+  menu  - prints this menu
 ```
 
 ### Requirements

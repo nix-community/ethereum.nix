@@ -138,8 +138,9 @@
     docsPath = "./docs/reference/module-options";
   in {
     packages.docs = stdenv.mkDerivation {
-      src = ./.;
       name = "ethereum-nix-docs";
+
+      src = lib.cleanSource ./.;
 
       buildInput = [options-doc];
       nativeBuildInputs = [my-mkdocs];
@@ -169,15 +170,47 @@
     in [
       {
         inherit category;
-        name = "docs-serve";
-        help = "Serve docs";
-        command = "nix run .#docs.serve";
-      }
-      {
-        inherit category;
-        name = "docs-build";
-        help = "Build docs";
-        command = "nix build .#docs";
+        name = "docs";
+        help = "Build and watch for docs";
+        command = ''
+          Help() {
+            echo "  Ethereum.nix Docs"
+            echo
+            echo "  Usage:"
+            echo "    docs build"
+            echo "    docs serve"
+            echo
+            echo "  Options:"
+            echo "    -h --help          Show this screen."
+            echo
+          }
+
+          Build() {
+            nix build .#docs
+          }
+
+          Serve() {
+            nix run .#docs.serve
+          }
+
+          ARGS=$(getopt --options h --longoptions help -- "$@")
+
+          while [ $# -gt 0 ]; do
+            case "$1" in
+                build) Build; exit 0;;
+                serve) Build; Serve; exit 0;;
+                -h | --help) Help; exit 0;;
+                -- ) shift; break;;
+                * ) break;;
+            esac
+          done
+
+          if [ $# -eq 0 ]; then
+            # No test name has been provided
+            Help
+            exit 1
+          fi
+        '';
       }
     ];
   };

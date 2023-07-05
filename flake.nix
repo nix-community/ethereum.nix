@@ -52,7 +52,7 @@
     rec {
       debug = true;
       imports = [
-        {_module.args.lib = lib;} # make custom lib available to all `perSystem` functions 
+        {_module.args.lib = lib;} # make custom lib available to all `perSystem` functions
         ./nix
         ./packages
         ./modules
