@@ -68,6 +68,9 @@
       vscode-plugin-ackee-blockchain-solidity-tools = callPackage ./editors/vscode/extensions/ackee-blockchain.solidity-tools {};
       vscode-plugin-consensys-vscode-solidity-visual-editor = callPackage ./editors/vscode/extensions/consensys.vscode-solidity-auditor {};
 
+      # Solidity
+      slither = callPackage ./solidity/analyzers/slither {};
+
       # Libs
       evmc = callPackage ./libs/evmc {};
       mcl = callPackage ./libs/mcl {};
@@ -142,6 +145,9 @@
         cast.bin = "cast";
         forge.bin = "forge";
       };
+
+      # Solidity
+      slither.bin = "slither";
 
       # utils
       eth2-testnet-genesis.bin = "eth2-testnet-genesis";
