@@ -6,6 +6,7 @@
   nim,
   cmake,
   which,
+  fetchpatch,
   writeScriptBin,
   # Options: nimbus_light_client, nimbus_validator_client, nimbus_signing_node
   makeTargets ? ["all"],
@@ -19,20 +20,29 @@
     "x86_64-windows"
   ],
 }:
-# Version 1.6.12 is known to be stable and overriden in top-level.
-assert nim.version == "1.6.12";
+# Nim version(s) that are known to be stable
+assert nim.version == "1.6.12" || nim.version == "1.6.14";
   stdenv.mkDerivation rec {
     pname = "nimbus";
-    rev = "1bc9f3a67ac519ab4f889ca19abfd74f5e07c205";
-    version = "23.6.0";
+    rev = "187e1a06335e36bbc508fff38729833d154edbaa";
+    version = "23.6.1";
 
     src = fetchFromGitHub {
       owner = "status-im";
       repo = "nimbus-eth2";
       inherit rev;
-      hash = "sha256-uAaKKLMlQRklUfTyYmdwI+27evmEEGVE2TFkKuCgAes=";
+      hash = "sha256-O7jxRuJZkrdNZVZ3jMOPjTh/tWk3XgPwx5A0xgELvAU=";
       fetchSubmodules = true;
     };
+
+    patches = [
+      # Nim 1.6.14 support
+      (fetchpatch {
+        name = "nim-v1.6.14-support.patch";
+        url = "https://github.com/status-im/nimbus-eth2/commit/41b93ae57a7bb32758f453a09259ae44b37e3db9.patch";
+        hash = "sha256-yvXREhqc/C0Yo2ioTaOFFw7KAc0WgDkoM5SXXnaIjrQ=";
+      })
+    ];
 
     # Fix for Nim compiler calling 'git rev-parse' and 'lsb_release'.
     nativeBuildInputs = let
