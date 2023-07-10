@@ -2,6 +2,7 @@
   lib,
   fetchFromGitHub,
   python3,
+  crytic-compile,
 }:
 python3.pkgs.buildPythonPackage rec {
   pname = "slither";
@@ -30,6 +31,12 @@ python3.pkgs.buildPythonPackage rec {
     packaging
     prettytable
   ];
+
+  # required for import check to work
+  # PermissionError: [Errno 13] Permission denied: '/homeless-shelter'
+  env.HOME = "/tmp";
+  # Test require network access
+  doCheck = false;
 
   pythonImportsCheck = ["slither"];
 

@@ -9,13 +9,14 @@
 
   perSystem = {
     self',
+    inputs',
     pkgs,
     system,
     ...
   }: let
     inherit (pkgs) callPackage;
     inherit (lib.flake) platformPkgs platformApps;
-    #callPackageUnstable = inputs'.nixpkgs-unstable.legacyPackages.callPackage;
+    callPackageUnstable = inputs'.nixpkgs-unstable.legacyPackages.callPackage;
   in {
     packages = platformPkgs system rec {
       # Consensus Clients
@@ -69,13 +70,14 @@
       vscode-plugin-consensys-vscode-solidity-visual-editor = callPackage ./editors/vscode/extensions/consensys.vscode-solidity-auditor {};
 
       # Solidity
-      slither = callPackage ./solidity/analyzers/slither {};
+      slither = callPackageUnstable ./solidity/analyzers/slither {inherit crytic-compile;};
 
       # Libs
       evmc = callPackage ./libs/evmc {};
       mcl = callPackage ./libs/mcl {};
       bls = callPackage ./libs/bls {};
       blst = callPackage ./libs/blst {};
+      crytic-compile = callPackageUnstable ./libs/crytic-compile {};
     };
 
     apps = platformApps self'.packages {
