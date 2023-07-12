@@ -45,7 +45,7 @@ Backup options are set inside the `backup` section of supporting modules.
 }
 ```
 
-By default, backups are scheduled daily. This can be modified through the [schedule](../reference/module-options/geth.md#servicesethereumgethnamebackupschedule) option which follows the same format as [systemd.time](https://manpages.org/systemdtime/7).
+By default, backups are scheduled daily. This can be modified through the [schedule](./modules/geth.md#servicesethereumgethnamebackupschedule) option which follows the same format as [systemd.time](https://manpages.org/systemdtime/7).
 
 To access a Restic repository, a password (also called a key) must be specified. This can be done via `restic.passwordFile`.
 
@@ -58,7 +58,7 @@ AWS_ACCESS_KEY_ID=my_access_key
 AWS_SECRET_ACCESS_KEY=my_secret_key
 ```
 
-For a detailed list of options please [see here](../reference/module-options/geth.md#servicesethereumgethnamebackupenable).
+For a detailed list of options please [see here](./modules/geth.md#servicesethereumgethnamebackupenable).
 
 ### Systemd services
 
@@ -67,9 +67,9 @@ When backups are enabled several new Systemd services and timers will be introdu
 For an instance of Geth named `sepolia` for example, the following services will be added:
 
 - `geth-sepolia-metadata.service` which captures metadata such as chain height and persists it in the state directory.
-- `geth-sepolia-metadata.timer` which triggers the metadata service every 10 seconds by default. This interval is configurable via [metadata.interval](../reference/module-options/geth.md#servicesethereumgethnamebackupmetadatainterval).
+- `geth-sepolia-metadata.timer` which triggers the metadata service every 10 seconds by default. This interval is configurable via [metadata.interval](./modules/geth.md#servicesethereumgethnamebackupmetadatainterval).
 - `geth-sepolia-backup.service` which is responsible for stopping `geth-sepolia.service`, backing up its state directory, and restarting it.
-- `geth-sepolia-backup.timer` which triggers the backup service once daily by default. This schedule is configurable via [backup.schedule](../reference/module-options/geth.md#servicesethereumgethnamebackupschedule).
+- `geth-sepolia-backup.timer` which triggers the backup service once daily by default. This schedule is configurable via [backup.schedule](./modules/geth.md#servicesethereumgethnamebackupschedule).
 
 ## Restoring from backup
 

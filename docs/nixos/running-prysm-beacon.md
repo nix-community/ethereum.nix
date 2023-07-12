@@ -31,7 +31,7 @@ One or more [Prysm Beacon](https://docs.prylabs.network/docs/how-prysm-works/bea
 ## Configuration
 
 Many of Prysm Beacon's process arguments have been mapped to NixOS types and can be provided via the `args` section of the config.
-For a detailed list please refer to the [NixOS Options](../reference/module-options/prysm-beacon.md) reference.
+For a detailed list please refer to the [NixOS Options](./modules/prysm-beacon.md) reference.
 
 Additional arguments can be provided in a list directly to the Prysm Beacon process via the `extraArgs` attribute as shown above.
 
@@ -58,7 +58,7 @@ The service that is created can then be introspected and managed via the standar
 
 ## Using a Prysm Beacon fork
 
-A different version of Prysm Beacon can be configured via the [package](../reference/module-options/prysm-beacon.md#servicesethereumprysm-beaconnamepackage) option.
+A different version of Prysm Beacon can be configured via the [package](./modules/prysm-beacon.md#servicesethereumprysm-beaconnamepackage) option.
 
 To configure a custom fork for example:
 
@@ -74,16 +74,16 @@ To configure a custom fork for example:
 
 ## Opening ports
 
-By default, [openFirewall](../reference/module-options/prysm-beacon.md#servicesethereumprysm-beaconnameopenfirewall) is set to `false`.
+By default, [openFirewall](./modules/prysm-beacon.md#servicesethereumprysm-beaconnameopenfirewall) is set to `false`.
 If set to `true` firewall rules are added which will expose the following ports:
 
 | Protocol | Config                                                                                                                 | Default value |
 | :------- | :--------------------------------------------------------------------------------------------------------------------- | :------------ |
-| UDP      | [p2p-udp-port](../reference/module-options/prysm-beacon.md#servicesethereumprysm-beaconnameargsp2p-udp-port)           | 12000         |
-| TCP      | [p2p-tcp-port](../reference/module-options/prysm-beacon.md#servicesethereumprysm-beaconnameargsp2p-tcp-port)           | 13000         |
-| TCP      | [grpc-gateway-port](../reference/module-options/prysm-beacon.md#servicesethereumprysm-beaconnameargsgrpc-gateway-port) | 3500          |
-| TCP      | [monitoring-port](../reference/module-options/prysm-beacon.md#servicesethereumprysm-beaconnameargsmonitoring-port)     | 8080          |
-| TCP      | [pprofport](../reference/module-options/prysm-beacon.md#servicesethereumprysm-beaconnameargspprofport)                 | 8080          |
+| `UDP`      | [p2p-udp-port](./modules/prysm-beacon.md#servicesethereumprysm-beaconnameargsp2p-udp-port)           | 12000         |               |
+| `TCP`      | [p2p-tcp-port](./modules/prysm-beacon.md#servicesethereumprysm-beaconnameargsp2p-tcp-port)           | 13000         |               |
+| `TCP`      | [grpc-gateway-port](./modules/prysm-beacon.md#servicesethereumprysm-beaconnameargsgrpc-gateway-port) | 3500          |               |
+| `TCP`      | [monitoring-port](./modules/prysm-beacon.md#servicesethereumprysm-beaconnameargsmonitoring-port)     | 8080          |               |
+| `TCP`      | [pprofport](./modules/prysm-beacon.md#servicesethereumprysm-beaconnameargspprofport)                 | 8080          |               |
 
 **Note:** it is important when running multiple instances of Prysm Beacon on the same machine that you ensure they are configured
 with different ports.

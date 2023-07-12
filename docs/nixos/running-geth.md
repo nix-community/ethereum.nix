@@ -37,7 +37,7 @@ One or more [Geth](https://github.com/ethereum/go-ethereum) services can be conf
 ## Configuration
 
 Many of Geth's process arguments have been mapped to NixOS types and can be provided via the `args` section of the config.
-For a detailed list please refer to the [NixOS Options](../reference/module-options/geth.md) reference.
+For a detailed list please refer to the [NixOS Options](./modules/geth.md) reference.
 
 Additional arguments can be provided in a list directly to the Geth process via the `extraArgs` attribute as shown above.
 
@@ -64,7 +64,7 @@ The service that is created can then be introspected and managed via the standar
 
 ## Using a Geth fork
 
-A different version of Geth can be configured via the [package](../reference/module-options/geth.md#servicesethereumgethnamepackage) option.
+A different version of Geth can be configured via the [package](./modules/geth.md#servicesethereumgethnamepackage) option.
 
 To configure [Geth Sealer](https://github.com/manifoldfinance/geth-sealer) for example:
 
@@ -80,16 +80,16 @@ To configure [Geth Sealer](https://github.com/manifoldfinance/geth-sealer) for e
 
 ## Opening ports
 
-By default, [openFirewall](../reference/module-options/geth.md#servicesethereumgethnameopenfirewall) is set to `false`.
+By default, [openFirewall](./modules/geth.md#servicesethereumgethnameopenfirewall) is set to `false`.
 If set to `true`, firewall rules are added which will expose the following ports:
 
 | Protocol | Config                                                                                      | Default value |
 | :------- | :------------------------------------------------------------------------------------------ | :------------ |
-| TCP, UDP | [port](../reference/module-options/geth.md#servicesethereumgethnameargsport)                | 30303         |
-| TCP      | [authrpc.port](../reference/module-options/geth.md#servicesethereumgethnameargsauthrpcport) | 8551          |
-| TCP      | [http.port](../reference/module-options/geth.md#servicesethereumgethnameargshttpport)       | 8545          |
-| TCP      | [ws.port](../reference/module-options/geth.md#servicesethereumgethnameargswsport)           | 8546          |
-| TCP      | [metrics.port](../reference/module-options/geth.md#servicesethereumgethnameargsmetricsport) | 6060          |
+| `TCP`, `UDP` | [port](./modules/geth.md#servicesethereumgethnameargsport)                | 30303         |
+| `TCP`      | [authrpc.port](./modules/geth.md#servicesethereumgethnameargsauthrpcport) | 8551          |
+| `TCP`      | [http.port](./modules/geth.md#servicesethereumgethnameargshttpport)       | 8545          |
+| `TCP`      | [ws.port](./modules/geth.md#servicesethereumgethnameargswsport)           | 8546          |
+| `TCP`      | [metrics.port](./modules/geth.md#servicesethereumgethnameargsmetricsport) | 6060          |
 
 **Note:** it is important when running multiple instances of Geth on the same machine that you ensure they are configured
 with different ports.

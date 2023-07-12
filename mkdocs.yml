@@ -46,6 +46,9 @@ theme:
 extra_css:
   - stylesheets/neoteroi-mkdocs.css
 
+plugins:
+  - nixos-options
+
 markdown_extensions:
   - admonition
   - attr_list
@@ -82,14 +85,13 @@ nav:
           - nixos/running-prysm-beacon.md
           - nixos/backup-and-restore.md
       - Module Options:
-          - reference/module-options/erigon.md
-          - reference/module-options/geth-bootnode.md
-          - reference/module-options/geth.md
-          - reference/module-options/mev-boost.md
-          - reference/module-options/nethermind.md
-          - reference/module-options/prysm-beacon.md
-          - reference/module-options/prysm-validator.md
-          - reference/module-test.md
+          - nixos/modules/erigon.md
+          - nixos/modules/geth-bootnode.md
+          - nixos/modules/geth.md
+          - nixos/modules/mev-boost.md
+          - nixos/modules/nethermind.md
+          - nixos/modules/prysm-beacon.md
+          - nixos/modules/prysm-validator.md
   - Contributing:
       - contributing/index.md
       - Reporting a bug: contributing/reporting-a-bug.md

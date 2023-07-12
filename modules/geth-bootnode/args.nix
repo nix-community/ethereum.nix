@@ -17,7 +17,7 @@ with lib; {
     # todo use regex matching
     type = types.str;
     default = "none";
-    description = "Port mapping mechanism (any|none|upnp|pmp|pmp:IP|extip:IP).";
+    description = "Port mapping mechanism `(any|none|upnp|pmp|pmp:IP|extip:IP)`.";
   };
 
   netrestrict = mkOption {

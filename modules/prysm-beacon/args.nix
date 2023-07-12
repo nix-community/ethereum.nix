@@ -3,7 +3,7 @@ with lib; {
   network = mkOption {
     type = with types; nullOr (enum ["mainnet" "goerli" "prater" "ropsten" "sepolia"]);
     default = null;
-    defaultText = "Mainnet or null is the default Ethereum network.";
+    defaultText = "`mainnet` or `null` is the default Ethereum network.";
     description = "The network to connect to.";
   };
 

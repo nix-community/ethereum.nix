@@ -10,11 +10,11 @@ with lib; {
     type = types.bool;
     default = true;
     description = ''
-      Default: use snapshots "true" for BSC, Mainnet and Goerli. use snapshots "false" in all other cases.
+      Default: use snapshots `true` for BSC, Mainnet and Goerli. use snapshots `false` in all other cases.
     '';
   };
 
-  externalcl = mkEnableOption "Enable external consensus.";
+  externalcl = mkEnableOption "external consensus";
 
   chain = mkOption {
     type = types.enum [
@@ -31,7 +31,7 @@ with lib; {
       "chiado"
     ];
     default = "mainnet";
-    description = "Name of the network to join. If null the network is mainnet.";
+    description = "Name of the network to join. If null the network is `mainnet`.";
   };
 
   torrent = {
@@ -74,8 +74,7 @@ with lib; {
       type = types.listOf types.str;
       default = ["localhost"];
       description = ''
-        Comma separated list of virtual hostnames from which to accept requests (server enforced).
-        Accepts '*' wildcard.
+        Comma separated list of virtual hostnames from which to accept requests (server enforced). Accepts '*' wildcard.
       '';
       example = ["localhost" "erigon.example.org"];
     };
@@ -92,10 +91,7 @@ with lib; {
       idle = mkOption {
         type = types.str;
         default = "2m0s";
-        description = ''
-          Maximum amount of time to wait for the next request when keep-alives are enabled. If `http.timeouts.idle`
-          is zero, the value of `http.timeouts.read` is used.
-        '';
+        description = "Maximum amount of time to wait for the next request when keep-alives are enabled. If `http.timeouts.idle` is zero, the value of `http.timeouts.read` is used.";
         example = "30s";
       };
 
@@ -109,10 +105,7 @@ with lib; {
       write = mkOption {
         type = types.str;
         default = "30m0s";
-        description = ''
-          Maximum duration before timing out writes of the response. It is reset whenever a new request's
-          header is read.
-        '';
+        description = "Maximum duration before timing out writes of the response. It is reset whenever a new request's header is read.";
         example = "30m0s";
       };
     };
@@ -141,8 +134,7 @@ with lib; {
       type = types.listOf types.str;
       default = ["localhost"];
       description = ''
-        Comma separated list of virtual hostnames from which to accept Engine API requests
-        (server enforced). Accepts '*' wildcard."
+        Comma separated list of virtual hostnames from which to accept Engine API requests (server enforced). Accepts '*' wildcard."
       '';
       example = ["localhost" "erigon.example.org"];
     };
@@ -159,8 +151,7 @@ with lib; {
         type = types.str;
         default = "2m0s";
         description = ''
-          Maximum amount of time to wait for the next request when keep-alives are enabled. If `http.timeouts.idle`
-          is zero, the value of `http.timeouts.read` is used.
+          Maximum amount of time to wait for the next request when keep-alives are enabled. If `http.timeouts.idle` is zero, the value of `http.timeouts.read` is used.
         '';
         example = "30s";
       };
@@ -176,8 +167,7 @@ with lib; {
         type = types.str;
         default = "30m0s";
         description = ''
-          Maximum duration before timing out writes of the response. It is reset whenever a new request's
-          header is read.
+          Maximum duration before timing out writes of the response. It is reset whenever a new request's header is read.
         '';
         example = "30m0s";
       };

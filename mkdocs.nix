@@ -4,7 +4,7 @@
     pkgs,
     ...
   }: let
-    inherit (pkgs) stdenv mkdocs python310Packages;
+    inherit (pkgs) stdenv mkdocs python310Packages nixVersions;
 
     # TODO: Upstream this to nixpkgs
     essentials = with pkgs.python3Packages;
@@ -85,13 +85,42 @@
         pythonImportsCheck = ["neoteroi.mkdocs"];
       };
 
+    # TODO: Upstream this to nixpkgs
+    mkdocs-nixos-options = with pkgs.python3Packages;
+      buildPythonPackage rec {
+        pname = "mkdocs-nixos-options";
+        version = "0.1.0";
+
+        format = "pyproject";
+
+        src = pkgs.fetchFromGitHub {
+          owner = "aldoborrero";
+          repo = pname;
+          rev = "2b0a3863eb1acfe85eeb9326e4f0c8b504aa87d7";
+          hash = "sha256-ewKg2pnlKGbBNjh/+FqfAB3mC9GDbOqVEfMei+63SiU=";
+        };
+
+        nativeBuildInputs = [
+          poetry-core
+        ];
+
+        propagatedBuildInputs = [
+          mkdocs
+        ];
+
+        doCheck = false;
+
+        pythonImportsCheck = ["mkdocs_nixos_options"];
+      };
+
     my-mkdocs =
       pkgs.runCommand "my-mkdocs"
       {
-        buildInputs = [
+        nativeBuildInputs = [
           mkdocs
-          python310Packages.mkdocs-material
+          mkdocs-nixos-options
           mkdocs-plugins
+          python310Packages.mkdocs-material
         ];
       } ''
         mkdir -p $out/bin
@@ -105,48 +134,19 @@
 
         chmod +x $out/bin/mkdocs
       '';
-
-    options-doc = let
-      eachOptions = with lib;
-        filterAttrs
-        (_: hasSuffix "options.nix")
-        (fs.flattenTree {tree = fs.rakeLeaves ./modules;});
-
-      eachOptionsDoc = with lib;
-        mapAttrs' (
-          name: value:
-            nameValuePair
-            # take geth.options and turn it into just geth
-            (head (splitString "." name))
-            # generate options doc
-            (pkgs.nixosOptionsDoc {options = evalModules {modules = [value];};})
-        )
-        eachOptions;
-
-      statements = with lib;
-        concatStringsSep "\n"
-        (mapAttrsToList (n: v: ''
-            path=$out/${n}.md
-            cat ${v.optionsCommonMark} >> $path
-          '')
-          eachOptionsDoc);
-    in
-      pkgs.runCommand "nixos-options" {} ''
-        mkdir $out
-        ${statements}
-      '';
-    docsPath = "./docs/reference/module-options";
   in {
     packages.docs = stdenv.mkDerivation {
       name = "ethereum-nix-docs";
 
       src = lib.cleanSource ./.;
 
-      buildInput = [options-doc];
       nativeBuildInputs = [my-mkdocs];
 
+      propagatedBuildInputs = [
+        nixVersions.nix_2_15
+      ];
+
       buildPhase = ''
-        ln -s ${options-doc} ${docsPath}
         mkdocs build
       '';
 
@@ -156,10 +156,6 @@
 
       passthru.serve = pkgs.writeShellScriptBin "serve" ''
         set -euo pipefail
-
-        # link in options reference
-        rm -f ${docsPath}
-        ln -s ${options-doc} ${docsPath}
 
         ${my-mkdocs}/bin/mkdocs serve
       '';
