@@ -9,6 +9,7 @@
   inputs = {
     # packages
     nixpkgs.url = "github:nixos/nixpkgs/23.05";
+    nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-23.05-darwin";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
     foundry-nix = {
@@ -51,7 +52,16 @@
     }
     rec {
       imports = [
-        {_module.args.lib = lib;} # make custom lib available to all `perSystem` functions
+        {
+          # make custom lib available to all `perSystem` functions
+          _module.args.lib = lib;
+          perSystem = {system, ...}: {
+            # make pkgs available to all `perSystem` functions
+            _module.args.pkgs = lib.flake.mkNixpkgs {
+              inherit system inputs;
+            };
+          };
+        }
         ./nix
         ./packages
         ./modules
@@ -64,6 +74,6 @@
         "x86_64-darwin"
         "aarch64-darwin"
       ];
-      herculesCI.ciSystems = with builtins; filter (system: (match ".*-darwin" system) == null) systems;
+      herculesCI.ciSystems = with builtins; filter (system: (match "x86_64-darwin" system) == null) systems;
     };
 }

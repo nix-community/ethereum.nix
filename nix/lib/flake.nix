@@ -36,4 +36,23 @@ lib: rec {
     type = "app";
     program = "${drv}${exePath}";
   };
+
+  isDarwin = system: (builtins.elem system lib.platforms.darwin);
+  isLinux = system: (builtins.elem system lib.platforms.linux);
+
+  mkNixpkgs = {
+    system,
+    config ? {},
+    inputs ? {},
+    nixpkgs ?
+      if (isDarwin system)
+      then inputs.nixpkgs-darwin
+      else inputs.nixpkgs,
+  }: let
+    defaultConfig = {};
+  in
+    import nixpkgs {
+      inherit system;
+      config = defaultConfig // config;
+    };
 }

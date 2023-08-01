@@ -218,6 +218,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-darwin": {
+      "locked": {
+        "lastModified": 1690885180,
+        "narHash": "sha256-ccuhc1Q2wUb9XxEOgjXWXFTyW6zivcjHleXypwhhuuU=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "f887aa5923447258dac21b07df865156993141db",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixpkgs-23.05-darwin",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs-lib": {
       "locked": {
         "dir": "lib",
@@ -292,6 +308,7 @@
         "foundry-nix": "foundry-nix",
         "hercules-ci-effects": "hercules-ci-effects",
         "nixpkgs": "nixpkgs_3",
+        "nixpkgs-darwin": "nixpkgs-darwin",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "treefmt-nix": "treefmt-nix"
       }
