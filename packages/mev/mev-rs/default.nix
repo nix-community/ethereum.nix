@@ -16,6 +16,15 @@ rustPlatform.buildRustPackage rec {
   };
 
   cargoSha256 = "sha256-XwJDis7lfmlYFSRVesusa9jHUGoAoDOsFo8DCFiQMzU=";
+  cargoLock = {
+    lockFile = "${src}/Cargo.lock";
+    outputHashes = {
+      "anvil-rpc-0.1.0" = "sha256-L38OioxnWEn94g3GJT4j3U1cJZ8jQDHp8d1QOHaVEuU=";
+      "beacon-api-client-0.1.0" = "sha256-vqTC7bKXgliN7qd5LstNM5O6jRnn4aV/paj88Mua+Bc=";
+      "ethereum-consensus-0.1.1" = "sha256-FbXd6qKSqqOHY7AAtfySRm1XyIPRwAYmUiWAebIc1b0=";
+      "ssz-rs-0.8.0" = "sha256-Gvws9twDoRCdVLCMQCXrKbip3Wa7eEv6K+Pu8Ly3aQ0=";
+    };
+  };
 
   buildInputs = [openssl];
 
