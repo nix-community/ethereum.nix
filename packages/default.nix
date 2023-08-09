@@ -8,7 +8,6 @@
     pkgs,
     pkgsUnstable,
     system,
-    inputs',
     ...
   }: let
     inherit (pkgs) callPackage;
