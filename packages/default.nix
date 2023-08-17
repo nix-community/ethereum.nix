@@ -54,6 +54,7 @@
 
       # Utils
       eth2-testnet-genesis = callPackage ./utils/eth2-testnet-genesis {inherit bls;};
+      eth2-val-tools = callPackage ./utils/eth2-val-tools {inherit bls mcl;};
       ethdo = callPackage ./utils/ethdo {inherit bls mcl;};
       ethereal = callPackage ./utils/ethereal {inherit bls mcl;};
       sedge = callPackage ./utils/sedge {inherit bls mcl;};
@@ -152,6 +153,7 @@
       slither.bin = "slither";
 
       # utils
+      eth2-val-tools.bin = "eth2-val-tools";
       eth2-testnet-genesis.bin = "eth2-testnet-genesis";
       ethdo.bin = "ethdo";
       ethereal.bin = "ethereal";
