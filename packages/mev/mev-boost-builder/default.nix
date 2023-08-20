@@ -11,7 +11,7 @@ buildGoModule rec {
     owner = "flashbots";
     repo = "${pname}";
     rev = "v${version}";
-    hash = "sha256-ePWPKElg3Y+IzrgRQtWVhfrvLhTHK1rE3GspM/j5kxM=";
+    hash = "sha256-Z54V7seWrF64LRdKaG1XVDD9+25x0QZohuOyImTj6w8=";
   };
 
   vendorHash = "sha256-PwsJjcgPXQuOtXDr4NjF7IEk+nrhDBfEnQQyyBFFSjE=";
@@ -20,10 +20,7 @@ buildGoModule rec {
 
   subPackages = ["cmd/geth"];
 
-  ldflags = [
-    "-s"
-    "-w"
-  ];
+  ldflags = ["-s" "-w"];
 
   meta = {
     description = "Flashbots mev-boost block builder";
