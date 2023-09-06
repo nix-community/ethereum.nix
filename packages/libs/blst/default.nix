@@ -4,13 +4,13 @@
 }:
 stdenv.mkDerivation rec {
   pname = "blst";
-  version = "0.3.10";
+  version = "0.3.11";
 
   src = fetchFromGitHub {
     owner = "supranational";
     repo = "blst";
     rev = "v${version}";
-    hash = "sha256-xero1aTe2v4IhWIJaEDUsVDOfE77dOV5zKeHWntHogY=";
+    hash = "sha256-oqljy+ZXJAXEB/fJtmB8rlAr4UXM+Z2OkDa20gpILNA=";
   };
 
   builder = ./builder.sh;
