@@ -16,9 +16,11 @@
           enable = true;
           args = {
             config = "sepolia";
-            modules.JsonRpc.JwtSecretFile = "${jwtSecret}";
-            modules.Metrics.Enabled = true;
-            modules.Metrics.ExposePort = 1313;
+            modules = {
+              JsonRpc.JwtSecretFile = "${jwtSecret}";
+              Metrics.Enabled = true;
+              Metrics.ExposePort = 1313;
+            };
           };
         };
       };

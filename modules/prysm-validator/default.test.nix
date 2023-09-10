@@ -32,9 +32,11 @@
 
       nodes = {
         machine = {
-          virtualisation.cores = 2;
-          virtualisation.memorySize = 4096;
-          virtualisation.writableStore = true;
+          virtualisation = {
+            cores = 2;
+            memorySize = 4096;
+            writableStore = true;
+          };
 
           environment.systemPackages = [wallet-generator pkgs.ethdo pkgs.prysm];
 
@@ -43,9 +45,11 @@
             args = {
               datadir = "/tmp/prysm-validator";
               network = "goerli";
-              rpc.enable = true;
-              rpc.host = "127.0.0.1";
-              rpc.port = 7000;
+              rpc = {
+                enable = true;
+                host = "127.0.0.1";
+                port = 7000;
+              };
               wallet-dir = "/tmp/wallet/";
               wallet-password-file = "/tmp/wallet/password.txt";
             };
