@@ -1,6 +1,7 @@
 {
   buildGoModule,
   fetchFromGitHub,
+  subPackages ? ["cmd/erigon" "cmd/evm" "cmd/rpcdaemon" "cmd/rlpdump"],
 }:
 buildGoModule rec {
   pname = "erigon";
@@ -21,12 +22,7 @@ buildGoModule rec {
   #   cc1: error: '-Wformat-security' ignored without '-Wformat' [-Werror=format-security]
   hardeningDisable = ["format"];
 
-  subPackages = [
-    "cmd/erigon"
-    "cmd/evm"
-    "cmd/rpcdaemon"
-    "cmd/rlpdump"
-  ];
+  inherit subPackages;
 
   meta = {
     description = "Ethereum node implementation focused on scalability and modularity";
