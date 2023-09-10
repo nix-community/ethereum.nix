@@ -22,6 +22,7 @@ buildGoModule rec {
   #   cc1: error: '-Wformat-security' ignored without '-Wformat' [-Werror=format-security]
   hardeningDisable = ["format"];
 
+  ldflags = ["-extldflags \"-Wl,--allow-multiple-definition\""];
   inherit subPackages;
 
   meta = {
