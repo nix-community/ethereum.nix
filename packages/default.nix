@@ -15,7 +15,7 @@
     ...
   }: let
     inherit (pkgs) callPackage;
-    inherit (lib.flake) platformPkgs platformApps;
+    inherit (lib) platformPkgs platformApps;
     callPackageUnstable = inputs'.nixpkgs-unstable.legacyPackages.callPackage;
   in {
     packages = platformPkgs system rec {

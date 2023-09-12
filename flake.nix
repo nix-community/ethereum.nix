@@ -45,7 +45,7 @@
     nixpkgs,
     ...
   }: let
-    lib = nixpkgs.lib.extend (final: _: import ./nix/lib final);
+    lib = nixpkgs.lib.extend (final: _: import ./nix/lib.nix final);
   in
     flake-parts.lib.mkFlake {
       inherit inputs;
@@ -53,12 +53,9 @@
     }
     rec {
       imports = [
-        {_module.args.lib = lib;}
-
         inputs.flake-root.flakeModule
         inputs.devshell.flakeModule
         inputs.hercules-ci-effects.flakeModule
-
         ./nix
         ./packages
         ./modules
