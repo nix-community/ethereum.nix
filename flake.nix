@@ -49,18 +49,20 @@
   in
     flake-parts.lib.mkFlake {
       inherit inputs;
-      specialArgs = {
-        inherit lib; # make custom lib available to parent functions
-      };
+      specialArgs = {inherit lib;};
     }
     rec {
       imports = [
-        {_module.args.lib = lib;} # make custom lib available to all `perSystem` functions
+        {_module.args.lib = lib;}
+
+        inputs.flake-root.flakeModule
+        inputs.devshell.flakeModule
+        inputs.hercules-ci-effects.flakeModule
+
         ./nix
         ./packages
         ./modules
         ./mkdocs.nix
-        inputs.hercules-ci-effects.flakeModule
       ];
       systems = [
         "x86_64-linux"
