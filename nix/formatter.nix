@@ -11,7 +11,8 @@
     treefmt.config = {
       inherit (config.flake-root) projectRootFile;
       package = pkgs.treefmt;
-
+      flakeFormatter = true;
+      flakeCheck = true;
       programs = {
         alejandra.enable = true;
         deadnix.enable = true;
@@ -27,7 +28,5 @@
         command = "nix fmt";
       }
     ];
-
-    formatter = config.treefmt.build.wrapper;
   };
 }
