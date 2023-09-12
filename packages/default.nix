@@ -9,14 +9,14 @@
 
   perSystem = {
     self',
-    inputs',
     pkgs,
+    pkgsUnstable,
     system,
     ...
   }: let
     inherit (pkgs) callPackage;
     inherit (lib) platformPkgs platformApps;
-    callPackageUnstable = inputs'.nixpkgs-unstable.legacyPackages.callPackage;
+    callPackageUnstable = pkgsUnstable.callPackage;
   in {
     packages = platformPkgs system rec {
       # Consensus Clients

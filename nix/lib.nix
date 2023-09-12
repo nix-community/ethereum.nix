@@ -151,4 +151,36 @@ lib: rec {
     files = builtins.readDir dirPath;
   in
     lib.filterAttrs (_n: v: v != {}) (lib.mapAttrs' collect files);
+
+  /*
+  Function: mkNixpkgs
+  Synopsis: Creates a custom Nixpkgs configuration.
+
+  Parameters:
+    - system (string): Target system, e.g., "x86_64-linux".
+    - inputs (attrset, optional): Custom inputs for the Nixpkgs configuration.
+    - overlays (list, optional): List of overlays to apply.
+    - nixpkgs (path, optional): Path to the Nixpkgs repository. Defaults to inputs.nixpkgs.
+    - config (attrset, optional): Additional Nixpkgs configuration settings.
+
+  Returns:
+    - A configured Nixpkgs environment suitable for importing.
+
+  Example:
+    mkNixpkgs {
+      system = "x86_64-linux";
+      overlays = [ myOverlay ];
+    }
+
+  Description:
+    The function imports a Nixpkgs environment with the specified target system, custom inputs,
+    and overlays. It also accepts additional Nixpkgs configuration settings.
+  */
+  mkNixpkgs = {
+    system,
+    nixpkgs,
+    overlays ? [],
+    config ? {allowUnfree = true;},
+  }:
+    import nixpkgs {inherit system config overlays;};
 }

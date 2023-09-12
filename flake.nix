@@ -67,6 +67,18 @@
         "x86_64-darwin"
         "aarch64-darwin"
       ];
+      perSystem = {system, ...}: {
+        _module.args = {
+          pkgs = lib.mkNixpkgs {
+            inherit system;
+            inherit (inputs) nixpkgs;
+          };
+          pkgsUnstable = lib.mkNixpkgs {
+            inherit system;
+            nixpkgs = inputs.nixpkgs-unstable;
+          };
+        };
+      };
       herculesCI.ciSystems = with builtins; filter (system: (match ".*-darwin" system) == null) systems;
     };
 }
