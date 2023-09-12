@@ -1,14 +1,30 @@
-{lib, ...}: {
+{inputs, ...}: {
   perSystem = {
-    self',
+    pkgs,
     config,
     ...
   }: {
-    checks =
+    checks = let
+      devour-flake = pkgs.callPackage inputs.devour-flake {};
+    in
+      {
+        nix-build-all = pkgs.writeShellApplication {
+          name = "nix-build-all";
+          runtimeInputs = [
+            pkgs.nix
+            devour-flake
+          ];
+          text = ''
+            # Make sure that flake.lock is sync
+            nix flake lock --no-update-lock-file
+
+            # Do a full nix build (all outputs)
+            devour-flake . "$@"
+          '';
+        };
+      }
       # mix in tests
-      config.testing.checks
-      # merge in the package derivations to force a build of all packages during a `nix flake check`
-      // (with lib; mapAttrs' (n: nameValuePair "package-${n}") self'.packages);
+      // config.testing.checks;
 
     devshells.default.commands = [
       {
