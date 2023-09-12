@@ -34,6 +34,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     flake-compat.url = "github:nix-community/flake-compat";
+    devour-flake = {
+      url = "github:srid/devour-flake";
+      flake = false;
+    };
   };
 
   outputs = inputs @ {
