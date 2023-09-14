@@ -1,4 +1,4 @@
 let
-  flake = import ./nix/flake-compat.nix {};
+  flake = import ./flake-compat.nix {};
 in
   flake.shellNix

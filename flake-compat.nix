@@ -1,7 +1,7 @@
 {
   system ? builtins.currentSystem,
-  flakeLockPath ? ./../flake.lock,
-  src ? ./..,
+  flakeLockPath ? ./flake.lock,
+  src ? ./.,
 }: let
   lock = builtins.fromJSON (builtins.readFile flakeLockPath);
   inherit (lock.nodes.flake-compat.locked) owner repo rev narHash;

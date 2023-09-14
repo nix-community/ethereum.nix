@@ -45,7 +45,7 @@
     nixpkgs,
     ...
   }: let
-    lib = nixpkgs.lib.extend (final: _: import ./nix/lib.nix final);
+    lib = nixpkgs.lib.extend (final: _: import ./lib.nix final);
   in
     flake-parts.lib.mkFlake {
       inherit inputs;
@@ -58,10 +58,12 @@
         inputs.flake-root.flakeModule
         inputs.hercules-ci-effects.flakeModule
         inputs.treefmt-nix.flakeModule
-        ./nix
-        ./packages
-        ./modules
+        ./checks.nix
+        ./flake-shell.nix
+        ./formatter.nix
         ./mkdocs.nix
+        ./modules
+        ./packages
       ];
       systems = [
         "x86_64-linux"
