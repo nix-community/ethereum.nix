@@ -53,9 +53,11 @@
     }
     rec {
       imports = [
-        inputs.flake-root.flakeModule
         inputs.devshell.flakeModule
+        inputs.flake-parts.flakeModules.easyOverlay
+        inputs.flake-root.flakeModule
         inputs.hercules-ci-effects.flakeModule
+        inputs.treefmt-nix.flakeModule
         ./nix
         ./packages
         ./modules

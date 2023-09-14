@@ -3,10 +3,6 @@
   lib,
   ...
 }: {
-  imports = [
-    inputs.flake-parts.flakeModules.easyOverlay
-  ];
-
   perSystem = {
     self',
     pkgs,
