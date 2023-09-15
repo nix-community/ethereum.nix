@@ -21,6 +21,7 @@ with lib; {
       "mainnet"
       "rinkeby"
       "goerli"
+      "holesky"
       "sokol"
       "fermion"
       "mumbai"
