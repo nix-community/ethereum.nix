@@ -29,6 +29,12 @@ buildGoModule rec {
 
   doCheck = false;
 
+  ldflags = [
+    "-s"
+    "-w"
+    "-X github.com/prysmaticlabs/prysm/v4/runtime/version.gitTag=v${version}"
+  ];
+
   meta = {
     description = "Go implementation of Ethereum proof of stake";
     homepage = "https://github.com/prysmaticlabs/prysm";
