@@ -25,20 +25,20 @@
 in
   rustPlatform.buildRustPackage rec {
     pname = "lighthouse";
-    version = "4.4.1";
+    version = "4.5.0";
 
     src = fetchFromGitHub {
       owner = "sigp";
       repo = pname;
       rev = "v${version}";
-      hash = "sha256-swwoqvmLRVmi74W7Kty+9YwZFPysIG7GZM0mwy57b6M=";
+      hash = "sha256-UUOvTxOQXT1zfhDYEL/J6moHAyejZn7GyGS/XBmXxRQ=";
     };
 
     cargoSha256 = "sha256-KlTQF1iL2PYAk+nmQIm72guy2PxGkN/YzhgCNv1FZGM=";
     cargoLock = {
       lockFile = "${src}/Cargo.lock";
       outputHashes = {
-        "amcl-0.3.0" = "sha256-Mj4dXTlGVSleFfuTKgVDQ7S3jANMsdtVE5L90WGxA4U=";
+        "amcl-0.3.0" = "sha256-kc8k/ls4W0TwFBsRcyyotyz8ZBEjsZXHeJnJtsnW/LM=";
         "anvil-rpc-0.1.0" = "sha256-L38OioxnWEn94g3GJT4j3U1cJZ8jQDHp8d1QOHaVEuU=";
         "beacon-api-client-0.1.0" = "sha256-Z0CoPxZzl2bjb8vgmHWxq2orMawhMMs7beKGopilKjE=";
         "ethereum-consensus-0.1.1" = "sha256-biTrw3yMJUo9+56QK5RGWXLCoPPZEWp18SCs+Y9QWg4=";
@@ -46,7 +46,7 @@ in
         "lmdb-rkv-0.14.0" = "sha256-sxmguwqqcyOlfXOZogVz1OLxfJPo+Q0+UjkROkbbOCk=";
         "mev-rs-0.3.0" = "sha256-LCO0GTvWTLcbPt7qaSlLwlKmAjt3CIHVYTT/JRXpMEo=";
         "testcontainers-0.14.0" = "sha256-mSsp21G7MLEtFROWy88Et5s07PO0tjezovCGIMh+/oQ=";
-        "warp-0.3.5" = "sha256-jpZCIhbhxAhrWP8sC2wC7mg44uaPfTSrHVi8brs+4dc=";
+        "warp-0.3.5" = "sha256-d5e6ASdL7+Dl3KsTNOb9B5RHpStrupOKsbGWsdu9Jfk=";
       };
     };
 
