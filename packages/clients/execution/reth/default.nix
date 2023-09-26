@@ -16,14 +16,10 @@ rustPlatform.buildRustPackage rec {
     hash = "sha256-koGy06J2sBDY8eW0wG6ikhXEV4OXV1VuAkomIffHeUI=";
   };
 
+  cargoHash = "";
   cargoLock = {
     lockFile = "${src}/Cargo.lock";
-    outputHashes = {
-      "c-kzg-0.1.0" = "sha256-a0ZkshWGzChNibsKBBq8HhOtjRYgAuNlSTinZoAFDkY=";
-      "discv5-0.3.1" = "sha256-Yl7cNCoBeFh+zBhAiziw0CDFHzoxpL6cVPUzZHpaEqM=";
-      "igd-0.12.0" = "sha256-wjk/VIddbuoNFljasH5zsHa2JWiOuSW4VlcUS+ed5YY=";
-      "revm-3.3.0" = "sha256-bljQRisFvnGwzPqvYmJIoEQ0hS/veD2oLfzqxcOq/qE=";
-    };
+    allowBuiltinFetchGit = true;
   };
 
   nativeBuildInputs = [clang rustPlatform.bindgenHook];
