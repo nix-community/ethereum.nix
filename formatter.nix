@@ -1,8 +1,4 @@
-{inputs, ...}: {
-  imports = [
-    inputs.treefmt-nix.flakeModule
-  ];
-
+{
   perSystem = {
     config,
     pkgs,
@@ -11,11 +7,13 @@
     treefmt.config = {
       inherit (config.flake-root) projectRootFile;
       package = pkgs.treefmt;
-
+      flakeFormatter = true;
+      flakeCheck = true;
       programs = {
         alejandra.enable = true;
         deadnix.enable = true;
         prettier.enable = true;
+        statix.enable = true;
       };
     };
 
@@ -27,7 +25,5 @@
         command = "nix fmt";
       }
     ];
-
-    formatter = config.treefmt.build.wrapper;
   };
 }

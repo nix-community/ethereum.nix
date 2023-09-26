@@ -3,20 +3,16 @@
   lib,
   ...
 }: {
-  imports = [
-    inputs.flake-parts.flakeModules.easyOverlay
-  ];
-
   perSystem = {
     self',
-    inputs',
     pkgs,
+    pkgsUnstable,
     system,
     ...
   }: let
     inherit (pkgs) callPackage;
-    inherit (lib.flake) platformPkgs platformApps;
-    callPackageUnstable = inputs'.nixpkgs-unstable.legacyPackages.callPackage;
+    inherit (lib) platformPkgs platformApps;
+    callPackageUnstable = pkgsUnstable.callPackage;
   in {
     packages = platformPkgs system rec {
       # Consensus Clients

@@ -1,14 +1,12 @@
 {
   perSystem = {
     pkgs,
-    inputs',
+    pkgsUnstable,
     ...
-  }: let
-    inherit (inputs'.nixpkgs-unstable.legacyPackages) nix-update statix mkdocs;
-  in {
+  }: {
     devshells.default = {
       name = "ethereum.nix";
-      packages = [
+      packages = with pkgsUnstable; [
         nix-update
         statix
         mkdocs

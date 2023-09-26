@@ -34,6 +34,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     flake-compat.url = "github:nix-community/flake-compat";
+    devour-flake = {
+      url = "github:srid/devour-flake";
+      flake = false;
+    };
   };
 
   outputs = inputs @ {
@@ -41,22 +45,25 @@
     nixpkgs,
     ...
   }: let
-    lib = nixpkgs.lib.extend (final: _: import ./nix/lib final);
+    lib = nixpkgs.lib.extend (final: _: import ./lib.nix final);
   in
     flake-parts.lib.mkFlake {
       inherit inputs;
-      specialArgs = {
-        inherit lib; # make custom lib available to parent functions
-      };
+      specialArgs = {inherit lib;};
     }
     rec {
       imports = [
-        {_module.args.lib = lib;} # make custom lib available to all `perSystem` functions
-        ./nix
-        ./packages
-        ./modules
-        ./mkdocs.nix
+        inputs.devshell.flakeModule
+        inputs.flake-parts.flakeModules.easyOverlay
+        inputs.flake-root.flakeModule
         inputs.hercules-ci-effects.flakeModule
+        inputs.treefmt-nix.flakeModule
+        ./checks.nix
+        ./flake-shell.nix
+        ./formatter.nix
+        ./mkdocs.nix
+        ./modules
+        ./packages
       ];
       systems = [
         "x86_64-linux"
@@ -64,6 +71,18 @@
         "x86_64-darwin"
         "aarch64-darwin"
       ];
+      perSystem = {system, ...}: {
+        _module.args = {
+          pkgs = lib.mkNixpkgs {
+            inherit system;
+            inherit (inputs) nixpkgs;
+          };
+          pkgsUnstable = lib.mkNixpkgs {
+            inherit system;
+            nixpkgs = inputs.nixpkgs-unstable;
+          };
+        };
+      };
       herculesCI.ciSystems = with builtins; filter (system: (match ".*-darwin" system) == null) systems;
     };
 }
