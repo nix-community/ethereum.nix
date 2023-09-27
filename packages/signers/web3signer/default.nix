@@ -7,11 +7,11 @@
 }:
 stdenv.mkDerivation rec {
   pname = "web3signer";
-  version = "23.9.0";
+  version = "23.9.1";
 
   src = fetchzip {
     url = "https://artifacts.consensys.net/public/${pname}/raw/names/${pname}.tar.gz/versions/${version}/${pname}-${version}.tar.gz";
-    hash = "sha256-MI8AzhihUl9cZANROzo6+RjQ1DXyBL5DMQ5jX9T38CM=";
+    hash = "sha256-2Dz8GFAjpI0mkikckXzrCVu/3XUTNh90F2hoa9FKhJQ=";
   };
 
   nativeBuildInputs = [makeWrapper];

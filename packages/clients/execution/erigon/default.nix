@@ -5,13 +5,13 @@
 }:
 buildGoModule rec {
   pname = "erigon";
-  version = "2.49.2";
+  version = "2.49.3";
 
   src = fetchFromGitHub {
     owner = "ledgerwatch";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-GcO2oqVVKLGUuCoOyeSjdHy6pbEv5zg3YGrOYsptjro=";
+    hash = "sha256-tKnvIRzIg92FMWaWLpttK5XfxPdhgviF5jZdk70VtHM=";
     fetchSubmodules = true;
   };
 
