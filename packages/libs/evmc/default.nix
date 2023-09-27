@@ -33,6 +33,6 @@ stdenv.mkDerivation rec {
   meta = {
     description = "EVMC – Ethereum Client-VM Connector API";
     homepage = "https://github.com/ethereum/evmc";
-    platforms = ["x86_64-linux"];
+    platforms = ["x86_64-linux" "aarch64-linux"];
   };
 }

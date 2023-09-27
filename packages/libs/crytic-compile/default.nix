@@ -38,6 +38,6 @@ python3.pkgs.buildPythonPackage rec {
     description = "Abstraction layer for smart contract build systems";
     homepage = "https://github.com/crytic/crytic-compile";
     license = licenses.agpl3Plus;
-    platforms = ["x86_64-linux"];
+    platforms = ["x86_64-linux" "aarch64-linux"];
   };
 }
