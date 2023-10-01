@@ -42,8 +42,8 @@
     nugetDeps = ./nuget-deps.nix;
 
     executables = [
-      "Nethermind.Cli"
-      "Nethermind.Runner"
+      "nethermind-cli"
+      "nethermind"
     ];
 
     dotnet-sdk = dotnetCorePackages.sdk_7_0;
