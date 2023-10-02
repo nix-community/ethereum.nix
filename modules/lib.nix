@@ -106,7 +106,7 @@ in {
       in
         if (attrByPath ["enable"] false val)
         then (sum // {"${pathStr}" = val;})
-        else if (isAttrs val)
+        else if ((isAttrs val) && !(val ? enable))
         then (recurse sum path val)
         else sum;
 
