@@ -7,9 +7,19 @@
   rocksdb,
   snappy,
   stdenv,
-  zstd,
   writeShellScriptBin,
+  writeText,
+  zstd,
 }: let
+  nuget-config = writeText "nuget.config" ''
+    <configuration>
+      <packageSources>
+        <add key="nuget.org" value="https://api.nuget.org/v3/index.json" />
+        <add key="nugettest.org" value="https://apiint.nugettest.org/v3/index.json" />
+      </packageSources>
+    </configuration>
+  '';
+
   self = buildDotnetModule rec {
     pname = "nethermind";
     version = "1.21.0";
@@ -48,6 +58,8 @@
 
     dotnet-sdk = dotnetCorePackages.sdk_7_0;
     dotnet-runtime = dotnetCorePackages.aspnetcore_7_0;
+
+    dotnetRestoreFlags = ["--configfile=${nuget-config}"];
 
     passthru = {
       # buildDotnetModule's `fetch-deps` uses `writeShellScript` instead of writeShellScriptBin making nix run .#nethermind.fetch-deps command to fail
