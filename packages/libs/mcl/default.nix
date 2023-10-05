@@ -2,6 +2,10 @@
   fetchFromGitHub,
   gmpxx,
   stdenv,
+  clang,
+  cmake,
+  system,
+  lib,
 }:
 stdenv.mkDerivation rec {
   pname = "mcl";
@@ -14,7 +18,13 @@ stdenv.mkDerivation rec {
     hash = "sha256-aVuBt5T+tNjrK1QahzaCxuimUDQVtoKfK/v0LTT3hy8=";
   };
 
+  nativeBuildInputs = [cmake] ++ (lib.optionals (system == "aarch64-linux") [clang]);
   buildInputs = [gmpxx];
+
+  cmakeFlags = lib.optionals (system == "aarch64-linux") [
+    "-DCMAKE_CXX_COMPILER=clang++"
+    "-DCMAKE_CXX_COMPILER_ID=Clang"
+  ];
 
   installPhase = ''
     make PREFIX=$out/ install
@@ -23,6 +33,6 @@ stdenv.mkDerivation rec {
   meta = {
     description = "A portable and fast pairing-based cryptography library";
     homepage = "https://github.com/herumi/mcl";
-    platforms = ["x86_64-linux" "aarch64-darwin"];
+    platforms = ["x86_64-linux" "aarch64-darwin" "aarch64-linux"];
   };
 }
