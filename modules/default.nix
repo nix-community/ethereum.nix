@@ -11,6 +11,7 @@
       ./geth
       ./geth-bootnode
       ./lighthouse-beacon
+      ./lighthouse-validator
       ./mev-boost
       ./nethermind
       ./prysm-beacon
