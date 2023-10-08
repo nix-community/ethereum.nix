@@ -63,6 +63,7 @@
       eth2-val-tools = callPackage ./utils/eth2-val-tools {inherit bls mcl;};
       ethdo = callPackage ./utils/ethdo {inherit bls mcl;};
       ethereal = callPackage ./utils/ethereal {inherit bls mcl;};
+      rocketpool = callPackage ./utils/rocketpool {};
       sedge = callPackage ./utils/sedge {inherit bls mcl;};
       staking-deposit-cli = callPackage ./utils/staking-deposit-cli {};
       tx-fuzz = callPackage ./utils/tx-fuzz {};
@@ -173,6 +174,7 @@
       eth2-val-tools.bin = "eth2-val-tools";
       ethdo.bin = "ethdo";
       ethereal.bin = "ethereal";
+      rocketpool.bin = "rocketpool";
       sedge.bin = "sedge";
       staking-deposit-cli.bin = "deposit";
       tx-fuzz.bin = "tx-fuzz";
