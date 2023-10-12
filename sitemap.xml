@@ -36,6 +36,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://nix-community.github.io/ethereum.nix/getting-started/running-lighthouse-beacon/</loc>
+         <lastmod>1980-01-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://nix-community.github.io/ethereum.nix/getting-started/running-prysm-beacon/</loc>
          <lastmod>1980-01-01</lastmod>
          <changefreq>daily</changefreq>
@@ -52,6 +57,16 @@
     </url>
     <url>
          <loc>https://nix-community.github.io/ethereum.nix/reference/module-options/geth/</loc>
+         <lastmod>1980-01-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://nix-community.github.io/ethereum.nix/reference/module-options/lighthouse-beacon/</loc>
+         <lastmod>1980-01-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://nix-community.github.io/ethereum.nix/reference/module-options/lighthouse-validator/</loc>
          <lastmod>1980-01-01</lastmod>
          <changefreq>daily</changefreq>
     </url>
