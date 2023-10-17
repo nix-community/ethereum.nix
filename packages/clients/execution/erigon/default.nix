@@ -5,17 +5,17 @@
 }:
 buildGoModule rec {
   pname = "erigon";
-  version = "2.50.1";
+  version = "2.52.5";
 
   src = fetchFromGitHub {
     owner = "ledgerwatch";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-j5MHcqlLSq/EpipJmIfqhGMosw6SpmxYBEYPVP7gyDM=";
+    hash = "sha256-GSAS+xlyak5S4km1ieXwQq7usjVT4r1i2sT3j77cmg0=";
     fetchSubmodules = true;
   };
 
-  vendorHash = "sha256-4s5dXTfYlgzYQ2h30F6kxEF626iKYFRoZlNXeFDbn8s=";
+  vendorHash = "sha256-yC91IIqdB/0KY7PcCSPNCTs2qXgY4JISYapMNpFvvig=";
   proxyVendor = true;
 
   # Build errors in mdbx when format hardening is enabled:
