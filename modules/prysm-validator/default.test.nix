@@ -60,6 +60,10 @@
       };
 
       testScript = ''
+        import time
+
+        machine.wait_for_unit("prysm-validator-test.service")
+        time.sleep(5)
         machine.wait_for_unit("prysm-validator-test.service")
       '';
     };
