@@ -6,5 +6,5 @@ designed to make it easier to operate [Ethereum](https://ethereum.org) related s
 ## Background
 
 In the beginning `Ethereum.nix` was a playground for [Aldo Borrero](https://aldoborrero.com/) to experiment with _nix'ifying_
-Ethereum related processes. Since then, it has a grown into an ever-increasing number of packages and modules targeted towards
+Ethereum related processes. Since then, it has grown into an ever-increasing number of packages and modules targeted towards
 streamlining day-to-day operations across a variety of different projects.
