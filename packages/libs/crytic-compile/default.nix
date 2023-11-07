@@ -5,7 +5,7 @@
 }:
 python3.pkgs.buildPythonPackage rec {
   pname = "crytic-compile";
-  version = "0.3.4";
+  version = "0.3.5";
   format = "setuptools";
 
   disabled = python3.pythonOlder "3.6";
@@ -14,7 +14,7 @@ python3.pkgs.buildPythonPackage rec {
     owner = "crytic";
     repo = "crytic-compile";
     rev = "refs/tags/${version}";
-    hash = "sha256-CeoACtgvMweDbIvYguK2Ca+iTBFONWcE2b0qUkBbQSU=";
+    hash = "sha256-aO2K0lc3qjKK8CZAbu/lotI5QJ/R+8npSIRX4a6HdrI=";
   };
 
   propagatedBuildInputs = with python3.pkgs; [
