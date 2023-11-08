@@ -67,14 +67,13 @@
       vscode-plugin-consensys-vscode-solidity-visual-editor = callPackage ./editors/vscode/extensions/consensys.vscode-solidity-auditor {};
 
       # Solidity
-      slither = callPackageUnstable ./solidity/analyzers/slither {inherit crytic-compile;};
+      slither = callPackageUnstable ./solidity/analyzers/slither {};
 
       # Libs
       evmc = callPackage ./libs/evmc {};
       mcl = callPackage ./libs/mcl {};
       bls = callPackage ./libs/bls {};
       blst = callPackage ./libs/blst {};
-      crytic-compile = callPackageUnstable ./libs/crytic-compile {};
     };
 
     apps = platformApps self'.packages {

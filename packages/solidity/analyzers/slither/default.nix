@@ -2,7 +2,6 @@
   lib,
   fetchFromGitHub,
   python3,
-  crytic-compile,
 }:
 python3.pkgs.buildPythonPackage rec {
   pname = "slither";
@@ -30,6 +29,7 @@ python3.pkgs.buildPythonPackage rec {
     crytic-compile
     packaging
     prettytable
+    web3
   ];
 
   # required for import check to work
