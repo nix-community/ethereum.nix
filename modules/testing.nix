@@ -37,8 +37,8 @@
       eachTest =
         filterAttrs
         (_: (hasSuffix ".test.nix"))
-        (flattenTree {
-          tree = rakeLeaves ./.;
+        (extras.flattenTree {
+          tree = extras.rakeLeaves ./.;
           separator = "-";
         });
 

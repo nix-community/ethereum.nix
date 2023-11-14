@@ -1,5 +1,5 @@
 {
-  description = "A reproducible Nix package set for Ethereum clients and utilities";
+  description = "ethereum.nix / A reproducible Nix package set for Ethereum clients and utilities";
 
   nixConfig = {
     extra-substituters = ["https://nix-community.cachix.org"];
@@ -22,7 +22,6 @@
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
     flake-root.url = "github:srid/flake-root";
-    hercules-ci-effects.url = "github:hercules-ci/hercules-ci-effects";
 
     # utils
     devshell = {
@@ -38,29 +37,36 @@
       url = "github:srid/devour-flake";
       flake = false;
     };
+    lib-extras = {
+      url = "github:aldoborrero/lib-extras/v0.2.2";
+      inputs.devshell.follows = "devshell";
+      inputs.flake-parts.follows = "flake-parts";
+      inputs.flake-root.follows = "flake-root";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.treefmt-nix.follows = "treefmt-nix";
+    };
   };
 
   outputs = inputs @ {
     flake-parts,
     nixpkgs,
+    lib-extras,
     ...
   }: let
-    lib = nixpkgs.lib.extend (final: _: import ./lib.nix final);
+    lib = nixpkgs.lib.extend (l: _: {
+      extras = (lib-extras.lib l) // (import ./lib.nix l);
+    });
   in
     flake-parts.lib.mkFlake {
       inherit inputs;
       specialArgs = {inherit lib;};
     }
-    rec {
+    {
       imports = [
         inputs.devshell.flakeModule
         inputs.flake-parts.flakeModules.easyOverlay
         inputs.flake-root.flakeModule
-        inputs.hercules-ci-effects.flakeModule
         inputs.treefmt-nix.flakeModule
-        ./checks.nix
-        ./flake-shell.nix
-        ./formatter.nix
         ./mkdocs.nix
         ./modules
         ./packages
@@ -71,18 +77,86 @@
         "x86_64-darwin"
         "aarch64-darwin"
       ];
-      perSystem = {system, ...}: {
+      perSystem = {
+        config,
+        pkgs,
+        pkgsUnstable,
+        system,
+        ...
+      }: {
+        # pkgs
         _module.args = {
-          pkgs = lib.mkNixpkgs {
+          pkgs = lib.extras.nix.mkNixpkgs {
             inherit system;
             inherit (inputs) nixpkgs;
           };
-          pkgsUnstable = lib.mkNixpkgs {
+          pkgsUnstable = lib.extras.nix.mkNixpkgs {
             inherit system;
             nixpkgs = inputs.nixpkgs-unstable;
           };
         };
+
+        # devshell
+        devshells.default = {
+          name = "ethereum.nix";
+          packages = with pkgsUnstable; [
+            nix-update
+            statix
+            mkdocs
+            pkgs.python310Packages.mkdocs-material
+          ];
+          commands = [
+            {
+              category = "Tools";
+              name = "fmt";
+              help = "Format the source tree";
+              command = "nix fmt";
+            }
+            {
+              category = "Tools";
+              name = "check";
+              help = "Checks the source tree";
+              command = "nix flake check";
+            }
+          ];
+        };
+
+        # formatter
+        treefmt.config = {
+          inherit (config.flake-root) projectRootFile;
+          package = pkgs.treefmt;
+          flakeFormatter = true;
+          flakeCheck = true;
+          programs = {
+            alejandra.enable = true;
+            deadnix.enable = true;
+            prettier.enable = true;
+            statix.enable = true;
+          };
+        };
+
+        # checks
+        checks = let
+          devour-flake = pkgs.callPackage inputs.devour-flake {};
+        in
+          {
+            nix-build-all = pkgs.writeShellApplication {
+              name = "nix-build-all";
+              runtimeInputs = [
+                pkgs.nix
+                devour-flake
+              ];
+              text = ''
+                # Make sure that flake.lock is sync
+                nix flake lock --no-update-lock-file
+
+                # Do a full nix build (all outputs)
+                devour-flake . "$@"
+              '';
+            };
+          }
+          # mix in tests
+          // config.testing.checks;
       };
-      herculesCI.ciSystems = with builtins; filter (system: (match ".*-darwin" system) == null) systems;
     };
 }

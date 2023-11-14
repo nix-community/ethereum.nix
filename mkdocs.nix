@@ -30,7 +30,7 @@
       eachOptions = with lib;
         filterAttrs
         (_: hasSuffix "options.nix")
-        (flattenTree {tree = rakeLeaves ./modules;});
+        (extras.flattenTree {tree = extras.rakeLeaves ./modules;});
 
       eachOptionsDoc = with lib;
         mapAttrs' (
