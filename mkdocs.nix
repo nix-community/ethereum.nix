@@ -4,23 +4,23 @@
     pkgs,
     ...
   }: let
-    inherit (pkgs) stdenv mkdocs python310Packages;
+    inherit (pkgs) stdenv runCommand;
 
     my-mkdocs =
-      pkgs.runCommand "my-mkdocs"
-      {
+      runCommand "my-mkdocs" {
         buildInputs = [
-          mkdocs
-          python310Packages.mkdocs-material
+          pkgs.python311
+          pkgs.python311Packages.mkdocs
+          pkgs.python311Packages.mkdocs-material
         ];
       } ''
         mkdir -p $out/bin
 
         cat <<MKDOCS > $out/bin/mkdocs
-        #!${pkgs.bash}/bin/bash
+        #!${pkgs.runtimeShell}
         set -euo pipefail
         export PYTHONPATH=$PYTHONPATH
-        exec ${mkdocs}/bin/mkdocs "\$@"
+        exec ${pkgs.python311Packages.mkdocs}/bin/mkdocs "\$@"
         MKDOCS
 
         chmod +x $out/bin/mkdocs
@@ -51,15 +51,24 @@
           '')
           eachOptionsDoc);
     in
-      pkgs.runCommand "nixos-options" {} ''
+      runCommand "nixos-options" {} ''
         mkdir $out
         ${statements}
       '';
     docsPath = "./docs/reference/module-options";
   in {
+    packages.my-mkdocs = my-mkdocs;
     packages.docs = stdenv.mkDerivation {
-      src = ./.;
       name = "ethereum-nix-docs";
+
+      src = lib.cleanSourceWith {
+        src = ./.;
+        filter = path: type: let
+          baseName = builtins.baseNameOf path;
+          inDocs = builtins.match ".*/docs(/.*)?" path != null;
+        in
+          baseName == "mkdocs.yml" || inDocs;
+      };
 
       buildInput = [options-doc];
       nativeBuildInputs = [my-mkdocs];
