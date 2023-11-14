@@ -83,8 +83,9 @@ nav:
           - reference/module-options/nethermind.md
           - reference/module-options/prysm-beacon.md
           - reference/module-options/prysm-validator.md
+          - reference/module-options/lighthouse-beacon.md
+          - reference/module-options/lighthouse-validator.md
   - Contributing:
-      - contributing/index.md
       - Reporting a bug: contributing/reporting-a-bug.md
       - Reporting a docs issue: contributing/reporting-a-docs-issue.md
       - Requesting a change: contributing/reporting-a-change.md
