@@ -49,6 +49,7 @@
       ssvnode = callPackage ./dvt/ssvnode {inherit bls mcl;};
 
       # Utils
+      eigenlayer-cli = callPackageUnstable ./utils/eigenlayer-cli {};
       eth2-testnet-genesis = callPackage ./utils/eth2-testnet-genesis {inherit bls;};
       eth2-val-tools = callPackage ./utils/eth2-val-tools {inherit bls mcl;};
       ethdo = callPackage ./utils/ethdo {inherit bls mcl;};
