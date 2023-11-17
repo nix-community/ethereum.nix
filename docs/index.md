@@ -54,6 +54,57 @@ This project is developed entirely in [Nix Flakes](https://nixos.wiki/wiki/Flake
 ## About the project
 
 In the beginning Ethereum.nix was a playground for [Aldo Borrero](https://aldoborrero.com/) to experiment with _nix'ifying_
-Ethereum related processes. Since then, it has a grown into an ever-increasing number of packages and modules targeted towards
-streamlining day-to-day operations across a variety of different projects.
+Ethereum related processes. Since then, the project got accepted by the [Nix Community incubator program](https://github.com/nix-community)
+and it has a grown into an ever-increasing number of packages and modules targeted towards streamlining day-to-day operations across a variety of different projects.
+
+::cards::
+- title: Aldo Borrero
+  content: |
+    Creator of Ethereum.nix
+    <br/>
+    <br/>
+    Full Stack freak! Blockchain passionate!
+  image: https://avatars.githubusercontent.com/u/82811?v=4
+  url: https://github.com/aldoborrero
+- title: Brian McGee
+  content: |
+    Maintainer of Ethereum.nix
+    <br/>
+    <br/>
+    Writer of software • Lover of craft beer
+  image: https://avatars.githubusercontent.com/u/1173648?v=4
+  url: https://github.com/brianmcgee
+- title: Sergey Yakovlev
+  content: |
+    Maintainer of Ethereum.nix
+    <br/>
+    <br/>
+    Love Nix, Rust, Ethereum | SRE
+  image: https://avatars.githubusercontent.com/u/2993917?v=4
+  url: https://github.com/selfuryon
+::/cards::
+
+## Comercial Support?
+
+Are you seeking to use Ethereum.nix effectively within your organization for Blockchain related projects?
+
+Below you can see the list of companies that offers support to Ethereum.nix, Nix and NixOS ecosystem:
+
+### Numtide
+
+![Numtide logo](https://codahosted.io/docs/6FCIMTRM0p/blobs/bl-sgSunaXYWX/077f3f9d7d76d6a228a937afa0658292584dedb5b852a8ca370b6c61dabb7872b7f617e603f1793928dc5410c74b3e77af21a89e435fa71a681a868d21fd1f599dd10a647dd855e14043979f1df7956f67c3260c0442e24b34662307204b83ea34de929d)
+
+[Numtide](https://numtide.com) is a team of independent freelancers that love open source.
+We help our customers make their project lifecycles more efficient by:
+
+- Providing and supporting useful tools such as this one.
+- Building and deploying infrastructure, and offering dedicated DevOps support.
+- Building their in-house Nix skills, and integrating Nix with their workflows.
+- Developing additional features and tools.
+- Carrying out custom research and development.
+- In the case of Blockchain building resilient systems and infrastructure to MEV services.
+
+[Contact us](https://numtide.com/contact) if you have a project in mind, or if
+you need help with any of our supported tools, including this one. We'd love to
+hear from you.
 
