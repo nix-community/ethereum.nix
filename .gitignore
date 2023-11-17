@@ -9,4 +9,4 @@
 .idea/
 
 # Generated doc files
-docs/reference/module-options
+docs/nixos/modules/*.md

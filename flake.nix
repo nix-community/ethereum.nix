@@ -10,6 +10,15 @@
     # packages
     nixpkgs.url = "github:nixos/nixpkgs/23.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    mynixpkgs = {
+      url = "github:aldoborrero/mynixpkgs";
+      inputs.devshell.follows = "devshell";
+      inputs.flake-parts.follows = "flake-parts";
+      inputs.flake-root.follows = "flake-root";
+      inputs.lib-extras.follows = "lib-extras";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.treefmt-nix.follows = "treefmt-nix";
+    };
 
     foundry-nix = {
       url = "github:shazow/foundry.nix/monthly";
@@ -101,9 +110,6 @@
           name = "ethereum.nix";
           packages = with pkgsUnstable; [
             nix-update
-            statix
-            mkdocs
-            pkgs.python310Packages.mkdocs-material
           ];
           commands = [
             {
@@ -124,7 +130,6 @@
         # formatter
         treefmt.config = {
           inherit (config.flake-root) projectRootFile;
-          package = pkgs.treefmt;
           flakeFormatter = true;
           flakeCheck = true;
           programs = {

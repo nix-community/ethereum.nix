@@ -74,17 +74,18 @@ nav:
       - Services:
           - nixos/running-geth.md
           - nixos/running-prysm-beacon.md
+          - nixos/running-lighthouse-beacon.md
           - nixos/backup-and-restore.md
       - Module Options:
-          - reference/module-options/erigon.md
-          - reference/module-options/geth-bootnode.md
-          - reference/module-options/geth.md
-          - reference/module-options/mev-boost.md
-          - reference/module-options/nethermind.md
-          - reference/module-options/prysm-beacon.md
-          - reference/module-options/prysm-validator.md
-          - reference/module-options/lighthouse-beacon.md
-          - reference/module-options/lighthouse-validator.md
+          - nixos/modules/erigon.md
+          - nixos/modules/geth-bootnode.md
+          - nixos/modules/geth.md
+          - nixos/modules/mev-boost.md
+          - nixos/modules/nethermind.md
+          - nixos/modules/prysm-beacon.md
+          - nixos/modules/prysm-validator.md
+          - nixos/modules/lighthouse-beacon.md
+          - nixos/modules/lighthouse-validator.md
   - Contributing:
       - Reporting a bug: contributing/reporting-a-bug.md
       - Reporting a docs issue: contributing/reporting-a-docs-issue.md
