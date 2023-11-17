@@ -36,22 +36,22 @@ The execution client (also known as the Execution Engine, EL client or formerly 
 
 ::spantable::
 
-| App                                             | Command                                                 |
-| ----------------------------------------------- | ------------------------------------------------------- |
-| [Besu](https://besu.hyperledger.org/en/stable/) | `nix run .#besu`                                        |
-| [Erigon](https://github.com/ledgerwatch/erigon) | `nix run .#erigon`                                      |
-| [Geth](https://geth.ethereum.org/) @span        | `nix run .#geth`                                        |
-|                                                 | `nix run .#geth-abidump`                                |
-|                                                 | `nix run .#geth-abigen`                                 |
-|                                                 | `nix run .#geth-bootnode`                               |
-|                                                 | `nix run .#geth-clef`                                   |
-|                                                 | `nix run .#geth-devp2p`                                 |
-|                                                 | `nix run .#geth-ethky`                                  |
-|                                                 | `nix run .#geth-evm`                                    |
-|                                                 | `nix run .#geth-faucet`                                 |
-|                                                 | `nix run .#geth-rlpdump`                                |
-| [Nethermind](https://nethermind.io/) @span      | `nix run .#nethermind-runner`                           |
-|                                                 | `nix run .#nethermind`                                  |
+| App                                             | Command                       |
+| ----------------------------------------------- | ----------------------------- |
+| [Besu](https://besu.hyperledger.org/en/stable/) | `nix run .#besu`              |
+| [Erigon](https://github.com/ledgerwatch/erigon) | `nix run .#erigon`            |
+| [Geth](https://geth.ethereum.org/) @span        | `nix run .#geth`              |
+|                                                 | `nix run .#geth-abidump`      |
+|                                                 | `nix run .#geth-abigen`       |
+|                                                 | `nix run .#geth-bootnode`     |
+|                                                 | `nix run .#geth-clef`         |
+|                                                 | `nix run .#geth-devp2p`       |
+|                                                 | `nix run .#geth-ethky`        |
+|                                                 | `nix run .#geth-evm`          |
+|                                                 | `nix run .#geth-faucet`       |
+|                                                 | `nix run .#geth-rlpdump`      |
+| [Nethermind](https://nethermind.io/) @span      | `nix run .#nethermind-runner` |
+|                                                 | `nix run .#nethermind`        |
 
 ::end-spantable::
 

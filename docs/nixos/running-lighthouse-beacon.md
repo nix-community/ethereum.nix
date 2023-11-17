@@ -74,8 +74,8 @@ To configure a custom fork for example:
 By default, [openFirewall](./modules/lighthouse-beacon.md#servicesethereumlighthouse-beaconnameopenfirewall) is set to `false`.
 If set to `true` firewall rules are added which will expose the following ports:
 
-| Protocol | Config                                                                                                                     | Default value |
-| :------- | :------------------------------------------------------------------------------------------------------------------------- | :------------ |
+| Protocol | Config                                                                                                   | Default value |
+| :------- | :------------------------------------------------------------------------------------------------------- | :------------ |
 | UDP      | [discovery-port](./modules/lighthouse-beacon.md#servicesethereumlighthouse-beaconnameargsdiscovery-port) | 9000          |
 | UDP/TCP  | [quic-port](./modules/lighthouse-beacon.md#servicesethereumlighthouse-beaconnameargsquic-port)           | 9001          |
 | TCP      | [http-port](./modules/lighthouse-beacon.md#servicesethereumlighthouse-beaconnameargshttp-port)           | 5052          |
