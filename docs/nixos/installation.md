@@ -1,6 +1,6 @@
 # Installation
 
-Below you'll find several examples of how to use `ethereum.nix`. Choose appropriately depending on if you're using `Nix Flakes` or not.
+Below you'll find several examples of how to import Ethereum.nix. Choose appropriately depending on if you're using nix with flakes enabled or not.
 
 ### With flakes without using overlays <small>recommended</small> { #with-flakes-no-overlays data-toc-label="with flakes no overlays" }
 
@@ -9,7 +9,7 @@ Below you'll find several examples of how to use `ethereum.nix`. Choose appropri
 ```nix
 {
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/22.11";
+    nixpkgs.url = "github:nixos/nixpkgs/23.11";
     ethereum-nix = {
       url = "github:nix-community/ethereum.nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -24,7 +24,7 @@ Below you'll find several examples of how to use `ethereum.nix`. Choose appropri
       pkgs = nixpkgs.legacyPackages.${system};
       modules = [
         # optional: add nixos modules via the default nixosModule
-        ethereum-nix.nixosModules.${system}.default
+        ethereum-nix.nixosModules.default
 
         ({pkgs, system, ...}: {
           environment.systemPackages = (with ethereum-nix.packages.${system}; [
@@ -46,7 +46,7 @@ Below you'll find several examples of how to use `ethereum.nix`. Choose appropri
 ```nix
 {
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/22.11";
+    nixpkgs.url = "github:nixos/nixpkgs/23.11";
     ethereum-nix = {
       url = "github:nix-community/ethereum.nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -69,7 +69,7 @@ Below you'll find several examples of how to use `ethereum.nix`. Choose appropri
       inherit system pkgs;
       modules = [
         # optional: add nixos modules via the default nixosModule
-        ethereum-nix.nixosModules.${system}.default
+        ethereum-nix.nixosModules.default
       ];
     };
   };
@@ -97,12 +97,40 @@ Below you'll find several examples of how to use `ethereum.nix`. Choose appropri
     inherit system pkgs;
     modules = [
       # optional: add nixos modules via the default nixosModule
-      ethereum-nix.nixosModules.${system}.default
+      ethereum-nix.nixosModules.default
     ];
   };
 }
 ```
 
-1. You must ensure that your `NIX_PATH` has `nixpkgs` pointing to a version that contains nixos modules (e.g. `nixpkgs=https://github.com/NixOS/nixpkgs/archive/nixos-22.11.tar.gz`)
+1. You must ensure that your `NIX_PATH` has `nixpkgs` pointing to a version that contains nixos modules (e.g. `nixpkgs=https://github.com/NixOS/nixpkgs/archive/nixos-23.11.tar.gz`)
 
 ### With niv { #with-niv data-toc-label="with niv" }
+
+First, add Ethereum.nix to your `sources.json`:
+
+```bash
+niv add nix-community/ethereum.nix
+```
+
+And just import it like below:
+
+```nix
+{system ? builtins.currentSystem}: let
+  sources = import ./sources.nix;
+  ethereum-nix = import sources."ethereum.nix";
+  pkgs = import sources.nixpkgs {
+    inherit system;
+    overlays = [
+      ethereum-nix.overlays.default
+    ];
+  };
+in
+  my-machine = pkgs.lib.nixosSystem {
+    inherit system pkgs;
+    modules = [
+      # optional: add nixos modules via the default nixosModule
+      ethereum-nix.nixosModules.default
+    ];
+  }
+```
