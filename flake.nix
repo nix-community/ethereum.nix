@@ -135,8 +135,14 @@
           programs = {
             alejandra.enable = true;
             deadnix.enable = true;
-            prettier.enable = true;
+            deno.enable = true;
             statix.enable = true;
+          };
+          settings.formatter = {
+            deno.excludes = [
+              "*.md"
+              "*.html"
+            ];
           };
         };
 
