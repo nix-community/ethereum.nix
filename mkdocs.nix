@@ -30,7 +30,6 @@
         chmod +x $out/bin/mkdocs
       '';
   in {
-    packages.mkdocs-custom = mkdocs-custom;
     packages.docs = let
       docsPath = "./docs/nixos/modules";
       nixosMarkdownDocs = runCommand "nixos-options" {} ''
