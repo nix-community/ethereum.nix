@@ -136,12 +136,32 @@
             alejandra.enable = true;
             deadnix.enable = true;
             deno.enable = true;
+            mdformat.enable = true;
             statix.enable = true;
           };
           settings.formatter = {
             deno.excludes = [
               "*.md"
               "*.html"
+            ];
+            mdformat.command = lib.mkDefault (with pkgsUnstable.python3Packages;
+              mdformat.withPlugins [
+                mdformat-admon
+                mdformat-beautysh
+                mdformat-footnote
+                mdformat-frontmatter
+                mdformat-gfm
+                mdformat-mkdocs
+                mdformat-nix-alejandra
+                mdformat-simple-breaks
+                mdformat-toc
+              ]);
+            mdformat.excludes = [
+              # mdformat doesn't behave well with some admonitions features
+              "apps.md"
+              "getting-started.md"
+              "index.md"
+              "restore-from-backup.md"
             ];
           };
         };
