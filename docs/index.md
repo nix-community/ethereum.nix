@@ -15,32 +15,45 @@ This project is developed entirely in [Nix Flakes](https://nixos.wiki/wiki/Flake
 
 ## Eager to use Ethereum.nix?
 
-#### :material-information:{ .lg .middle } __New to Ethereum.nix and Nix?__
+::cards::cols=2
 
-Get started by installing Nix on your system and how to use it with Ethereum.nix.
+- title: :material-information:{ .lg .middle } New to Ethereum.nix and Nix?
+  content: |
+    <br/>
+    Get started by installing Nix on your system and how to use it with Ethereum.nix
+    <br/>
+    <br/>
+    [Getting Started :octicons-arrow-right-24:](./getting-started.md){ .md-button }
 
-[Getting Started :octicons-arrow-right-24:](./getting-started.md){ .md-button }
+- title: :material-apps-box:{ .lg .middle } Want to use an application now?
+  content: |
+    <br />
+    See our list of supported applications ready to be used in seconds.
+    <br />
+    <br />
+    [See supported Applications :octicons-arrow-right-24:](./apps.md){ .md-button }
 
-#### :material-apps-box:{ .lg .middle } __Want to use an application?__
+- title: :simple-nixos:{ .lg .middle } Want to run Ethereum services on NixOS?
+  content: |
+    <br />
+    Run Ethereum services easily with our supported NixOS modules.
+    <br />
+    <br />
+    [Run Ethereum services on NixOS :octicons-arrow-right-24:](./nixos/installation.md){ .md-button }
 
-See our list of supported applications ready to be used in seconds.
+- title: :material-chat-question:{ .lg .middle } Have a question or need help?
+  content: |
+    <br />
+    Ask questions on our discussion board and get in touch with our community.
+    <br />
+    <br />
+    [Ask a question :octicons-arrow-right-24:](https://github.com/nix-community/ethereum.nix/discussions){ .md-button }
 
-[See supported Applications :octicons-arrow-right-24:](./apps.md){ .md-button }
-
-#### :simple-nixos:{ .lg .middle } __Want to run Ethereum services on NixOS?__
-
-Run Ethereum services easily with our supported NixOS modules.
-
-[Run Ethereum services on NixOS :octicons-arrow-right-24:](./nixos/installation.md){ .md-button }
-
-#### :material-chat-question:{ .lg .middle } __Have a question or need help?__
-
-Ask questions on our discussion board and get in touch with our community.
-
-[Ask a question :octicons-arrow-right-24:](https://github.com/nix-community/ethereum.nix/discussions){ .md-button }
+::/cards::
 
 ## About the project
 
 In the beginning Ethereum.nix was a playground for [Aldo Borrero](https://aldoborrero.com/) to experiment with _nix'ifying_
 Ethereum related processes. Since then, it has a grown into an ever-increasing number of packages and modules targeted towards
 streamlining day-to-day operations across a variety of different projects.
+
