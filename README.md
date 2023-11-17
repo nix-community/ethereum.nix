@@ -1,5 +1,5 @@
 <div align="center" style="margin-top: 1em; margin-bottom: 3em;">
-  <h1>ethereum.nix = Ethereum 🫶 Nix</h1>
+  <h1>Ethereum.nix = Ethereum 🫶 Nix</h1>
 </div>
 
 <p align="center">
@@ -40,22 +40,21 @@ We use [`devshell`](https://github.com/numtide/devshell) to have nice developmen
 
 [Docs]
 
-  docs-build - Build docs
-  docs-serve - Serve docs
+  docs  - Build and watch for docs
 
 [Testing]
 
-  tests      - Build and run a test
+  tests - Build and run a test
 
 [Tools]
 
-  fmt        - Format the source tree
+  check - Checks the source tree
+  fmt   - Format the source tree
 
 [general commands]
 
-  menu       - prints this menu
+  menu  - prints this menu
 
-direnv: export +DEVSHELL_DIR +IN_NIX_SHELL +NIXPKGS_PATH +PRJ_DATA_DIR +PRJ_ROOT +name ~PATH ~XDG_DATA_DIRS
 ```
 
 ### Requirements
@@ -69,9 +68,9 @@ After cloning this repository and entering inside, run `direnv allow` when promp
 
 ### Docs
 
-To build the docs locally, run `docs-build`. The output will be inside of `./result`.
+To build the docs locally, run `docs build`. The output will be inside of `./result`.
 
-Run `docs-serve` to serve the docs locally (after building them previously). You can edit the docs in `./docs`.
+Run `docs serve` to serve the docs locally (after building them previously). You can edit the docs in `./docs`.
 
 ### Running tests
 
