@@ -140,7 +140,7 @@
             statix.enable = true;
           };
           settings.formatter = {
-            deno.command = pkgs.deno; # current deno from unstable don't work on darwin x86
+            deno.command = lib.mkDefault pkgs.deno; # current deno from unstable don't work on darwin x86
             deno.excludes = [
               "*.md"
               "*.html"
