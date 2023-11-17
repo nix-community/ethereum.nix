@@ -21,6 +21,7 @@ theme:
         name: Switch to dark mode
     # Palette toggle for light mode
     - scheme: slate
+      primary: deep orange
       toggle:
         icon: material/weather-sunny
         name: Switch to light mode
@@ -44,6 +45,9 @@ theme:
 
 extra_css:
   - stylesheets/neoteroi-mkdocs.css
+
+plugins:
+  - search
 
 markdown_extensions:
   - admonition
