@@ -42,10 +42,15 @@ theme:
     - search.suggest
     - toc.follow
 
+extra_css:
+  - stylesheets/neoteroi-mkdocs.css
+
 markdown_extensions:
   - admonition
   - attr_list
   - md_in_html
+  - neoteroi.spantable
+  - neoteroi.cards
   - toc:
       permalink: true
   - pymdownx.details
