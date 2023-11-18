@@ -1,103 +1,125 @@
-{
+{inputs, ...}: {
   perSystem = {
     lib,
     pkgs,
+    system,
     ...
   }: let
-    inherit (pkgs) stdenv mkdocs python310Packages;
+    inherit (pkgs) stdenv runCommand;
 
-    my-mkdocs =
-      pkgs.runCommand "my-mkdocs"
-      {
+    mkdocs-custom =
+      runCommand "mkdocs-custom" {
         buildInputs = [
-          mkdocs
-          python310Packages.mkdocs-material
+          pkgs.python311
+          pkgs.python311Packages.mkdocs
+          pkgs.python311Packages.mkdocs-material
+          inputs.mynixpkgs.packages.${system}.mkdocs-plugins
         ];
+
+        meta.mainProgram = "mkdocs";
       } ''
         mkdir -p $out/bin
 
         cat <<MKDOCS > $out/bin/mkdocs
-        #!${pkgs.bash}/bin/bash
+        #!${pkgs.runtimeShell}
         set -euo pipefail
         export PYTHONPATH=$PYTHONPATH
-        exec ${mkdocs}/bin/mkdocs "\$@"
+        exec ${pkgs.python311Packages.mkdocs}/bin/mkdocs "\$@"
         MKDOCS
 
         chmod +x $out/bin/mkdocs
       '';
-
-    options-doc = let
-      eachOptions = with lib;
-        filterAttrs
-        (_: hasSuffix "options.nix")
-        (extras.flattenTree {tree = extras.rakeLeaves ./modules;});
-
-      eachOptionsDoc = with lib;
-        mapAttrs' (
-          name: value:
-            nameValuePair
-            # take geth.options and turn it into just geth
-            (head (splitString "." name))
-            # generate options doc
-            (pkgs.nixosOptionsDoc {options = evalModules {modules = [value];};})
-        )
-        eachOptions;
-
-      statements = with lib;
-        concatStringsSep "\n"
-        (mapAttrsToList (n: v: ''
-            path=$out/${n}.md
-            cat ${v.optionsCommonMark} >> $path
-          '')
-          eachOptionsDoc);
-    in
-      pkgs.runCommand "nixos-options" {} ''
-        mkdir $out
-        ${statements}
-      '';
-    docsPath = "./docs/reference/module-options";
   in {
-    packages.docs = stdenv.mkDerivation {
-      src = ./.;
-      name = "ethereum-nix-docs";
-
-      buildInput = [options-doc];
-      nativeBuildInputs = [my-mkdocs];
-
-      buildPhase = ''
-        ln -s ${options-doc} ${docsPath}
-        mkdocs build
+    packages.docs = let
+      docsPath = "./docs/nixos/modules";
+      nixosMarkdownDocs = runCommand "nixos-options" {} ''
+        mkdir $out
+        ${lib.extras.mkdocs.createNixosMarkdownDocs {modulesPath = ./modules;}}
       '';
+    in
+      stdenv.mkDerivation {
+        name = "ethereum-nix-docs";
 
-      installPhase = ''
-        mv site $out
-      '';
+        src = lib.cleanSourceWith {
+          src = ./.;
+          filter = path: _type: let
+            file = builtins.baseNameOf path;
+            inDocsFolder = builtins.match ".*/docs(/.*)?" path != null;
+          in
+            file == "mkdocs.yml" || inDocsFolder;
+        };
 
-      passthru.serve = pkgs.writeShellScriptBin "serve" ''
-        set -euo pipefail
+        buildInput = [nixosMarkdownDocs];
+        nativeBuildInputs = [mkdocs-custom];
 
-        # link in options reference
-        rm -f ${docsPath}
-        ln -s ${options-doc} ${docsPath}
+        buildPhase = ''
+          mkdocs build
+        '';
 
-        ${my-mkdocs}/bin/mkdocs serve
-      '';
-    };
+        installPhase = ''
+          # create link to nixos markdown options reference
+          mkdir -p ${docsPath}
+          ln -sf ${nixosMarkdownDocs}/* ${docsPath}/
+          mv site $out
+        '';
+
+        passthru.serve = pkgs.writeShellScriptBin "serve" ''
+          set -euo pipefail
+
+          # create link to nixos markdown options reference
+          rm -f ${docsPath}/*.md
+          ln -sf ${nixosMarkdownDocs}/* ${docsPath}/
+
+          ${lib.getExe mkdocs-custom} serve
+        '';
+      };
 
     devshells.default.commands = let
       category = "Docs";
     in [
       {
         inherit category;
-        name = "docs-serve";
-        help = "Serve docs";
-        command = "nix run .#docs.serve";
-      }
-      {
-        inherit category;
-        name = "docs-build";
-        help = "Build docs";
-        command = "nix build .#docs";
+        name = "docs";
+        help = "Build and watch for docs";
+        command = ''
+          Help() {
+            echo "  Ethereum.nix Docs"
+            echo
+            echo "  Usage:"
+            echo "    docs build"
+            echo "    docs serve"
+            echo
+            echo "  Options:"
+            echo "    -h --help          Show this screen."
+            echo
+          }
+
+          Build() {
+            nix build .#docs
+          }
+
+          Serve() {
+            nix run .#docs.serve
+          }
+
+          ARGS=$(getopt --options h --longoptions help -- "$@")
+
+          while [ $# -gt 0 ]; do
+            case "$1" in
+                build) Build; exit 0;;
+                serve) Serve; exit 0;;
+                -h | --help) Help; exit 0;;
+                -- ) shift; break;;
+                * ) break;;
+            esac
+          done
+
+          if [ $# -eq 0 ]; then
+            # No test name has been provided
+            Help
+            exit 1
+          fi
+        '';
       }
     ];
   };

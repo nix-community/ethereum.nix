@@ -28,7 +28,7 @@ One or more [Lighthouse Beacon](https://lighthouse-book.sigmaprime.io/intro.html
 ## Configuration
 
 Many of Lighthouse Beacon's process arguments have been mapped to NixOS types and can be provided via the `args` section of the config.
-For a detailed list please refer to the [NixOS Options](../reference/module-options/lighthouse-beacon.md) reference.
+For a detailed list please refer to the [NixOS Options](./modules/lighthouse-beacon.md) reference.
 
 Additional arguments can be provided in a list directly to the Lighthouse Beacon process via the `extraArgs` attribute as shown above.
 
@@ -55,7 +55,7 @@ The service that is created can then be introspected and managed via the standar
 
 ## Using a Lighthouse Beacon fork
 
-A different version of Lighthouse Beacon can be configured via the [package](../reference/module-options/lighthouse-beacon.md#servicesethereumlighthouse-beaconnamepackage) option.
+A different version of Lighthouse Beacon can be configured via the [package](./modules/lighthouse-beacon.md#servicesethereumlighthouse-beaconnamepackage) option.
 
 To configure a custom fork for example:
 
@@ -71,14 +71,14 @@ To configure a custom fork for example:
 
 ## Opening ports
 
-By default, [openFirewall](../reference/module-options/lighthouse-beacon.md#servicesethereumlighthouse-beaconnameopenfirewall) is set to `false`.
+By default, [openFirewall](./modules/lighthouse-beacon.md#servicesethereumlighthouse-beaconnameopenfirewall) is set to `false`.
 If set to `true` firewall rules are added which will expose the following ports:
 
-| Protocol | Config                                                                                                                     | Default value |
-| :------- | :------------------------------------------------------------------------------------------------------------------------- | :------------ |
-| UDP      | [discovery-port](../reference/module-options/lighthouse-beacon.md#servicesethereumlighthouse-beaconnameargsdiscovery-port) | 9000          |
-| UDP/TCP  | [quic-port](../reference/module-options/lighthouse-beacon.md#servicesethereumlighthouse-beaconnameargsquic-port)           | 9001          |
-| TCP      | [http-port](../reference/module-options/lighthouse-beacon.md#servicesethereumlighthouse-beaconnameargshttp-port)           | 5052          |
+| Protocol | Config                                                                                                   | Default value |
+| :------- | :------------------------------------------------------------------------------------------------------- | :------------ |
+| UDP      | [discovery-port](./modules/lighthouse-beacon.md#servicesethereumlighthouse-beaconnameargsdiscovery-port) | 9000          |
+| UDP/TCP  | [quic-port](./modules/lighthouse-beacon.md#servicesethereumlighthouse-beaconnameargsquic-port)           | 9001          |
+| TCP      | [http-port](./modules/lighthouse-beacon.md#servicesethereumlighthouse-beaconnameargshttp-port)           | 5052          |
 
 **Note:** it is important when running multiple instances of Lighthouse Beacon on the same machine that you ensure they are configured
 with different ports.

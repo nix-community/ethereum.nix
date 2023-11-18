@@ -10,6 +10,15 @@
     # packages
     nixpkgs.url = "github:nixos/nixpkgs/23.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    mynixpkgs = {
+      url = "github:aldoborrero/mynixpkgs";
+      inputs.devshell.follows = "devshell";
+      inputs.flake-parts.follows = "flake-parts";
+      inputs.flake-root.follows = "flake-root";
+      inputs.lib-extras.follows = "lib-extras";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.treefmt-nix.follows = "treefmt-nix";
+    };
 
     foundry-nix = {
       url = "github:shazow/foundry.nix/monthly";
@@ -101,9 +110,6 @@
           name = "ethereum.nix";
           packages = with pkgsUnstable; [
             nix-update
-            statix
-            mkdocs
-            pkgs.python310Packages.mkdocs-material
           ];
           commands = [
             {
@@ -124,14 +130,41 @@
         # formatter
         treefmt.config = {
           inherit (config.flake-root) projectRootFile;
-          package = pkgs.treefmt;
           flakeFormatter = true;
           flakeCheck = true;
           programs = {
             alejandra.enable = true;
             deadnix.enable = true;
-            prettier.enable = true;
+            deno.enable = false;
+            mdformat.enable = true;
             statix.enable = true;
+          };
+          settings.formatter = {
+            # TODO: Re-enable deno whenever works again on x86_64-darwin
+            # deno.command = lib.mkDefault pkgs.deno; # current deno from unstable don't work on darwin x86
+            # deno.excludes = [
+            #   "*.md"
+            #   "*.html"
+            # ];
+            mdformat.command = lib.mkDefault (with pkgsUnstable.python3Packages;
+              mdformat.withPlugins [
+                mdformat-admon
+                mdformat-beautysh
+                mdformat-footnote
+                mdformat-frontmatter
+                mdformat-gfm
+                mdformat-mkdocs
+                mdformat-nix-alejandra
+                mdformat-simple-breaks
+                mdformat-toc
+              ]);
+            mdformat.excludes = [
+              # mdformat doesn't behave well with some admonitions features
+              "apps.md"
+              "getting-started.md"
+              "index.md"
+              "restore-from-backup.md"
+            ];
           };
         };
 

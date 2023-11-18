@@ -1,5 +1,5 @@
 <div align="center" style="margin-top: 1em; margin-bottom: 3em;">
-  <h1>ethereum.nix = Ethereum 🫶 Nix</h1>
+  <h1>Ethereum.nix = Ethereum 🫶 Nix</h1>
 </div>
 
 <p align="center">
@@ -14,9 +14,10 @@
   </a>
 </p>
 
-The ultimate goal of `ethereum.nix` is to integrate the most exciting / prominent projects in the Ethereum ecosystem as Nix packages / NixOS modules.
+Ethereum.nix is a collection of [Nix](https://nixos.org) packages and [NixOS](https://nixos.wiki/wiki/NixOS_modules) modules
+designed to make it easier to operate [Ethereum](https://ethereum.org) related services and infrastructure.
 
-For the uninitiated, using `ethereum.nix` will give you the following benefits:
+For the uninitiated, using Ethereum.nix will give you the following benefits:
 
 - Access to a wide range of Ethereum applications packaged with Nix, ready to run without fuss. Nix guarantees you don't have to worry about version conflicts, missing dependencies or even what state your OS is in.
 - We aim that every Ethereum application stored in the repository is constructed from its source, including all input dependencies. This approach guarantees the code's reproducibility and trustworthiness. Furthermore, with Nix, expert users can tweak and adjust the build process to any degree of detail as required.
@@ -26,7 +27,7 @@ This project is developed entirely in [Nix Flakes](https://nixos.wiki/wiki/Flake
 
 ## Documentation
 
-We recommend you [look at our documentation](https://nix-community.github.io/ethereum.nix/) that shows how to use `ethereum.nix` effectively.
+We recommend you [look at our documentation](https://nix-community.github.io/ethereum.nix/) that shows how to use Ethereum.nix effectively.
 
 Any PR improving documentation is welcome.
 
@@ -39,22 +40,21 @@ We use [`devshell`](https://github.com/numtide/devshell) to have nice developmen
 
 [Docs]
 
-  docs-build - Build docs
-  docs-serve - Serve docs
+  docs  - Build and watch for docs
 
 [Testing]
 
-  tests      - Build and run a test
+  tests - Build and run a test
 
 [Tools]
 
-  fmt        - Format the source tree
+  check - Checks the source tree
+  fmt   - Format the source tree
 
 [general commands]
 
-  menu       - prints this menu
+  menu  - prints this menu
 
-direnv: export +DEVSHELL_DIR +IN_NIX_SHELL +NIXPKGS_PATH +PRJ_DATA_DIR +PRJ_ROOT +name ~PATH ~XDG_DATA_DIRS
 ```
 
 ### Requirements
@@ -68,9 +68,9 @@ After cloning this repository and entering inside, run `direnv allow` when promp
 
 ### Docs
 
-To build the docs locally, run `docs-build`. The output will be inside of `./result`.
+To build the docs locally, run `docs build`. The output will be inside of `./result`.
 
-Run `docs-serve` to serve the docs locally (after building them previously). You can edit the docs in `./docs`.
+Run `docs serve` to serve the docs locally (after building them previously). You can edit the docs in `./docs`.
 
 ### Running tests
 

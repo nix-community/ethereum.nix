@@ -4,9 +4,8 @@ The following service modules support restoring from backups:
 
 - [Geth](./running-geth.md)
 - [Prysm Beacon](./running-prysm-beacon.md)
-- [Nethermind](./running-nethermind.md)
 
-For an overview of how to configure backups please [see here](./configuring-backups.md)
+For an overview of how to configure backups please [see here](./backup-and-restore.md)
 
 ## Basic configuration
 
@@ -35,12 +34,12 @@ Restore options are set inside the `restore` section of supporting modules.
 ### Host key checking
 
 Borg Backup uses ssh when connecting to a remote repository and as such requires an ssh private key. This key path can be provided
-via the [keyPath](../reference/module-options/geth.md#servicesethereumgethnamebackupborgkeypath) option.
+via the [keyPath](./modules/geth.md#servicesethereumgethnamebackupborgkeypath) option.
 
 When connecting to a backup host for the first time a restoration may fail if the provided host key has not been added to the
 remote machine's known host list.
 
-For testing and development purposes this check can be disabled via the [strictHostKeyChecking](../reference/module-options/geth.md#servicesethereumgethnamebackupborgstricthostkeychecking) option.
+For testing and development purposes this check can be disabled via the [strictHostKeyChecking](./modules/geth.md#servicesethereumgethnamebackupborgstricthostkeychecking) option.
 
 For production setups it is recommended to update the remote server's known host list first before any backups are scheduled.
 
@@ -71,4 +70,4 @@ There are several encryption schemes available for securing backup repositories.
 
 For an overview of the encryption schemes available please refer to the [borg backup official docs](https://borgbackup.readthedocs.io/en/stable/usage/init.html).
 
-Suitable corresponding NixOS options for configuring encryption [are available](../reference/module-options/geth.md#servicesethereumgethnamebackupborgencryptionmode).
+Suitable corresponding NixOS options for configuring encryption [are available](./modules/geth.md#servicesethereumgethnamebackupborgencryptionmode).
