@@ -10,25 +10,27 @@
       
       
       
-        <link rel="canonical" href="https://nix-community.github.io/ethereum.nix/">
+        <link rel="canonical" href="https://nix-community.github.io/ethereum.nix/nixos/running-geth/">
       
       
+        <link rel="prev" href="../installation/">
       
-        <link rel="next" href="getting-started/">
       
-      <link rel="icon" href="assets/favicon.png">
+        <link rel="next" href="../running-prysm-beacon/">
+      
+      <link rel="icon" href="../../assets/favicon.png">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.8">
     
     
       
-        <title>Ethereum.nix</title>
+        <title>Running Geth - Ethereum.nix</title>
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.ded33207.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ded33207.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.a0c5b2b5.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.a0c5b2b5.min.css">
       
       
 
@@ -44,9 +46,9 @@
       
     
     
-      <link rel="stylesheet" href="stylesheets/neoteroi-mkdocs.css">
+      <link rel="stylesheet" href="../../stylesheets/neoteroi-mkdocs.css">
     
-    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -75,7 +77,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#what-is-ethereumnix" class="md-skip">
+        <a href="#running-geth" class="md-skip">
           Skip to content
         </a>
       
@@ -91,7 +93,7 @@
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="https://nix-community.github.io/ethereum.nix" title="Ethereum.nix" class="md-header__button md-logo" aria-label="Ethereum.nix" data-md-component="logo">
       
-  <img src="assets/logo.svg" alt="logo">
+  <img src="../../assets/logo.svg" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -107,7 +109,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Home
+              Running Geth
             
           </span>
         </div>
@@ -211,12 +213,10 @@
         
   
   
-    
-  
 
 
   <li class="md-tabs__item">
-    <a href="." class="md-tabs__link md-tabs__link--active">
+    <a href="../.." class="md-tabs__link">
       Home
     </a>
   </li>
@@ -228,7 +228,7 @@
 
 
   <li class="md-tabs__item">
-    <a href="getting-started/" class="md-tabs__link">
+    <a href="../../getting-started/" class="md-tabs__link">
       Getting Started
     </a>
   </li>
@@ -240,7 +240,7 @@
 
 
   <li class="md-tabs__item">
-    <a href="apps/" class="md-tabs__link">
+    <a href="../../apps/" class="md-tabs__link">
       Apps
     </a>
   </li>
@@ -249,13 +249,15 @@
         
   
   
+    
+  
 
 
   
   
   
     <li class="md-tabs__item">
-      <a href="nixos/installation/" class="md-tabs__link">
+      <a href="../installation/" class="md-tabs__link md-tabs__link--active">
         NixOS
       </a>
     </li>
@@ -271,7 +273,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="contributing/reporting-a-bug/" class="md-tabs__link">
+      <a href="../../contributing/reporting-a-bug/" class="md-tabs__link">
         Contributing
       </a>
     </li>
@@ -287,7 +289,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="license/" class="md-tabs__link">
+      <a href="../../license/" class="md-tabs__link">
         Other
       </a>
     </li>
@@ -317,7 +319,7 @@
   <label class="md-nav__title" for="__drawer">
     <a href="https://nix-community.github.io/ethereum.nix" title="Ethereum.nix" class="md-nav__button md-logo" aria-label="Ethereum.nix" data-md-component="logo">
       
-  <img src="assets/logo.svg" alt="logo">
+  <img src="../../assets/logo.svg" alt="logo">
 
     </a>
     Ethereum.nix
@@ -343,82 +345,11 @@
 
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Home
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="." class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
         Home
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#what-is-ethereumnix" class="md-nav__link">
-    What is Ethereum.nix?
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#eager-to-use-ethereumnix" class="md-nav__link">
-    Eager to use Ethereum.nix?
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#about-the-project" class="md-nav__link">
-    About the project
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#comercial-support" class="md-nav__link">
-    Comercial Support?
-  </a>
-  
-    <nav class="md-nav" aria-label="Comercial Support?">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#numtide" class="md-nav__link">
-    Numtide
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -431,7 +362,7 @@
   
   
     <li class="md-nav__item">
-      <a href="getting-started/" class="md-nav__link">
+      <a href="../../getting-started/" class="md-nav__link">
         Getting Started
       </a>
     </li>
@@ -446,7 +377,7 @@
   
   
     <li class="md-nav__item">
-      <a href="apps/" class="md-nav__link">
+      <a href="../../apps/" class="md-nav__link">
         Apps
       </a>
     </li>
@@ -459,14 +390,16 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
       
       
       
@@ -475,7 +408,7 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_4">
           <span class="md-nav__icon md-icon"></span>
           NixOS
@@ -488,7 +421,7 @@
   
   
     <li class="md-nav__item">
-      <a href="nixos/installation/" class="md-nav__link">
+      <a href="../installation/" class="md-nav__link">
         Installation
       </a>
     </li>
@@ -500,16 +433,18 @@
               
   
   
+    
+  
   
     
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" checked>
       
       
       
@@ -518,7 +453,7 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_4_2">
           <span class="md-nav__icon md-icon"></span>
           Services
@@ -529,11 +464,73 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="nixos/running-geth/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Running Geth
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Running Geth
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    Configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#systemd-service" class="md-nav__link">
+    Systemd service
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-a-geth-fork" class="md-nav__link">
+    Using a Geth fork
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#opening-ports" class="md-nav__link">
+    Opening ports
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -545,7 +542,7 @@
   
   
     <li class="md-nav__item">
-      <a href="nixos/running-prysm-beacon/" class="md-nav__link">
+      <a href="../running-prysm-beacon/" class="md-nav__link">
         Running Prysm Beacon
       </a>
     </li>
@@ -559,7 +556,7 @@
   
   
     <li class="md-nav__item">
-      <a href="nixos/running-lighthouse-beacon/" class="md-nav__link">
+      <a href="../running-lighthouse-beacon/" class="md-nav__link">
         Running Lighthouse Beacon
       </a>
     </li>
@@ -573,7 +570,7 @@
   
   
     <li class="md-nav__item">
-      <a href="nixos/backup-and-restore/" class="md-nav__link">
+      <a href="../backup-and-restore/" class="md-nav__link">
         Backup and restore
       </a>
     </li>
@@ -623,7 +620,7 @@
   
   
     <li class="md-nav__item">
-      <a href="nixos/modules/erigon.md" class="md-nav__link">
+      <a href="../modules/erigon.md" class="md-nav__link">
         None
       </a>
     </li>
@@ -637,7 +634,7 @@
   
   
     <li class="md-nav__item">
-      <a href="nixos/modules/geth-bootnode.md" class="md-nav__link">
+      <a href="../modules/geth-bootnode.md" class="md-nav__link">
         None
       </a>
     </li>
@@ -651,7 +648,7 @@
   
   
     <li class="md-nav__item">
-      <a href="nixos/modules/geth.md" class="md-nav__link">
+      <a href="../modules/geth.md" class="md-nav__link">
         None
       </a>
     </li>
@@ -665,7 +662,7 @@
   
   
     <li class="md-nav__item">
-      <a href="nixos/modules/mev-boost.md" class="md-nav__link">
+      <a href="../modules/mev-boost.md" class="md-nav__link">
         None
       </a>
     </li>
@@ -679,7 +676,7 @@
   
   
     <li class="md-nav__item">
-      <a href="nixos/modules/nethermind.md" class="md-nav__link">
+      <a href="../modules/nethermind.md" class="md-nav__link">
         None
       </a>
     </li>
@@ -693,7 +690,7 @@
   
   
     <li class="md-nav__item">
-      <a href="nixos/modules/prysm-beacon.md" class="md-nav__link">
+      <a href="../modules/prysm-beacon.md" class="md-nav__link">
         None
       </a>
     </li>
@@ -707,7 +704,7 @@
   
   
     <li class="md-nav__item">
-      <a href="nixos/modules/prysm-validator.md" class="md-nav__link">
+      <a href="../modules/prysm-validator.md" class="md-nav__link">
         None
       </a>
     </li>
@@ -721,7 +718,7 @@
   
   
     <li class="md-nav__item">
-      <a href="nixos/modules/lighthouse-beacon.md" class="md-nav__link">
+      <a href="../modules/lighthouse-beacon.md" class="md-nav__link">
         None
       </a>
     </li>
@@ -735,7 +732,7 @@
   
   
     <li class="md-nav__item">
-      <a href="nixos/modules/lighthouse-validator.md" class="md-nav__link">
+      <a href="../modules/lighthouse-validator.md" class="md-nav__link">
         None
       </a>
     </li>
@@ -791,7 +788,7 @@
   
   
     <li class="md-nav__item">
-      <a href="contributing/reporting-a-bug/" class="md-nav__link">
+      <a href="../../contributing/reporting-a-bug/" class="md-nav__link">
         Reporting a bug
       </a>
     </li>
@@ -805,7 +802,7 @@
   
   
     <li class="md-nav__item">
-      <a href="contributing/reporting-a-docs-issue/" class="md-nav__link">
+      <a href="../../contributing/reporting-a-docs-issue/" class="md-nav__link">
         Reporting a docs issue
       </a>
     </li>
@@ -819,7 +816,7 @@
   
   
     <li class="md-nav__item">
-      <a href="contributing/reporting-a-change/" class="md-nav__link">
+      <a href="../../contributing/reporting-a-change/" class="md-nav__link">
         Requesting a change
       </a>
     </li>
@@ -882,7 +879,7 @@
   
   
     <li class="md-nav__item">
-      <a href="license/" class="md-nav__link">
+      <a href="../../license/" class="md-nav__link">
         License
       </a>
     </li>
@@ -913,6 +910,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -921,43 +920,30 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#what-is-ethereumnix" class="md-nav__link">
-    What is Ethereum.nix?
+  <a href="#configuration" class="md-nav__link">
+    Configuration
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#eager-to-use-ethereumnix" class="md-nav__link">
-    Eager to use Ethereum.nix?
+  <a href="#systemd-service" class="md-nav__link">
+    Systemd service
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#about-the-project" class="md-nav__link">
-    About the project
+  <a href="#using-a-geth-fork" class="md-nav__link">
+    Using a Geth fork
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#comercial-support" class="md-nav__link">
-    Comercial Support?
+  <a href="#opening-ports" class="md-nav__link">
+    Opening ports
   </a>
-  
-    <nav class="md-nav" aria-label="Comercial Support?">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#numtide" class="md-nav__link">
-    Numtide
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -976,7 +962,7 @@
                   
 
   
-    <a href="https://github.com/nix-community/ethereum.nix/edit/main/docs/index.md" title="Edit this page" class="md-content__button md-icon">
+    <a href="https://github.com/nix-community/ethereum.nix/edit/main/docs/nixos/running-geth.md" title="Edit this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"/></svg>
     </a>
@@ -985,127 +971,192 @@
     
       
     
-    <a href="https://github.com/nix-community/ethereum.nix/raw/main/docs/index.md" title="View source of this page" class="md-content__button md-icon">
+    <a href="https://github.com/nix-community/ethereum.nix/raw/main/docs/nixos/running-geth.md" title="View source of this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.15 8.15 0 0 1-1.23-2Z"/></svg>
     </a>
   
 
 
-  <h1>Home</h1>
-
-<p><img alt="hero-image" loading="lazy" src="assets/hero-image.jpeg" /></p>
-<h2 id="what-is-ethereumnix">What is Ethereum.nix?<a class="headerlink" href="#what-is-ethereumnix" title="Permanent link">&para;</a></h2>
-<p>Ethereum.nix is a collection of <a href="https://nixos.org">Nix</a> packages and <a href="https://nixos.wiki/wiki/NixOS_modules">NixOS</a> modules
-designed to make it easier to operate <a href="https://ethereum.org">Ethereum</a> related services and infrastructure.</p>
-<p>For the uninitiated, using Ethereum.nix will give you the following benefits:</p>
-<ul>
-<li>Access to a wide range of Ethereum applications packaged with Nix, ready to run without fuss. Nix guarantees you don't have to worry about version conflicts, missing dependencies or even what state your OS is in.</li>
-<li>We aim that every Ethereum application stored in the repository is constructed from its source, including all input dependencies. This approach guarantees the code's reproducibility and trustworthiness. Furthermore, with Nix, expert users can tweak and adjust the build process to any degree of detail as required.</li>
-<li>We develop custom NixOS modules to streamline operations with applications such as Execution and Consensus clients (including performing backups). Moreover, we aim to introduce further abstractions that simplify everyday tasks, such as running a production grade Liquid Staking deployment or even a local development environment for running consensus clients and execution clients effortlessly without needing <a href="https://www.docker.com/">Docker</a> or <a href="https://kubernetes.io/">Kubernetes</a>.</li>
-</ul>
-<p>This project is developed entirely in <a href="https://nixos.wiki/wiki/Flakes">Nix Flakes</a> (but it offers compatibility with legacy Nix thanks to <a href="https://github.com/nix-community/flake-compat"><code>flake-compat</code></a>).</p>
-<h2 id="eager-to-use-ethereumnix">Eager to use Ethereum.nix?<a class="headerlink" href="#eager-to-use-ethereumnix" title="Permanent link">&para;</a></h2>
-<div class="nt-cards nt-grid cols-2">
-<div class="nt-card">
-<div class="nt-card-wrap">
-<div>
-<div class="nt-card-content">
-<p class="nt-card-title"><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 9h-2V7h2m0 10h-2v-6h2m-1-9A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2Z"/></svg></span> New to Ethereum.nix and Nix?</p>
-<p class="nt-card-text"><br/>
-Get started by installing Nix on your system and how to use it with Ethereum.nix
-<br/>
-<br/>
-<a class="md-button" href="getting-started/">Getting Started <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"/></svg></span></a>
-</p>
-</div>
-</div>
-</div>
-</div>
-<div class="nt-card">
-<div class="nt-card-wrap">
-<div>
-<div class="nt-card-content">
-<p class="nt-card-title"><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2m2 4v2h2V7H7m4 0v2h2V7h-2m4 0v2h2V7h-2m-8 4v2h2v-2H7m4 0v2h2v-2h-2m4 0v2h2v-2h-2m-8 4v2h2v-2H7m4 0v2h2v-2h-2m4 0v2h2v-2h-2Z"/></svg></span> Want to use an application now?</p>
-<p class="nt-card-text"><br />
-See our list of supported applications ready to be used in seconds.
-<br />
-<br />
-<a class="md-button" href="apps/">See supported Applications <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"/></svg></span></a>
-</p>
-</div>
-</div>
-</div>
-</div>
-<div class="nt-card">
-<div class="nt-card-wrap">
-<div>
-<div class="nt-card-content">
-<p class="nt-card-title"><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m7.352 1.592-1.364.002L5.32 2.75l1.557 2.713-3.137-.008-1.32 2.34h11.69l-1.353-2.332-3.192-.006-2.214-3.865zm6.175 0-2.687.025 5.846 10.127 1.341-2.34-1.59-2.765 2.24-3.85-.683-1.182h-1.336l-1.57 2.705-1.56-2.72zm6.887 4.195-5.846 10.125 2.696-.008 1.601-2.76 4.453.016.682-1.183-.666-1.157-3.13-.008L21.778 8.1l-1.365-2.313zM9.432 8.086l-2.696.008-1.601 2.76-4.453-.016L0 12.02l.666 1.157 3.13.008-1.575 2.71 1.365 2.315L9.432 8.086zM7.33 12.25l-.006.01-.002-.004-1.342 2.34 1.59 2.765-2.24 3.85.684 1.182H7.35l.004-.006h.001l1.567-2.698 1.558 2.72 2.688-.026-.004-.006h.01L7.33 12.25zm2.55 3.93 1.354 2.332 3.192.006 2.215 3.865 1.363-.002.668-1.156-1.557-2.713 3.137.008 1.32-2.34H9.881Z"/></svg></span> Want to run Ethereum services on NixOS?</p>
-<p class="nt-card-text"><br />
-Run Ethereum services easily with our supported NixOS modules.
-<br />
-<br />
-<a class="md-button" href="nixos/installation/">Run Ethereum services on NixOS <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"/></svg></span></a>
-</p>
-</div>
-</div>
-</div>
-</div>
-<div class="nt-card">
-<div class="nt-card-wrap">
-<div>
-<div class="nt-card-content">
-<p class="nt-card-title"><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 3C6.5 3 2 6.6 2 11c0 2.1 1 4.1 2.8 5.5 0 .6-.4 2.2-2.8 4.5 0 0 3.5 0 6.5-2.5 1.1.3 2.3.5 3.5.5 5.5 0 10-3.6 10-8s-4.5-8-10-8m1 12h-2v-2h2v2m1.8-5c-.3.4-.7.6-1.1.8-.3.2-.4.3-.5.5-.2.2-.2.4-.2.7h-2c0-.5.1-.8.3-1.1.2-.2.6-.5 1.1-.8.3-.1.5-.3.6-.5.1-.2.2-.5.2-.7 0-.3-.1-.5-.3-.7-.2-.2-.5-.3-.8-.3-.3 0-.5.1-.7.2-.2.1-.3.3-.3.6h-2c.1-.7.4-1.3.9-1.7.5-.4 1.2-.5 2.1-.5.9 0 1.7.2 2.2.6.5.4.8 1 .8 1.7.1.4 0 .8-.3 1.2Z"/></svg></span> Have a question or need help?</p>
-<p class="nt-card-text"><br />
-Ask questions on our discussion board and get in touch with our community.
-<br />
-<br />
-<a class="md-button" href="https://github.com/nix-community/ethereum.nix/discussions">Ask a question <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"/></svg></span></a></p>
-</div>
-</div>
-</div>
-</div>
-</div>
-<h2 id="about-the-project">About the project<a class="headerlink" href="#about-the-project" title="Permanent link">&para;</a></h2>
-<p>In the beginning Ethereum.nix was a playground for <a href="https://aldoborrero.com/">Aldo Borrero</a> to experiment with <em>nix'ifying</em>
-Ethereum related processes. Since then, the project got accepted by the <a href="https://github.com/nix-community">Nix Community incubator program</a>
-and it has a grown into an ever-increasing number of packages and modules targeted towards streamlining day-to-day operations across a variety of different projects.</p>
-<div class="nt-cards nt-grid cols-3">
-<div class="nt-card"><a href="https://github.com/aldoborrero"><div><div class="nt-card-image tags"><img src="https://avatars.githubusercontent.com/u/82811?v=4" /></div><div class="nt-card-content"><p class="nt-card-title">Aldo Borrero</p><p class="nt-card-text">Creator of Ethereum.nix
-<br/>
-<br/>
-Full Stack freak! Blockchain passionate!
-</p></div></div></a></div>
-<div class="nt-card"><a href="https://github.com/brianmcgee"><div><div class="nt-card-image tags"><img src="https://avatars.githubusercontent.com/u/1173648?v=4" /></div><div class="nt-card-content"><p class="nt-card-title">Brian McGee</p><p class="nt-card-text">Maintainer of Ethereum.nix
-<br/>
-<br/>
-Writer of software • Lover of craft beer
-</p></div></div></a></div>
-<div class="nt-card"><a href="https://github.com/selfuryon"><div><div class="nt-card-image tags"><img src="https://avatars.githubusercontent.com/u/2993917?v=4" /></div><div class="nt-card-content"><p class="nt-card-title">Sergey Yakovlev</p><p class="nt-card-text">Maintainer of Ethereum.nix
-<br/>
-<br/>
-Love Nix, Rust, Ethereum | SRE
-</p></div></div></a></div>
-</div>
-<h2 id="comercial-support">Comercial Support?<a class="headerlink" href="#comercial-support" title="Permanent link">&para;</a></h2>
-<p>Are you seeking to use Ethereum.nix effectively within your organization for Blockchain related projects?</p>
-<p>Below you can see the list of companies that offers support to Ethereum.nix, Nix and NixOS ecosystem:</p>
-<h3 id="numtide">Numtide<a class="headerlink" href="#numtide" title="Permanent link">&para;</a></h3>
-<p><img alt="Numtide logo" src="https://codahosted.io/docs/6FCIMTRM0p/blobs/bl-sgSunaXYWX/077f3f9d7d76d6a228a937afa0658292584dedb5b852a8ca370b6c61dabb7872b7f617e603f1793928dc5410c74b3e77af21a89e435fa71a681a868d21fd1f599dd10a647dd855e14043979f1df7956f67c3260c0442e24b34662307204b83ea34de929d" /></p>
-<p><a href="https://numtide.com">Numtide</a> is a team of independent freelancers that love open source.
-We help our customers make their project lifecycles more efficient by:</p>
-<ul>
-<li>Providing and supporting useful tools such as this one.</li>
-<li>Building and deploying infrastructure, and offering dedicated DevOps support.</li>
-<li>Building their in-house Nix skills, and integrating Nix with their workflows.</li>
-<li>Developing additional features and tools.</li>
-<li>Carrying out custom research and development.</li>
-<li>In the case of Blockchain building resilient systems and infrastructure to MEV services.</li>
-</ul>
-<p><a href="https://numtide.com/contact">Contact us</a> if you have a project in mind, or if
-you need help with any of our supported tools, including this one. We'd love to
-hear from you.</p>
+<h1 id="running-geth">Running Geth<a class="headerlink" href="#running-geth" title="Permanent link">&para;</a></h1>
+<p>One or more <a href="https://github.com/ethereum/go-ethereum">Geth</a> services can be configured with the <code>services.ethereum.geth</code> prefix.</p>
+<div class="language-nix highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">server.nix</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-0-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-0-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-0-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-0-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-0-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-0-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-0-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-0-10">10</a></span>
+<span class="normal"><a href="#__codelineno-0-11">11</a></span>
+<span class="normal"><a href="#__codelineno-0-12">12</a></span>
+<span class="normal"><a href="#__codelineno-0-13">13</a></span>
+<span class="normal"><a href="#__codelineno-0-14">14</a></span>
+<span class="normal"><a href="#__codelineno-0-15">15</a></span>
+<span class="normal"><a href="#__codelineno-0-16">16</a></span>
+<span class="normal"><a href="#__codelineno-0-17">17</a></span>
+<span class="normal"><a href="#__codelineno-0-18">18</a></span>
+<span class="normal"><a href="#__codelineno-0-19">19</a></span>
+<span class="normal"><a href="#__codelineno-0-20">20</a></span>
+<span class="normal"><a href="#__codelineno-0-21">21</a></span>
+<span class="normal"><a href="#__codelineno-0-22">22</a></span>
+<span class="normal"><a href="#__codelineno-0-23">23</a></span>
+<span class="normal"><a href="#__codelineno-0-24">24</a></span>
+<span class="normal"><a href="#__codelineno-0-25">25</a></span>
+<span class="normal"><a href="#__codelineno-0-26">26</a></span>
+<span class="normal"><a href="#__codelineno-0-27">27</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="p">{</span> pkgs<span class="p">,</span> <span class="o">...</span><span class="p">}:</span> <span class="p">{</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>  services<span class="o">.</span>ethereum<span class="o">.</span>geth<span class="o">.</span><span class="ss">sepolia =</span> <span class="p">{</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a>    <span class="ss">enable =</span> <span class="no">true</span><span class="p">;</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a>    <span class="ss">package =</span> pkgs<span class="o">.</span>geth<span class="p">;</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a>    <span class="ss">openFirewall =</span> <span class="no">true</span><span class="p">;</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a>    <span class="ss">args =</span> <span class="p">{</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7"></a>      <span class="ss">syncmode =</span> <span class="s2">&quot;full&quot;</span><span class="p">;</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8"></a>      <span class="ss">network =</span> <span class="s2">&quot;sepolia&quot;</span><span class="p">;</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9"></a>      <span class="ss">http =</span> <span class="p">{</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10"></a>        <span class="ss">enable =</span> <span class="no">true</span><span class="p">;</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11"></a>        <span class="ss">addr =</span> <span class="s2">&quot;0.0.0.0&quot;</span><span class="p">;</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12"></a>        <span class="ss">vhosts =</span> <span class="p">[</span><span class="s2">&quot;localhost&quot;</span> <span class="s2">&quot;phoebe&quot;</span><span class="p">];</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13"></a>        <span class="ss">api =</span> <span class="p">[</span><span class="s2">&quot;net&quot;</span> <span class="s2">&quot;web3&quot;</span> <span class="s2">&quot;eth&quot;</span><span class="p">];</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14"></a>      <span class="p">};</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15"></a>      authrpc<span class="o">.</span><span class="ss">jwtsecret =</span> sops<span class="o">.</span>secrets<span class="o">.</span>geth_jwt_secret<span class="o">.</span>path<span class="p">;</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16"></a>    <span class="p">};</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17"></a>    <span class="ss">extraArgs =</span> <span class="p">[</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a>      <span class="s2">&quot;--bootnodes&quot;</span>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a>      <span class="s2">&quot;enode://8ae4559db1b1e160be8cc46018d7db123ed6d03fbbfe481da5ec05f71f0aa4d5f4b02ad059127096aa994568706a0d02933984083b87c5e1e3de2b7692444d37@35.161.233.158:46855,enode://d0b3b290422f35ec3e68356f3a4cdf9c661f71a868110670e31441a5021d7abd0440ae8dfb9360aafdd0198f177863361e3a7a7eb5e1a3e26575bf1ac3ef4ab3@162.19.136.65:48264,enode://d64624bda3cdb65d542c90757a4a661cfe9dddf8328bdb1ea97a8d70fad287c360f0101c492d8fd6ab30d79160a3bf148cacfd68f5d2e47eab0b709516419304@51.195.63.10:30040,enode://c7df835939e027325c6bba926220fae5912a33c83d96b3eef8ef445c98083f3191788581c9a0e8f74cadb0b13229b847f5c1ebd315b22bcf11faf6468020eb48@54.163.51.157:30303,enode://da0609bad3afcab9b93175a41a2d621d07aa7ff6c134a00792d4541f0ce8d30d8f3c51bb37a47573508a0bf18865b04066af2a661edf1d3a3d8d133fc1031aa0@88.151.101.14:45192,enode://7a4534d392c59369eae6befa56ac670476d9edc16597cf53c92bbefa6e741b6b0b9e6822cab12afb09123e03ca1131026fbef145adec429fe2e50182dfb650a5@94.130.18.108:31312,enode://db6fa13b63a885440de581ee3fc8df9c6a590326b39fc5ccba7991707ee0cebac306211f7eca5270a350201a3132511f2338481edd81f3dc819c2a1c60419cf2@65.21.89.157:30303,enode://fcf03e9404cace34c60e4eed374ef9a779471014319b3346352fbc2f992a399af6517486e8e65a4ab55f4645fe55420bbea1cddc13a4af4df63b0f731915c6a6@13.125.238.49:46173,enode://8b973816278fdd56966709e4794c7ccce1f256eaa9165a6b013b991a9bdf3886a8f2d23af50ee723a5614a9fe9d197252b803b4455a87ab2468e128f7b06e0ca@172.104.107.145:30303,enode://5a1fb15f826a213d3ef4adb9be47ab58b2240ea05df0d760a244f04762b0847dcb08276b1284f726c22eea30fce0c601cf121b81bac0c151f1b3b4ad00d1482a@34.159.55.147:51262,enode://560928dd14819f88113586726e452b16bbc694ed4144ddadd6290053e7f3fc66bfad13add6889f7d8f37e0c21ccbb6948eb8899c8b30743f4b45a3081f1efed8@34.138.254.5:29888,enode://69a13b575b8c5278431409e9f7db36e7218667ae286bfb65a72dfec9201b2c5bbbe2797a1babbdf17a7bf7ca68fa3fbe1554612637eb1b2425fa975e1bccb54c@35.223.41.3:30303,enode://66158b31eecff939f220b291d2b448edbfe94f1d4c992d9395b5d476e55e54b5abd11d3ee44daf1e18ee27b910ef99cdf6f19775eb4820ebe4f77d7aa948e3b6@51.195.63.10:55198,enode://bf94acbd51170bf075cacb9f149b21ff46354d659ab434a0d40688f776e1e1556bc62be2dc2867ba513844268c0dc8240099a6b60efe1713fbc25da7fdeb6ff1@3.82.105.139:30303,enode://41329e5ceb51cdddbe6a475db00b682505768b71ff8ee37d2d3500ca1b78918f9fad57d6006dd9f79cd418437dbcf87ec2fd58d60710f925cb17da05a51197cf@65.21.34.60:30303&quot;</span>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a>    <span class="p">];</span>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a>  <span class="p">};</span>
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a>  services<span class="o">.</span>ethereum<span class="o">.</span>geth<span class="o">.</span><span class="ss">goerli =</span> <span class="p">{</span>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a>    <span class="ss">enable =</span> <span class="no">true</span><span class="p">;</span>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a>    <span class="o">...</span>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a>  <span class="p">};</span>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="p">}</span>
+</span></code></pre></div></td></tr></table></div>
+<p><strong>Note:</strong> It is recommended to use an attribute name that matches the network that Geth is configured for.</p>
+<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
+<p>Many of Geth's process arguments have been mapped to NixOS types and can be provided via the <code>args</code> section of the config.
+For a detailed list please refer to the <a href="./modules/geth.md">NixOS Options</a> reference.</p>
+<p>Additional arguments can be provided in a list directly to the Geth process via the <code>extraArgs</code> attribute as shown above.</p>
+<h2 id="systemd-service">Systemd service<a class="headerlink" href="#systemd-service" title="Permanent link">&para;</a></h2>
+<p>For each instance that is configured a corresponding <a href="https://systemd.io/">Systemd</a> service is created. The service name
+follows a convention of <code>geth-${name}.service</code>.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Config</th>
+<th style="text-align: left;">Name</th>
+<th style="text-align: left;">Service name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>services.ethereum.geth.sepolia</code></td>
+<td style="text-align: left;">sepolia</td>
+<td style="text-align: left;"><code>geth-sepolia.service</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>services.ethereum.geth.goerli</code></td>
+<td style="text-align: left;">goerli</td>
+<td style="text-align: left;"><code>geth-goerli.service</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>services.ethereum.geth.mainnet</code></td>
+<td style="text-align: left;">mainnet</td>
+<td style="text-align: left;"><code>geth-mainnet.service</code></td>
+</tr>
+</tbody>
+</table>
+<p>The service that is created can then be introspected and managed via the standard Systemd toolset.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Action</th>
+<th style="text-align: left;">Command</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Status</td>
+<td style="text-align: left;"><code>systemctl status geth-sepolia.service</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Stop</td>
+<td style="text-align: left;"><code>systemctl stop geth-sepolia.service</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Start</td>
+<td style="text-align: left;"><code>systemctl start geth-sepolia.service</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Restart</td>
+<td style="text-align: left;"><code>systemctl restart geth-sepolia.service</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Logs</td>
+<td style="text-align: left;"><code>journalctl -xefu geth-sepolia.service</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="using-a-geth-fork">Using a Geth fork<a class="headerlink" href="#using-a-geth-fork" title="Permanent link">&para;</a></h2>
+<p>A different version of Geth can be configured via the <a href="./modules/geth.md#servicesethereumgethnamepackage">package</a> option.</p>
+<p>To configure <a href="https://github.com/manifoldfinance/geth-sealer">Geth Sealer</a> for example:</p>
+<div class="language-nix highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">server.nix</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
+<span class="normal"><a href="#__codelineno-1-2">2</a></span>
+<span class="normal"><a href="#__codelineno-1-3">3</a></span>
+<span class="normal"><a href="#__codelineno-1-4">4</a></span>
+<span class="normal"><a href="#__codelineno-1-5">5</a></span>
+<span class="normal"><a href="#__codelineno-1-6">6</a></span>
+<span class="normal"><a href="#__codelineno-1-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="p">{</span> pkgs<span class="p">,</span> <span class="o">...</span><span class="p">}:</span> <span class="p">{</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a>  services<span class="o">.</span>ethereum<span class="o">.</span>geth<span class="o">.</span><span class="ss">sepolia =</span> <span class="p">{</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a>    <span class="ss">enable =</span> <span class="no">true</span><span class="p">;</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4"></a>    <span class="ss">package =</span> pkgs<span class="o">.</span>geth-sealer<span class="p">;</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5"></a>    <span class="o">...</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6"></a>  <span class="p">};</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="p">}</span>
+</span></code></pre></div></td></tr></table></div>
+<h2 id="opening-ports">Opening ports<a class="headerlink" href="#opening-ports" title="Permanent link">&para;</a></h2>
+<p>By default, <a href="./modules/geth.md#servicesethereumgethnameopenfirewall">openFirewall</a> is set to <code>false</code>.
+If set to <code>true</code>, firewall rules are added which will expose the following ports:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Protocol</th>
+<th style="text-align: left;">Config</th>
+<th style="text-align: left;">Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">TCP, UDP</td>
+<td style="text-align: left;"><a href="./modules/geth.md#servicesethereumgethnameargsport">port</a></td>
+<td style="text-align: left;">30303</td>
+</tr>
+<tr>
+<td style="text-align: left;">TCP</td>
+<td style="text-align: left;"><a href="./modules/geth.md#servicesethereumgethnameargsauthrpcport">authrpc.port</a></td>
+<td style="text-align: left;">8551</td>
+</tr>
+<tr>
+<td style="text-align: left;">TCP</td>
+<td style="text-align: left;"><a href="./modules/geth.md#servicesethereumgethnameargshttpport">http.port</a></td>
+<td style="text-align: left;">8545</td>
+</tr>
+<tr>
+<td style="text-align: left;">TCP</td>
+<td style="text-align: left;"><a href="./modules/geth.md#servicesethereumgethnameargswsport">ws.port</a></td>
+<td style="text-align: left;">8546</td>
+</tr>
+<tr>
+<td style="text-align: left;">TCP</td>
+<td style="text-align: left;"><a href="./modules/geth.md#servicesethereumgethnameargsmetricsport">metrics.port</a></td>
+<td style="text-align: left;">6060</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Note:</strong> it is important when running multiple instances of Geth on the same machine that you ensure they are configured
+with different ports.</p>
 
 
 
@@ -1133,15 +1184,30 @@ hear from you.</p>
       
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
+          
+          <a href="../installation/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Installation" rel="prev">
+            <div class="md-footer__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Installation
+              </div>
+            </div>
+          </a>
+        
         
           
-          <a href="getting-started/" class="md-footer__link md-footer__link--next" aria-label="Next: Getting Started" rel="next">
+          <a href="../running-prysm-beacon/" class="md-footer__link md-footer__link--next" aria-label="Next: Running Prysm Beacon" rel="next">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Getting Started
+                Running Prysm Beacon
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -1184,10 +1250,10 @@ hear from you.</p>
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": ".", "features": ["content.action.edit", "content.action.view", "content.code.annotate", "content.code.copy", "content.tabs.link", "content.tooltips", "navigation.footer", "navigation.instant", "navigation.sections", "navigation.tabs", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.follow"], "search": "assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.action.edit", "content.action.view", "content.code.annotate", "content.code.copy", "content.tabs.link", "content.tooltips", "navigation.footer", "navigation.instant", "navigation.sections", "navigation.tabs", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.follow"], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="assets/javascripts/bundle.51198bba.min.js"></script>
+      <script src="../../assets/javascripts/bundle.51198bba.min.js"></script>
       
     
   </body>
