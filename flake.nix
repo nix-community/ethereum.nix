@@ -135,16 +135,17 @@
           programs = {
             alejandra.enable = true;
             deadnix.enable = true;
-            deno.enable = true;
+            deno.enable = false;
             mdformat.enable = true;
             statix.enable = true;
           };
           settings.formatter = {
-            deno.command = lib.mkDefault pkgs.deno; # current deno from unstable don't work on darwin x86
-            deno.excludes = [
-              "*.md"
-              "*.html"
-            ];
+            # TODO: Re-enable deno whenever works again on x86_64-darwin
+            # deno.command = lib.mkDefault pkgs.deno; # current deno from unstable don't work on darwin x86
+            # deno.excludes = [
+            #   "*.md"
+            #   "*.html"
+            # ];
             mdformat.command = lib.mkDefault (with pkgsUnstable.python3Packages;
               mdformat.withPlugins [
                 mdformat-admon
