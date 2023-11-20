@@ -1,16 +1,16 @@
-name: "Update Flake Packages ❄️"
+name: "Update Nix Flake Packages"
 on:
   workflow_dispatch:
   schedule:
     - cron: "0 10 * * *" # https://crontab.guru/#0_10_*_*_*
 jobs:
-  updateFlakePackages:
+  update:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Install Nix
-        uses: cachix/install-nix-action@v20
+        uses: cachix/install-nix-action@v23
       - name: Update flake packages
         id: update
         uses: selfuryon/nix-update-action@v1.0.0
@@ -26,5 +26,6 @@ jobs:
           pr-labels: |
             dependencies
             automated
+            auto-merge
       - name: Print PR number
         run: echo Pull request number is ${{ steps.update.outputs.pull-request-number }}.

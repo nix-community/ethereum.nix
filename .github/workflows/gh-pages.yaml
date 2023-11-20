@@ -1,10 +1,10 @@
-name: "Deploy content to Pages"
+name: "Deploy MkDocs to GitHub Pages"
 on:
   push:
     branches:
       - main
 jobs:
-  deployGitHubPages:
+  deploy:
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
     permissions:
@@ -12,14 +12,14 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Install Nix
-        uses: cachix/install-nix-action@v20
+        uses: cachix/install-nix-action@v23
       - name: Build GitHub Pages
         id: build
         run: |
           nix build .#docs
-          echo "result=$(readlink ./result)" >> $GITHUB_OUTPUT
+          echo "result=$(readlink -f ./result)" >> $GITHUB_OUTPUT
       - name: Deploy Github Pages
         if: ${{ github.ref == 'refs/heads/main' }}
         uses: peaceiris/actions-gh-pages@v3

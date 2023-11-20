@@ -1,10 +1,10 @@
-name: "Update Flake Inputs ️❄️"
+name: "Update Nix Flake Inputs"
 on:
   workflow_dispatch:
   schedule:
     - cron: "0 10 * * 0" # https://crontab.guru/#0_10_*_*_0
 jobs:
-  updateFlakeInputs:
+  update:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -24,5 +24,6 @@ jobs:
           pr-labels: |
             dependencies
             automated
+            auto-merge
       - name: Print PR number
         run: echo Pull request number is ${{ steps.update.outputs.pull-request-number }}.
