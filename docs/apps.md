@@ -88,6 +88,15 @@ Maximal extractable value (MEV) refers to the maximum value that can be extracte
 | [mev-boost-relay](https://github.com/flashbots/mev-boost-relay) | `nix run .#mev-boost-relay`   |
 | [mev-rs](https://github.com/ralexstokes/mev-rs)                 | `nix run .#mev`               |
 
+## Solidity
+
+Solidity is the most widely used programming language for the EVM. Below you can find tools related to this language:
+
+| App                                              | Command            |
+| ------------------------------------------------ | ------------------ |
+| [Slither](https://github.com/crytic/slither)     | `nix run .#sliter` |
+| [Wake](https://github.com/Ackee-Blockchain/wake) | `nix run .#wake`   |
+
 ## Signers
 
 | App                                                   | Command            |
