@@ -52,14 +52,18 @@
         buildInput = [nixosMarkdownDocs];
         nativeBuildInputs = [mkdocs-custom];
 
+        preBuild = ''
+          # create link to nixos markdown options reference
+          mkdir -p ${docsPath}
+          ln -sf ${nixosMarkdownDocs}/* ${docsPath}/
+        '';
+
         buildPhase = ''
+          runHook preBuild
           mkdocs build
         '';
 
         installPhase = ''
-          # create link to nixos markdown options reference
-          mkdir -p ${docsPath}
-          ln -sf ${nixosMarkdownDocs}/* ${docsPath}/
           mv site $out
         '';
 
