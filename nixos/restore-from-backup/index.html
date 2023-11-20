@@ -548,8 +548,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../modules/erigon.md" class="md-nav__link">
-        None
+      <a href="../modules/erigon/" class="md-nav__link">
+        Erigon
       </a>
     </li>
   
@@ -562,8 +562,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../modules/geth-bootnode.md" class="md-nav__link">
-        None
+      <a href="../modules/geth-bootnode/" class="md-nav__link">
+        Geth bootnode
       </a>
     </li>
   
@@ -576,8 +576,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../modules/geth.md" class="md-nav__link">
-        None
+      <a href="../modules/geth/" class="md-nav__link">
+        Geth
       </a>
     </li>
   
@@ -590,8 +590,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../modules/mev-boost.md" class="md-nav__link">
-        None
+      <a href="../modules/mev-boost/" class="md-nav__link">
+        Mev boost
       </a>
     </li>
   
@@ -604,8 +604,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../modules/nethermind.md" class="md-nav__link">
-        None
+      <a href="../modules/nethermind/" class="md-nav__link">
+        Nethermind
       </a>
     </li>
   
@@ -618,8 +618,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../modules/prysm-beacon.md" class="md-nav__link">
-        None
+      <a href="../modules/prysm-beacon/" class="md-nav__link">
+        Prysm beacon
       </a>
     </li>
   
@@ -632,8 +632,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../modules/prysm-validator.md" class="md-nav__link">
-        None
+      <a href="../modules/prysm-validator/" class="md-nav__link">
+        Prysm validator
       </a>
     </li>
   
@@ -646,8 +646,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../modules/lighthouse-beacon.md" class="md-nav__link">
-        None
+      <a href="../modules/lighthouse-beacon/" class="md-nav__link">
+        Lighthouse beacon
       </a>
     </li>
   
@@ -660,8 +660,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../modules/lighthouse-validator.md" class="md-nav__link">
-        None
+      <a href="../modules/lighthouse-validator/" class="md-nav__link">
+        Lighthouse validator
       </a>
     </li>
   
@@ -954,10 +954,10 @@
 <h2 id="borg-backup">Borg Backup<a class="headerlink" href="#borg-backup" title="Permanent link">&para;</a></h2>
 <h3 id="host-key-checking">Host key checking<a class="headerlink" href="#host-key-checking" title="Permanent link">&para;</a></h3>
 <p>Borg Backup uses ssh when connecting to a remote repository and as such requires an ssh private key. This key path can be provided
-via the <a href="./modules/geth.md#servicesethereumgethnamebackupborgkeypath">keyPath</a> option.</p>
+via the <a href="../modules/geth/#servicesethereumgethnamebackupborgkeypath">keyPath</a> option.</p>
 <p>When connecting to a backup host for the first time a restoration may fail if the provided host key has not been added to the
 remote machine's known host list.</p>
-<p>For testing and development purposes this check can be disabled via the <a href="./modules/geth.md#servicesethereumgethnamebackupborgstricthostkeychecking">strictHostKeyChecking</a> option.</p>
+<p>For testing and development purposes this check can be disabled via the <a href="../modules/geth/#servicesethereumgethnamebackupborgstricthostkeychecking">strictHostKeyChecking</a> option.</p>
 <p>For production setups it is recommended to update the remote server's known host list first before any backups are scheduled.</p>
 <div class="language-nix highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">server.nix</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-1-2"> 2</a></span>
@@ -995,7 +995,7 @@ remote machine's known host list.</p>
 <p>There are several encryption schemes available for securing backup repositories.</p>
 <p>**Note: ** The encryption mode can only be configured when creating a new repository - you can neither configure it on a per-archive basis nor change the encryption mode of an existing repository.</p>
 <p>For an overview of the encryption schemes available please refer to the <a href="https://borgbackup.readthedocs.io/en/stable/usage/init.html">borg backup official docs</a>.</p>
-<p>Suitable corresponding NixOS options for configuring encryption <a href="./modules/geth.md#servicesethereumgethnamebackupborgencryptionmode">are available</a>.</p>
+<p>Suitable corresponding NixOS options for configuring encryption <a href="../modules/geth/#servicesethereumgethnamebackupborgencryptionmode">are available</a>.</p>
 
 
 

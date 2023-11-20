@@ -16,7 +16,7 @@
         <link rel="prev" href="../running-lighthouse-beacon/">
       
       
-        <link rel="next" href="../../contributing/reporting-a-bug/">
+        <link rel="next" href="../modules/erigon/">
       
       <link rel="icon" href="../../assets/favicon.png">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.8">
@@ -626,8 +626,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../modules/erigon.md" class="md-nav__link">
-        None
+      <a href="../modules/erigon/" class="md-nav__link">
+        Erigon
       </a>
     </li>
   
@@ -640,8 +640,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../modules/geth-bootnode.md" class="md-nav__link">
-        None
+      <a href="../modules/geth-bootnode/" class="md-nav__link">
+        Geth bootnode
       </a>
     </li>
   
@@ -654,8 +654,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../modules/geth.md" class="md-nav__link">
-        None
+      <a href="../modules/geth/" class="md-nav__link">
+        Geth
       </a>
     </li>
   
@@ -668,8 +668,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../modules/mev-boost.md" class="md-nav__link">
-        None
+      <a href="../modules/mev-boost/" class="md-nav__link">
+        Mev boost
       </a>
     </li>
   
@@ -682,8 +682,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../modules/nethermind.md" class="md-nav__link">
-        None
+      <a href="../modules/nethermind/" class="md-nav__link">
+        Nethermind
       </a>
     </li>
   
@@ -696,8 +696,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../modules/prysm-beacon.md" class="md-nav__link">
-        None
+      <a href="../modules/prysm-beacon/" class="md-nav__link">
+        Prysm beacon
       </a>
     </li>
   
@@ -710,8 +710,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../modules/prysm-validator.md" class="md-nav__link">
-        None
+      <a href="../modules/prysm-validator/" class="md-nav__link">
+        Prysm validator
       </a>
     </li>
   
@@ -724,8 +724,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../modules/lighthouse-beacon.md" class="md-nav__link">
-        None
+      <a href="../modules/lighthouse-beacon/" class="md-nav__link">
+        Lighthouse beacon
       </a>
     </li>
   
@@ -738,8 +738,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../modules/lighthouse-validator.md" class="md-nav__link">
-        None
+      <a href="../modules/lighthouse-validator/" class="md-nav__link">
+        Lighthouse validator
       </a>
     </li>
   
@@ -1043,7 +1043,7 @@
 </span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13"></a>  <span class="p">};</span>
 </span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="p">}</span>
 </span></code></pre></div></td></tr></table></div>
-<p>By default, backups are scheduled daily. This can be modified through the <a href="./modules/geth.md#servicesethereumgethnamebackupschedule">schedule</a> option which follows the same format as <a href="https://manpages.org/systemdtime/7">systemd.time</a>.</p>
+<p>By default, backups are scheduled daily. This can be modified through the <a href="../modules/geth/#servicesethereumgethnamebackupschedule">schedule</a> option which follows the same format as <a href="https://manpages.org/systemdtime/7">systemd.time</a>.</p>
 <p>To access a Restic repository, a password (also called a key) must be specified. This can be done via <code>restic.passwordFile</code>.</p>
 <p>And since Restic can be configured with a wide variety of storage providers, an environment file can be provided to accommodate their configuration.
 When using an <a href="https://aws.amazon.com/s3/">Amazon S3</a> backend for example the environment file might look like this:</p>
@@ -1053,15 +1053,15 @@ When using an <a href="https://aws.amazon.com/s3/">Amazon S3</a> backend for exa
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a>AWS_ACCESS_KEY_ID=my_access_key
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a>AWS_SECRET_ACCESS_KEY=my_secret_key
 </span></code></pre></div></td></tr></table></div>
-<p>For a detailed list of options please <a href="./modules/geth.md#servicesethereumgethnamebackupenable">see here</a>.</p>
+<p>For a detailed list of options please <a href="../modules/geth/#servicesethereumgethnamebackupenable">see here</a>.</p>
 <h3 id="systemd-services">Systemd services<a class="headerlink" href="#systemd-services" title="Permanent link">&para;</a></h3>
 <p>When backups are enabled several new Systemd services and timers will be introduced to facilitate the backup process.</p>
 <p>For an instance of Geth named <code>sepolia</code> for example, the following services will be added:</p>
 <ul>
 <li><code>geth-sepolia-metadata.service</code> which captures metadata such as chain height and persists it in the state directory.</li>
-<li><code>geth-sepolia-metadata.timer</code> which triggers the metadata service every 10 seconds by default. This interval is configurable via <a href="./modules/geth.md#servicesethereumgethnamebackupmetadatainterval">metadata.interval</a>.</li>
+<li><code>geth-sepolia-metadata.timer</code> which triggers the metadata service every 10 seconds by default. This interval is configurable via <a href="../modules/geth/#servicesethereumgethnamebackupmetadatainterval">metadata.interval</a>.</li>
 <li><code>geth-sepolia-backup.service</code> which is responsible for stopping <code>geth-sepolia.service</code>, backing up its state directory, and restarting it.</li>
-<li><code>geth-sepolia-backup.timer</code> which triggers the backup service once daily by default. This schedule is configurable via <a href="./modules/geth.md#servicesethereumgethnamebackupschedule">backup.schedule</a>.</li>
+<li><code>geth-sepolia-backup.timer</code> which triggers the backup service once daily by default. This schedule is configurable via <a href="../modules/geth/#servicesethereumgethnamebackupschedule">backup.schedule</a>.</li>
 </ul>
 <h2 id="restoring-from-backup">Restoring from backup<a class="headerlink" href="#restoring-from-backup" title="Permanent link">&para;</a></h2>
 <p>Restore options are set inside the <code>restore</code> section of supporting modules and share many of the same config options as
@@ -1179,13 +1179,13 @@ presence of any files will cause the restoration attempt to be aborted.</p>
         
         
           
-          <a href="../../contributing/reporting-a-bug/" class="md-footer__link md-footer__link--next" aria-label="Next: Reporting a bug" rel="next">
+          <a href="../modules/erigon/" class="md-footer__link md-footer__link--next" aria-label="Next: Erigon" rel="next">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Reporting a bug
+                Erigon
               </div>
             </div>
             <div class="md-footer__button md-icon">

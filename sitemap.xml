@@ -65,4 +65,49 @@
          <lastmod>1980-01-01</lastmod>
          <changefreq>daily</changefreq>
     </url>
+    <url>
+         <loc>https://nix-community.github.io/ethereum.nix/nixos/modules/erigon/</loc>
+         <lastmod>1980-01-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://nix-community.github.io/ethereum.nix/nixos/modules/geth-bootnode/</loc>
+         <lastmod>1980-01-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://nix-community.github.io/ethereum.nix/nixos/modules/geth/</loc>
+         <lastmod>1980-01-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://nix-community.github.io/ethereum.nix/nixos/modules/lighthouse-beacon/</loc>
+         <lastmod>1980-01-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://nix-community.github.io/ethereum.nix/nixos/modules/lighthouse-validator/</loc>
+         <lastmod>1980-01-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://nix-community.github.io/ethereum.nix/nixos/modules/mev-boost/</loc>
+         <lastmod>1980-01-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://nix-community.github.io/ethereum.nix/nixos/modules/nethermind/</loc>
+         <lastmod>1980-01-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://nix-community.github.io/ethereum.nix/nixos/modules/prysm-beacon/</loc>
+         <lastmod>1980-01-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://nix-community.github.io/ethereum.nix/nixos/modules/prysm-validator/</loc>
+         <lastmod>1980-01-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
 </urlset>

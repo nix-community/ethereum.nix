@@ -620,8 +620,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../modules/erigon.md" class="md-nav__link">
-        None
+      <a href="../modules/erigon/" class="md-nav__link">
+        Erigon
       </a>
     </li>
   
@@ -634,8 +634,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../modules/geth-bootnode.md" class="md-nav__link">
-        None
+      <a href="../modules/geth-bootnode/" class="md-nav__link">
+        Geth bootnode
       </a>
     </li>
   
@@ -648,8 +648,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../modules/geth.md" class="md-nav__link">
-        None
+      <a href="../modules/geth/" class="md-nav__link">
+        Geth
       </a>
     </li>
   
@@ -662,8 +662,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../modules/mev-boost.md" class="md-nav__link">
-        None
+      <a href="../modules/mev-boost/" class="md-nav__link">
+        Mev boost
       </a>
     </li>
   
@@ -676,8 +676,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../modules/nethermind.md" class="md-nav__link">
-        None
+      <a href="../modules/nethermind/" class="md-nav__link">
+        Nethermind
       </a>
     </li>
   
@@ -690,8 +690,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../modules/prysm-beacon.md" class="md-nav__link">
-        None
+      <a href="../modules/prysm-beacon/" class="md-nav__link">
+        Prysm beacon
       </a>
     </li>
   
@@ -704,8 +704,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../modules/prysm-validator.md" class="md-nav__link">
-        None
+      <a href="../modules/prysm-validator/" class="md-nav__link">
+        Prysm validator
       </a>
     </li>
   
@@ -718,8 +718,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../modules/lighthouse-beacon.md" class="md-nav__link">
-        None
+      <a href="../modules/lighthouse-beacon/" class="md-nav__link">
+        Lighthouse beacon
       </a>
     </li>
   
@@ -732,8 +732,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../modules/lighthouse-validator.md" class="md-nav__link">
-        None
+      <a href="../modules/lighthouse-validator/" class="md-nav__link">
+        Lighthouse validator
       </a>
     </li>
   
@@ -1025,7 +1025,7 @@
 <p><strong>Note:</strong> It is recommended to use an attribute name that matches the network that Prysm Beacon is configured for.</p>
 <h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
 <p>Many of Prysm Beacon's process arguments have been mapped to NixOS types and can be provided via the <code>args</code> section of the config.
-For a detailed list please refer to the <a href="./modules/prysm-beacon.md">NixOS Options</a> reference.</p>
+For a detailed list please refer to the <a href="../modules/prysm-beacon/">NixOS Options</a> reference.</p>
 <p>Additional arguments can be provided in a list directly to the Prysm Beacon process via the <code>extraArgs</code> attribute as shown above.</p>
 <h2 id="systemd-service">Systemd service<a class="headerlink" href="#systemd-service" title="Permanent link">&para;</a></h2>
 <p>For each instance that is configured a corresponding <a href="https://systemd.io/">Systemd</a> service is created. The service name
@@ -1088,7 +1088,7 @@ follows a convention of <code>prysm-beacon-${name}.service</code>.</p>
 </tbody>
 </table>
 <h2 id="using-a-prysm-beacon-fork">Using a Prysm Beacon fork<a class="headerlink" href="#using-a-prysm-beacon-fork" title="Permanent link">&para;</a></h2>
-<p>A different version of Prysm Beacon can be configured via the <a href="./modules/prysm-beacon.md#servicesethereumprysm-beaconnamepackage">package</a> option.</p>
+<p>A different version of Prysm Beacon can be configured via the <a href="../modules/prysm-beacon/#servicesethereumprysm-beaconnamepackage">package</a> option.</p>
 <p>To configure a custom fork for example:</p>
 <div class="language-nix highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">server.nix</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
 <span class="normal"><a href="#__codelineno-1-2">2</a></span>
@@ -1105,7 +1105,7 @@ follows a convention of <code>prysm-beacon-${name}.service</code>.</p>
 </span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="p">}</span>
 </span></code></pre></div></td></tr></table></div>
 <h2 id="opening-ports">Opening ports<a class="headerlink" href="#opening-ports" title="Permanent link">&para;</a></h2>
-<p>By default, <a href="./modules/prysm-beacon.md#servicesethereumprysm-beaconnameopenfirewall">openFirewall</a> is set to <code>false</code>.
+<p>By default, <a href="../modules/prysm-beacon/#servicesethereumprysm-beaconnameopenfirewall">openFirewall</a> is set to <code>false</code>.
 If set to <code>true</code> firewall rules are added which will expose the following ports:</p>
 <table>
 <thead>
@@ -1118,27 +1118,27 @@ If set to <code>true</code> firewall rules are added which will expose the follo
 <tbody>
 <tr>
 <td style="text-align: left;">UDP</td>
-<td style="text-align: left;"><a href="./modules/prysm-beacon.md#servicesethereumprysm-beaconnameargsp2p-udp-port">p2p-udp-port</a></td>
+<td style="text-align: left;"><a href="../modules/prysm-beacon/#servicesethereumprysm-beaconnameargsp2p-udp-port">p2p-udp-port</a></td>
 <td style="text-align: left;">12000</td>
 </tr>
 <tr>
 <td style="text-align: left;">TCP</td>
-<td style="text-align: left;"><a href="./modules/prysm-beacon.md#servicesethereumprysm-beaconnameargsp2p-tcp-port">p2p-tcp-port</a></td>
+<td style="text-align: left;"><a href="../modules/prysm-beacon/#servicesethereumprysm-beaconnameargsp2p-tcp-port">p2p-tcp-port</a></td>
 <td style="text-align: left;">13000</td>
 </tr>
 <tr>
 <td style="text-align: left;">TCP</td>
-<td style="text-align: left;"><a href="./modules/prysm-beacon.md#servicesethereumprysm-beaconnameargsgrpc-gateway-port">grpc-gateway-port</a></td>
+<td style="text-align: left;"><a href="../modules/prysm-beacon/#servicesethereumprysm-beaconnameargsgrpc-gateway-port">grpc-gateway-port</a></td>
 <td style="text-align: left;">3500</td>
 </tr>
 <tr>
 <td style="text-align: left;">TCP</td>
-<td style="text-align: left;"><a href="./modules/prysm-beacon.md#servicesethereumprysm-beaconnameargsmonitoring-port">monitoring-port</a></td>
+<td style="text-align: left;"><a href="../modules/prysm-beacon/#servicesethereumprysm-beaconnameargsmonitoring-port">monitoring-port</a></td>
 <td style="text-align: left;">8080</td>
 </tr>
 <tr>
 <td style="text-align: left;">TCP</td>
-<td style="text-align: left;"><a href="./modules/prysm-beacon.md#servicesethereumprysm-beaconnameargspprofport">pprofport</a></td>
+<td style="text-align: left;"><a href="../modules/prysm-beacon/#servicesethereumprysm-beaconnameargspprofport">pprofport</a></td>
 <td style="text-align: left;">8080</td>
 </tr>
 </tbody>
