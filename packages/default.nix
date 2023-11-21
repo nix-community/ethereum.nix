@@ -69,6 +69,7 @@
 
       # Solidity
       slither = callPackageUnstable ./solidity/analyzers/slither {};
+      wake = callPackageUnstable ./solidity/frameworks/wake {};
 
       # Libs
       evmc = callPackage ./libs/evmc {};
@@ -147,6 +148,7 @@
 
       # Solidity
       slither.bin = "slither";
+      wake.bin = "woke";
 
       # utils
       eth2-val-tools.bin = "eth2-val-tools";
