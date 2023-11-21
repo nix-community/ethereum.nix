@@ -1074,13 +1074,16 @@
 <p>The list of supported apps is growing every day! We plan to keep this list up to date, but, if we have missed any, please let us know!</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Every command has a local and a remote variant. The local variant requires that the command is run from within the cloned repo. The remote variant can be run from wherever.</p>
-<ul>
-<li><strong>Local</strong>: <code>nix run .#my-app-name</code></li>
-<li><strong>Remote</strong>: <code>nix run github:nix-community/ethereum.nix#my-app-name</code></li>
-</ul>
-<p>For brevity and consistency, all the commands are listed in the local variant.</p>
 </div>
+<p>Every command has a local and a remote variant. The local variant requires that the command is run from within the cloned repo. The remote variant can be run from wherever.</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code>- **Local**: `nix run .#my-app-name`
+- **Remote**: `nix run github:nix-community/ethereum.nix#my-app-name`
+
+For brevity and consistency, all the commands are listed in the local variant.
+</code></pre></div></td></tr></table></div>
 <h2 id="consenus-clients">Consenus Clients<a class="headerlink" href="#consenus-clients" title="Permanent link">&para;</a></h2>
 <p>The consensus client (also known as the Beacon Node, CL client or formerly the Eth2 client) implements the proof-of-stake consensus algorithm, which enables the network to achieve agreement based on validated data from the execution client.</p>
 <div class="span-table-wrapper">
@@ -1324,6 +1327,10 @@
 <tr>
 <td><a href="https://github.com/ethereum/staking-deposit-cli">staking-deposit-cli</a></td>
 <td><code>nix run .#deposit</code></td>
+</tr>
+<tr>
+<td><a href="https://github.com/MariusVanDerWijden/tx-fuzz">tx-fuzz</a></td>
+<td><code>nix run .#tx-fuzz</code></td>
 </tr>
 <tr>
 <td><a href="https://github.com/protolambda/zcli">zcli</a></td>
