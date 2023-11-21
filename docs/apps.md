@@ -3,7 +3,7 @@
 The list of supported apps is growing every day! We plan to keep this list up to date, but, if we have missed any, please let us know!
 
 !!! note
-    Every command has a local and a remote variant. The local variant requires that the command is run from within the cloned repo. The remote variant can be run from wherever.
+Every command has a local and a remote variant. The local variant requires that the command is run from within the cloned repo. The remote variant can be run from wherever.
 
     - **Local**: `nix run .#my-app-name`
     - **Remote**: `nix run github:nix-community/ethereum.nix#my-app-name`
@@ -115,6 +115,7 @@ Utilities and applications can't be categorized into any category of the above.
 | [ethereal](https://github.com/wealdtech/ethereal)                           | `nix run .#ethereal`             |
 | [sedge](https://github.com/NethermindEth/sedge)                             | `nix run .#sedge`                |
 | [staking-deposit-cli](https://github.com/ethereum/staking-deposit-cli)      | `nix run .#deposit`              |
+| [tx-fuzz](https://github.com/MariusVanDerWijden/tx-fuzz)                    | `nix run .#tx-fuzz`              |
 | [zcli](https://github.com/protolambda/zcli)                                 | `nix run .#zcli`                 |
 
 ## Validators

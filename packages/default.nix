@@ -56,6 +56,7 @@
       ethereal = callPackage ./utils/ethereal {inherit bls mcl;};
       sedge = callPackage ./utils/sedge {inherit bls mcl;};
       staking-deposit-cli = callPackage ./utils/staking-deposit-cli {};
+      tx-fuzz = callPackage ./utils/tx-fuzz {};
       zcli = callPackage ./utils/zcli {};
 
       # Dev
@@ -151,12 +152,13 @@
       wake.bin = "woke";
 
       # utils
-      eth2-val-tools.bin = "eth2-val-tools";
       eth2-testnet-genesis.bin = "eth2-testnet-genesis";
+      eth2-val-tools.bin = "eth2-val-tools";
       ethdo.bin = "ethdo";
       ethereal.bin = "ethereal";
       sedge.bin = "sedge";
       staking-deposit-cli.bin = "deposit";
+      tx-fuzz.bin = "tx-fuzz";
       zcli.bin = "zcli";
     };
 
