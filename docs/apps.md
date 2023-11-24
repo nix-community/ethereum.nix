@@ -52,6 +52,7 @@ The execution client (also known as the Execution Engine, EL client or formerly 
 |                                                 | `nix run .#geth-rlpdump`      |
 | [Nethermind](https://nethermind.io/) @span      | `nix run .#nethermind-runner` |
 |                                                 | `nix run .#nethermind`        |
+| [Reth](https://github.com/paradigmxyz/reth)     | `nix run .#reth`              |
 
 ::end-spantable::
 
