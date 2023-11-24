@@ -28,9 +28,10 @@ rustPlatform.buildRustPackage rec {
 
   nativeBuildInputs = [clang rustPlatform.bindgenHook];
 
-  checkFlags = [
-    "--skip=cli::tests::override_trusted_setup_file"
-  ];
+  # Shouldn't build
+  # checkFlags = [
+  #   "--skip=cli::tests::override_trusted_setup_file"
+  # ];
 
   # Needed by libmdx
   LIBCLANG_PATH = "${llvmPackages.libclang.lib}/lib";
