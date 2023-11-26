@@ -114,7 +114,7 @@ If you're running NixOS, you don't need to install Nix, as it's already included
 
 Make sure [Nix Flakes](https://zero-to-nix.com/concepts/flakes) functionality is enabled to ease your operations when using Ethereum.nix. 
 
-!!! question "Are not Nix Flakes experimental?"
+!!! question "Aren't Nix Flakes experimental?"
     Nix flakes are still in the experimental stage within Nix, and there's no defined timeline for their official launch. While we don't expect significant changes to the user interface for flakes during the experimental phase, there could still be some minor changes.
 
     We believe that enabling Flakes is the best form of learning Nix for those new to the ecosystem.
