@@ -2,6 +2,7 @@
   lib,
   buildGo121Module,
   fetchFromGitHub,
+  mockgen,
 }:
 buildGo121Module rec {
   pname = "eigenlayer-cli";
@@ -15,6 +16,15 @@ buildGo121Module rec {
   };
 
   vendorHash = "sha256-DDGMprfryWj9Td4PX/j5Fsjm+bGGiDgnCXmm2IhRSMo=";
+
+  overrideModAttrs = oldAttrs: {
+    nativeBuildInputs = [mockgen] ++ oldAttrs.nativeBuildInputs;
+
+    # can't pass the go-module tests related to mocks without that
+    preBuild = ''
+      go generate ./...
+    '';
+  };
 
   ldflags = ["-s" "-w"];
   subPackages = ["cmd/eigenlayer"];
