@@ -91,6 +91,7 @@
         pkgs,
         pkgsUnstable,
         system,
+        self',
         ...
       }: {
         # pkgs
@@ -169,25 +170,26 @@
         };
 
         # checks
-        checks = let
-          devour-flake = pkgs.callPackage inputs.devour-flake {};
-        in
+        checks =
           {
-            nix-build-all = pkgs.writeShellApplication {
-              name = "nix-build-all";
-              runtimeInputs = [
-                pkgs.nix
-                devour-flake
-              ];
-              text = ''
-                # Make sure that flake.lock is sync
-                nix flake lock --no-update-lock-file
-
-                # Do a full nix build (all outputs)
-                devour-flake . "$@"
-              '';
-            };
+            # TODO: Restore this check whenever buildbot supports more specific checks
+            # nix-build-all = pkgs.writeShellApplication {
+            #   name = "nix-build-all";
+            #   runtimeInputs = [
+            #     pkgs.nix
+            #     devour-flake
+            #   ];
+            #   text = ''
+            #     # Make sure that flake.lock is sync
+            #     nix flake lock --no-update-lock-file
+            #
+            #     # Do a full nix build (all outputs)
+            #     devour-flake . "$@"
+            #   '';
+            # };
           }
+          # merge in the package derivations to force a build of all packages during a `nix flake check`
+          // (with lib; mapAttrs' (n: nameValuePair "package-${n}") self'.packages)
           # mix in tests
           // config.testing.checks;
       };
