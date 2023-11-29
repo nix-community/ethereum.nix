@@ -76,6 +76,8 @@
 
           ${lib.getExe mkdocs-custom} serve
         '';
+
+        meta.platforms = ["x86_64-linux"];
       };
 
     devshells.default.commands = let

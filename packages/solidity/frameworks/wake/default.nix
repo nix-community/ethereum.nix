@@ -66,6 +66,10 @@ poetry2nix.mkPoetryApplication {
     changelog = "https://github.com/Ackee-Blockchain/wake/releases/tag/v${version}";
     mainProgram = "woke";
     license = licenses.mit;
+    platforms = [
+      "x86_64-linux"
+      "aarch64-linux"
+    ];
     maintainers = with maintainers; [aldoborrero];
   };
 }
