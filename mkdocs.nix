@@ -6,31 +6,29 @@
     ...
   }: let
     inherit (pkgs) stdenv runCommand;
-
-    mkdocs-custom =
-      runCommand "mkdocs-custom" {
-        buildInputs = [
-          pkgs.python311
-          pkgs.python311Packages.mkdocs
-          pkgs.python311Packages.mkdocs-material
-          inputs.mynixpkgs.packages.${system}.mkdocs-plugins
-        ];
-
-        meta.mainProgram = "mkdocs";
-      } ''
-        mkdir -p $out/bin
-
-        cat <<MKDOCS > $out/bin/mkdocs
-        #!${pkgs.runtimeShell}
-        set -euo pipefail
-        export PYTHONPATH=$PYTHONPATH
-        exec ${pkgs.python311Packages.mkdocs}/bin/mkdocs "\$@"
-        MKDOCS
-
-        chmod +x $out/bin/mkdocs
-      '';
   in {
     packages.docs = let
+      mkdocs-custom =
+        pkgs.runCommand "mkdocs-custom" {
+          buildInputs = [
+            pkgs.python311
+            pkgs.python311Packages.mkdocs
+            pkgs.python311Packages.mkdocs-material
+            inputs.mynixpkgs.packages.${system}.mkdocs-plugins
+          ];
+          meta.mainProgram = "mkdocs";
+        } ''
+          mkdir -p $out/bin
+
+          cat <<MKDOCS > $out/bin/mkdocs
+          #!${pkgs.runtimeShell}
+          set -euo pipefail
+          export PYTHONPATH=$PYTHONPATH
+          exec ${pkgs.python311Packages.mkdocs}/bin/mkdocs "\$@"
+          MKDOCS
+
+          chmod +x $out/bin/mkdocs
+        '';
       docsPath = "./docs/nixos/modules";
       nixosMarkdownDocs = runCommand "nixos-options" {} ''
         mkdir $out
@@ -76,8 +74,6 @@
 
           ${lib.getExe mkdocs-custom} serve
         '';
-
-        meta.platforms = ["x86_64-linux"];
       };
 
     devshells.default.commands = let
