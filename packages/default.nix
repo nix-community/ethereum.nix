@@ -20,7 +20,6 @@
       prysm = callPackage ./clients/consensus/prysm {inherit bls blst;};
       teku = callPackage ./clients/consensus/teku {};
       nimbus = callPackageUnstable ./clients/consensus/nimbus {};
-      lodestar = callPackage ./clients/consensus/lodestar {};
 
       # Execution Clients
       erigon = callPackage ./clients/execution/erigon {};
