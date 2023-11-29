@@ -18,6 +18,7 @@
       inputs.lib-extras.follows = "lib-extras";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
       inputs.treefmt-nix.follows = "treefmt-nix";
+      inputs.devour-flake.follows = "devour-flake";
     };
 
     foundry-nix = {
@@ -189,7 +190,7 @@
             # };
           }
           # merge in the package derivations to force a build of all packages during a `nix flake check`
-          // (with lib; mapAttrs' (n: nameValuePair "package-${n}") self'.packages)
+          // (with lib; mapAttrs' (n: nameValuePair "package-${n}") (filterAttrs (n: _: ! builtins.elem n ["docs"]) self'.packages))
           # mix in tests
           // config.testing.checks;
       };
