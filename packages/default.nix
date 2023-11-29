@@ -61,7 +61,9 @@
 
       # Dev
       foundry = inputs.foundry-nix.defaultPackage.${system}.overrideAttrs (_oldAttrs: {
-        meta.platforms = [system];
+        # TODO: Uncomment when https://github.com/shazow/foundry.nix/issues/23
+        # meta.platforms = [system];
+        meta.platforms = ["x86_64-linux" "aarch64-linux"];
       });
 
       # Editors
