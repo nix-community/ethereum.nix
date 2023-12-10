@@ -55,6 +55,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.treefmt-nix.follows = "treefmt-nix";
     };
+    poetry2nix.url = "github:nix-community/poetry2nix";
   };
 
   outputs = inputs @ {
@@ -104,6 +105,9 @@
           pkgsUnstable = lib.extras.nix.mkNixpkgs {
             inherit system;
             nixpkgs = inputs.nixpkgs-unstable;
+            overlays = [
+              inputs.poetry2nix.overlays.default
+            ];
           };
         };
 
