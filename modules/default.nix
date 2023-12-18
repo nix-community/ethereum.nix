@@ -20,6 +20,7 @@
       ./restore
       ./reth
       ./nimbus
+      ./nimbus-validator
     ];
   };
 }
