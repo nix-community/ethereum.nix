@@ -11,13 +11,13 @@
 }:
 stdenv.mkDerivation rec {
   pname = "nimbus-eth2";
-  version = "23.10.1";
+  version = "23.11.0";
 
   src = fetchFromGitHub {
     owner = "status-im";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-+/AmkgXblg5Gf7VNbVz2uqAs+o2Bol9IIZS3i3t7r94=";
+    hash = "sha256-SMiWLhsuERR2GOTSbOnmH2LBzTbgyKEXRnIuFKAuXDE=";
     fetchSubmodules = true;
   };
 
