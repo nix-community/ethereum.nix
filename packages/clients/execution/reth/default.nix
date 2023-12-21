@@ -7,13 +7,13 @@
 }:
 rustPlatform.buildRustPackage rec {
   pname = "reth";
-  version = "0.1.0-alpha.11";
+  version = "0.1.0-alpha.13";
 
   src = fetchFromGitHub {
     owner = "paradigmxyz";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-llvaN9MNuLuOz5KumKKvRv4yiCfmpnLInNuS9DD48xg=";
+    hash = "sha256-RE40KzOCjPCCTTepZ630BlLDeXc7KITb2MDBjU6ij2M=";
   };
 
   cargoHash = "";
@@ -22,16 +22,15 @@ rustPlatform.buildRustPackage rec {
     outputHashes = {
       "discv5-0.3.1" = "sha256-Z/Yl/K6UKmXQ4e0anAJZffV9PmWdBg/ROnNBrB8dABE=";
       "igd-0.12.0" = "sha256-wjk/VIddbuoNFljasH5zsHa2JWiOuSW4VlcUS+ed5YY=";
-      "revm-3.5.0" = "sha256-IHKPHvcUqOp4wilygrweadbzMXrNP74J+bpIirJYZyc=";
+      "revm-3.5.0" = "sha256-odaNHGw7RfJHJInQ/zRQYBev4vsJeyx6pGERgOSD/24=";
     };
   };
 
   nativeBuildInputs = [clang rustPlatform.bindgenHook];
 
-  # Shouldn't build
-  # checkFlags = [
-  #   "--skip=cli::tests::override_trusted_setup_file"
-  # ];
+  checkFlags = [
+    "--skip=cli::tests::override_trusted_setup_file"
+  ];
 
   # Needed by libmdx
   LIBCLANG_PATH = "${llvmPackages.libclang.lib}/lib";
