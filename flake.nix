@@ -25,6 +25,10 @@
       url = "github:shazow/foundry.nix/monthly";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    poetry2nix = {
+      url = "github:nix-community/poetry2nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # flake-parts
     flake-parts = {
@@ -104,6 +108,7 @@
           pkgsUnstable = lib.extras.nix.mkNixpkgs {
             inherit system;
             nixpkgs = inputs.nixpkgs-unstable;
+            overlays = [inputs.poetry2nix.overlays.default];
           };
         };
 

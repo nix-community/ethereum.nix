@@ -49,7 +49,7 @@
       ssvnode = callPackage ./dvt/ssvnode {inherit bls mcl;};
 
       # Utils
-      eigenlayer-cli = callPackageUnstable ./utils/eigenlayer-cli {};
+      eigenlayer = callPackageUnstable ./utils/eigenlayer {};
       eth2-testnet-genesis = callPackage ./utils/eth2-testnet-genesis {inherit bls;};
       eth2-val-tools = callPackage ./utils/eth2-val-tools {inherit bls mcl;};
       ethdo = callPackage ./utils/ethdo {inherit bls mcl;};
@@ -61,7 +61,9 @@
 
       # Dev
       foundry = inputs.foundry-nix.defaultPackage.${system}.overrideAttrs (_oldAttrs: {
-        meta.platforms = [system];
+        # TODO: Uncomment when https://github.com/shazow/foundry.nix/issues/23
+        # meta.platforms = [system];
+        meta.platforms = ["x86_64-linux" "aarch64-linux"];
       });
 
       # Editors

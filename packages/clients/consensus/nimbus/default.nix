@@ -2,54 +2,62 @@
   fetchFromGitHub,
   lib,
   stdenv,
-  nim,
   lsb-release,
   which,
   cmake,
+  pkgs,
   writeShellScriptBin,
   buildFlags ? ["nimbus_beacon_node"],
-}:
-stdenv.mkDerivation rec {
-  pname = "nimbus-eth2";
-  version = "23.10.1";
-
-  src = fetchFromGitHub {
-    owner = "status-im";
-    repo = pname;
-    rev = "v${version}";
-    hash = "sha256-+/AmkgXblg5Gf7VNbVz2uqAs+o2Bol9IIZS3i3t7r94=";
-    fetchSubmodules = true;
+}: let
+  nim1 = pkgs.nim-unwrapped-1.overrideAttrs rec {
+    version = "1.6.16";
+    src = pkgs.fetchurl {
+      url = "https://nim-lang.org/download/nim-${version}.tar.xz";
+      hash = "sha256-ZnST+QKfdf3G5jsMdQ59JP9afBKkGWVykE1F1y1OViA=";
+    };
   };
+in
+  stdenv.mkDerivation rec {
+    pname = "nimbus-eth2";
+    version = "23.11.0";
 
-  fakeGit = writeShellScriptBin "git" "echo ${version}";
+    src = fetchFromGitHub {
+      owner = "status-im";
+      repo = pname;
+      rev = "v${version}";
+      hash = "sha256-SMiWLhsuERR2GOTSbOnmH2LBzTbgyKEXRnIuFKAuXDE=";
+      fetchSubmodules = true;
+    };
 
-  # Dunno why we need `lsb-release`, looks like for nim itself
-  # without `which` it can't find gcc
-  nativeBuildInputs = [fakeGit lsb-release nim which cmake];
-  enableParallelBuilding = true;
+    fakeGit = writeShellScriptBin "git" "echo ${version}";
 
-  NIMFLAGS = "-d:disableMarchNative -d:release";
+    # Dunno why we need `lsb-release`, looks like for nim itself
+    # without `which` it can't find gcc
+    nativeBuildInputs = [fakeGit lsb-release nim1 which cmake];
+    enableParallelBuilding = true;
 
-  makeFlags = ["USE_SYSTEM_NIM=1"];
-  inherit buildFlags;
-  dontConfigure = true;
+    NIMFLAGS = "-d:disableMarchNative -d:release";
 
-  preBuild = ''
-    patchShebangs scripts vendor/nimbus-build-system/scripts
-    make nimbus-build-system-paths
-  '';
+    makeFlags = ["USE_SYSTEM_NIM=1"];
+    inherit buildFlags;
+    dontConfigure = true;
 
-  installPhase = ''
-    mkdir -p $out/bin
-    rm -f build/generate_makefile
-    cp build/* $out/bin
-  '';
+    preBuild = ''
+      patchShebangs scripts vendor/nimbus-build-system/scripts
+      make nimbus-build-system-paths
+    '';
 
-  meta = {
-    description = "Nim implementation of the Ethereum Beacon Chain";
-    homepage = "https://github.com/status-im/nimbus-eth2";
-    license = lib.licenses.asl20;
-    mainProgram = "nimbus_beacon_node";
-    platforms = ["x86_64-linux"];
-  };
-}
+    installPhase = ''
+      mkdir -p $out/bin
+      rm -f build/generate_makefile
+      cp build/* $out/bin
+    '';
+
+    meta = {
+      description = "Nim implementation of the Ethereum Beacon Chain";
+      homepage = "https://github.com/status-im/nimbus-eth2";
+      license = lib.licenses.asl20;
+      mainProgram = "nimbus_beacon_node";
+      platforms = ["x86_64-linux"];
+    };
+  }
