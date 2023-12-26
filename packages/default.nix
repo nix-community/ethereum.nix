@@ -97,7 +97,10 @@
       lighthouse.bin = "lighthouse";
 
       # consensus / nimbus
-      nimbus.bin = "nimbus_beacon_node";
+      nimbus = {
+        nimbus-beacon-node.bin = "nimbus_beacon_node";
+        nimbus-validator-client.bin = "nimbus_validator_client";
+      };
 
       # execution clients
       besu.bin = "besu";
