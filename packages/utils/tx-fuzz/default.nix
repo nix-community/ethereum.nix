@@ -14,7 +14,7 @@ buildGoModule rec {
     sha256 = "sha256-pVmh5fD82lxXA7t2z/pFUKleIFG9dXdj6EXmxvWM5ck=";
   };
 
-  vendorSha256 = "sha256-tJ/IHOitOQMPd9U1KUYhVKksz1Du1kKAc6ZKSYsPKKg=";
+  vendorHash = "sha256-tJ/IHOitOQMPd9U1KUYhVKksz1Du1kKAc6ZKSYsPKKg=";
 
   subPackages = ["cmd/livefuzzer"];
 
