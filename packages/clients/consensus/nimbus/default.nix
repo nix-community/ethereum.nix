@@ -7,7 +7,7 @@
   cmake,
   pkgs,
   writeShellScriptBin,
-  buildFlags ? ["nimbus_beacon_node"],
+  buildFlags ? ["nimbus_beacon_node" "nimbus_validator_client"],
 }: let
   nim1 = pkgs.nim-unwrapped-1.overrideAttrs rec {
     version = "1.6.16";
