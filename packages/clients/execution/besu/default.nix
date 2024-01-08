@@ -7,11 +7,11 @@
 }:
 stdenv.mkDerivation rec {
   pname = "besu";
-  version = "23.10.1";
+  version = "23.10.3-hotfix";
 
   src = fetchurl {
     url = "https://hyperledger.jfrog.io/hyperledger/${pname}-binaries/${pname}/${version}/${pname}-${version}.tar.gz";
-    hash = "sha256-4nZF80VYPz7kR+VBgwI4LG+DNdLahwe90gAzqr2Gzkw=";
+    hash = "sha256-jjjp/QwW4EmqMk7/yW+ewx3AboLqSZXp3XXVcTlGZ68=";
   };
 
   nativeBuildInputs = [makeWrapper];
