@@ -1,21 +1,21 @@
 {
   bls,
   mcl,
-  buildGoModule,
+  buildGo120Module,
   fetchFromGitHub,
 }:
-buildGoModule rec {
+buildGo120Module rec {
   pname = "ssv";
-  version = "1.1.0";
+  version = "1.2.2";
 
   src = fetchFromGitHub {
     owner = "bloxapp";
     repo = "${pname}";
     rev = "v${version}";
-    hash = "sha256-AglorMoa7NJlSw13jqR0GDGzzsF93iL8DHbdKq4m3s0=";
+    hash = "sha256-POcz5TxeGfqdoYD0YSDD9Rt3UTPW1fayn2w0Rm2LEAk=";
   };
 
-  vendorHash = "sha256-wL5UzetQKYl9fWIlOZKjimbhWyIBv+orugDq8sqQGIs=";
+  vendorHash = "sha256-FtY7xK1OvA0Tluo96zSdie2tpRVHiDcJdT0Z7ledDWk=";
 
   buildInputs = [bls mcl];
 
