@@ -24,10 +24,14 @@
     foundry-nix = {
       url = "github:shazow/foundry.nix/monthly";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
     };
     poetry2nix = {
       url = "github:nix-community/poetry2nix";
+      inputs.flake-utils.follows = "flake-utils";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.systems.follows = "systems";
+      inputs.treefmt-nix.follows = "treefmt-nix";
     };
 
     # flake-parts
@@ -37,10 +41,16 @@
     };
     flake-root.url = "github:srid/flake-root";
 
+    # used by dependencies
+    flake-utils.url = "github:numtide/flake-utils";
+    flake-utils.inputs.systems.follows = "systems";
+
     # utils
+    systems.url = "github:nix-systems/default";
     devshell = {
       url = "github:numtide/devshell";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.systems.follows = "systems";
     };
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
@@ -65,6 +75,7 @@
     flake-parts,
     nixpkgs,
     lib-extras,
+    systems,
     ...
   }: let
     lib = nixpkgs.lib.extend (l: _: {
@@ -85,12 +96,7 @@
         ./modules
         ./packages
       ];
-      systems = [
-        "x86_64-linux"
-        "aarch64-linux"
-        "x86_64-darwin"
-        "aarch64-darwin"
-      ];
+      systems = import systems;
       perSystem = {
         config,
         pkgs,
