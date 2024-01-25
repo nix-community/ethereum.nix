@@ -6,6 +6,8 @@
   lib,
   llvmPackages,
   openssl,
+  sqlite,
+  rust-jemalloc-sys,
   protobuf,
   rustPlatform,
   postgresql,
@@ -25,35 +27,42 @@
 in
   rustPlatform.buildRustPackage rec {
     pname = "lighthouse";
-    version = "4.5.0";
+    version = "4.6.0";
 
     src = fetchFromGitHub {
       owner = "sigp";
       repo = pname;
       rev = "v${version}";
-      hash = "sha256-UUOvTxOQXT1zfhDYEL/J6moHAyejZn7GyGS/XBmXxRQ=";
+      hash = "sha256-uMrVnVvYXcY2Axn3ycsf+Pwur3HYGoOYjjUkGS5c3l4=";
     };
 
-    cargoSha256 = "sha256-KlTQF1iL2PYAk+nmQIm72guy2PxGkN/YzhgCNv1FZGM=";
+    patches = [
+      ./use-c-kzg-from-crates-io.patch
+      ./use-system-sqlite.patch
+    ];
+
+    postPatch = ''
+      cp ${./Cargo.lock} Cargo.lock
+    '';
+
     cargoLock = {
-      lockFile = "${src}/Cargo.lock";
+      lockFile = ./Cargo.lock;
       outputHashes = {
         "amcl-0.3.0" = "sha256-kc8k/ls4W0TwFBsRcyyotyz8ZBEjsZXHeJnJtsnW/LM=";
-        "anvil-rpc-0.1.0" = "sha256-L38OioxnWEn94g3GJT4j3U1cJZ8jQDHp8d1QOHaVEuU=";
-        "beacon-api-client-0.1.0" = "sha256-Z0CoPxZzl2bjb8vgmHWxq2orMawhMMs7beKGopilKjE=";
-        "ethereum-consensus-0.1.1" = "sha256-biTrw3yMJUo9+56QK5RGWXLCoPPZEWp18SCs+Y9QWg4=";
+        "discv5-0.4.0" = "sha256-GKAk9Du6fy0ldeBEwPueDbVPhyNxdKNROKpMJvR/OTc=";
+        "futures-bounded-0.2.3" = "sha256-/LbD+je9P1lPnXMJVDqRQHJziQPXPvSDmQadTfsQ5I8=";
         "libmdbx-0.1.4" = "sha256-NMsR/Wl1JIj+YFPyeMMkrJFfoS07iEAKEQawO89a+/Q=";
         "lmdb-rkv-0.14.0" = "sha256-sxmguwqqcyOlfXOZogVz1OLxfJPo+Q0+UjkROkbbOCk=";
-        "mev-rs-0.3.0" = "sha256-LCO0GTvWTLcbPt7qaSlLwlKmAjt3CIHVYTT/JRXpMEo=";
-        "testcontainers-0.14.0" = "sha256-mSsp21G7MLEtFROWy88Et5s07PO0tjezovCGIMh+/oQ=";
-        "warp-0.3.5" = "sha256-d5e6ASdL7+Dl3KsTNOb9B5RHpStrupOKsbGWsdu9Jfk=";
+        "warp-0.3.6" = "sha256-knDt2aw/PJ0iabhKg+okwwnEzCY+vQVhE7HKCTM6QbE=";
       };
     };
+
+    enableParallelBuilding = true;
 
     cargoBuildFlags = ["--package lighthouse"];
 
     nativeBuildInputs = [cmake clang];
-    buildInputs = [openssl protobuf];
+    buildInputs = [openssl protobuf sqlite rust-jemalloc-sys];
 
     buildNoDefaultFeatures = true;
     buildFeatures = ["modern" "slasher-lmdb"];
@@ -77,13 +86,17 @@ in
     # see: https://github.com/sigp/lighthouse/blob/stable/common/deposit_contract/build.rs#L33
     LIGHTHOUSE_DEPOSIT_CONTRACT_TESTNET_URL = "file:${slasherContractTestnetSrc}";
 
+    # This is needed by the unit tests.
+    FORK_NAME = "capella";
+
     cargoTestFlags = [
       "--workspace"
+      "--exclude beacon_chain"
       "--exclude beacon_node"
       "--exclude http_api"
-      "--exclude beacon_chain"
       "--exclude lighthouse"
       "--exclude lighthouse_network"
+      "--exclude network"
       "--exclude slashing_protection"
       "--exclude watch"
       "--exclude web3signer_tests"
