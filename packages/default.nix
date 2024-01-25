@@ -12,6 +12,7 @@
   }: let
     inherit (pkgs) callPackage;
     inherit (lib.extras.flakes) platformPkgs platformApps;
+    poetry2nix = inputs.poetry2nix.lib.mkPoetry2Nix {inherit pkgs;};
     callPackageUnstable = pkgsUnstable.callPackage;
   in {
     packages = platformPkgs system rec {
@@ -73,7 +74,9 @@
 
       # Solidity
       slither = callPackageUnstable ./solidity/analyzers/slither {};
-      wake = callPackageUnstable ./solidity/frameworks/wake {};
+      wake = callPackageUnstable ./solidity/frameworks/wake {
+        inherit poetry2nix;
+      };
 
       # Libs
       evmc = callPackage ./libs/evmc {};
@@ -156,7 +159,7 @@
 
       # Solidity
       slither.bin = "slither";
-      wake.bin = "woke";
+      wake.bin = "wake";
 
       # utils
       eth2-testnet-genesis.bin = "eth2-testnet-genesis";

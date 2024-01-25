@@ -8,7 +8,7 @@
 
   inputs = {
     # packages
-    nixpkgs.url = "github:nixos/nixpkgs/23.05";
+    nixpkgs.url = "github:nixos/nixpkgs/23.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     mynixpkgs = {
       url = "github:aldoborrero/mynixpkgs";
@@ -108,7 +108,6 @@
           pkgsUnstable = lib.extras.nix.mkNixpkgs {
             inherit system;
             nixpkgs = inputs.nixpkgs-unstable;
-            overlays = [inputs.poetry2nix.overlays.default];
           };
         };
 

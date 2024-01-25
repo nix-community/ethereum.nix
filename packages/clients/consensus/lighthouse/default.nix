@@ -56,7 +56,7 @@ in
     buildInputs = [openssl protobuf];
 
     buildNoDefaultFeatures = true;
-    buildFeatures = ["modern" "slasher-mdbx"];
+    buildFeatures = ["modern" "slasher-lmdb"];
 
     # Needed to get openssl-sys to use pkg-config.
     OPENSSL_NO_VENDOR = 1;
