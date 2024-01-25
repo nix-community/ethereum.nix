@@ -10,22 +10,22 @@
   buildFlags ? ["nimbus_beacon_node" "nimbus_validator_client"],
 }: let
   nim1 = pkgs.nim-unwrapped-1.overrideAttrs rec {
-    version = "1.6.16";
+    version = "1.6.18";
     src = pkgs.fetchurl {
       url = "https://nim-lang.org/download/nim-${version}.tar.xz";
-      hash = "sha256-ZnST+QKfdf3G5jsMdQ59JP9afBKkGWVykE1F1y1OViA=";
+      hash = "sha256-UCQaxyIpG6ljdT8EWqo1h7c8GqKK4pxXPBWluKYCoss=";
     };
   };
 in
   stdenv.mkDerivation rec {
     pname = "nimbus-eth2";
-    version = "23.11.0";
+    version = "24.1.2";
 
     src = fetchFromGitHub {
       owner = "status-im";
       repo = pname;
       rev = "v${version}";
-      hash = "sha256-SMiWLhsuERR2GOTSbOnmH2LBzTbgyKEXRnIuFKAuXDE=";
+      hash = "sha256-ApVy1jTzAiBEP0JJIumMxrnJ+6z7dIQ20I4kpLmzRFI=";
       fetchSubmodules = true;
     };
 
