@@ -28,7 +28,7 @@
       geth = callPackage ./clients/execution/geth {};
       geth-sealer = callPackage ./clients/execution/geth-sealer {};
       nethermind = callPackage ./clients/execution/nethermind {};
-      reth = callPackageUnstable ./clients/execution/reth {};
+      reth = callPackage ./clients/execution/reth {};
 
       # Signers
       web3signer = callPackage ./signers/web3signer {};
@@ -51,7 +51,7 @@
       ssvnode = callPackage ./dvt/ssvnode {inherit bls mcl;};
 
       # Utils
-      eigenlayer = callPackageUnstable ./utils/eigenlayer {};
+      eigenlayer = callPackage ./utils/eigenlayer {};
       eth2-testnet-genesis = callPackage ./utils/eth2-testnet-genesis {inherit bls;};
       eth2-val-tools = callPackage ./utils/eth2-val-tools {inherit bls mcl;};
       ethdo = callPackage ./utils/ethdo {inherit bls mcl;};
@@ -73,8 +73,8 @@
       vscode-plugin-consensys-vscode-solidity-visual-editor = callPackage ./editors/vscode/extensions/consensys.vscode-solidity-auditor {};
 
       # Solidity
-      slither = callPackageUnstable ./solidity/analyzers/slither {};
-      wake = callPackageUnstable ./solidity/frameworks/wake {
+      slither = callPackage ./solidity/analyzers/slither {};
+      wake = callPackage ./solidity/frameworks/wake {
         inherit poetry2nix;
       };
 
