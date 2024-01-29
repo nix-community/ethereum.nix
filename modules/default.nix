@@ -1,10 +1,10 @@
-{
+{self, ...}: {
   imports = [
     ./testing.nix
   ];
 
   # create a default nixos module which mixes in all modules
-  flake.nixosModules.default = {
+  flake.nixosModules.default = {pkgs, ...}: {
     imports = [
       ./backup
       ./erigon
@@ -18,5 +18,7 @@
       ./prysm-validator
       ./restore
     ];
+
+    _module.args.ethereum-nix = self.packages.${pkgs.system};
   };
 }

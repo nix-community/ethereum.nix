@@ -1,6 +1,6 @@
 {
   lib,
-  pkgs,
+  ethereum-nix,
   ...
 }: let
   args = import ./args.nix lib;
@@ -11,7 +11,7 @@
 
       package = mkOption {
         type = types.package;
-        default = pkgs.nethermind;
+        default = ethereum-nix.nethermind;
         defaultText = literalExpression "pkgs.nethermind";
         description = mdDoc "Package to use as Nethermind.";
       };

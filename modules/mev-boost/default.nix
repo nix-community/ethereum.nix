@@ -1,7 +1,7 @@
 {
   config,
   lib,
-  pkgs,
+  ethereum-nix,
   ...
 }: let
   modulesLib = import ../lib.nix lib;
@@ -15,7 +15,7 @@
   eachMevBoost = config.services.ethereum.mev-boost;
 in {
   ###### interface
-  inherit (import ./options.nix {inherit lib pkgs;}) options;
+  inherit (import ./options.nix {inherit lib ethereum-nix;}) options;
 
   ###### implementation
 

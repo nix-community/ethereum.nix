@@ -171,7 +171,5 @@
       tx-fuzz.bin = "tx-fuzz";
       zcli.bin = "zcli";
     };
-
-    overlayAttrs = self'.packages;
   };
 }

@@ -1,7 +1,7 @@
 {
   config,
   lib,
-  pkgs,
+  ethereum-nix,
   ...
 }: let
   modulesLib = import ../lib.nix lib;
@@ -16,7 +16,7 @@
   eachValidator = config.services.ethereum.prysm-validator;
 in {
   ###### interface
-  inherit (import ./options.nix {inherit lib pkgs;}) options;
+  inherit (import ./options.nix {inherit lib ethereum-nix;}) options;
 
   ###### implementation
 

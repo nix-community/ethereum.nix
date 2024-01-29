@@ -1,6 +1,6 @@
 {
   lib,
-  pkgs,
+  ethereum-nix,
   ...
 }: let
   args = import ./args.nix lib;
@@ -18,8 +18,8 @@
       };
 
       package = mkOption {
-        default = pkgs.mev-boost;
-        defaultText = literalExpression "pkgs.mev-boost";
+        default = ethereum-nix.mev-boost;
+        defaultText = literalExpression "ethereum-nix.mev-boost";
         type = types.package;
         description = mdDoc "Package to use for mev-boost binary";
       };

@@ -1,22 +1,14 @@
 {
   self,
-  inputs,
   ...
 }: {
   perSystem = {
     lib,
     config,
     system,
+    pkgs,
     ...
-  }: let
-    # create a custom nixpkgs with our flake packages available
-    pkgs = import inputs.nixpkgs {
-      inherit system;
-      overlays = [
-        self.overlays.default
-      ];
-    };
-  in {
+  }: {
     ########################################
     ## Interface
     ########################################
@@ -57,8 +49,8 @@
           # speed up evaluation by skipping docs
           defaults.documentation.enable = lib.mkDefault false;
 
-          # make self available in test modules and our custom pkgs
-          node.specialArgs = {inherit self pkgs;};
+          # make self available in test modules
+          node.specialArgs = {inherit self;};
 
           # import all of our flake nixos modules by default
           defaults.imports = [

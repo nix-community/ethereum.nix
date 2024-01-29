@@ -1,6 +1,6 @@
 {
   lib,
-  pkgs,
+  ethereum-nix,
   ...
 }: let
   args = import ./args.nix lib;
@@ -18,8 +18,8 @@
       };
 
       package = mkOption {
-        default = pkgs.prysm;
-        defaultText = literalExpression "pkgs.prysm";
+        default = ethereum-nix.prysm;
+        defaultText = literalExpression "ethereum-nix.prysm";
         type = types.package;
         description = mdDoc "Package to use for Prysm binary";
       };

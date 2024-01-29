@@ -1,7 +1,7 @@
 {
   config,
   lib,
-  pkgs,
+  ethereum-nix,
   ...
 }: let
   inherit
@@ -34,7 +34,7 @@
   eachNethermind = config.services.ethereum.nethermind;
 in {
   ###### interface
-  inherit (import ./options.nix {inherit lib pkgs;}) options;
+  inherit (import ./options.nix {inherit lib ethereum-nix;}) options;
 
   ###### implementation
 

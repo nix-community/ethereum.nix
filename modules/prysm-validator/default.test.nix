@@ -3,6 +3,7 @@
 
   module = {
     pkgs,
+    ethereum-nix,
     lib,
     ...
   }:
@@ -18,7 +19,7 @@
         mnemonic="tooth moon mad fun romance athlete envelope next mix divert tip top symbol resemble stock family melody desk sheriff drift bargain need jaguar method"
         echo $mnemonic > /tmp/wallet/mnemonic.txt
 
-        ${pkgs.prysm}/bin/validator wallet create \
+        ${ethereum-nix.prysm}/bin/validator wallet create \
           --accept-terms-of-use \
           --goerli \
           --keymanager-kind="direct" \
@@ -38,7 +39,7 @@
             writableStore = true;
           };
 
-          environment.systemPackages = [wallet-generator pkgs.ethdo pkgs.prysm];
+          environment.systemPackages = [wallet-generator ethereum-nix.ethdo ethereum-nix.prysm];
 
           services.ethereum.prysm-validator.test = {
             enable = true;
