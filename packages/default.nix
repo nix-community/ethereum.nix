@@ -1,8 +1,15 @@
 {
+  self,
   inputs,
   lib,
   ...
 }: {
+  # add all our packages based on host platform
+  flake.overlays.default = _final: prev: let
+    inherit (prev.stdenv.hostPlatform) system;
+  in
+    self.packages.${system};
+
   perSystem = {
     self',
     pkgs,
@@ -171,7 +178,5 @@
       tx-fuzz.bin = "tx-fuzz";
       zcli.bin = "zcli";
     };
-
-    overlayAttrs = self'.packages;
   };
 }
