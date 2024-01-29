@@ -10,16 +10,6 @@
     # packages
     nixpkgs.url = "github:nixos/nixpkgs/23.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    mynixpkgs = {
-      url = "github:aldoborrero/mynixpkgs";
-      inputs.devshell.follows = "devshell";
-      inputs.flake-parts.follows = "flake-parts";
-      inputs.flake-root.follows = "flake-root";
-      inputs.lib-extras.follows = "lib-extras";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-      inputs.treefmt-nix.follows = "treefmt-nix";
-      inputs.devour-flake.follows = "devour-flake";
-    };
 
     foundry-nix = {
       url = "github:shazow/foundry.nix/monthly";

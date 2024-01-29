@@ -91,6 +91,11 @@
       mcl = callPackage ./libs/mcl {};
       bls = callPackage ./libs/bls {};
       blst = callPackage ./libs/blst {};
+
+      # Private dependencies that are not in nixpkgs yet
+      _essentials = callPackage ./private/essentials {};
+      _essentials-openapi = callPackage ./private/essentials-openapi {inherit _essentials;};
+      _mkdocs-plugins = callPackage ./private/mkdocs-plugins {inherit _essentials-openapi;};
     };
 
     apps = platformApps self'.packages {

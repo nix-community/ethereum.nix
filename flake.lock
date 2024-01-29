@@ -133,28 +133,6 @@
         "type": "github"
       }
     },
-    "haumea": {
-      "inputs": {
-        "nixpkgs": [
-          "mynixpkgs",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1685133229,
-        "narHash": "sha256-FePm/Gi9PBSNwiDFq3N+DWdfxFq0UKsVVTJS3cQPn94=",
-        "owner": "nix-community",
-        "repo": "haumea",
-        "rev": "34dd58385092a23018748b50f9b23de6266dffc2",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "ref": "v0.2.2",
-        "repo": "haumea",
-        "type": "github"
-      }
-    },
     "lib-extras": {
       "inputs": {
         "devshell": [
@@ -185,45 +163,6 @@
         "owner": "aldoborrero",
         "ref": "v0.2.2",
         "repo": "lib-extras",
-        "type": "github"
-      }
-    },
-    "mynixpkgs": {
-      "inputs": {
-        "devour-flake": [
-          "devour-flake"
-        ],
-        "devshell": [
-          "devshell"
-        ],
-        "flake-parts": [
-          "flake-parts"
-        ],
-        "flake-root": [
-          "flake-root"
-        ],
-        "haumea": "haumea",
-        "lib-extras": [
-          "lib-extras"
-        ],
-        "nixpkgs": [
-          "nixpkgs-unstable"
-        ],
-        "treefmt-nix": [
-          "treefmt-nix"
-        ]
-      },
-      "locked": {
-        "lastModified": 1706558129,
-        "narHash": "sha256-ZKGarjd5pNhY2GgLO9e8ia9PYoPCmtvw3EH5tVbcIaA=",
-        "owner": "aldoborrero",
-        "repo": "mynixpkgs",
-        "rev": "e314504ac0eb2b27f7813c63d00a9050c2e31784",
-        "type": "github"
-      },
-      "original": {
-        "owner": "aldoborrero",
-        "repo": "mynixpkgs",
         "type": "github"
       }
     },
@@ -320,7 +259,6 @@
         "flake-utils": "flake-utils",
         "foundry-nix": "foundry-nix",
         "lib-extras": "lib-extras",
-        "mynixpkgs": "mynixpkgs",
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "poetry2nix": "poetry2nix",

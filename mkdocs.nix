@@ -1,8 +1,8 @@
-{inputs, ...}: {
+_: {
   perSystem = {
     lib,
+    self',
     pkgs,
-    system,
     ...
   }: let
     inherit (pkgs) stdenv runCommand;
@@ -14,7 +14,7 @@
             pkgs.python311
             pkgs.python311Packages.mkdocs
             pkgs.python311Packages.mkdocs-material
-            inputs.mynixpkgs.packages.${system}.mkdocs-plugins
+            self'.packages._mkdocs-plugins
           ];
           meta.mainProgram = "mkdocs";
         } ''
