@@ -214,11 +214,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1702230402,
-        "narHash": "sha256-PwhdihM7lOp9l8jxqiNHDT29h0saSgedw6TYs1Y+bkQ=",
+        "lastModified": 1706558129,
+        "narHash": "sha256-ZKGarjd5pNhY2GgLO9e8ia9PYoPCmtvw3EH5tVbcIaA=",
         "owner": "aldoborrero",
         "repo": "mynixpkgs",
-        "rev": "67a7db27330f85af19f3ce52ae06671e573968ea",
+        "rev": "e314504ac0eb2b27f7813c63d00a9050c2e31784",
         "type": "github"
       },
       "original": {
