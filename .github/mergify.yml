@@ -1,18 +1,24 @@
-queue_rules:
-  - name: default
-    merge_conditions:
-      - check-success=buildbot/nix-eval
-
 defaults:
   actions:
     queue:
       allow_merging_configuration_change: true
-      method: rebase
+
+queue_rules:
+  - name: default
+    conditions:
+      - check-success=buildbot/nix-eval
 
 pull_request_rules:
-  - name: merge using the merge queue
+  - name: Automerge PRs using the merge queue
     conditions:
-      - base=main
-      - label~=merge-queue|auto-merge|dependencies
+      - "label=merge-queue"
+      - "base=main"
     actions:
       queue:
+        name: default
+
+  - name: Delete head branch after merge
+    conditions:
+      - "merged"
+    actions:
+      delete_head_branch: {}
