@@ -20,6 +20,7 @@
       prysm = callPackage ./clients/consensus/prysm {inherit bls blst;};
       teku = callPackage ./clients/consensus/teku {};
       nimbus = callPackageUnstable ./clients/consensus/nimbus {};
+      lodestar = callPackageUnstable ./clients/consensus/lodestar {inherit libtorsion;};
 
       # Execution Clients
       erigon = callPackage ./clients/execution/erigon {};
@@ -73,10 +74,11 @@
       wake = callPackageUnstable ./solidity/frameworks/wake {};
 
       # Libs
-      evmc = callPackage ./libs/evmc {};
-      mcl = callPackage ./libs/mcl {};
       bls = callPackage ./libs/bls {};
       blst = callPackage ./libs/blst {};
+      evmc = callPackage ./libs/evmc {};
+      libtorsion = callPackage ./libs/libtorsion {};
+      mcl = callPackage ./libs/mcl {};
     };
 
     apps = platformApps self'.packages {
