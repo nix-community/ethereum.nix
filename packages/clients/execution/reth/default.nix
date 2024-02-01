@@ -1,7 +1,9 @@
 {
-  lib,
+  darwin,
   fetchFromGitHub,
+  lib,
   rustPlatform,
+  stdenv,
 }:
 rustPlatform.buildRustPackage rec {
   pname = "reth";
@@ -29,6 +31,10 @@ rustPlatform.buildRustPackage rec {
     rustPlatform.bindgenHook
   ];
 
+  buildInputs = lib.optionals stdenv.isDarwin [
+    darwin.apple_sdk.frameworks.Security
+  ];
+
   # Some tests fail due to I/O that is unfriendly with nix sandbox.
   checkFlags = [
     "--skip=builder::tests::block_number_node_config_test"
@@ -38,11 +44,12 @@ rustPlatform.buildRustPackage rec {
     "--skip=cli::tests::parse_env_filter_directives"
   ];
 
-  meta = {
+  meta = with lib; {
     description = "Modular, contributor-friendly and blazing-fast implementation of the Ethereum protocol, in Rust";
     homepage = "https://github.com/paradigmxyz/reth";
-    license = [lib.licenses.mit lib.licenses.asl20];
+    license = with licenses; [mit asl20];
     mainProgram = "reth";
-    platforms = ["x86_64-linux"];
+    # `x86_64-darwin` seems to have issues with jemalloc, but these are fine.
+    platforms = ["aarch64-darwin" "aarch64-linux" "x86_64-linux"];
   };
 }
