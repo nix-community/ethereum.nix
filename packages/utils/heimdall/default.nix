@@ -1,9 +1,11 @@
 {
+  darwin,
   fetchFromGitHub,
   lib,
   openssl,
   pkg-config,
   rustPlatform,
+  stdenv,
 }:
 rustPlatform.buildRustPackage rec {
   pname = "heimdall";
@@ -24,9 +26,14 @@ rustPlatform.buildRustPackage rec {
     pkg-config
   ];
 
-  buildInputs = [
-    openssl
-  ];
+  buildInputs =
+    [
+      openssl
+    ]
+    ++ lib.optionals stdenv.isDarwin (with darwin.apple_sdk.frameworks; [
+      Security
+      SystemConfiguration
+    ]);
 
   # Loads of tests do some kind of I/O incompatible with nix sandbox, but are
   # tested in upstream CI.
