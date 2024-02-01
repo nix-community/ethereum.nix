@@ -63,6 +63,7 @@
       eth2-val-tools = callPackage ./utils/eth2-val-tools {inherit bls mcl;};
       ethdo = callPackage ./utils/ethdo {inherit bls mcl;};
       ethereal = callPackage ./utils/ethereal {inherit bls mcl;};
+      heimdall = callPackage ./utils/heimdall {};
       rocketpool = callPackage ./utils/rocketpool {};
       sedge = callPackage ./utils/sedge {inherit bls mcl;};
       staking-deposit-cli = callPackage ./utils/staking-deposit-cli {};
