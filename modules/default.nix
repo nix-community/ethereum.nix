@@ -14,6 +14,7 @@
       ./lighthouse-validator
       ./mev-boost
       ./nethermind
+      ./nimbus-beacon
       ./prysm-beacon
       ./prysm-validator
       ./restore
