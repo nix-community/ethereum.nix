@@ -94,6 +94,10 @@ in {
                 if cfg.args.modules.JsonRpc.JwtSecretFile != null
                 then "--JsonRpc.JwtSecretFile %d/jwtsecret"
                 else "";
+              datadir =
+                if cfg.args.datadir != null
+                then "--datadir ${cfg.args.datadir}"
+                else "--datadir %S/${serviceName}";
 
               # generate flags
               args = let
@@ -110,7 +114,7 @@ in {
 
               filteredArgs = builtins.filter isNormalArg args;
             in ''
-              --datadir %S/${serviceName} \
+              ${datadir}
               ${jwtSecret} \
               ${concatStringsSep " \\\n" filteredArgs} \
               ${lib.escapeShellArgs cfg.extraArgs}

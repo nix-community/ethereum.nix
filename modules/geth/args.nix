@@ -173,4 +173,10 @@ with lib; {
     default = 50;
     description = mdDoc "Maximum peers to connect to.";
   };
+
+  datadir = mkOption {
+    type = types.nullOr types.str;
+    default = null;
+    description = mdDoc "Data directory for Geth. Defaults to '%S/geth-\<name\>', which generally resolves to /var/lib/geth-\<name\>.";
+  };
 }
