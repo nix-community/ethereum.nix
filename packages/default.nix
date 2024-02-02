@@ -35,7 +35,7 @@
       geth = callPackage ./clients/execution/geth {};
       geth-sealer = callPackage ./clients/execution/geth-sealer {};
       nethermind = callPackage ./clients/execution/nethermind {};
-      reth = callPackage ./clients/execution/reth {};
+      reth = callPackageUnstable ./clients/execution/reth {};
 
       # Signers
       web3signer = callPackage ./signers/web3signer {};
