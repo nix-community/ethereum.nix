@@ -82,8 +82,12 @@ in {
                   inherit pathReducer opts;
                   inherit (cfg) args;
                 };
+              datadir =
+                if cfg.args.datadir != null
+                then "--datadir ${cfg.args.datadir}"
+                else "--datadir %S/${serviceName}";
             in ''
-              --datadir %S/${serviceName} \
+              ${datadir} \
               ${concatStringsSep " \\\n" args} \
               ${lib.escapeShellArgs cfg.extraArgs}
             '';

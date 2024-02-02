@@ -19,6 +19,12 @@ with lib; {
     description = mdDoc "Changes the source directory of your configuration files.";
   };
 
+  datadir = mkOption {
+    type = types.nullOr types.str;
+    default = null;
+    description = mdDoc "Data directory for Nethermind. Defaults to '%S/nethermind-\<name\>', which generally resolves to /var/lib/nethermind-\<name\>.";
+  };
+
   log = mkOption {
     type = types.enum [
       "OFF"

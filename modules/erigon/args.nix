@@ -1,5 +1,11 @@
 lib:
 with lib; {
+  datadir = mkOption {
+    type = types.nullOr types.str;
+    default = null;
+    description = mdDoc "Data directory for Erigon. Defaults to '%S/erigon-\<name\>', which generally resolves to /var/lib/erigon-\<name\>.";
+  };
+
   port = mkOption {
     type = types.port;
     default = 30303;
