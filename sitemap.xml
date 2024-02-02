@@ -61,6 +61,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://nix-community.github.io/ethereum.nix/nixos/running-nimbus-beacon/</loc>
+         <lastmod>1980-01-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://nix-community.github.io/ethereum.nix/nixos/running-prysm-beacon/</loc>
          <lastmod>1980-01-01</lastmod>
          <changefreq>daily</changefreq>
@@ -97,6 +102,11 @@
     </url>
     <url>
          <loc>https://nix-community.github.io/ethereum.nix/nixos/modules/nethermind/</loc>
+         <lastmod>1980-01-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://nix-community.github.io/ethereum.nix/nixos/modules/nimbus-beacon/</loc>
          <lastmod>1980-01-01</lastmod>
          <changefreq>daily</changefreq>
     </url>
