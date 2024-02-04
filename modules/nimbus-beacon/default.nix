@@ -168,6 +168,7 @@ in {
                     then cfg.args.user
                     else user;
                   StateDirectory = user;
+                  ReadWritePaths = [ cfg.args.datadir ];
                   ExecStartPre = "${cfg.package}/bin/nimbus_beacon_node trustedNodeSync ${checkpointSyncArgs}";
                   ExecStart = "${cfg.package}/bin/nimbus_beacon_node ${scriptArgs}";
                 }

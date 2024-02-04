@@ -136,6 +136,7 @@ in {
                 {
                   User = serviceName;
                   StateDirectory = serviceName;
+                  ReadWritePaths = [ cfg.args.datadir ];
                   ExecStart = "${cfg.package}/bin/Nethermind.Runner ${scriptArgs}";
                 }
                 (mkIf (cfg.args.modules.JsonRpc.JwtSecretFile != null) {

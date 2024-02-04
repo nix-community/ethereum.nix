@@ -103,6 +103,7 @@ in {
                 {
                   User = serviceName;
                   StateDirectory = serviceName;
+                  ReadWritePaths = [ cfg.args.datadir ];
                   ExecStartPre = mkIf cfg.subVolume (mkBefore [
                     "+${scripts.setupSubVolume} /var/lib/private/${serviceName}"
                   ]);
