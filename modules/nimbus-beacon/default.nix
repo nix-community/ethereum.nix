@@ -105,6 +105,7 @@ in {
               # filter out certain args which need to be treated differently
               specialArgs = [
                 "--jwt-secret"
+                "--data-dir"
                 "--user" # Not a CLI Flag, only used in systemd service
                 "--rest-enable"
                 "--rest-address"
