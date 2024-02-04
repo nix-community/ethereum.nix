@@ -105,6 +105,7 @@ in {
               # filter out certain args which need to be treated differently
               specialArgs = [
                 "--jwt-secret"
+                "--data-dir"
                 "--user" # Not a CLI Flag, only used in systemd service
                 "--rest-enable"
                 "--rest-address"
@@ -124,6 +125,8 @@ in {
                   "--rest"
                   "--rest-address=${cfg.args.rest.address}"
                   "--rest-port=${toString cfg.args.rest.port}"
+                ])
+                ++ (optionals (cfg.args.rest.allow-origin != null) [
                   "--rest-allow-origin=${cfg.args.rest.allow-origin}"
                 ])
                 ++ (optionals cfg.args.metrics.enable [
