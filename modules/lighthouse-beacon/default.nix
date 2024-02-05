@@ -117,7 +117,7 @@ in {
                     then cfg.args.user
                     else user;
                   StateDirectory = user;
-                  ReadWritePaths = [ cfg.args.datadir ];
+                  ReadWritePaths = [cfg.args.datadir];
                   ExecStart = "${cfg.package}/bin/lighthouse beacon ${scriptArgs}";
                 }
                 (mkIf (cfg.args.execution-jwt != null) {

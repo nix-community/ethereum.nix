@@ -112,7 +112,7 @@ in {
                     then cfg.args.user
                     else serviceName;
                   StateDirectory = serviceName;
-                  ReadWritePaths = [ cfg.args.datadir ];
+                  ReadWritePaths = [cfg.args.datadir];
                   ExecStart = "${cfg.package}/bin/beacon-chain ${scriptArgs}";
                   MemoryDenyWriteExecute = "false"; # causes a library loading error
                 }

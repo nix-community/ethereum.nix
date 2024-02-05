@@ -104,7 +104,7 @@ in {
                     then cfg.args.user
                     else beaconServiceName;
                   StateDirectory = serviceName;
-                  ReadWritePaths = [ cfg.args.datadir ];
+                  ReadWritePaths = [cfg.args.datadir];
                   ExecStart = "${cfg.package}/bin/validator ${scriptArgs}";
                   MemoryDenyWriteExecute = "false"; # causes a library loading error
                 }
