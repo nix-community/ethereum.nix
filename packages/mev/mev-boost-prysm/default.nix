@@ -1,11 +1,11 @@
 {
   bls,
   blst,
-  buildGo121Module,
+  buildGo120Module,
   fetchFromGitHub,
   libelf,
 }:
-buildGo121Module rec {
+buildGo120Module rec {
   pname = "prysm";
   version = "4.0.0-boost0.2.0";
 
