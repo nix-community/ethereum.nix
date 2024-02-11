@@ -93,7 +93,7 @@
         inputs.treefmt-nix.flakeModule
         ./mkdocs.nix
         ./modules
-        ./packages
+        ./pkgs
       ];
       systems = import systems;
       perSystem = {

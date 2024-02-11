@@ -24,54 +24,54 @@
   in {
     packages = platformPkgs system rec {
       # Consensus Clients
-      lighthouse = callPackage ./clients/consensus/lighthouse {inherit foundry;};
-      prysm = callPackage ./clients/consensus/prysm {inherit bls blst;};
-      teku = callPackage ./clients/consensus/teku {};
-      nimbus = callPackageUnstable ./clients/consensus/nimbus {};
+      lighthouse = callPackage ./lighthouse {inherit foundry;};
+      prysm = callPackage ./prysm {inherit bls blst;};
+      teku = callPackage ./teku {};
+      nimbus = callPackageUnstable ./nimbus {};
 
       # Execution Clients
-      erigon = callPackage ./clients/execution/erigon {};
-      besu = callPackage ./clients/execution/besu {};
-      geth = callPackage ./clients/execution/geth {};
-      geth-sealer = callPackage ./clients/execution/geth-sealer {};
-      nethermind = callPackage ./clients/execution/nethermind {};
-      reth = callPackageUnstable ./clients/execution/reth {};
+      erigon = callPackage ./erigon {};
+      besu = callPackage ./besu {};
+      geth = callPackage ./geth {};
+      geth-sealer = callPackage ./geth-sealer {};
+      nethermind = callPackage ./nethermind {};
+      reth = callPackageUnstable ./reth {};
 
       # Signers
-      web3signer = callPackage ./signers/web3signer {};
-      dirk = callPackage ./signers/dirk {inherit bls mcl;};
+      web3signer = callPackage ./web3signer {};
+      dirk = callPackage ./dirk {inherit bls mcl;};
 
       # Validators
-      vouch = callPackage ./validators/vouch {inherit bls mcl;};
+      vouch = callPackage ./vouch {inherit bls mcl;};
 
       # MEV
-      dreamboat = callPackage ./mev/dreamboat {inherit blst;};
-      mev-boost = callPackage ./mev/mev-boost {inherit blst;};
-      mev-boost-builder = callPackage ./mev/mev-boost-builder {inherit blst;};
-      mev-boost-prysm = callPackage ./mev/mev-boost-prysm {inherit bls blst;};
-      mev-boost-relay = callPackage ./mev/mev-boost-relay {inherit blst;};
+      dreamboat = callPackage ./dreamboat {inherit blst;};
+      mev-boost = callPackage ./mev-boost {inherit blst;};
+      mev-boost-builder = callPackage ./mev-boost-builder {inherit blst;};
+      mev-boost-prysm = callPackage ./mev-boost-prysm {inherit bls blst;};
+      mev-boost-relay = callPackage ./mev-boost-relay {inherit blst;};
 
-      mev-rs = callPackage ./mev/mev-rs {};
+      mev-rs = callPackage ./mev-rs {};
 
       # DVT
-      charon = callPackage ./dvt/charon {inherit bls mcl;};
-      ssvnode = callPackage ./dvt/ssvnode {inherit bls mcl;};
+      charon = callPackage ./charon {inherit bls mcl;};
+      ssvnode = callPackage ./ssvnode {inherit bls mcl;};
 
       # Utils
-      eigenlayer = callPackage ./utils/eigenlayer {};
-      eth2-testnet-genesis = callPackage ./utils/eth2-testnet-genesis {inherit bls;};
-      eth2-val-tools = callPackage ./utils/eth2-val-tools {inherit bls mcl;};
-      ethdo = callPackage ./utils/ethdo {inherit bls mcl;};
-      ethereal = callPackage ./utils/ethereal {inherit bls mcl;};
-      heimdall = callPackage ./utils/heimdall {};
-      rocketpool = callPackage ./utils/rocketpool {};
-      sedge = callPackage ./utils/sedge {inherit bls mcl;};
-      staking-deposit-cli = callPackage ./utils/staking-deposit-cli {};
-      tx-fuzz = callPackage ./utils/tx-fuzz {};
-      zcli = callPackage ./utils/zcli {};
+      eigenlayer = callPackage ./eigenlayer {};
+      eth2-testnet-genesis = callPackage ./eth2-testnet-genesis {inherit bls;};
+      eth2-val-tools = callPackage ./eth2-val-tools {inherit bls mcl;};
+      ethdo = callPackage ./ethdo {inherit bls mcl;};
+      ethereal = callPackage ./ethereal {inherit bls mcl;};
+      heimdall = callPackage ./heimdall {};
+      rocketpool = callPackage ./rocketpool {};
+      sedge = callPackage ./sedge {inherit bls mcl;};
+      staking-deposit-cli = callPackage ./staking-deposit-cli {};
+      tx-fuzz = callPackage ./tx-fuzz {};
+      zcli = callPackage ./zcli {};
 
       # Dev
-      foundry = callPackageUnstable ./dev/foundry {};
+      foundry = callPackageUnstable ./foundry {};
       foundry-bin = inputs.foundry-nix.defaultPackage.${system}.overrideAttrs (_oldAttrs: {
         # TODO: Uncomment when https://github.com/shazow/foundry.nix/issues/23
         # meta.platforms = [system];
@@ -79,20 +79,20 @@
       });
 
       # Editors
-      vscode-plugin-ackee-blockchain-solidity-tools = callPackage ./editors/vscode/extensions/ackee-blockchain.solidity-tools {};
-      vscode-plugin-consensys-vscode-solidity-visual-editor = callPackage ./editors/vscode/extensions/consensys.vscode-solidity-auditor {};
+      vscode-plugin-ackee-blockchain-solidity-tools = callPackage ./ackee-blockchain.solidity-tools {};
+      vscode-plugin-consensys-vscode-solidity-visual-editor = callPackage ./consensys.vscode-solidity-auditor {};
 
       # Solidity
-      slither = callPackage ./solidity/analyzers/slither {};
-      wake = callPackage ./solidity/frameworks/wake {
+      slither = callPackage ./slither {};
+      wake = callPackage ./wake {
         inherit poetry2nix;
       };
 
       # Libs
-      evmc = callPackage ./libs/evmc {};
-      mcl = callPackage ./libs/mcl {};
-      bls = callPackage ./libs/bls {};
-      blst = callPackage ./libs/blst {};
+      evmc = callPackage ./evmc {};
+      mcl = callPackage ./mcl {};
+      bls = callPackage ./bls {};
+      blst = callPackage ./blst {};
     };
 
     apps = platformApps self'.packages {
