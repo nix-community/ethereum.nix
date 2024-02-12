@@ -6,16 +6,16 @@
 }:
 buildGo120Module rec {
   pname = "ssv";
-  version = "1.2.2";
+  version = "1.2.3";
 
   src = fetchFromGitHub {
     owner = "bloxapp";
     repo = "${pname}";
     rev = "v${version}";
-    hash = "sha256-POcz5TxeGfqdoYD0YSDD9Rt3UTPW1fayn2w0Rm2LEAk=";
+    hash = "sha256-3DTdrxfBZOXAw0nCmVQCEoPXM9/khydvRikOw+9ZXj4=";
   };
 
-  vendorHash = "sha256-FtY7xK1OvA0Tluo96zSdie2tpRVHiDcJdT0Z7ledDWk=";
+  vendorHash = "sha256-pAEJN1Ju4TQRXObbZp9IkPuKOFmFXt1tBgHYwmVT3u4=";
 
   buildInputs = [bls mcl];
 
