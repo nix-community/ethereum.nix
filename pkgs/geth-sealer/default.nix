@@ -6,16 +6,16 @@
 }:
 buildGoModule rec {
   pname = "geth-sealer";
-  version = "geth-sealer-v1.13.4";
+  version = "geth-sealer-v1.13.5";
 
   src = fetchFromGitHub {
     owner = "manifoldfinance";
     repo = "geth-sealer";
     rev = "${version}";
-    hash = "sha256-bvo+WRI08raxJlGKVHAU60DvV4YJ6qrSs3kqLya8T6M=";
+    hash = "sha256-UHIhEHDVaLTmJdvUFQxQi6f1v46+KQXTrivUEBVCSMA=";
   };
 
-  vendorHash = "sha256-YmUgKO3JtVOE/YACqL/QBiyR1jT/jPCH+Gb0xYwkJEc=";
+  vendorHash = "sha256-dOvpOCMxxmcAaticSLVlro1L4crAVJWyvgx/JZZ7buE=";
 
   ldflags = ["-s" "-w"];
 
