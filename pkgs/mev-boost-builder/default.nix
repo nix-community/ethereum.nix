@@ -5,16 +5,16 @@
 }:
 buildGoModule rec {
   pname = "builder";
-  version = "1.11.5-0.3.0";
+  version = "1.13.11.4844.dev3";
 
   src = fetchFromGitHub {
     owner = "flashbots";
     repo = "${pname}";
     rev = "v${version}";
-    hash = "sha256-5c0a+/dl1/B1PdEMsrUGfjgCE/zZtm6mBNHKBFTyoGc=";
+    hash = "sha256-jSN+DoO2pQC6Oj3oZ9av8d46SxxVGRGqwCHI4TJF3Os=";
   };
 
-  vendorHash = "sha256-PwsJjcgPXQuOtXDr4NjF7IEk+nrhDBfEnQQyyBFFSjE=";
+  vendorHash = "sha256-hJi904EZiX6Kc+KbcrbW7iss/nrZWSyuasDis/flRSg=";
 
   buildInputs = [blst];
 
