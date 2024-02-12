@@ -8,27 +8,17 @@
   snappy,
   stdenv,
   writeShellScriptBin,
-  writeText,
   zstd,
 }: let
-  nuget-config = writeText "nuget.config" ''
-    <configuration>
-      <packageSources>
-        <add key="nuget.org" value="https://api.nuget.org/v3/index.json" />
-        <add key="nugettest.org" value="https://apiint.nugettest.org/v3/index.json" />
-      </packageSources>
-    </configuration>
-  '';
-
   self = buildDotnetModule rec {
     pname = "nethermind";
-    version = "1.21.0";
+    version = "1.25.3";
 
     src = fetchFromGitHub {
       owner = "NethermindEth";
       repo = pname;
       rev = version;
-      hash = "sha256-TLQlvBvV3LN3HUbrvbivduwxkfAho/J6vw8Yh4xI2ms=";
+      hash = "sha256-v3wfDT7wlr2ryz+m/mIkMtueSpmGV5HntqkZekVkYu8=";
       fetchSubmodules = true;
     };
 
@@ -56,10 +46,8 @@
       "nethermind"
     ];
 
-    dotnet-sdk = dotnetCorePackages.sdk_7_0;
-    dotnet-runtime = dotnetCorePackages.aspnetcore_7_0;
-
-    dotnetRestoreFlags = ["--configfile=${nuget-config}"];
+    dotnet-sdk = dotnetCorePackages.sdk_8_0;
+    dotnet-runtime = dotnetCorePackages.aspnetcore_8_0;
 
     passthru = {
       # buildDotnetModule's `fetch-deps` uses `writeShellScript` instead of writeShellScriptBin making nix run .#nethermind.fetch-deps command to fail
