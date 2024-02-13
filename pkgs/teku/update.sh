@@ -1,0 +1,40 @@
+#!/usr/bin/env nix-shell
+#!nix-shell -i bash -p curl jq nix sd
+
+set -e
+
+dirname="$(dirname "$0")"
+rootDir="$(git -C "$dirname" rev-parse --show-toplevel)"
+pname="teku"
+
+updateVersion() {
+  local version=$1
+  sd "version = \"[0-9.]*\";" "version = \"$version\";" "${dirname}/default.nix"
+}
+
+updateHash() {
+  local version=$1
+  local url="https://artifacts.consensys.net/public/${pname}/raw/names/${pname}.tar.gz/versions/${version}/${pname}-${version}.tar.gz"
+
+  local output=$(nix store prefetch-file --json "$url")
+  local sriHash=$(echo "$output" | jq -r .hash)
+
+  sd "\"hash\" = \"[a-zA-Z0-9\/+-=]*\";" "\"hash\" = \"$sriHash\";" "${dirname}/default.nix"
+}
+
+currentVersion=$(nix show-derivation "${rootDir}#${pname}" | jq -r '.[].env.version')
+latestVersion=$(curl -s "https://api.github.com/repos/ConsenSys/teku/releases/latest" | jq -r '.tag_name')
+
+# Optionally strip leading 'v' if present in the tag name
+latestVersion=${latestVersion#v}
+
+if [[ "$currentVersion" == "$latestVersion" ]]; then
+  echo "${pname} is up to date: ${currentVersion}"
+  exit 0
+fi
+
+echo "Updating ${pname} from ${currentVersion} to ${latestVersion}"
+
+updateVersion "$latestVersion"
+updateHash "$latestVersion"
+
