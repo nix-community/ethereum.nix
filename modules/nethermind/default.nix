@@ -136,7 +136,7 @@ in {
                 {
                   User = serviceName;
                   StateDirectory = serviceName;
-                  ExecStart = "${cfg.package}/bin/Nethermind.Runner ${scriptArgs}";
+                  ExecStart = "${cfg.package}/bin/nethermind ${scriptArgs}";
                 }
                 (mkIf (cfg.args.modules.JsonRpc.JwtSecretFile != null) {
                   LoadCredential = ["jwtsecret:${cfg.args.modules.JsonRpc.JwtSecretFile}"];

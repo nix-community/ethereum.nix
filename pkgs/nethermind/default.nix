@@ -7,18 +7,18 @@
   rocksdb,
   snappy,
   stdenv,
-  zstd,
   writeShellScriptBin,
+  zstd,
 }: let
   self = buildDotnetModule rec {
     pname = "nethermind";
-    version = "1.19.3";
+    version = "1.25.3";
 
     src = fetchFromGitHub {
       owner = "NethermindEth";
       repo = pname;
       rev = version;
-      hash = "sha256-vqcgBT7kSyrgRl2hLehbCjsQ/AC4+a3LMOdAcmcNOFo=";
+      hash = "sha256-v3wfDT7wlr2ryz+m/mIkMtueSpmGV5HntqkZekVkYu8=";
       fetchSubmodules = true;
     };
 
@@ -42,12 +42,12 @@
     nugetDeps = ./nuget-deps.nix;
 
     executables = [
-      "Nethermind.Cli"
-      "Nethermind.Runner"
+      "nethermind-cli"
+      "nethermind"
     ];
 
-    dotnet-sdk = dotnetCorePackages.sdk_7_0;
-    dotnet-runtime = dotnetCorePackages.aspnetcore_7_0;
+    dotnet-sdk = dotnetCorePackages.sdk_8_0;
+    dotnet-runtime = dotnetCorePackages.aspnetcore_8_0;
 
     passthru = {
       # buildDotnetModule's `fetch-deps` uses `writeShellScript` instead of writeShellScriptBin making nix run .#nethermind.fetch-deps command to fail
