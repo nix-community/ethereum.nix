@@ -4,6 +4,7 @@
   fetchFromGitHub,
   mcl,
   mockgen,
+  nix-update-script,
 }: let
   pname = "sedge";
   version = "1.3.1";
@@ -32,7 +33,10 @@ in
       "-w"
       "-X github.com/NethermindEth/sedge/internal/utils.Version=v${version}"
     ];
+
     subPackages = ["cmd/sedge"];
+
+    passthru.updateScript = nix-update-script {};
 
     meta = {
       description = "A one-click setup tool for PoS network/chain validators and nodes.";

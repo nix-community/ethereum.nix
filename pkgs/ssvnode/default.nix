@@ -3,6 +3,7 @@
   mcl,
   buildGo120Module,
   fetchFromGitHub,
+  nix-update-script,
 }:
 buildGo120Module rec {
   pname = "ssv";
@@ -20,6 +21,8 @@ buildGo120Module rec {
   buildInputs = [bls mcl];
 
   subPackages = ["cmd/ssvnode"];
+
+  passthru.updateScript = nix-update-script {};
 
   meta = {
     description = "Secret-Shared-Validator(SSV) for ethereum staking";

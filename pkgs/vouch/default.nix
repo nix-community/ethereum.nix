@@ -1,8 +1,9 @@
 {
+  bls,
   buildGoModule,
   fetchFromGitHub,
   mcl,
-  bls,
+  nix-update-script,
 }:
 buildGoModule rec {
   pname = "vouch";
@@ -22,6 +23,8 @@ buildGoModule rec {
   buildInputs = [mcl bls];
 
   doCheck = false;
+
+  passthru.updateScript = nix-update-script {};
 
   meta = {
     description = "An Ethereum 2 multi-node validator client";

@@ -1,11 +1,11 @@
 {
-  buildGoModule,
-  fetchFromGitHub,
-  clang,
-  mcl,
   bls,
+  buildGoModule,
+  clang,
+  fetchFromGitHub,
   lib,
-  ...
+  mcl,
+  nix-update-script,
 }:
 buildGoModule rec {
   pname = "eth2-val-tools";
@@ -25,6 +25,8 @@ buildGoModule rec {
   buildInputs = [mcl bls];
 
   doCheck = false;
+
+  passthru.updateScript = nix-update-script {};
 
   meta = with lib; {
     description = "Some experimental tools to manage validators";

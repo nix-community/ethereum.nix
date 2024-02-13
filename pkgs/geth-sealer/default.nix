@@ -2,7 +2,7 @@
   buildGoModule,
   fetchFromGitHub,
   lib,
-  ...
+  nix-update-script,
 }:
 buildGoModule rec {
   pname = "geth-sealer";
@@ -25,6 +25,8 @@ buildGoModule rec {
 
   # Following upstream: https://github.com/ethereum/go-ethereum/blob/v1.10.23/build/ci.go#L218
   tags = ["urfave_cli_no_docs"];
+
+  passthru.updateScript = nix-update-script {};
 
   meta = with lib; {
     description = "Geth Sealer implementation";

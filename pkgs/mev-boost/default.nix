@@ -2,6 +2,7 @@
   blst,
   buildGoModule,
   fetchFromGitHub,
+  nix-update-script,
 }:
 buildGoModule rec {
   pname = "mev-boost";
@@ -19,6 +20,8 @@ buildGoModule rec {
   buildInputs = [blst];
 
   subPackages = ["cmd/mev-boost"];
+
+  passthru.updateScript = nix-update-script {};
 
   meta = {
     description = "MEV-Boost allows proof-of-stake Ethereum consensus clients to source blocks from a competitive builder marketplace";
