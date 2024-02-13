@@ -24,7 +24,7 @@ stdenv.mkDerivation rec {
     wrapProgram $out/bin/${pname} --set JAVA_HOME "${jre}"
   '';
 
-  passtrhu.updateScript = ./update.sh;
+  passthru.updateScript = ./update.sh;
 
   meta = with lib; {
     description = "Java Implementation of the Ethereum 2.0 Beacon Chain";
