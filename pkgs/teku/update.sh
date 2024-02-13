@@ -1,11 +1,11 @@
 #!/usr/bin/env nix-shell
 #!nix-shell -i bash -p curl jq nix sd
 
-set -ex
+set -e
 
-dirname="$(dirname "$0")"
-rootDir="$(git -C "$dirname" rev-parse --show-toplevel)"
 pname="teku"
+dirname="${PRJ_ROOT/pkgs/${pname}/:-$(dirname "$0")}"
+rootDir="$(git -C "$dirname" rev-parse --show-toplevel)"
 
 updateVersion() {
   local version=$1
