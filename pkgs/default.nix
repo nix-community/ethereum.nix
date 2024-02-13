@@ -42,11 +42,11 @@
       ethereal = callPackage ./ethereal {};
       evmc = callPackage ./evmc {};
       foundry = callPackageUnstable ./foundry {};
-      foundry-bin = inputs.foundry-nix.defaultPackage.${system}.overrideAttrs (_oldAttrs: {
-        # TODO: Uncomment when https://github.com/shazow/foundry.nix/issues/23
-        # meta.platforms = [system];
-        meta.platforms = ["x86_64-linux" "aarch64-linux"];
-      });
+      # foundry-bin = inputs.foundry-nix.defaultPackage.${system}.overrideAttrs (_oldAttrs: {
+      #   # TODO: Uncomment when https://github.com/shazow/foundry.nix/issues/23
+      #   # meta.platforms = [system];
+      #   meta.platforms = ["x86_64-linux" "aarch64-linux"];
+      # });
       geth = callPackage ./geth {};
       geth-sealer = callPackage ./geth-sealer {};
       heimdall = callPackage ./heimdall {};

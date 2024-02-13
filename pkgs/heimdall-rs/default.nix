@@ -6,14 +6,15 @@
   pkg-config,
   rustPlatform,
   stdenv,
+  nix-update-script,
 }:
 rustPlatform.buildRustPackage rec {
-  pname = "heimdall";
+  pname = "heimdall-rs";
   version = "0.7.3";
 
   src = fetchFromGitHub {
     owner = "jon-becker";
-    repo = "${pname}-rs";
+    repo = pname;
     rev = version;
     hash = "sha256-E3WFJ+1ps5UiA+qzJAjouBR4wJbzxrJfvcW6Kany/jU=";
   };
@@ -39,11 +40,14 @@ rustPlatform.buildRustPackage rec {
   # tested in upstream CI.
   doCheck = false;
 
+  passthru.updateScript = nix-update-script {};
+
   meta = with lib; {
     description = "A toolkit for EVM bytecode analysis";
     homepage = "https://heimdall.rs";
     license = [licenses.mit];
     mainProgram = "heimdall";
     platforms = platforms.unix;
+    ethereum-nix = true;
   };
 }
