@@ -3,7 +3,7 @@
 
 set -e
 
-dirname="$(dirname "$0")"
+dirname="${PRJ_ROOT/pkgs/besu/:-$(dirname "$0")}"
 rootDir="$(git -C "$dirname" rev-parse --show-toplevel)"
 pname="besu"
 
