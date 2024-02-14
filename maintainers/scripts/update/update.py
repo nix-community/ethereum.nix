@@ -158,7 +158,7 @@ async def updater(nixpkgs_root: str, temp_dir: Optional[Tuple[str, str]], merge_
             # A sentinel received, we are done.
             return
 
-        if not ('commit' in package['supportedFeatures'] or 'attrPath' in package):
+        if not ('attrPath' in package or 'commit' in package['supportedFeatures']):
             temp_dir = None
 
         await run_update_script(nixpkgs_root, merge_lock, temp_dir, package, keep_going)
