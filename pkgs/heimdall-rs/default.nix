@@ -40,7 +40,9 @@ rustPlatform.buildRustPackage rec {
   # tested in upstream CI.
   doCheck = false;
 
-  passthru.updateScript = nix-update-script {};
+  passthru.updateScript = nix-update-script {
+     extraArgs = ["--flake"];
+  };
 
   meta = with lib; {
     description = "A toolkit for EVM bytecode analysis";

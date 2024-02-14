@@ -26,7 +26,9 @@ buildGoModule rec {
 
   doCheck = false;
 
-  passthru.updateScript = nix-update-script {};
+  passthru.updateScript = nix-update-script {
+     extraArgs = ["--flake"];
+  };
 
   meta = with lib; {
     description = "A command-line tool for managing common tasks in Ethereum 2";

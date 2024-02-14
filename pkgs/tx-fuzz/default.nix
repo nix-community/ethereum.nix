@@ -23,7 +23,9 @@ buildGoModule rec {
     mv $out/bin/livefuzzer $out/bin/tx-fuzz
   '';
 
-  passthru.updateScript = nix-update-script {};
+  passthru.updateScript = nix-update-script {
+    extraArgs = ["--flake"];
+  };
 
   meta = with lib; {
     homepage = "https://github.com/MariusVanDerWijden/tx-fuzz";

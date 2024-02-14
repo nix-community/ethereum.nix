@@ -18,7 +18,9 @@ buildGoModule rec {
 
   subPackages = ["."];
 
-  passthru.updateScript = nix-update-script {};
+  passthru.updateScript = nix-update-script {
+    extraArgs = ["--flake"];
+  };
 
   meta = {
     description = "Eth2 CLI debugging tool";

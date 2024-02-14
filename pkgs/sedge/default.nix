@@ -36,7 +36,9 @@ in
 
     subPackages = ["cmd/sedge"];
 
-    passthru.updateScript = nix-update-script {};
+    passthru.updateScript = nix-update-script {
+      extraArgs = ["--flake"];
+    };
 
     meta = {
       description = "A one-click setup tool for PoS network/chain validators and nodes.";

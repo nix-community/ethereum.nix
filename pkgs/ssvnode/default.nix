@@ -22,7 +22,9 @@ buildGo120Module rec {
 
   subPackages = ["cmd/ssvnode"];
 
-  passthru.updateScript = nix-update-script {};
+  passthru.updateScript = nix-update-script {
+    extraArgs = ["--flake"];
+  };
 
   meta = {
     description = "Secret-Shared-Validator(SSV) for ethereum staking";

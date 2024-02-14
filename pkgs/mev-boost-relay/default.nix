@@ -27,7 +27,9 @@ buildGoModule rec {
     "-X main.Version=${version}"
   ];
 
-  passthru.updateScript = nix-update-script {};
+  passthru.updateScript = nix-update-script {
+     extraArgs = ["--flake"];
+  };
 
   meta = {
     description = "MEV-Boost Relay for Ethereum proposer/builder separation (PBS)";

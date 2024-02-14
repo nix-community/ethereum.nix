@@ -23,7 +23,9 @@ buildGoModule rec {
 
   ldflags = ["-s" "-w"];
 
-  passthru.updateScript = nix-update-script {};
+   passthru.updateScript = nix-update-script {
+    extraArgs = ["--flake"];
+  };
 
   meta = {
     description = "An Ethereum 2.0 Relay for proposer-builder separation (PBS) with MEV-boost";

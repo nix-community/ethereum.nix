@@ -20,7 +20,9 @@ buildGoModule rec {
   ldflags = ["-s" "-w"];
   subPackages = ["cmd/eigenlayer"];
 
-  passthru.updateScript = nix-update-script {};
+  passthru.updateScript = nix-update-script {
+    extraArgs = ["--flake"];
+  };
 
   meta = with lib; {
     description = "Utility manages core operator functionalities like local key management, operator registration and updates";

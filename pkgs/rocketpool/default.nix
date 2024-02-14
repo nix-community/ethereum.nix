@@ -22,7 +22,9 @@ buildGoModule rec {
     mv $out/bin/rocketpool-cli $out/bin/rocketpool
   '';
 
-  passthru.updateScript = nix-update-script {};
+  passthru.updateScript = nix-update-script {
+    extraArgs = ["--flake"];
+  };
 
   meta = {
     description = "Rocket Pool CLI";

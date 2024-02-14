@@ -36,7 +36,9 @@ buildGo121Module rec {
     "-X github.com/prysmaticlabs/prysm/v4/runtime/version.gitTag=v${version}"
   ];
 
-  passthru.updateScript = nix-update-script {};
+  passthru.updateScript = nix-update-script {
+    extraArgs = ["--flake"];
+  };
 
   meta = {
     description = "Go implementation of Ethereum proof of stake";

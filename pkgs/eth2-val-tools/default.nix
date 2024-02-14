@@ -26,7 +26,9 @@ buildGoModule rec {
 
   doCheck = false;
 
-  passthru.updateScript = nix-update-script {};
+  passthru.updateScript = nix-update-script {
+     extraArgs = ["--flake"];
+  };
 
   meta = with lib; {
     description = "Some experimental tools to manage validators";
