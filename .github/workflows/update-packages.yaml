@@ -17,7 +17,7 @@ jobs:
         with:
           # TODO: remove nethermind after we fix build for them
           # TODO: remove mev-boost after they make a new release tag
-          blacklist: "staking-deposit-cli,dreamboat,bls,blst,evmc,mcl,besu,teku,lighthouse,reth,wake,docs,foundry-bin,foundry,web3signer,mev-boost-prysm,vscode-plugin-consensys-vscode-solidity-visual-editor,vscode-plugin-ackee-blockchain-solidity-tools,mev-boost,nethermind"
+          blacklist: "staking-deposit-cli,dreamboat,bls,blst,evmc,mcl,besu,teku,lighthouse,reth,wake,docs,foundry-bin,foundry,web3signer,mev-boost-prysm,mev-boost-builder,vscode-plugin-consensys-vscode-solidity-visual-editor,vscode-plugin-ackee-blockchain-solidity-tools,mev-boost,nethermind"
           sign-commits: true
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
           gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
