@@ -3,9 +3,9 @@
 
 set -e
 
-dirname="${PRJ_ROOT/pkgs/besu/:-$(dirname "$0")}"
-rootDir="$(git -C "$dirname" rev-parse --show-toplevel)"
 pname="besu"
+dirname="$(dirname "$0")"
+rootDir="$(git -C "$dirname" rev-parse --show-toplevel)"
 
 updateVersion() {
   local version=$1
@@ -15,7 +15,7 @@ updateVersion() {
 updateHash() {
   local version=$1
   local url="https://hyperledger.jfrog.io/hyperledger/${pname}-binaries/${pname}/${version}/${pname}-${version}.tar.gz"
-  local sriHash=$(nix store prefetch-file --json "$url" | jq -r .hash)
+  local sriHash=$(nix store prefetch-file --json "$url" | jq -r '.hash')
   sd 'hash = "[a-zA-Z0-9/+-=]*";' "hash = \"$sriHash\";" "${dirname}/default.nix"
 }
 

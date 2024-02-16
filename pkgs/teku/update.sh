@@ -4,7 +4,7 @@
 set -e
 
 pname="teku"
-dirname="${PRJ_ROOT/pkgs/${pname}/:-$(dirname "$0")}"
+dirname="$(dirname "$0")}"
 rootDir="$(git -C "$dirname" rev-parse --show-toplevel)"
 
 updateVersion() {
