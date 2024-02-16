@@ -26,6 +26,7 @@
       besu = callPackage ./besu {};
       bls = callPackage ./bls {};
       blst = callPackage ./blst {};
+      blutgang = callPackage ./blutgang {};
       charon = callPackage ./charon {inherit bls mcl;};
       dirk = callPackage ./dirk {inherit bls mcl;};
       dreamboat = callPackage ./dreamboat {inherit blst;};
@@ -73,6 +74,7 @@
 
     apps = platformApps self'.packages {
       besu.bin = "besu";
+      blutgang.bin = "blutgang";
       charon.bin = "charon";
       dirk.bin = "dirk";
       dreamboat.bin = "dreamboat";
