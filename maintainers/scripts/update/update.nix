@@ -40,6 +40,11 @@
     ++ lib.optional (commit == "true") "--commit";
 
   args = [packagesJson] ++ optionalArgs;
+
+  python = pkgs.python311.withPackages (ps:
+    with ps; [
+      click
+    ]);
 in
   pkgs.stdenv.mkDerivation {
     name = "flake-packages-update-script";
@@ -55,6 +60,6 @@ in
     '';
     shellHook = ''
       unset shellHook # Prevent contamination in nested shells.
-      exec ${pkgs.python3}/bin/python ${./update.py} ${builtins.concatStringsSep " " args}
+      exec ${python}/bin/python ${./update.py} ${builtins.concatStringsSep " " args}
     '';
   }
