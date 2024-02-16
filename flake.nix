@@ -131,6 +131,7 @@
           flakeCheck = true;
           programs = {
             alejandra.enable = true;
+            black.enable = true;
             deadnix.enable = true;
             deno.enable = true;
             mdformat.enable = true;
