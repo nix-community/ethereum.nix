@@ -24,7 +24,7 @@ buildGoModule rec {
   ldflags = ["-s" "-w"];
 
   passthru.updateScript = nix-update-script {
-     extraArgs = ["--flake"];
+    extraArgs = ["--flake"];
   };
 
   meta = {

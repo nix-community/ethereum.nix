@@ -41,7 +41,7 @@ rustPlatform.buildRustPackage rec {
   doCheck = false;
 
   passthru.updateScript = nix-update-script {
-     extraArgs = ["--flake"];
+    extraArgs = ["--flake"];
   };
 
   meta = with lib; {

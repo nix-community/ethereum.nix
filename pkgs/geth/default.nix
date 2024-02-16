@@ -63,7 +63,7 @@ in
     tags = ["urfave_cli_no_docs"];
 
     passthru.updateScript = nix-update-script {
-       extraArgs = ["--flake"];
+      extraArgs = ["--flake"];
     };
 
     meta = with lib; {

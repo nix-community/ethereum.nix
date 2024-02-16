@@ -28,7 +28,7 @@ buildGoModule rec {
   ];
 
   passthru.updateScript = nix-update-script {
-     extraArgs = ["--flake"];
+    extraArgs = ["--flake"];
   };
 
   meta = {
