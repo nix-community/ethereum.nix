@@ -64,6 +64,7 @@
       teku = callPackage ./teku {};
       tx-fuzz = callPackage ./tx-fuzz {};
       vouch = callPackage ./vouch {inherit bls mcl;};
+      vouch-unstable = callPackage ./vouch/unstable.nix {inherit bls mcl;};
       vscode-plugin-ackee-blockchain-solidity-tools = callPackage ./ackee-blockchain.solidity-tools {};
       vscode-plugin-consensys-vscode-solidity-visual-editor = callPackage ./consensys.vscode-solidity-auditor {};
       wake = callPackage ./wake {inherit poetry2nix;};
