@@ -143,7 +143,7 @@ async def commit_changes(
 
 
 async def check_changes(package: Dict, worktree: str, update_info: str):
-    if "commit" in package["supportedFeatures"]:
+    if "commit" in package.get("supportedFeatures", []):
         changes = json.loads(update_info)
     else:
         changes = [{}]
@@ -161,13 +161,11 @@ async def check_changes(package: Dict, worktree: str, update_info: str):
 
         if "newVersion" not in changes[0]:
             attr_path = changes[0]["attrPath"]
+            logging.info(f"Current worktree: {worktree}")
             obtain_new_version_process = await check_subprocess(
-                "nix-instantiate",
-                "--expr",
-                f"with import ./. {{}}; lib.getVersion {attr_path}",
-                "--eval",
-                "--strict",
-                "--json",
+                "nix",
+                "eval",
+                f".#packages.x86_64-linux.{attr_path}.version",
                 stdout=asyncio.subprocess.PIPE,
                 stderr=asyncio.subprocess.PIPE,
                 cwd=worktree,
@@ -196,7 +194,7 @@ async def check_changes(package: Dict, worktree: str, update_info: str):
 
 async def merge_changes(
     merge_lock: asyncio.Lock,
-    package: Package,
+    package: Dict,
     update_info: str,
     temp_dir: Optional[Tuple[str, str]],
 ) -> None:
@@ -226,7 +224,9 @@ async def updater(
             # A sentinel received, we are done.
             return
 
-        if not ("attrPath" in package or "commit" in package["supportedFeatures"]):
+        if not (
+            "commit" in package.get("supportedFeatures", []) or "attrPath" in package
+        ):
             temp_dir = None
 
         await run_update_script(dir_root, merge_lock, temp_dir, package, keep_going)

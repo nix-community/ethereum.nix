@@ -9,4 +9,5 @@ nix-shell "${rootDir}/${updateScript}" \
   --argstr flakePath "${rootDir}" \
   --argstr keep-going 'true' \
   --argstr max-workers "4" \
-  --argstr no-confirm "true"
+  --argstr no-confirm "true" \
+  --argstr commit 'true'
