@@ -1,9 +1,9 @@
 {
   autoPatchelfHook,
   fetchurl,
+  nix-update-script,
   stdenv,
   zlib,
-  ...
 }:
 stdenv.mkDerivation rec {
   pname = "staking-deposit-cli";
@@ -26,6 +26,10 @@ stdenv.mkDerivation rec {
 
     runHook postInstall
   '';
+
+  passthru.updateScript = nix-update-script {
+    extraArgs = ["--flake"];
+  };
 
   meta = {
     description = "Secure key generation for deposits";

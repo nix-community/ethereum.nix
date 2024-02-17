@@ -1,6 +1,7 @@
 {
   buildGoModule,
   fetchFromGitHub,
+  nix-update-script,
 }:
 buildGoModule rec {
   pname = "zcli";
@@ -16,6 +17,10 @@ buildGoModule rec {
   vendorHash = "sha256-+5l35M7wsCOOLdVUY8nr+O7693TmiuVHD+2AFCltFRc=";
 
   subPackages = ["."];
+
+  passthru.updateScript = nix-update-script {
+    extraArgs = ["--flake"];
+  };
 
   meta = {
     description = "Eth2 CLI debugging tool";

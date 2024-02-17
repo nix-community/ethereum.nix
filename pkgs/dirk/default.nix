@@ -3,6 +3,7 @@
   fetchFromGitHub,
   mcl,
   bls,
+  nix-update-script,
 }:
 buildGoModule rec {
   pname = "dirk";
@@ -21,6 +22,10 @@ buildGoModule rec {
   buildInputs = [mcl bls];
 
   doCheck = false;
+
+  passthru.updateScript = nix-update-script {
+    extraArgs = ["--flake"];
+  };
 
   meta = {
     description = "An Ethereum 2 distributed remote keymanager, focused on security and long-term performance of signing operations";

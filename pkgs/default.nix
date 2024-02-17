@@ -35,17 +35,17 @@
       eth2-testnet-genesis = callPackage ./eth2-testnet-genesis {inherit bls;};
       eth2-val-tools = callPackage ./eth2-val-tools {inherit bls mcl;};
       ethdo = callPackage ./ethdo {inherit bls mcl;};
-      ethereal = callPackage ./ethereal {inherit bls mcl;};
+      ethereal = callPackage ./ethereal {};
       evmc = callPackage ./evmc {};
       foundry = callPackageUnstable ./foundry {};
-      foundry-bin = inputs.foundry-nix.defaultPackage.${system}.overrideAttrs (_oldAttrs: {
-        # TODO: Uncomment when https://github.com/shazow/foundry.nix/issues/23
-        # meta.platforms = [system];
-        meta.platforms = ["x86_64-linux" "aarch64-linux"];
-      });
+      # foundry-bin = inputs.foundry-nix.defaultPackage.${system}.overrideAttrs (_oldAttrs: {
+      #   # TODO: Uncomment when https://github.com/shazow/foundry.nix/issues/23
+      #   # meta.platforms = [system];
+      #   meta.platforms = ["x86_64-linux" "aarch64-linux"];
+      # });
       geth = callPackage ./geth {};
       geth-sealer = callPackage ./geth-sealer {};
-      heimdall = callPackage ./heimdall {};
+      heimdall-rs = callPackage ./heimdall-rs {};
       lighthouse = callPackage ./lighthouse {inherit foundry;};
       mcl = callPackage ./mcl {};
       mev-boost = callPackage ./mev-boost {inherit blst;};
