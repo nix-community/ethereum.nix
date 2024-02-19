@@ -133,29 +133,26 @@
           programs = {
             alejandra.enable = true;
             deadnix.enable = true;
-            deno.enable = false;
+            deno.enable = true;
             mdformat.enable = true;
             statix.enable = true;
           };
           settings.formatter = {
-            # TODO: Re-enable deno whenever works again on x86_64-darwin
-            # deno.command = lib.mkDefault pkgs.deno; # current deno from unstable don't work on darwin x86
-            # deno.excludes = [
-            #   "*.md"
-            #   "*.html"
-            # ];
-            mdformat.command = lib.mkDefault (with pkgsUnstable.python3Packages;
-              mdformat.withPlugins [
-                mdformat-admon
-                mdformat-beautysh
-                mdformat-footnote
-                mdformat-frontmatter
-                mdformat-gfm
-                mdformat-mkdocs
-                mdformat-nix-alejandra
-                mdformat-simple-breaks
-                mdformat-toc
-              ]);
+            deno.excludes = [
+              "*.md"
+              "*.html"
+            ];
+            mdformat.command = lib.mkDefault (pkgsUnstable.mdformat.withPlugins (p: [
+              p.mdformat-admon
+              p.mdformat-beautysh
+              p.mdformat-footnote
+              p.mdformat-frontmatter
+              p.mdformat-gfm
+              p.mdformat-mkdocs
+              p.mdformat-nix-alejandra
+              p.mdformat-simple-breaks
+              p.mdformat-toc
+            ]));
             mdformat.excludes = [
               # mdformat doesn't behave well with some admonitions features
               "apps.md"
