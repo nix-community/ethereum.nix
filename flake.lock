@@ -141,9 +141,7 @@
         "flake-parts": [
           "flake-parts"
         ],
-        "flake-root": [
-          "flake-root"
-        ],
+        "flake-root": "flake-root",
         "nixpkgs": [
           "nixpkgs"
         ],
@@ -255,7 +253,6 @@
         "devshell": "devshell",
         "flake-compat": "flake-compat",
         "flake-parts": "flake-parts",
-        "flake-root": "flake-root",
         "flake-utils": "flake-utils",
         "foundry-nix": "foundry-nix",
         "lib-extras": "lib-extras",

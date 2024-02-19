@@ -29,7 +29,6 @@
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
-    flake-root.url = "github:srid/flake-root";
 
     # used by dependencies
     flake-utils.url = "github:numtide/flake-utils";
@@ -55,7 +54,6 @@
       url = "github:aldoborrero/lib-extras/v0.2.2";
       inputs.devshell.follows = "devshell";
       inputs.flake-parts.follows = "flake-parts";
-      inputs.flake-root.follows = "flake-root";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.treefmt-nix.follows = "treefmt-nix";
     };
@@ -79,7 +77,6 @@
     {
       imports = [
         inputs.devshell.flakeModule
-        inputs.flake-root.flakeModule
         inputs.treefmt-nix.flakeModule
         ./mkdocs.nix
         ./modules
@@ -130,7 +127,7 @@
 
         # formatter
         treefmt.config = {
-          inherit (config.flake-root) projectRootFile;
+          projectRootFile = "flake.nix";
           flakeFormatter = true;
           flakeCheck = true;
           programs = {
