@@ -99,8 +99,6 @@ async def run_update_script(
         logging.error("")
         stderr = await e.process.stderr.read()
         logging.error(stderr.decode("utf-8"))
-        with open(f"{package['pname']}.log", "wb") as logfile:
-            logfile.write(stderr)
         logging.error("")
         logging.error(
             f"--- SHOWING ERROR LOG FOR {package['name']} ----------------------"
@@ -250,7 +248,7 @@ async def start_updates(
         dir_root = (await dir_root_process.stdout.read()).decode("utf-8").strip()
 
         # Set up temporary directories when using auto-commit.
-        for i in range(num_workers):
+        for _ in range(num_workers):
             temp_dir = stack.enter_context(make_worktree()) if commit else None
             temp_dirs.append(temp_dir)
 
@@ -260,7 +258,7 @@ async def start_updates(
 
         # Add sentinels, one for each worker.
         # A workers will terminate when it gets sentinel from the queue.
-        for i in range(num_workers):
+        for _ in range(num_workers):
             await packages_to_update.put(None)
 
         # Prepare updater workers for each temp_dir directory.
