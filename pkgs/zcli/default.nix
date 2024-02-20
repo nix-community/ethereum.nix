@@ -4,16 +4,16 @@
 }:
 buildGoModule rec {
   pname = "zcli";
-  version = "0.6.0";
+  version = "0.7.1";
 
   src = fetchFromGitHub {
     owner = "protolambda";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-uQ67Gp1Gs7Fl1fPDe2jHc84DV9RtBRz0EaD8WIn113c=";
+    hash = "sha256-Kv8wDkaHX7BELATXMtTTHx/rk1FJs6RpMbhSzfXUg0M=";
   };
 
-  vendorHash = "sha256-+5l35M7wsCOOLdVUY8nr+O7693TmiuVHD+2AFCltFRc=";
+  vendorHash = "sha256-ljLBpawNCXGTNXvnuodpDfrnKAFvi0e/HV1ns5EHeaE=";
 
   subPackages = ["."];
 
