@@ -19,13 +19,13 @@
 in
   stdenv.mkDerivation rec {
     pname = "nimbus-eth2";
-    version = "24.2.0";
+    version = "24.2.1";
 
     src = fetchFromGitHub {
       owner = "status-im";
       repo = pname;
       rev = "v${version}";
-      hash = "sha256-KnrNZJv7QYBbCi+H5Iv73UdHZunE4/X6rtO3CMqxx3U=";
+      hash = "sha256-0dfiIB9EVrc8JDL+o/NE5C0zKEKQ9bCYX9WAe+vkfAk=";
       fetchSubmodules = true;
     };
 
