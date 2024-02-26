@@ -26,7 +26,7 @@
       besu = callPackage ./besu {};
       bls = callPackage ./bls {};
       blst = callPackage ./blst {};
-      blutgang = callPackage ./blutgang {};
+      blutgang = callPackage ./blutgang {inherit (pkgsUnstable) rustPlatform;};
       charon = callPackage ./charon {inherit bls mcl;};
       dirk = callPackage ./dirk {inherit bls mcl;};
       dreamboat = callPackage ./dreamboat {inherit blst;};
