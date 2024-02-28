@@ -7,21 +7,21 @@
 }:
 rustPlatform.buildRustPackage rec {
   pname = "reth";
-  version = "0.1.0-alpha.18";
+  version = "0.1.0-alpha.21";
 
   src = fetchFromGitHub {
     owner = "paradigmxyz";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-XL78PIMo2Dy2VpEYsMohmirL717+U1kPlLGjSp0/gdc=";
+    hash = "sha256-cj+yfYTHtkMIoGpXzwzTuZPRtBQtA7DrzTuOr1ZF/pc=";
   };
 
   cargoLock = {
     lockFile = "${src}/Cargo.lock";
     outputHashes = {
-      "alloy-genesis-0.1.0" = "sha256-4vFLWK2SeIMz22p33NrFLYXl6pG1+afpYLws1uMtIb4=";
+      "alloy-genesis-0.1.0" = "sha256-1rLfBfW1lKQh4N21yOZjprSE4d+9zkY36kQ7zAmcjr8=";
       "discv5-0.3.1" = "sha256-Z/Yl/K6UKmXQ4e0anAJZffV9PmWdBg/ROnNBrB8dABE=";
-      "revm-inspectors-0.1.0" = "sha256-qBOHfWJfDH2Ua93t6GZm1rQuxnkelVmEzA4R9lulW+Q=";
+      "revm-inspectors-0.1.0" = "sha256-EdeltiMyq20LHAAlyC7oBec+T1dx+OeFmwNsrycqNas=";
     };
   };
 
