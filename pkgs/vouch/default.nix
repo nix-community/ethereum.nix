@@ -1,31 +1,20 @@
 {
-  buildGoModule,
+  callPackage,
   fetchFromGitHub,
   mcl,
   bls,
-}:
-buildGoModule rec {
-  pname = "vouch";
-  version = "1.7.6";
+}: let
+  mkVouch = callPackage ./builder.nix {inherit mcl bls;};
+in
+  mkVouch rec {
+    version = "1.7.6";
 
-  src = fetchFromGitHub {
-    owner = "attestantio";
-    repo = pname;
-    rev = "v${version}";
-    hash = "sha256-zno/8uUkejS0zqOijGZdzknafavbvCU72uj/44on1f8=";
-  };
+    src = fetchFromGitHub {
+      owner = "attestantio";
+      repo = "vouch";
+      rev = "v${version}";
+      hash = "sha256-zno/8uUkejS0zqOijGZdzknafavbvCU72uj/44on1f8=";
+    };
 
-  runVend = true;
-  vendorHash = "sha256-zNHLg/nIKvIbMZtyDANxEQ04dygFHxwrM3JJkD1zcjo=";
-
-  buildInputs = [mcl bls];
-
-  doCheck = false;
-
-  meta = {
-    description = "An Ethereum 2 multi-node validator client";
-    homepage = "https://github.com/attestantio/vouch";
-    mainProgram = "vouch";
-    platforms = ["x86_64-linux"];
-  };
-}
+    vendorHash = "sha256-zNHLg/nIKvIbMZtyDANxEQ04dygFHxwrM3JJkD1zcjo=";
+  } {}
