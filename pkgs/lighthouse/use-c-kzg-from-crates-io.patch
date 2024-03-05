@@ -8,4 +8,4 @@ index 7b70166f9..857fa4ee1 100644
  ethereum_hashing = { workspace = true }
 -c-kzg = { git = "https://github.com/ethereum/c-kzg-4844", rev = "748283cced543c486145d5f3f38684becdfe3e1b"}
 \ No newline at end of file
-+c-kzg = "0.4.0"
++c-kzg = { version = "0.4.0", default-features = false, features = ["std"] }
