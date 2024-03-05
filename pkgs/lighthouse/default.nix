@@ -50,7 +50,6 @@ in
       outputHashes = {
         "alloy-consensus-0.1.0" = "sha256-y5AIZN4d7Vm2dVa3jd0e6zXwC8hzPyOv0h5+W/Az3rs=";
         "amcl-0.3.0" = "sha256-kc8k/ls4W0TwFBsRcyyotyz8ZBEjsZXHeJnJtsnW/LM=";
-        "c-kzg-0.1.0" = "sha256-uNIt2vxrIZjeGQ91NiIJaBHXv4FcmDQrQ/7BR6l8Q8w=";
         "libmdbx-0.1.4" = "sha256-NMsR/Wl1JIj+YFPyeMMkrJFfoS07iEAKEQawO89a+/Q=";
         "lmdb-rkv-0.14.0" = "sha256-sxmguwqqcyOlfXOZogVz1OLxfJPo+Q0+UjkROkbbOCk=";
       };

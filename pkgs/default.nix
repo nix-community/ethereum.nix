@@ -46,7 +46,7 @@
       geth = callPackage ./geth {};
       geth-sealer = callPackage ./geth-sealer {};
       heimdall = callPackage ./heimdall {};
-      lighthouse = callPackage ./lighthouse {inherit foundry;};
+      lighthouse = callPackageUnstable ./lighthouse {inherit foundry;};
       mcl = callPackage ./mcl {};
       mev-boost = callPackage ./mev-boost {inherit blst;};
       mev-boost-builder = callPackage ./mev-boost-builder {inherit blst;};
