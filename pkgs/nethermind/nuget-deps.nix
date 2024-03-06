@@ -838,8 +838,8 @@
   })
   (fetchNuGet {
     pname = "Nethermind.Numerics.Int256";
-    version = "1.1.1";
-    sha256 = "1dydq1siivwbg8fzcwwjh92mmypjsz584dgpyi7lz4yx3m7lw7s0";
+    version = "1.2.0";
+    sha256 = "0swsv0kbcmpyhlya7lxpghzzjrcz144d3pa17n4c3hxqasgf93fv";
   })
   (fetchNuGet {
     pname = "NETStandard.Library";
