@@ -27,13 +27,13 @@
 in
   rustPlatform.buildRustPackage rec {
     pname = "lighthouse";
-    version = "5.1.2";
+    version = "5.1.3";
 
     src = fetchFromGitHub {
       owner = "sigp";
       repo = pname;
       rev = "v${version}";
-      hash = "sha256-RQKLOIEdRDZtWNZgMmH8tVUX4Adm+2TUwQS8cCbuhKA=";
+      hash = "sha256-jEK8LfeJI+c7T5dYHp1iKBDT2JVjgwLhMuzbATV9AFY=";
     };
 
     patches = [
