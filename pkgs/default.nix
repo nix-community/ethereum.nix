@@ -62,6 +62,7 @@
       rotki-bin = callPackage ./rotki-bin {};
       sedge = callPackage ./sedge {inherit bls mcl;};
       slither = callPackage ./slither {};
+      snarkjs = callPackage ./snarkjs {};
       ssvnode = callPackage ./ssvnode {inherit bls mcl;};
       staking-deposit-cli = callPackage ./staking-deposit-cli {};
       teku = callPackage ./teku {};
@@ -129,6 +130,7 @@
       rotki-bin.bin = "rotki";
       sedge.bin = "sedge";
       slither.bin = "slither";
+      snarkjs.bin = "snarkjs";
       ssvnode.bin = "ssvnode";
       staking-deposit-cli.bin = "deposit";
       teku.bin = "teku";
