@@ -115,7 +115,7 @@ Utilities and applications can't be categorized into any category of the above.
 | [ethdo](https://github.com/wealdtech/ethdo)                                 | `nix run .#ethdo`                |
 | [ethereal](https://github.com/wealdtech/ethereal)                           | `nix run .#ethereal`             |
 | [sedge](https://github.com/NethermindEth/sedge)                             | `nix run .#sedge`                |
-| [staking-deposit-cli](https://github.com/ethereum/staking-deposit-cli)      | `nix run .#deposit`              |
+| [staking-deposit-cli](https://github.com/ethereum/staking-deposit-cli)      | `nix run .#staking-deposit-cli`  |
 | [tx-fuzz](https://github.com/MariusVanDerWijden/tx-fuzz)                    | `nix run .#tx-fuzz`              |
 | [zcli](https://github.com/protolambda/zcli)                                 | `nix run .#zcli`                 |
 
