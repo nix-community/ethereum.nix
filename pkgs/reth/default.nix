@@ -29,6 +29,10 @@ rustPlatform.buildRustPackage rec {
     rustPlatform.bindgenHook
   ];
 
+  # `x86_64-darwin` seems to have issues with jemalloc
+  buildNoDefaultFeatures = true;
+  buildFeatures = lib.optional (stdenv.system != "x86_64-darwin") "jemalloc";
+
   buildInputs = lib.optionals stdenv.isDarwin [
     darwin.apple_sdk.frameworks.Security
   ];
@@ -47,7 +51,6 @@ rustPlatform.buildRustPackage rec {
     homepage = "https://github.com/paradigmxyz/reth";
     license = with licenses; [mit asl20];
     mainProgram = "reth";
-    # `x86_64-darwin` seems to have issues with jemalloc, but these are fine.
-    platforms = ["aarch64-darwin" "aarch64-linux" "x86_64-linux"];
+    platforms = ["aarch64-darwin" "x86_64-darwin" "aarch64-linux" "x86_64-linux"];
   };
 }
