@@ -14,7 +14,7 @@
   </a>
 </p>
 
-Ethereum.nix is a collection of [Nix](https://nixos.org) packages and [NixOS](https://nixos.wiki/wiki/NixOS_modules) modules
+Ethereum.nix is a collection of [Nix](https://nixos.org) packages and [NixOS](https://wiki.nixos.org/wiki/NixOS_modules) modules
 designed to make it easier to operate [Ethereum](https://ethereum.org) related services and infrastructure.
 
 For the uninitiated, using Ethereum.nix will give you the following benefits:
