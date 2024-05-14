@@ -41,6 +41,7 @@ in {
               specialArgs = [
                 "--network"
                 "-goerli"
+                "-holesky"
                 "-mainnet"
                 "-relay-monitor"
                 "-relay-monitors"
