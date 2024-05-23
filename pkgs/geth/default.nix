@@ -8,9 +8,11 @@
   bins = [
     "abidump"
     "abigen"
+    "blsync"
     "bootnode"
     "clef"
     "devp2p"
+    "era"
     "ethkey"
     "evm"
     "geth"
@@ -20,16 +22,17 @@
 in
   buildGoModule rec {
     pname = "geth";
-    version = "1.13.14";
+    version = "1.14.3";
 
     src = fetchFromGitHub {
       owner = "ethereum";
       repo = "go-ethereum";
       rev = "v${version}";
-      hash = "sha256-+o/yOsS8tm8zvTJ17jd+dNPJpJB0vsjf4WRWNv6HgG0=";
+      hash = "sha256-h2i/q4gfvqO8SgFxjoIhm4y0icpt+qe0Tq+3W6Ld8KM=";
     };
 
-    vendorHash = "sha256-LWNFuF66KudxrpWBBXjMbrWP5CwEuPE2h3kGfILIII0=";
+    proxyVendor = true;
+    vendorHash = "sha256-yD4Z7vbi3D3f9xGxRQjnjbTKljtjRLeIHRAdWjSub6U=";
 
     ldflags = ["-s" "-w"];
 
@@ -45,9 +48,11 @@ in
     subPackages = [
       "cmd/abidump"
       "cmd/abigen"
+      "cmd/blsync"
       "cmd/bootnode"
       "cmd/clef"
       "cmd/devp2p"
+      "cmd/era"
       "cmd/ethkey"
       "cmd/evm"
       "cmd/geth"
