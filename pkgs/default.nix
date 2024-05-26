@@ -46,6 +46,7 @@
       });
       geth = callPackage ./geth {};
       geth-sealer = callPackage ./geth-sealer {};
+      hardhat = callPackage ./hardhat {};
       heimdall = callPackage ./heimdall {};
       lighthouse = callPackageUnstable ./lighthouse {inherit foundry;};
       mcl = callPackage ./mcl {};
