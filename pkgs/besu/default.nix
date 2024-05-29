@@ -10,11 +10,11 @@
 }:
 stdenv.mkDerivation (finalAttrs: rec {
   pname = "besu";
-  version = "24.3.3";
+  version = "24.5.2";
 
   src = fetchurl {
-    url = "https://hyperledger.jfrog.io/hyperledger/${pname}-binaries/${pname}/${version}/${pname}-${version}.tar.gz";
-    hash = "sha256-ua7lGVIYf/VQ3kgfLAQFE3uF8dCqOCYWDfbX5QXzWa4=";
+    url = "https://github.com/hyperledger/${pname}/releases/download/${version}/${pname}-${version}.tar.gz";
+    hash = "sha256-QEm/SAIq4HMGW0bicIg5nfsiA16RNO1Kwsht2MW1++k=";    
   };
 
   buildInputs = lib.optionals stdenv.isLinux [jemalloc];
