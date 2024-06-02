@@ -59,7 +59,7 @@
       prysm = callPackage ./prysm {inherit bls blst;};
       reth = callPackageUnstable ./reth {};
       rocketpool = callPackage ./rocketpool {};
-      rotki-bin = callPackage ./rotki-bin {};
+      rotki-bin = callPackage2311 ./rotki-bin {};
       sedge = callPackage2311 ./sedge {
         bls = callPackage2311 ./bls {};
         mcl = callPackage2311 ./mcl {};
