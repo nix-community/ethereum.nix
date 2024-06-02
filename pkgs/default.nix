@@ -50,7 +50,6 @@
       mcl = callPackage ./mcl {};
       mev-boost = callPackage ./mev-boost {inherit blst;};
       mev-boost-builder = callPackage ./mev-boost-builder {inherit blst;};
-      mev-boost-prysm = callPackage ./mev-boost-prysm {inherit bls blst;};
       mev-boost-relay = callPackage ./mev-boost-relay {inherit blst;};
       mev-rs = callPackage ./mev-rs {};
       nethermind = callPackageUnstable ./nethermind {};
@@ -105,7 +104,6 @@
       geth-sealer.bin = "geth";
       lighthouse.bin = "lighthouse";
       mev-boost-builder.bin = "geth";
-      mev-boost-prysm.bin = "beacon-chain";
       mev-boost-relay.bin = "mev-boost-relay";
       mev-boost.bin = "mev-boost";
       mev-rs.bin = "mev";
