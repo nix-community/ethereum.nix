@@ -60,7 +60,11 @@
       reth = callPackageUnstable ./reth {};
       rocketpool = callPackage ./rocketpool {};
       rotki-bin = callPackage ./rotki-bin {};
-      sedge = callPackage ./sedge {inherit bls mcl;};
+      sedge = callPackage2311 ./sedge {
+        bls = callPackage2311 ./bls {};
+        mcl = callPackage2311 ./mcl {};
+      };
+
       slither = callPackage ./slither {};
       snarkjs = callPackage ./snarkjs {};
       ssvnode = callPackage2311 ./ssvnode {
