@@ -8,7 +8,9 @@
   flake.overlays.default = _final: prev: let
     inherit (prev.stdenv.hostPlatform) system;
   in
-    self.packages.${system};
+    if builtins.hasAttr system self.packages
+    then self.packages.${system}
+    else {};
 
   perSystem = {
     self',
