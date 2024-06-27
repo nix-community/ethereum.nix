@@ -7,13 +7,13 @@
 
   mevBoostOpts = with lib; {
     options = {
-      enable = mkEnableOption (mdDoc "MEV-Boost from Flashbots");
+      enable = mkEnableOption "MEV-Boost from Flashbots";
 
       inherit args;
 
       extraArgs = mkOption {
         type = types.listOf types.str;
-        description = mdDoc "Additional arguments to pass to MEV-Boost.";
+        description = "Additional arguments to pass to MEV-Boost.";
         default = [];
       };
 
@@ -21,7 +21,7 @@
         default = pkgs.mev-boost;
         defaultText = literalExpression "pkgs.mev-boost";
         type = types.package;
-        description = mdDoc "Package to use for mev-boost binary";
+        description = "Package to use for mev-boost binary";
       };
 
       # mixin backup options
@@ -42,6 +42,6 @@ in {
     mkOption {
       type = types.attrsOf (types.submodule mevBoostOpts);
       default = {};
-      description = mdDoc "Specification of one or more MEV-Boost chain instances.";
+      description = "Specification of one or more MEV-Boost chain instances.";
     };
 }
