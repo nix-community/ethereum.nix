@@ -7,13 +7,13 @@
 
   beaconOpts = with lib; {
     options = {
-      enable = mkEnableOption (mdDoc "Ethereum Beacon Chain Node from Prysmatic Labs");
+      enable = mkEnableOption "Ethereum Beacon Chain Node from Prysmatic Labs";
 
       inherit args;
 
       extraArgs = mkOption {
         type = types.listOf types.str;
-        description = mdDoc "Additional arguments to pass to Prysm Beacon Chain.";
+        description = "Additional arguments to pass to Prysm Beacon Chain.";
         default = [];
       };
 
@@ -21,13 +21,13 @@
         default = pkgs.prysm;
         defaultText = literalExpression "pkgs.prysm";
         type = types.package;
-        description = mdDoc "Package to use for Prysm binary";
+        description = "Package to use for Prysm binary";
       };
 
       openFirewall = mkOption {
         type = types.bool;
         default = false;
-        description = lib.mdDoc "Open ports in the firewall for any enabled networking services";
+        description = "Open ports in the firewall for any enabled networking services";
       };
 
       # mixin backup options
@@ -48,6 +48,6 @@ in {
     mkOption {
       type = types.attrsOf (types.submodule beaconOpts);
       default = {};
-      description = mdDoc "Specification of one or more prysm beacon chain instances.";
+      description = "Specification of one or more prysm beacon chain instances.";
     };
 }

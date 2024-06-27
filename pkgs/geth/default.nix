@@ -32,7 +32,7 @@ in
     };
 
     proxyVendor = true;
-    vendorHash = "sha256-yD4Z7vbi3D3f9xGxRQjnjbTKljtjRLeIHRAdWjSub6U=";
+    vendorHash = "sha256-ugoRsxzJjPOS5yPhwqXhMPuThvyqCWvZD7PBnrkm0sQ=";
 
     ldflags = ["-s" "-w"];
 

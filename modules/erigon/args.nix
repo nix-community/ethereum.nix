@@ -3,24 +3,24 @@ with lib; {
   datadir = mkOption {
     type = types.nullOr types.str;
     default = null;
-    description = mdDoc "Data directory for Erigon. Defaults to '%S/erigon-\<name\>', which generally resolves to /var/lib/erigon-\<name\>.";
+    description = "Data directory for Erigon. Defaults to '%S/erigon-\<name\>', which generally resolves to /var/lib/erigon-\<name\>.";
   };
 
   port = mkOption {
     type = types.port;
     default = 30303;
-    description = mdDoc "Network listening port.";
+    description = "Network listening port.";
   };
 
   snapshots = mkOption {
     type = types.bool;
     default = true;
-    description = mdDoc ''
+    description = ''
       Default: use snapshots "true" for BSC, Mainnet and Goerli. use snapshots "false" in all other cases.
     '';
   };
 
-  externalcl = mkEnableOption (mdDoc "enables external consensus");
+  externalcl = mkEnableOption "enables external consensus";
 
   chain = mkOption {
     type = types.enum [
@@ -38,14 +38,14 @@ with lib; {
       "chiado"
     ];
     default = "mainnet";
-    description = mdDoc "Name of the network to join. If null the network is mainnet.";
+    description = "Name of the network to join. If null the network is mainnet.";
   };
 
   torrent = {
     port = mkOption {
       type = types.port;
       default = 42069;
-      description = mdDoc "Port to listen and serve BitTorrent protocol .";
+      description = "Port to listen and serve BitTorrent protocol .";
     };
   };
 
@@ -53,34 +53,34 @@ with lib; {
     enable = mkOption {
       type = types.bool;
       default = true;
-      description = mdDoc "Enable HTTP-RPC server";
+      description = "Enable HTTP-RPC server";
     };
 
     addr = mkOption {
       type = types.str;
       default = "127.0.0.1";
-      description = mdDoc "HTTP-RPC server listening interface.";
+      description = "HTTP-RPC server listening interface.";
     };
 
     port = mkOption {
       type = types.port;
       default = 8545;
-      description = mdDoc "HTTP-RPC server listening port.";
+      description = "HTTP-RPC server listening port.";
     };
 
-    compression = mkEnableOption (mdDoc "Enable compression over HTTP-RPC.");
+    compression = mkEnableOption "Enable compression over HTTP-RPC.";
 
     corsdomain = mkOption {
       type = types.nullOr (types.listOf types.str);
       default = null;
-      description = mdDoc "List of domains from which to accept cross origin requests.";
+      description = "List of domains from which to accept cross origin requests.";
       example = ["*"];
     };
 
     vhosts = mkOption {
       type = types.listOf types.str;
       default = ["localhost"];
-      description = mdDoc ''
+      description = ''
         Comma separated list of virtual hostnames from which to accept requests (server enforced).
         Accepts '*' wildcard.
       '';
@@ -89,11 +89,11 @@ with lib; {
 
     api = mkOption {
       type = types.nullOr (types.listOf types.str);
-      description = mdDoc "API's offered over the HTTP-RPC interface.";
+      description = "API's offered over the HTTP-RPC interface.";
       example = ["net" "eth"];
     };
 
-    trace = mkEnableOption (mdDoc "Trace HTTP requests with INFO level");
+    trace = mkEnableOption "Trace HTTP requests with INFO level";
 
     timeouts = {
       idle = mkOption {
@@ -124,27 +124,27 @@ with lib; {
   };
 
   ws = {
-    enable = mkEnableOption (mdDoc "Erigon WebSocket API");
-    compression = mkEnableOption (mdDoc "Enable compression over HTTP-RPC.");
+    enable = mkEnableOption "Erigon WebSocket API";
+    compression = mkEnableOption "Enable compression over HTTP-RPC.";
   };
 
   authrpc = {
     addr = mkOption {
       type = types.str;
       default = "127.0.0.1";
-      description = mdDoc "HTTP-RPC server listening interface for the Engine API.";
+      description = "HTTP-RPC server listening interface for the Engine API.";
     };
 
     port = mkOption {
       type = types.port;
       default = 8551;
-      description = mdDoc "HTTP-RPC server listening port for the Engine API";
+      description = "HTTP-RPC server listening port for the Engine API";
     };
 
     vhosts = mkOption {
       type = types.listOf types.str;
       default = ["localhost"];
-      description = mdDoc ''
+      description = ''
         Comma separated list of virtual hostnames from which to accept Engine API requests
         (server enforced). Accepts '*' wildcard."
       '';
@@ -154,7 +154,7 @@ with lib; {
     jwtsecret = mkOption {
       type = types.nullOr types.str;
       default = null;
-      description = mdDoc "Path to the token that ensures safe connection between CL and EL.";
+      description = "Path to the token that ensures safe connection between CL and EL.";
       example = "/var/run/erigon/jwtsecret";
     };
 
@@ -190,32 +190,32 @@ with lib; {
     addr = mkOption {
       type = types.str;
       default = "127.0.0.1:9090";
-      description = mdDoc ''
+      description = ''
         Private api network address, for example: 127.0.0.1:9090, empty string means not to start the listener. Do not expose to public network. Serves remote database interface.
       '';
     };
     ratelimit = mkOption {
       type = types.int;
       default = 31872;
-      description = mdDoc ''
+      description = ''
         Amount of requests server handle simultaneously - requests over this limit will wait. Increase it - if clients see 'request timeout' while server load is low - it means your 'hot data' is small or have much RAM.
       '';
     };
   };
 
   metrics = {
-    enable = mkEnableOption (mdDoc "Enable metrics collection and reporting.");
+    enable = mkEnableOption "Enable metrics collection and reporting.";
 
     addr = mkOption {
       type = types.str;
       default = "127.0.0.1";
-      description = mdDoc "Enable stand-alone metrics HTTP server listening interface.";
+      description = "Enable stand-alone metrics HTTP server listening interface.";
     };
 
     port = mkOption {
       type = types.port;
       default = 6060;
-      description = mdDoc "Metrics HTTP server listening port";
+      description = "Metrics HTTP server listening port";
     };
   };
 }
