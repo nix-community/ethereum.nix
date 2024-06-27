@@ -14,12 +14,14 @@
     self',
     pkgs,
     pkgsUnstable,
+    pkgs2311,
     system,
     ...
   }: let
     inherit (pkgs) callPackage;
     inherit (lib.extras.flakes) platformPkgs platformApps;
     callPackageUnstable = pkgsUnstable.callPackage;
+    callPackage2311 = pkgs2311.callPackage;
   in {
     packages = platformPkgs system rec {
       besu = callPackageUnstable ./besu {};
