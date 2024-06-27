@@ -63,7 +63,10 @@
       sedge = callPackage ./sedge {inherit bls mcl;};
       slither = callPackage ./slither {};
       snarkjs = callPackage ./snarkjs {};
-      ssvnode = callPackage ./ssvnode {inherit bls mcl;};
+      ssvnode = callPackage2311 ./ssvnode {
+        bls = callPackage2311 ./bls {};
+        mcl = callPackage2311 ./mcl {};
+      };
       staking-deposit-cli = callPackage ./staking-deposit-cli {};
       teku = callPackage ./teku {};
       tx-fuzz = callPackage ./tx-fuzz {};
