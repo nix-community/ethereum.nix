@@ -5,11 +5,11 @@
 }:
 appimageTools.wrapType2 rec {
   pname = "rotki-bin";
-  version = "1.32.1";
+  version = "1.33.1";
 
   src = fetchurl {
     url = "https://github.com/rotki/rotki/releases/download/v${version}/rotki-linux_x86_64-v${version}.AppImage";
-    sha256 = "sha256-0TRaUQmVoGfJvT6VWkwnVIZpAFJnoUe4jV7Wkf9YkLA=";
+    sha256 = "sha256-gC9R9DwOOs4f3ML4gLG27Ud0uQd46tIAGZxIdQn8Rd0=";
   };
 
   # Rename installed bin to `rotki` to make it easier to specify in `apps.rotki-bin.bin` declaration.
