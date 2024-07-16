@@ -63,7 +63,7 @@ with lib; {
   };
 
   ws = {
-    enable = mkEnableOption ("Reth WebSocket API");
+    enable = mkEnableOption "Reth WebSocket API";
     addr = mkOption {
       type = types.nullOr types.str;
       default = null;
@@ -114,7 +114,7 @@ with lib; {
   };
 
   metrics = {
-    enable = mkEnableOption ("Enable Prometheus metrics collection and reporting.");
+    enable = mkEnableOption "Enable Prometheus metrics collection and reporting.";
 
     addr = mkOption {
       type = types.str;

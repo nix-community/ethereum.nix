@@ -7,9 +7,9 @@
 
   rethOpts = with lib; {
     options = {
-      enable = mkEnableOption ("Reth Ethereum Node.");
+      enable = mkEnableOption "Reth Ethereum Node.";
 
-      subVolume = mkEnableOption ("Use a subvolume for the state directory if the underlying filesystem supports it e.g. btrfs");
+      subVolume = mkEnableOption "Use a subvolume for the state directory if the underlying filesystem supports it e.g. btrfs";
 
       inherit args;
 
