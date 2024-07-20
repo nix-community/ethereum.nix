@@ -29,7 +29,7 @@
       openFirewall = mkOption {
         type = types.bool;
         default = false;
-        description = lib."Open ports in the firewall for any enabled networking services";
+        description = "Open ports in the firewall for any enabled networking services";
       };
     };
   };
