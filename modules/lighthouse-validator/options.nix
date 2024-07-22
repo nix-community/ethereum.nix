@@ -6,13 +6,13 @@
 with lib; let
   validatorOpts = {name, ...}: {
     options = {
-      enable = mkEnableOption (mdDoc "Lighthouse Ethereum Validator Client written in Rust from Sigma Prime");
+      enable = mkEnableOption "Lighthouse Ethereum Validator Client written in Rust from Sigma Prime";
 
       args = import ./args.nix {inherit lib name;};
 
       extraArgs = mkOption {
         type = types.listOf types.str;
-        description = mdDoc "Additional arguments to pass to Lighthouse Validator Client.";
+        description = "Additional arguments to pass to Lighthouse Validator Client.";
         default = [];
       };
 
@@ -20,13 +20,13 @@ with lib; let
         default = pkgs.lighthouse;
         defaultText = literalExpression "pkgs.lighthouse";
         type = types.package;
-        description = mdDoc "Package to use for Lighthouse binary";
+        description = "Package to use for Lighthouse binary";
       };
 
       openFirewall = mkOption {
         type = types.bool;
         default = false;
-        description = lib.mdDoc "Open ports in the firewall for any enabled networking services";
+        description = "Open ports in the firewall for any enabled networking services";
       };
 
       # mixin backup options
@@ -46,7 +46,7 @@ in {
   options.services.ethereum.lighthouse-validator = mkOption {
     type = types.attrsOf (types.submodule validatorOpts);
     default = {};
-    description = mdDoc ''
+    description = ''
       Specification of one or more Lighthouse validator instances.
     '';
   };

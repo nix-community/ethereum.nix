@@ -3,49 +3,49 @@ with lib; {
   port = mkOption {
     type = types.port;
     default = 30303;
-    description = mdDoc "Port number Go Ethereum will be listening on, both TCP and UDP.";
+    description = "Port number Go Ethereum will be listening on, both TCP and UDP.";
   };
 
   http = {
-    enable = mkEnableOption (mdDoc "Go Ethereum HTTP API");
+    enable = mkEnableOption "Go Ethereum HTTP API";
 
     addr = mkOption {
       type = types.str;
       default = "127.0.0.1";
-      description = mdDoc "HTTP-RPC server listening interface";
+      description = "HTTP-RPC server listening interface";
     };
 
     port = mkOption {
       type = types.port;
       default = 8545;
-      description = mdDoc "Port number of Go Ethereum HTTP API.";
+      description = "Port number of Go Ethereum HTTP API.";
     };
 
     api = mkOption {
       type = types.nullOr (types.listOf types.str);
       default = null;
-      description = mdDoc "API's offered over the HTTP-RPC interface";
+      description = "API's offered over the HTTP-RPC interface";
       example = ["net" "eth"];
     };
 
     corsdomain = mkOption {
       type = types.nullOr (types.listOf types.str);
       default = null;
-      description = mdDoc "List of domains from which to accept cross origin requests";
+      description = "List of domains from which to accept cross origin requests";
       example = ["*"];
     };
 
     rpcprefix = mkOption {
       type = types.nullOr types.str;
       default = null;
-      description = mdDoc "HTTP path path prefix on which JSON-RPC is served. Use '/' to serve on all paths.";
+      description = "HTTP path path prefix on which JSON-RPC is served. Use '/' to serve on all paths.";
       example = "/";
     };
 
     vhosts = mkOption {
       type = types.listOf types.str;
       default = ["localhost"];
-      description = mdDoc ''
+      description = ''
         Comma separated list of virtual hostnames from which to accept requests (server enforced).
         Accepts '*' wildcard.
       '';
@@ -54,23 +54,23 @@ with lib; {
   };
 
   ws = {
-    enable = mkEnableOption (mdDoc "Go Ethereum WebSocket API");
+    enable = mkEnableOption "Go Ethereum WebSocket API";
     addr = mkOption {
       type = types.str;
       default = "127.0.0.1";
-      description = mdDoc "Listen address of Go Ethereum WebSocket API.";
+      description = "Listen address of Go Ethereum WebSocket API.";
     };
 
     port = mkOption {
       type = types.port;
       default = 8546;
-      description = mdDoc "Port number of Go Ethereum WebSocket API.";
+      description = "Port number of Go Ethereum WebSocket API.";
     };
 
     api = mkOption {
       type = types.nullOr (types.listOf types.str);
       default = null;
-      description = mdDoc "APIs to enable over WebSocket";
+      description = "APIs to enable over WebSocket";
       example = ["net" "eth"];
     };
   };
@@ -79,68 +79,68 @@ with lib; {
     addr = mkOption {
       type = types.str;
       default = "127.0.0.1";
-      description = mdDoc "Listen address of Go Ethereum Auth RPC API.";
+      description = "Listen address of Go Ethereum Auth RPC API.";
     };
 
     port = mkOption {
       type = types.port;
       default = 8551;
-      description = mdDoc "Port number of Go Ethereum Auth RPC API.";
+      description = "Port number of Go Ethereum Auth RPC API.";
     };
 
     vhosts = mkOption {
       type = types.listOf types.str;
       default = ["localhost"];
-      description = mdDoc "List of virtual hostnames from which to accept requests.";
+      description = "List of virtual hostnames from which to accept requests.";
       example = ["localhost" "geth.example.org"];
     };
 
     jwtsecret = mkOption {
       type = types.nullOr types.str;
       default = null;
-      description = mdDoc "Path to a JWT secret for authenticated RPC endpoint.";
+      description = "Path to a JWT secret for authenticated RPC endpoint.";
       example = "/var/run/geth/jwtsecret";
     };
   };
 
   metrics = {
-    enable = mkEnableOption (mdDoc "Go Ethereum prometheus metrics");
+    enable = mkEnableOption "Go Ethereum prometheus metrics";
     addr = mkOption {
       type = types.str;
       default = "127.0.0.1";
-      description = mdDoc "Listen address of Go Ethereum metrics service.";
+      description = "Listen address of Go Ethereum metrics service.";
     };
 
     port = mkOption {
       type = types.port;
       default = 6060;
-      description = mdDoc "Port number of Go Ethereum metrics service.";
+      description = "Port number of Go Ethereum metrics service.";
     };
   };
 
   network = mkOption {
     type = types.nullOr (types.enum ["goerli" "holesky" "kiln" "rinkeby" "ropsten" "sepolia"]);
     default = null;
-    description = mdDoc "The network to connect to. Mainnet (null) is the default ethereum network.";
+    description = "The network to connect to. Mainnet (null) is the default ethereum network.";
   };
 
   networkid = mkOption {
     type = types.int;
     default = 1;
-    description = mdDoc "The network id used for peer to peer communication";
+    description = "The network id used for peer to peer communication";
   };
 
   netrestrict = mkOption {
     # todo use regex matching
     type = types.nullOr types.str;
     default = null;
-    description = mdDoc "Restrict network communication to the given IP networks (CIDR masks)";
+    description = "Restrict network communication to the given IP networks (CIDR masks)";
   };
 
   verbosity = mkOption {
     type = types.ints.between 0 5;
     default = 3;
-    description = mdDoc "log verbosity (0-5)";
+    description = "log verbosity (0-5)";
   };
 
   nodiscover = mkOption {
@@ -153,30 +153,30 @@ with lib; {
     # todo use regex matching
     type = types.nullOr (types.listOf types.str);
     default = null;
-    description = mdDoc "List of bootnodes to connect to";
+    description = "List of bootnodes to connect to";
   };
 
   syncmode = mkOption {
     type = types.enum ["snap" "fast" "full" "light"];
     default = "snap";
-    description = mdDoc "Blockchain sync mode.";
+    description = "Blockchain sync mode.";
   };
 
   gcmode = mkOption {
     type = types.enum ["full" "archive"];
     default = "full";
-    description = mdDoc "Blockchain garbage collection mode.";
+    description = "Blockchain garbage collection mode.";
   };
 
   maxpeers = mkOption {
     type = types.int;
     default = 50;
-    description = mdDoc "Maximum peers to connect to.";
+    description = "Maximum peers to connect to.";
   };
 
   datadir = mkOption {
     type = types.nullOr types.str;
     default = null;
-    description = mdDoc "Data directory for Geth. Defaults to '%S/geth-\<name\>', which generally resolves to /var/lib/geth-\<name\>.";
+    description = "Data directory for Geth. Defaults to '%S/geth-\<name\>', which generally resolves to /var/lib/geth-\<name\>.";
   };
 }

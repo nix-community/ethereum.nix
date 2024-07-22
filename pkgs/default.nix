@@ -8,18 +8,22 @@
   flake.overlays.default = _final: prev: let
     inherit (prev.stdenv.hostPlatform) system;
   in
-    self.packages.${system};
+    if builtins.hasAttr system self.packages
+    then self.packages.${system}
+    else {};
 
   perSystem = {
     self',
     pkgs,
     pkgsUnstable,
+    pkgs2311,
     system,
     ...
   }: let
     inherit (pkgs) callPackage;
     inherit (lib.extras.flakes) platformPkgs platformApps;
     callPackageUnstable = pkgsUnstable.callPackage;
+    callPackage2311 = pkgs2311.callPackage;
   in {
     packages = platformPkgs system rec {
       besu = callPackageUnstable ./besu {};
@@ -33,7 +37,7 @@
       erigon = callPackage ./erigon {};
       eth2-testnet-genesis = callPackage ./eth2-testnet-genesis {inherit bls;};
       eth2-val-tools = callPackage ./eth2-val-tools {inherit bls mcl;};
-      eth-validator-watcher = callPackage ./eth-validator-watcher {};
+      eth-validator-watcher = callPackage2311 ./eth-validator-watcher {};
       ethdo = callPackage ./ethdo {inherit bls mcl;};
       ethereal = callPackage ./ethereal {inherit bls mcl;};
       evmc = callPackage ./evmc {};
@@ -50,7 +54,6 @@
       mcl = callPackage ./mcl {};
       mev-boost = callPackage ./mev-boost {inherit blst;};
       mev-boost-builder = callPackage ./mev-boost-builder {inherit blst;};
-      mev-boost-prysm = callPackage ./mev-boost-prysm {inherit bls blst;};
       mev-boost-relay = callPackage ./mev-boost-relay {inherit blst;};
       mev-rs = callPackage ./mev-rs {};
       nethermind = callPackageUnstable ./nethermind {};
@@ -58,11 +61,18 @@
       prysm = callPackage ./prysm {inherit bls blst;};
       reth = callPackageUnstable ./reth {};
       rocketpool = callPackage ./rocketpool {};
-      rotki-bin = callPackage ./rotki-bin {};
-      sedge = callPackage ./sedge {inherit bls mcl;};
+      rotki-bin = callPackage2311 ./rotki-bin {};
+      sedge = callPackage2311 ./sedge {
+        bls = callPackage2311 ./bls {};
+        mcl = callPackage2311 ./mcl {};
+      };
+
       slither = callPackage ./slither {};
       snarkjs = callPackage ./snarkjs {};
-      ssvnode = callPackage ./ssvnode {inherit bls mcl;};
+      ssvnode = callPackage2311 ./ssvnode {
+        bls = callPackage2311 ./bls {};
+        mcl = callPackage2311 ./mcl {};
+      };
       staking-deposit-cli = callPackage ./staking-deposit-cli {};
       teku = callPackage ./teku {};
       tx-fuzz = callPackage ./tx-fuzz {};
@@ -105,7 +115,6 @@
       geth-sealer.bin = "geth";
       lighthouse.bin = "lighthouse";
       mev-boost-builder.bin = "geth";
-      mev-boost-prysm.bin = "beacon-chain";
       mev-boost-relay.bin = "mev-boost-relay";
       mev-boost.bin = "mev-boost";
       mev-rs.bin = "mev";

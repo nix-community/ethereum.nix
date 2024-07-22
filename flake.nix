@@ -8,7 +8,8 @@
 
   inputs = {
     # packages
-    nixpkgs.url = "github:nixos/nixpkgs/23.11";
+    nixpkgs.url = "github:nixos/nixpkgs/24.05";
+    nixpkgs-2311.url = "github:nixos/nixpkgs/23.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
     foundry-nix = {
@@ -80,6 +81,7 @@
         config,
         pkgs,
         pkgsUnstable,
+        pkgs2311,
         system,
         self',
         ...
@@ -93,6 +95,10 @@
           pkgsUnstable = lib.extras.nix.mkNixpkgs {
             inherit system;
             nixpkgs = inputs.nixpkgs-unstable;
+          };
+          pkgs2311 = lib.extras.nix.mkNixpkgs {
+            inherit system;
+            nixpkgs = inputs.nixpkgs-2311;
           };
         };
 
