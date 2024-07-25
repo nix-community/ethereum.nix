@@ -118,6 +118,7 @@ Utilities and applications can't be categorized into any category of the above.
 | [staking-deposit-cli](https://github.com/ethereum/staking-deposit-cli)      | `nix run .#staking-deposit-cli`  |
 | [tx-fuzz](https://github.com/MariusVanDerWijden/tx-fuzz)                    | `nix run .#tx-fuzz`              |
 | [zcli](https://github.com/protolambda/zcli)                                 | `nix run .#zcli`                 |
+| [railway-wallet](https://github.com/Railway-Wallet/Railway-Wallet/)         | `nix run .#railway-bin`          |
 
 ## Validators
 
