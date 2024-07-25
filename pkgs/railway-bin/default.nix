@@ -17,6 +17,6 @@ appimageTools.wrapType2 rec {
     homepage = "https://www.railway.xyz/";
     license = licenses.agpl3Plus;
     maintainers = with maintainers; [wanderer];
-    platforms = platforms.linux;
+    platforms = ["x86_64-linux"];
   };
 }
