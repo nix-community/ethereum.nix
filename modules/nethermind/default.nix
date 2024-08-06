@@ -132,12 +132,13 @@ in {
 
               # create service config by merging with the base config
               serviceConfig = mkMerge [
-                baseServiceConfig
                 {
                   User = serviceName;
                   StateDirectory = serviceName;
+                  MemoryDenyWriteExecute = false; # setting this option is incompatible with JIT
                   ExecStart = "${cfg.package}/bin/nethermind ${scriptArgs}";
                 }
+                baseServiceConfig
                 (mkIf (cfg.args.modules.JsonRpc.JwtSecretFile != null) {
                   LoadCredential = ["jwtsecret:${cfg.args.modules.JsonRpc.JwtSecretFile}"];
                 })
