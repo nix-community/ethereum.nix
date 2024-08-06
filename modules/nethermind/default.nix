@@ -114,7 +114,7 @@ in {
 
               filteredArgs = builtins.filter isNormalArg args;
             in ''
-              ${datadir}
+              ${datadir} \
               ${jwtSecret} \
               ${concatStringsSep " \\\n" filteredArgs} \
               ${lib.escapeShellArgs cfg.extraArgs}
