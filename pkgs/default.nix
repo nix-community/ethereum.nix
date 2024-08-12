@@ -69,6 +69,10 @@
       };
       slither = callPackage ./slither {};
       snarkjs = callPackage ./snarkjs {};
+      ssv-dkg = callPackage2311 ./ssv-dkg {
+        bls = callPackage2311 ./bls {};
+        mcl = callPackage2311 ./mcl {};
+      };
       ssvnode = callPackage2311 ./ssvnode {
         bls = callPackage2311 ./bls {};
         mcl = callPackage2311 ./mcl {};
@@ -138,6 +142,7 @@
       sedge.bin = "sedge";
       slither.bin = "slither";
       snarkjs.bin = "snarkjs";
+      ssv-dkg.bin = "ssv-dkg";
       ssvnode.bin = "ssvnode";
       staking-deposit-cli.bin = "deposit";
       teku.bin = "teku";
