@@ -1,10 +1,9 @@
 {
+  bls,
   buildGo120Module,
   fetchFromGitHub,
-  go,
   lib,
   mcl,
-  bls,
 }:
 buildGo120Module rec {
   pname = "ssv-dkg";
@@ -28,6 +27,6 @@ buildGo120Module rec {
     homepage = "https://github.com/ssvlabs/ssv-dkg";
     license = with licenses; [gpl3Plus];
     mainProgram = "ssv-dkg";
-    inherit (go.meta) platforms;
+    platforms = ["x86_64-linux" "aarch64-darwin" "aarch64-linux"];
   };
 }
