@@ -22,6 +22,8 @@ buildGo120Module rec {
 
   subPackages = ["cmd/ssv-dkg"];
 
+  ldflags = ["-X main.Version=v${version}"];
+
   meta = with lib; {
     description = "The ssv-dkg tool enable operators to participate in ceremonies to generate distributed validator keys for Ethereum stakers.";
     homepage = "https://github.com/ssvlabs/ssv-dkg";
