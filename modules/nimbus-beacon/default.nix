@@ -98,8 +98,9 @@ in {
               else "";
             data-dir =
               if cfg.args.data-dir != null
-              then "--data-dir=${cfg.args.data-dir}"
-              else "--data-dir=%S/${serviceName}";
+              then cfg.args.data-dir
+              else "%S/${serviceName}";
+            data-dir-arg = "--data-dir=${data-dir}";
 
             scriptArgs = let
               # filter out certain args which need to be treated differently
@@ -116,6 +117,10 @@ in {
                 "--metrics-port"
                 "--payload-builder-enable"
                 "--payload-builder-url"
+                "--keymanager-enable"
+                "--keymanager-token-file"
+                "--keymanager-address"
+                "--keymanager-port"
                 "--trusted-node-url" # only needed for checkpoint sync
               ];
               isNormalArg = name: (findFirst (arg: hasPrefix arg name) null specialArgs) == null;
@@ -137,10 +142,16 @@ in {
                 ++ (optionals cfg.args.payload-builder.enable [
                   "--payload-builder"
                   "--payload-builder-url=${cfg.args.payload-builder.url}"
+                ])
+                ++ (optionals cfg.args.keymanager.enable [
+                  "--keymanager"
+                  "--keymanager-address=${cfg.args.keymanager.address}"
+                  "--keymanager-port=${toString cfg.args.keymanager.port}"
+                  "--keymanager-token-file=${data-dir}/${cfg.args.keymanager.token-file}"
                 ]);
             in ''
               ${jwt-secret} \
-              ${data-dir} \
+              ${data-dir-arg} \
               ${concatStringsSep " \\\n" filteredArgs} \
               ${lib.escapeShellArgs cfg.extraArgs}
             '';
@@ -154,7 +165,7 @@ in {
               filteredArgs = builtins.filter isCheckpointArg args;
             in ''
               --backfill=false \
-              ${data-dir} \
+              ${data-dir-arg} \
               ${concatStringsSep " \\\n" filteredArgs}
             '';
           in
@@ -164,16 +175,21 @@ in {
               description = "Nimbus Beacon Node (${beaconName})";
 
               serviceConfig = mkMerge [
-                baseServiceConfig
                 {
+                  MemoryDenyWriteExecute = false;
                   User =
                     if cfg.args.user != null
                     then cfg.args.user
                     else user;
                   StateDirectory = user;
-                  ExecStartPre = "${cfg.package}/bin/nimbus_beacon_node trustedNodeSync ${checkpointSyncArgs}";
+                  ExecStartPre = lib.mkBefore [
+                    ''                      ${pkgs.coreutils-full}/bin/cp --no-preserve=all --update=none \
+                      /proc/sys/kernel/random/uuid ${data-dir}/${cfg.args.keymanager.token-file}''
+                    "${cfg.package}/bin/nimbus_beacon_node trustedNodeSync ${checkpointSyncArgs}"
+                  ];
                   ExecStart = "${cfg.package}/bin/nimbus_beacon_node ${scriptArgs}";
                 }
+                baseServiceConfig
                 (mkIf (cfg.args.jwt-secret != null) {
                   LoadCredential = ["jwt-secret:${cfg.args.jwt-secret}"];
                 })

@@ -93,6 +93,29 @@ with lib; {
     description = "The graffiti value that will appear in proposed blocks. You can use a 0x-prefixed hex encoded string to specify raw bytes.";
   };
 
+  keymanager = {
+    enable = mkOption {
+      type = types.bool;
+      default = false;
+      description = "Enable keymanager API";
+    };
+    address = mkOption {
+      type = types.str;
+      default = "127.0.0.1";
+      description = "Host used for keymanager API.";
+    };
+    port = mkOption {
+      type = types.port;
+      default = 5053;
+      description = "Keymanager API PORT";
+    };
+    token-file = mkOption {
+      type = types.str;
+      default = "api-token.txt";
+      description = "Keymanager API token file";
+    };
+  };
+
   metrics = {
     enable = mkOption {
       type = types.bool;
