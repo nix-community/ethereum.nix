@@ -68,6 +68,12 @@ with lib; {
         description = "Defines whether the JSON RPC service is enabled on node startup.";
       };
 
+      Host = mkOption {
+        type = types.str;
+        default = "127.0.0.1";
+        description = "Host for JSON RPC calls.";
+      };
+
       Port = mkOption {
         type = types.port;
         default = 8545;
@@ -83,7 +89,7 @@ with lib; {
       EngineHost = mkOption {
         type = types.str;
         default = "127.0.0.1";
-        description = "Host for JSON RPC calls.";
+        description = "Host for Execution Engine RPC calls.";
       };
 
       EnginePort = mkOption {
