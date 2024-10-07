@@ -59,7 +59,7 @@
       nethermind = callPackageUnstable ./nethermind {};
       nimbus = callPackageUnstable ./nimbus {};
       prysm = callPackage ./prysm {inherit bls blst;};
-      reth = callPackageUnstable ./reth {};
+      reth = callPackageUnstable ./reth {inherit (inputs) crane;};
       rocketpool = callPackage ./rocketpool {};
       rocketpoold = callPackage ./rocketpoold {inherit bls blst;};
       rotki-bin = callPackage2311 ./rotki-bin {};
