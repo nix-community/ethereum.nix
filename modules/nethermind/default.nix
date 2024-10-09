@@ -126,7 +126,7 @@ in {
               description = "Nethermind Node (${nethermindName})";
 
               environment = {
-                WEB3_HTTP_HOST = cfg.args.modules.JsonRpc.EngineHost;
+                WEB3_HTTP_HOST = cfg.args.modules.JsonRpc.Host;
                 WEB3_HTTP_PORT = builtins.toString cfg.args.modules.JsonRpc.Port;
               };
 
