@@ -73,7 +73,7 @@
         bls = callPackage2311 ./bls {};
         mcl = callPackage2311 ./mcl {};
       };
-      ssvnode = callPackage2311 ./ssvnode {
+      ssvnode = callPackage ./ssvnode {
         bls = callPackage2311 ./bls {};
         mcl = callPackage2311 ./mcl {};
       };
