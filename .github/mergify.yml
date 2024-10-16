@@ -6,7 +6,7 @@ defaults:
 queue_rules:
   - name: default
     conditions:
-      - check-success=buildbot/nix-eval
+      - check-success=buildbot/nix-build
 
 pull_request_rules:
   - name: Automerge PRs using the merge queue
