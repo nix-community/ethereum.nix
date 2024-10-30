@@ -1,12 +1,14 @@
-defaults:
-  actions:
-    queue:
-      allow_merging_configuration_change: true
-
 queue_rules:
   - name: default
     conditions:
-      - check-success=buildbot/nix-eval
+      - "check-success=buildbot/nix-build"
+    batch_size: 1
+    batch_max_wait_time: "15 minutes"
+    merge_method: squash
+    commit_message_template: |
+      {{ title }} (#{{ number }})
+      
+      {{ body }}
 
 pull_request_rules:
   - name: Automerge PRs using the merge queue
@@ -16,10 +18,12 @@ pull_request_rules:
     actions:
       queue:
         name: default
-        method: squash
+      delete_head_branch:
+        force: true
 
   - name: Delete head branch after merge
     conditions:
+      - "closed"
       - "merged"
     actions:
       delete_head_branch: {}
