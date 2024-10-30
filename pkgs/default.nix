@@ -49,7 +49,7 @@
       # });
       geth = callPackage ./geth {};
       geth-sealer = callPackage ./geth-sealer {};
-      heimdall = callPackage ./heimdall {};
+      heimdall-rs = callPackage ./heimdall-rs {};
       lighthouse = callPackageUnstable ./lighthouse {inherit foundry;};
       mcl = callPackage ./mcl {};
       mev-boost = callPackage ./mev-boost {inherit blst;};
