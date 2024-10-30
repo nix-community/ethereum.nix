@@ -36,9 +36,10 @@ buildGo121Module rec {
     "-X github.com/prysmaticlabs/prysm/v4/runtime/version.gitTag=v${version}"
   ];
 
-  passthru.updateScript = nix-update-script {
-    extraArgs = ["--flake"];
-  };
+  # TODO: find out why nix-update can't update the package
+  # passthru.updateScript = nix-update-script {
+  #   extraArgs = ["--flake"];
+  # };
 
   meta = {
     description = "Go implementation of Ethereum proof of stake";
