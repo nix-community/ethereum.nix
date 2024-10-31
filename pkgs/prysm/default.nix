@@ -4,6 +4,7 @@
   buildGo121Module,
   fetchFromGitHub,
   libelf,
+  nix-update-script,
 }:
 buildGo121Module rec {
   pname = "prysm";
@@ -34,6 +35,11 @@ buildGo121Module rec {
     "-w"
     "-X github.com/prysmaticlabs/prysm/v4/runtime/version.gitTag=v${version}"
   ];
+
+  # TODO: find out why nix-update can't update the package
+  # passthru.updateScript = nix-update-script {
+  #   extraArgs = ["--flake"];
+  # };
 
   meta = {
     description = "Go implementation of Ethereum proof of stake";

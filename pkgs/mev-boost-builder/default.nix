@@ -2,6 +2,7 @@
   blst,
   buildGoModule,
   fetchFromGitHub,
+  nix-update-script,
 }:
 buildGoModule rec {
   pname = "builder";
@@ -21,6 +22,10 @@ buildGoModule rec {
   subPackages = ["cmd/geth"];
 
   ldflags = ["-s" "-w"];
+
+  passthru.updateScript = nix-update-script {
+    extraArgs = ["--flake"];
+  };
 
   meta = {
     description = "Flashbots mev-boost block builder";

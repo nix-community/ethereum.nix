@@ -1,6 +1,7 @@
 {
   buildGoModule,
   fetchFromGitHub,
+  nix-update-script,
   subPackages ? ["cmd/erigon" "cmd/evm" "cmd/rpcdaemon" "cmd/rlpdump"],
 }:
 buildGoModule rec {
@@ -27,6 +28,11 @@ buildGoModule rec {
 
   ldflags = ["-extldflags \"-Wl,--allow-multiple-definition\""];
   inherit subPackages;
+
+  # TODO: find out why nix-update can't update the package
+  # passthru.updateScript = nix-update-script {
+  #   extraArgs = ["--flake"];
+  # };
 
   meta = {
     description = "Ethereum node implementation focused on scalability and modularity";

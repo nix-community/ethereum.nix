@@ -2,6 +2,7 @@
   blst,
   buildGoModule,
   fetchFromGitHub,
+  nix-update-script,
 }:
 buildGoModule rec {
   pname = "mev-boost-relay";
@@ -25,6 +26,10 @@ buildGoModule rec {
     "-w"
     "-X main.Version=${version}"
   ];
+
+  passthru.updateScript = nix-update-script {
+    extraArgs = ["--flake"];
+  };
 
   meta = {
     description = "MEV-Boost Relay for Ethereum proposer/builder separation (PBS)";
