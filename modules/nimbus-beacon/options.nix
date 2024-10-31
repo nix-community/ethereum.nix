@@ -21,8 +21,8 @@
         };
 
         package = mkOption {
-          default = pkgs.nimbus;
-          defaultText = literalExpression "pkgs.nimbus";
+          default = pkgs.nimbus-beacon-node;
+          defaultText = literalExpression "pkgs.nimbus-beacon-node";
           type = types.package;
           description = "Package to use for Nimbus binary";
         };

@@ -18,6 +18,12 @@
       inputs.flake-utils.follows = "flake-utils";
     };
 
+    nimbus = {
+      type = "git";
+      url = "ssh://git@github.com/status-im/nimbus-eth2?ref=stable";
+      submodules = true;
+    };
+
     # flake-parts
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
