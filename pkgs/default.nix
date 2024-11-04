@@ -57,7 +57,8 @@
       mev-boost-relay = callPackage ./mev-boost-relay {inherit blst;};
       mev-rs = callPackage ./mev-rs {};
       nethermind = callPackageUnstable ./nethermind {};
-      nimbus = callPackageUnstable ./nimbus {};
+      nimbus-beacon-node = inputs.nimbus.packages.${system}.beacon_node;
+      nimbus-validator-client = inputs.nimbus.packages.${system}.validator_client;
       prysm = callPackage ./prysm {inherit bls blst;};
       reth = callPackageUnstable ./reth {};
       rocketpool = callPackage ./rocketpool {};
