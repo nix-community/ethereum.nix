@@ -4,53 +4,71 @@
   lib,
   rustPlatform,
   stdenv,
-}:
-rustPlatform.buildRustPackage rec {
-  pname = "reth";
-  version = "0.2.0-beta.6";
+  pkgs,
+  crane,
+  cargo-nextest,
+}: let
+  craneLib = (crane.mkLib pkgs).overrideToolchain (p: p.rust-bin.stable.latest.default);
+  commonArgs = rec {
+    pname = "reth";
+    version = "1.0.1";
 
-  src = fetchFromGitHub {
-    owner = "paradigmxyz";
-    repo = pname;
-    rev = "v${version}";
-    hash = "sha256-ZcQ29AwlTU6rDiknlJbOo8JubXQOJg1UVMSlRb1l8Yk=";
-  };
-
-  cargoLock = {
-    lockFile = "${src}/Cargo.lock";
-    outputHashes = {
-      "alloy-consensus-0.1.0" = "sha256-2TZeQo0d+Yp0M46VNx3OZoyDT4F31cLdOpl1tk3syfg=";
-      "discv5-0.4.1" = "sha256-agrluN1C9/pS/IMFTVlPOuYl3ZuklnTYb46duVvTPio=";
-      "revm-inspectors-0.1.0" = "sha256-ZRlYNEHD+wewlttUcMuEoTYg9Hn89JVAr7+hIeMBXog=";
+    src = fetchFromGitHub {
+      owner = "paradigmxyz";
+      repo = pname;
+      rev = "v${version}";
+      hash = "sha256-GqBNyPeXIN7q2m3SkhP4BUYXyEQYlkP0JH/pKgEvf7k=";
     };
+    strictDeps = true;
+
+    buildInputs = lib.optionals stdenv.isDarwin [
+      darwin.apple_sdk.frameworks.Security
+    ];
+
+    nativeBuildInputs = [
+      # Doesn't actually depend on rust version, so using this hook from nixpkgs is fine
+      rustPlatform.bindgenHook
+    ];
   };
+  cargoArtifacts = craneLib.buildDepsOnly commonArgs;
+in
+  craneLib.buildPackage (commonArgs
+    // {
+      inherit cargoArtifacts;
 
-  nativeBuildInputs = [
-    rustPlatform.bindgenHook
-  ];
+      nativeBuildInputs =
+        commonArgs.nativeBuildInputs
+        ++ [
+          cargo-nextest
+        ];
 
-  # `x86_64-darwin` seems to have issues with jemalloc
-  buildNoDefaultFeatures = true;
-  buildFeatures = lib.optional (stdenv.system != "x86_64-darwin") "jemalloc";
+      # `x86_64-darwin` seems to have issues with jemalloc
+      cargoExtraArgs =
+        "--no-default-features"
+        + (
+          if stdenv.system != "x86_64-darwin"
+          then " --features jemalloc"
+          else ""
+        );
 
-  buildInputs = lib.optionals stdenv.isDarwin [
-    darwin.apple_sdk.frameworks.Security
-  ];
+      cargoTestCommand = "cargo nextest run";
+      cargoTestExtraArgs = builtins.concatStringsSep " " [
+        "--hide-progress-bar"
+        "--workspace"
+        "--exclude ef-tests"
+        "-E"
+        # Only run unit tests (`!kind(test)`) and skip several tests which can't run within the nix sandbox
+        "'!kind(test) - test(cli::tests::parse_env_filter_directives) - test(tests::test_exex) - test(auth_layer::tests::test_jwt_layer)'"
+      ];
 
-  # Some tests fail due to I/O that is unfriendly with nix sandbox.
-  checkFlags = [
-    "--skip=builder::tests::block_number_node_config_test"
-    "--skip=builder::tests::launch_multiple_nodes"
-    "--skip=builder::tests::rpc_handles_none_without_http"
-    "--skip=cli::tests::override_trusted_setup_file"
-    "--skip=cli::tests::parse_env_filter_directives"
-  ];
+      # https://crane.dev/faq/rebuilds-bindgen.html
+      NIX_OUTPATH_USED_AS_RANDOM_SEED = "aaaaaaaaaa";
 
-  meta = with lib; {
-    description = "Modular, contributor-friendly and blazing-fast implementation of the Ethereum protocol, in Rust";
-    homepage = "https://github.com/paradigmxyz/reth";
-    license = with licenses; [mit asl20];
-    mainProgram = "reth";
-    platforms = ["aarch64-darwin" "x86_64-darwin" "aarch64-linux" "x86_64-linux"];
-  };
-}
+      meta = with lib; {
+        description = "Modular, contributor-friendly and blazing-fast implementation of the Ethereum protocol, in Rust";
+        homepage = "https://github.com/paradigmxyz/reth";
+        license = with licenses; [mit asl20];
+        mainProgram = "reth";
+        platforms = ["aarch64-darwin" "x86_64-darwin" "aarch64-linux" "x86_64-linux"];
+      };
+    })
