@@ -7,11 +7,11 @@
 }:
 stdenv.mkDerivation rec {
   pname = "staking-deposit-cli";
-  version = "2.7.0";
+  version = "2.8.0";
 
   src = fetchurl {
-    url = "https://github.com/ethereum/staking-deposit-cli/releases/download/v${version}/staking_deposit-cli-fdab65d-linux-amd64.tar.gz";
-    hash = "sha256-rDFRhD1oHJKudVZ6iPvg4EDVPCE2jMHtGow9n7KfKjo=";
+    url = "https://github.com/ethereum/staking-deposit-cli/releases/download/v${version}/staking_deposit-cli-948d3fc-linux-amd64.tar.gz";
+    hash = "sha256-7wISUqvSWR7201WPsyWLNfR4wgMz8t/0oXzHm1c8OHk=";
   };
 
   nativeBuildInputs = [autoPatchelfHook];
