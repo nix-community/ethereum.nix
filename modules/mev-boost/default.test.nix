@@ -13,8 +13,10 @@
           enable = true;
           args = {
             addr = "localhost:18550";
-            network = "goerli";
-            relays = ["https://0x8f7b17a74569b7a57e9bdafd2e159380759f5dc3ccbd4bf600414147e8c4e1dc6ebada83c0139ac15850eb6c975e82d0@builder-relay-goerli.blocknative.com"];
+            network = "holesky";
+            relays = [
+              "https://0xafa4c6985aa049fb79dd37010438cfebeb0f2bd42b115b89dd678dab0670c1de38da0c4e9138c9290a398ecd9a0b3110@boost-relay-holesky.flashbots.net"
+            ];
           };
         };
       };
