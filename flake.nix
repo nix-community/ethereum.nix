@@ -51,6 +51,14 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.treefmt-nix.follows = "treefmt-nix";
     };
+    rust-overlay = {
+      url = "github:oxalica/rust-overlay";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+    crane = {
+      url = "github:ipetkov/crane";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs @ {
@@ -95,6 +103,7 @@
           pkgsUnstable = lib.extras.nix.mkNixpkgs {
             inherit system;
             nixpkgs = inputs.nixpkgs-unstable;
+            overlays = [(import inputs.rust-overlay)];
           };
           pkgs2311 = lib.extras.nix.mkNixpkgs {
             inherit system;
