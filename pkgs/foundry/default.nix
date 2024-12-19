@@ -15,18 +15,12 @@ rustPlatform.buildRustPackage rec {
   src = fetchFromGitHub {
     owner = "foundry-rs";
     repo = "foundry";
-    rev = "0688b5ad19a637303c038d1a66aec62a73713e20";
-    hash = "sha256-OIsUzJVNcb2nVCYU/BdGGGICEg9Cr9LXc8zzN2JSb8g=";
+    rev = "8a08a3a92b0c842db2f254983cc3bd179300ad46";
+    hash = "sha256-djEWWltp+5DErOsADmcF/NlCNslAfDMMhLmFSm0HbBM=";
   };
 
   cargoLock = {
     lockFile = "${src}/Cargo.lock";
-    outputHashes = {
-      "alloy-consensus-0.1.0" = "sha256-rHDLt0N6VIAlg2EKEdF0S2S8XqJebRlIB7owyGQ04aA=";
-      "ethers-2.0.11" = "sha256-ySrCZOiqOcDVH5T7gbimK6Bu7A2OCcU64ZL1RfFPrBc=";
-      "revm-3.5.0" = "sha256-gdDJq2ZyIkMhTgMNz45YJXnopF/xxt3CaSd/eYSDGcY=";
-      "revm-inspectors-0.1.0" = "sha256-mH6On3cjKLT14S+5dxB1G5lcf5PBtz0KcusMxOtRRWA=";
-    };
   };
 
   env = {
