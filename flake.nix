@@ -11,6 +11,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/24.05";
     nixpkgs-2311.url = "github:nixos/nixpkgs/23.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs-staging-next.url = "github:nixos/nixpkgs/staging-next";
 
     foundry-nix = {
       url = "github:shazow/foundry.nix/monthly";
@@ -99,6 +100,10 @@
           pkgs2311 = lib.extras.nix.mkNixpkgs {
             inherit system;
             nixpkgs = inputs.nixpkgs-2311;
+          };
+          pkgsStagingNext = lib.extras.nix.mkNixpkgs {
+            inherit system;
+            nixpkgs = inputs.nixpkgs-staging-next;
           };
         };
 
