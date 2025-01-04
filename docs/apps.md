@@ -43,6 +43,7 @@ The execution client (also known as the Execution Engine, EL client or formerly 
 | [Geth](https://geth.ethereum.org/) @span        | `nix run .#geth`              |
 |                                                 | `nix run .#geth-abidump`      |
 |                                                 | `nix run .#geth-abigen`       |
+|                                                 | `nix run .#geth-blsync`       |
 |                                                 | `nix run .#geth-bootnode`     |
 |                                                 | `nix run .#geth-clef`         |
 |                                                 | `nix run .#geth-devp2p`       |
