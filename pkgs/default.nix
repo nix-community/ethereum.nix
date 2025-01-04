@@ -108,6 +108,7 @@
         bin = "geth";
         geth-abidump.bin = "abidump";
         geth-abigen.bin = "abigen";
+        geth-blsync.bin = "blsync";
         geth-bootnode.bin = "bootnode";
         geth-clef.bin = "clef";
         geth-devp2p.bin = "devp2p";
