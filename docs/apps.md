@@ -10,7 +10,7 @@ The list of supported apps is growing every day! We plan to keep this list up to
 
     For brevity and consistency, all the commands are listed in the local variant.
 
-## Consenus Clients
+## Consensus Clients
 
 The consensus client (also known as the Beacon Node, CL client or formerly the Eth2 client) implements the proof-of-stake consensus algorithm, which enables the network to achieve agreement based on validated data from the execution client.
 
