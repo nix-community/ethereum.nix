@@ -89,7 +89,7 @@ with lib; {
       EngineHost = mkOption {
         type = types.str;
         default = "127.0.0.1";
-        description = "Host for JSON RPC calls.";
+        description = "Host for Execution Engine calls.";
       };
 
       EnginePort = mkOption {
