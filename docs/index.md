@@ -84,7 +84,7 @@ and it has a grown into an ever-increasing number of packages and modules target
   url: https://github.com/selfuryon
 ::/cards::
 
-## Comercial Support?
+## Commercial Support?
 
 Are you seeking to use Ethereum.nix effectively within your organization for Blockchain related projects?
 
