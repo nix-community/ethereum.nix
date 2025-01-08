@@ -6,13 +6,13 @@
 }:
 rustPlatform.buildRustPackage rec {
   pname = "blutgang";
-  version = "0.3.1";
+  version = "0.3.6";
 
   src = fetchFromGitHub {
     owner = "rainshowerLabs";
     repo = pname;
     rev = "Blutgang-${version}";
-    hash = "sha256-prJq1enn2bJdJieVjvq1vd7dCNBlg5ppymIwjU4pgzg=";
+    hash = "sha256-EAmmCvESMneYuoTEa8Qm5eYqJkkRDY8CqlfsER1Pq8s=";
   };
 
   nativeBuildInputs = [
@@ -23,7 +23,7 @@ rustPlatform.buildRustPackage rec {
     openssl
   ];
 
-  cargoHash = "sha256-bAHUcfRtefGsRgFMBY5JJ4QSstB8wApcdqz/pqSVpuk=";
+  cargoHash = "sha256-1G80j/lZrAlrgOLgpKyGYP9x6g/9kxXf3wmY2OcynFc=";
 
   meta = {
     description = "the wd40 of ethereum load balancers";
