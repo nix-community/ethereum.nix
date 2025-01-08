@@ -3,6 +3,7 @@
   fetchFromGitHub,
   pkgs,
   targets ? ["nimbus_beacon_node" "nimbus_validator_client"],
+  stableSystems ? ["x86_64-linux" "aarch64-linux"],
 }: let
   version = "24.12.0";
   src = applyPatches {
@@ -16,4 +17,4 @@
     patches = [./fix-hash.patch];
   };
 in
-  import "${src}/nix" {inherit pkgs targets;}
+  import "${src}/nix" {inherit pkgs targets stableSystems;}
