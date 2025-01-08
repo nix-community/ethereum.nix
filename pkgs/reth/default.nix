@@ -1,9 +1,7 @@
 {
-  darwin,
   fetchFromGitHub,
   lib,
   rustPlatform,
-  stdenv,
 }:
 rustPlatform.buildRustPackage rec {
   pname = "reth";
@@ -24,14 +22,6 @@ rustPlatform.buildRustPackage rec {
     rustPlatform.bindgenHook
   ];
 
-  # `x86_64-darwin` seems to have issues with jemalloc
-  buildNoDefaultFeatures = true;
-  buildFeatures = lib.optional (stdenv.system != "x86_64-darwin") "jemalloc";
-
-  buildInputs = lib.optionals stdenv.isDarwin [
-    darwin.apple_sdk.frameworks.Security
-  ];
-
   # Some tests fail due to I/O that is unfriendly with nix sandbox.
   checkFlags = [
     "--skip=builder::tests::block_number_node_config_test"
@@ -46,6 +36,6 @@ rustPlatform.buildRustPackage rec {
     homepage = "https://github.com/paradigmxyz/reth";
     license = with licenses; [mit asl20];
     mainProgram = "reth";
-    platforms = ["aarch64-darwin" "x86_64-darwin" "aarch64-linux" "x86_64-linux"];
+    platforms = ["aarch64-linux" "x86_64-linux"];
   };
 }
