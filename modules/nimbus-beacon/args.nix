@@ -5,7 +5,7 @@
 }:
 with lib; {
   network = mkOption {
-    type = types.enum ["mainnet" "prater" "sepolia" "holesky"];
+    type = types.enum ["mainnet" "prater" "sepolia" "holesky" "gnosis" "chiado"];
     default = name;
     defaultText = "name";
     description = "The Eth2 network to join";
