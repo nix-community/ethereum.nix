@@ -2,7 +2,7 @@
   applyPatches,
   fetchFromGitHub,
   pkgs,
-  targets ? ["nimbus_beacon_node" "nimbus_validator_client"],
+  targets ? ["nimbus_beacon_node" "nimbus_validator_client" "gnosis-build" "gnosis-vc-build"],
   stableSystems ? ["x86_64-linux" "aarch64-linux"],
 }: let
   version = "24.12.0";

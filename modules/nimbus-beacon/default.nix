@@ -168,6 +168,11 @@ in {
               ${data-dir-arg} \
               ${concatStringsSep " \\\n" filteredArgs}
             '';
+            bin = let
+              bins.gnosis = "nimbus_beacon_node_gnosis";
+              bins.chiado = "nimbus_beacon_node_gnosis";
+            in
+              bins.${cfg.args.network} or "nimbus_beacon_node";
           in
             nameValuePair serviceName (mkIf cfg.enable {
               after = ["network.target"];
@@ -185,9 +190,9 @@ in {
                   ExecStartPre = lib.mkBefore [
                     ''                      ${pkgs.coreutils-full}/bin/cp --no-preserve=all --update=none \
                       /proc/sys/kernel/random/uuid ${data-dir}/${cfg.args.keymanager.token-file}''
-                    "${cfg.package}/bin/nimbus_beacon_node trustedNodeSync ${checkpointSyncArgs}"
+                    "${cfg.package}/bin/${bin} trustedNodeSync ${checkpointSyncArgs}"
                   ];
-                  ExecStart = "${cfg.package}/bin/nimbus_beacon_node ${scriptArgs}";
+                  ExecStart = "${cfg.package}/bin/${bin} ${scriptArgs}";
                 }
                 baseServiceConfig
                 (mkIf (cfg.args.jwt-secret != null) {
