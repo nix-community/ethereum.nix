@@ -3,126 +3,101 @@
     <url>
          <loc>https://nix-community.github.io/ethereum.nix/</loc>
          <lastmod>1980-01-01</lastmod>
-         <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://nix-community.github.io/ethereum.nix/apps/</loc>
          <lastmod>1980-01-01</lastmod>
-         <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://nix-community.github.io/ethereum.nix/getting-started/</loc>
          <lastmod>1980-01-01</lastmod>
-         <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://nix-community.github.io/ethereum.nix/license/</loc>
          <lastmod>1980-01-01</lastmod>
-         <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://nix-community.github.io/ethereum.nix/contributing/reporting-a-bug/</loc>
          <lastmod>1980-01-01</lastmod>
-         <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://nix-community.github.io/ethereum.nix/contributing/reporting-a-change/</loc>
          <lastmod>1980-01-01</lastmod>
-         <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://nix-community.github.io/ethereum.nix/contributing/reporting-a-docs-issue/</loc>
          <lastmod>1980-01-01</lastmod>
-         <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://nix-community.github.io/ethereum.nix/nixos/backup-and-restore/</loc>
          <lastmod>1980-01-01</lastmod>
-         <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://nix-community.github.io/ethereum.nix/nixos/installation/</loc>
          <lastmod>1980-01-01</lastmod>
-         <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://nix-community.github.io/ethereum.nix/nixos/restore-from-backup/</loc>
          <lastmod>1980-01-01</lastmod>
-         <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://nix-community.github.io/ethereum.nix/nixos/running-geth/</loc>
          <lastmod>1980-01-01</lastmod>
-         <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://nix-community.github.io/ethereum.nix/nixos/running-lighthouse-beacon/</loc>
          <lastmod>1980-01-01</lastmod>
-         <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://nix-community.github.io/ethereum.nix/nixos/running-nimbus-beacon/</loc>
          <lastmod>1980-01-01</lastmod>
-         <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://nix-community.github.io/ethereum.nix/nixos/running-prysm-beacon/</loc>
          <lastmod>1980-01-01</lastmod>
-         <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://nix-community.github.io/ethereum.nix/nixos/modules/erigon/</loc>
          <lastmod>1980-01-01</lastmod>
-         <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://nix-community.github.io/ethereum.nix/nixos/modules/geth-bootnode/</loc>
          <lastmod>1980-01-01</lastmod>
-         <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://nix-community.github.io/ethereum.nix/nixos/modules/geth/</loc>
          <lastmod>1980-01-01</lastmod>
-         <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://nix-community.github.io/ethereum.nix/nixos/modules/lighthouse-beacon/</loc>
          <lastmod>1980-01-01</lastmod>
-         <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://nix-community.github.io/ethereum.nix/nixos/modules/lighthouse-validator/</loc>
          <lastmod>1980-01-01</lastmod>
-         <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://nix-community.github.io/ethereum.nix/nixos/modules/mev-boost/</loc>
          <lastmod>1980-01-01</lastmod>
-         <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://nix-community.github.io/ethereum.nix/nixos/modules/nethermind/</loc>
          <lastmod>1980-01-01</lastmod>
-         <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://nix-community.github.io/ethereum.nix/nixos/modules/nimbus-beacon/</loc>
          <lastmod>1980-01-01</lastmod>
-         <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://nix-community.github.io/ethereum.nix/nixos/modules/prysm-beacon/</loc>
          <lastmod>1980-01-01</lastmod>
-         <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://nix-community.github.io/ethereum.nix/nixos/modules/prysm-validator/</loc>
          <lastmod>1980-01-01</lastmod>
-         <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://nix-community.github.io/ethereum.nix/nixos/modules/reth/</loc>
          <lastmod>1980-01-01</lastmod>
-         <changefreq>daily</changefreq>
     </url>
 </urlset>
