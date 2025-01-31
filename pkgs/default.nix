@@ -62,7 +62,7 @@
       reth = callPackageUnstable ./reth {};
       rocketpool = callPackage ./rocketpool {};
       rocketpoold = callPackage ./rocketpoold {inherit bls blst;};
-      rotki-bin = callPackage2311 ./rotki-bin {};
+      rotki-bin = callPackageUnstable ./rotki-bin {};
       sedge = callPackage2311 ./sedge {
         bls = callPackage2311 ./bls {};
         mcl = callPackage2311 ./mcl {};
