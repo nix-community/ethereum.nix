@@ -21,17 +21,17 @@
 in
   buildGoModule rec {
     pname = "geth";
-    version = "1.14.8";
+    version = "1.14.13";
 
     src = fetchFromGitHub {
       owner = "ethereum";
       repo = "go-ethereum";
       rev = "v${version}";
-      hash = "sha256-y831v6ar1RdDvGQMZf2lZKgq2IQzAAQrNwDCL0xbj24=";
+      hash = "sha256-oJe+V11WArXVmoIC7nYN6oKc0VoHtRtelidyb3v6skI=";
     };
 
     proxyVendor = true;
-    vendorHash = "sha256-CLGf64Fftu4u8Vaj66Q4xuRKBEMNZmpltUyaUMVyVJk=";
+    vendorHash = "sha256-IEwy3XRyj+5GjAWRjPsd5qzwEMpI/pZIwPjKdeATgkE=";
 
     ldflags = ["-s" "-w"];
 
