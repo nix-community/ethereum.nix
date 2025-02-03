@@ -90,7 +90,7 @@ in {
                 else "--datadir %S/${user}";
 
               beaconNodes =
-                if (cfg.args.beacon-nodes != null) && (length cfg.args.beacon-nodes == 0)
+                if (cfg.args.beacon-nodes != null) && (length cfg.args.beacon-nodes != 0)
                 then "--beacon-nodes ${concatStringsSep "," cfg.args.beacon-nodes}"
                 else let
                   beaconCfg = config.services.ethereum.lighthouse-beacon.${name};
