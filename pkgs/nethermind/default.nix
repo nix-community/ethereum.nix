@@ -12,13 +12,13 @@
 }: let
   self = buildDotnetModule rec {
     pname = "nethermind";
-    version = "1.30.3";
+    version = "1.31.0";
 
     src = fetchFromGitHub {
       owner = "NethermindEth";
       repo = pname;
       rev = version;
-      hash = "sha256-J2G2ENgYfyUSNoi2tKIlbZzVXkxXqWP8Q+NihIzLiHo=";
+      hash = "sha256-lR/WHOR8idHYr0QDwgNSvaUBaBmEUXlXkXvKrRpxBl8=";
       fetchSubmodules = true;
     };
 
@@ -59,7 +59,7 @@
       description = "Our flagship Ethereum client for Linux, Windows, and macOS—full and actively developed";
       homepage = "https://nethermind.io/nethermind-client";
       license = lib.licenses.gpl3;
-      mainProgram = "Nethermind.Runner";
+      mainProgram = "nethermind";
       platforms = ["x86_64-linux"];
     };
   };

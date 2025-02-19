@@ -124,8 +124,8 @@
       mev-boost.bin = "mev-boost";
       mev-rs.bin = "mev";
       nethermind = {
-        nethermind.bin = "Nethermind.Cli";
-        nethermind-runner.bin = "Nethermind.Runner";
+        nethermind.bin = "nethermind-cli";
+        nethermind-runner.bin = "nethermind";
       };
       nimbus = {
         nimbus-beacon-node.bin = "nimbus_beacon_node";
