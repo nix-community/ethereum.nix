@@ -52,7 +52,7 @@
       heimdall = callPackage ./heimdall {};
       lighthouse = callPackageUnstable ./lighthouse {inherit foundry;};
       mcl = callPackage ./mcl {};
-      mev-boost = callPackage ./mev-boost {inherit blst;};
+      mev-boost = callPackageUnstable ./mev-boost {inherit blst;};
       mev-boost-builder = callPackage ./mev-boost-builder {inherit blst;};
       mev-boost-relay = callPackage ./mev-boost-relay {inherit blst;};
       mev-rs = callPackage ./mev-rs {};
