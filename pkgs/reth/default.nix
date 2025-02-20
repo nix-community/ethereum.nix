@@ -5,13 +5,13 @@
 }:
 rustPlatform.buildRustPackage rec {
   pname = "reth";
-  version = "1.1.5";
+  version = "1.2.0";
 
   src = fetchFromGitHub {
     owner = "paradigmxyz";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-bQ45SJCdIEtBqhh/2bQh0CS8KC9eI4zF38LSL/LDOSk=";
+    hash = "sha256-Z+ctKDds4Vo+P5yItz42k7u6uiINXHZvaZLU2c5Tfyo=";
   };
 
   cargoLock = {
