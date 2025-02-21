@@ -52,7 +52,7 @@
       heimdall = callPackage ./heimdall {};
       lighthouse = callPackageUnstable ./lighthouse {inherit foundry;};
       mcl = callPackage ./mcl {};
-      mev-boost = callPackage ./mev-boost {inherit blst;};
+      mev-boost = callPackageUnstable ./mev-boost {inherit blst;};
       mev-boost-builder = callPackage ./mev-boost-builder {inherit blst;};
       mev-boost-relay = callPackage ./mev-boost-relay {inherit blst;};
       mev-rs = callPackage ./mev-rs {};
@@ -124,8 +124,8 @@
       mev-boost.bin = "mev-boost";
       mev-rs.bin = "mev";
       nethermind = {
-        nethermind.bin = "Nethermind.Cli";
-        nethermind-runner.bin = "Nethermind.Runner";
+        nethermind.bin = "nethermind-cli";
+        nethermind-runner.bin = "nethermind";
       };
       nimbus = {
         nimbus-beacon-node.bin = "nimbus_beacon_node";
