@@ -58,7 +58,7 @@
       mev-rs = callPackage ./mev-rs {};
       nethermind = callPackageUnstable ./nethermind {};
       nimbus = callPackageUnstable ./nimbus {};
-      prysm = callPackage ./prysm {inherit bls blst;};
+      prysm = callPackageUnstable ./prysm {inherit bls blst;};
       reth = callPackageUnstable ./reth {};
       rocketpool = callPackage ./rocketpool {};
       rocketpoold = callPackage ./rocketpoold {inherit bls blst;};
