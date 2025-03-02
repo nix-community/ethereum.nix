@@ -141,7 +141,7 @@
               "*.md"
               "*.html"
             ];
-            mdformat.package = lib.mkDefault (pkgsUnstable.mdformat.withPlugins (p: [
+            mdformat.package = lib.mkDefault (pkgs.mdformat.withPlugins (p: [
               p.mdformat-admon
               p.mdformat-beautysh
               p.mdformat-footnote
