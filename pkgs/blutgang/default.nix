@@ -23,7 +23,8 @@ rustPlatform.buildRustPackage rec {
     openssl
   ];
 
-  cargoHash = "sha256-1G80j/lZrAlrgOLgpKyGYP9x6g/9kxXf3wmY2OcynFc=";
+  useFetchCargoVendor = true;
+  cargoHash = "sha256-kkfIcx8sDQkPWzcTii8NHRq8S8gi+rZYSxaJptEL1QM=";
 
   meta = {
     description = "the wd40 of ethereum load balancers";
