@@ -32,7 +32,6 @@
     systems.url = "github:nix-systems/default";
     devshell = {
       url = "github:numtide/devshell";
-      inputs.flake-utils.follows = "flake-utils";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     treefmt-nix = {
@@ -40,10 +39,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     flake-compat.url = "github:nix-community/flake-compat";
-    devour-flake = {
-      url = "github:srid/devour-flake";
-      flake = false;
-    };
     lib-extras = {
       url = "github:aldoborrero/lib-extras/v0.2.2";
       inputs.devshell.follows = "devshell";
@@ -81,7 +76,6 @@
         config,
         pkgs,
         pkgsUnstable,
-        pkgs2311,
         system,
         self',
         ...
@@ -164,25 +158,8 @@
 
         # checks
         checks =
-          {
-            # TODO: Restore this check whenever buildbot supports more specific checks
-            # nix-build-all = pkgs.writeShellApplication {
-            #   name = "nix-build-all";
-            #   runtimeInputs = [
-            #     pkgs.nix
-            #     devour-flake
-            #   ];
-            #   text = ''
-            #     # Make sure that flake.lock is sync
-            #     nix flake lock --no-update-lock-file
-            #
-            #     # Do a full nix build (all outputs)
-            #     devour-flake . "$@"
-            #   '';
-            # };
-          }
           # merge in the package derivations to force a build of all packages during a `nix flake check`
-          // (with lib; mapAttrs' (n: nameValuePair "package-${n}") (filterAttrs (n: _: ! builtins.elem n ["docs"]) self'.packages))
+          (with lib; mapAttrs' (n: nameValuePair "package-${n}") (filterAttrs (n: _: ! builtins.elem n ["docs"]) self'.packages))
           # mix in tests
           // config.testing.checks;
       };
