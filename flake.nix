@@ -39,25 +39,15 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     flake-compat.url = "github:nix-community/flake-compat";
-    lib-extras = {
-      url = "github:aldoborrero/lib-extras/v0.2.2";
-      inputs.devshell.follows = "devshell";
-      inputs.flake-parts.follows = "flake-parts";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.treefmt-nix.follows = "treefmt-nix";
-    };
   };
 
   outputs = inputs @ {
     flake-parts,
     nixpkgs,
-    lib-extras,
     systems,
     ...
   }: let
-    lib = nixpkgs.lib.extend (l: _: {
-      extras = (lib-extras.lib l) // (import ./lib.nix l);
-    });
+    lib = nixpkgs.lib.extend (l: _: (import ./lib.nix l));
   in
     flake-parts.lib.mkFlake {
       inherit inputs;
@@ -82,15 +72,15 @@
       }: {
         # pkgs
         _module.args = {
-          pkgs = lib.extras.nix.mkNixpkgs {
+          pkgs = lib.mkNixpkgs {
             inherit system;
             inherit (inputs) nixpkgs;
           };
-          pkgsUnstable = lib.extras.nix.mkNixpkgs {
+          pkgsUnstable = lib.mkNixpkgs {
             inherit system;
             nixpkgs = inputs.nixpkgs-unstable;
           };
-          pkgs2311 = lib.extras.nix.mkNixpkgs {
+          pkgs2311 = lib.mkNixpkgs {
             inherit system;
             nixpkgs = inputs.nixpkgs-2311;
           };

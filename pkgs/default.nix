@@ -21,7 +21,7 @@
     ...
   }: let
     inherit (pkgs) callPackage;
-    inherit (lib.extras.flakes) platformPkgs platformApps;
+    inherit (lib) platformPkgs platformApps;
     callPackageUnstable = pkgsUnstable.callPackage;
     callPackage2311 = pkgs2311.callPackage;
   in {

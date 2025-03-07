@@ -1,5 +1,115 @@
 lib: rec {
   /*
+  Function: mkNixpkgs
+  Synopsis: Creates a custom Nixpkgs configuration.
+
+  Parameters:
+    - system (string): Target system, e.g., "x86_64-linux".
+    - inputs (attrset, optional): Custom inputs for the Nixpkgs configuration.
+    - overlays (list, optional): List of overlays to apply.
+    - nixpkgs (path, optional): Path to the Nixpkgs repository. Defaults to inputs.nixpkgs.
+    - config (attrset, optional): Additional Nixpkgs configuration settings.
+
+  Returns:
+    - A configured Nixpkgs environment suitable for importing.
+
+  Example:
+    mkNixpkgs {
+      system = "x86_64-linux";
+      overlays = [ myOverlay ];
+    }
+
+  Description:
+    The function imports a Nixpkgs environment with the specified target system, custom inputs,
+    and overlays. It also accepts additional Nixpkgs configuration settings.
+  */
+  mkNixpkgs = {
+    system,
+    nixpkgs,
+    overlays ? [],
+    config ? {allowUnfree = true;},
+  }:
+    import nixpkgs {inherit system config overlays;};
+
+  /*
+  Function: mkApp
+  Synopsis: Creates an "app" type for Nix flakes.
+
+  Parameters:
+    - drv (derivation): The Nix derivation.
+    - name (string, optional): Name of the application.
+    - exePath (string, optional): Executable path.
+
+  Returns:
+    - An "app" type attribute with 'type' and 'program' keys.
+  */
+  mkApp = {
+    drv,
+    name ? drv.pname or drv.name,
+    exePath ? drv.passthru.exePath or "/bin/${name}",
+  }: {
+    type = "app";
+    program = "${drv}${exePath}";
+  };
+
+  /*
+  Function: buildApps
+  Synopsis: Constructs attribute set of applications from Nix packages and custom apps specification.
+
+  Parameters:
+    - packages (attrset): An attribute set of Nix packages.
+    - apps (attrset): Custom apps specification.
+
+  Returns:
+    - An attribute set representing built applications.
+  */
+  buildApps = packages: apps:
+    lib.listToAttrs
+    (lib.collect (attrs: lib.attrNames attrs == ["name" "value"])
+      (lib.mapAttrsRecursiveCond lib.isAttrs (path: v: let
+        drvName = lib.head path;
+        drv = packages.${drvName};
+        name = lib.last (lib.init path);
+        exePath = "/bin/${v}";
+      in
+        lib.nameValuePair name {inherit drv name exePath;})
+      apps));
+
+  /*
+  Function: platformPkgs
+  Synopsis: Filters Nix packages based on the target system platform.
+
+  Parameters:
+    - system (string): Target system platform (e.g., "x86_64-linux").
+
+  Returns:
+    - A filtered attribute set of Nix packages compatible with the target system.
+  */
+  platformPkgs = system:
+    lib.filterAttrs
+    (_: value: let
+      platforms = lib.attrByPath ["meta" "platforms"] [] value;
+    in
+      lib.elem system platforms);
+
+  /*
+  Function: platformApps
+  Synopsis: Filters and builds platform-specific applications.
+
+  Parameters:
+    - packages (attrset): An attribute set of Nix packages.
+    - apps (attrset): Custom apps specification.
+
+  Returns:
+    - An attribute set of platform-specific applications.
+  */
+  platformApps = packages: apps: let
+    apps' = lib.filterAttrs (name: _: lib.elem name (lib.attrNames packages)) apps;
+    bapps = buildApps packages apps';
+  in
+    lib.mapAttrs (_: mkApp) bapps;
+
+  /*
   Function: flattenTree
   Synopsis: Flattens a nested attribute set (tree) into a single-level attribute set.
 

@@ -31,7 +31,7 @@
       docsPath = "./docs/nixos/modules";
       nixosMarkdownDocs = runCommand "nixos-options" {} ''
         mkdir $out
-        ${lib.extras.mkdocs.createNixosMarkdownDocs {modulesPath = ./modules;}}
+        ${lib.createNixosMarkdownDocs {modulesPath = ./modules;}}
       '';
     in
       stdenv.mkDerivation {
