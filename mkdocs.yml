@@ -54,7 +54,6 @@ markdown_extensions:
   - attr_list
   - md_in_html
   - neoteroi.spantable
-  - neoteroi.cards
   - toc:
       permalink: true
   - pymdownx.details
@@ -113,4 +112,4 @@ extra:
       name: Ethereum.nix on Github
   generator: false # hide the line "Made with Material for MkDocs"
 
-copyright: Copyright &copy; 2022-2023 Ethereum.nix contributors
+copyright: Copyright &copy; 2022-2025 Ethereum.nix contributors
