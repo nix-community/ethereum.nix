@@ -1,20 +1,16 @@
----
 # yaml-language-server: $schema=https://docs.mergify.com/mergify-configuration-schema.json
-
-defaults:
-  actions:
-    queue:
-      merge_method: rebase
 
 queue_rules:
   - name: default
+    queue_conditions:
+      - base=main
+      - label~=merge-queue|dependencies
     merge_conditions:
       - check-success=buildbot/nix-build
+    merge_method: rebase
 
 pull_request_rules:
   - name: merge using the merge queue
-    conditions:
-      - base=main
-      - label~=merge-queue|dependencies
+    conditions: []
     actions:
-      queue: {}
+      queue:
