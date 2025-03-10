@@ -10,10 +10,10 @@
       mkdocs-custom =
         pkgsUnstable.runCommand "mkdocs-custom" {
           buildInputs = [
-            pkgsUnstable.python311
-            pkgsUnstable.python311Packages.mkdocs
-            pkgsUnstable.python311Packages.mkdocs-material
-            pkgsUnstable.python311Packages.neoteroi-mkdocs
+            pkgsUnstable.python312
+            pkgsUnstable.python312Packages.mkdocs
+            pkgsUnstable.python312Packages.mkdocs-material
+            pkgsUnstable.python312Packages.neoteroi-mkdocs
           ];
           meta.mainProgram = "mkdocs";
         } ''
@@ -23,7 +23,7 @@
           #!${pkgsUnstable.runtimeShell}
           set -euo pipefail
           export PYTHONPATH=$PYTHONPATH
-          exec ${pkgsUnstable.python311Packages.mkdocs}/bin/mkdocs "\$@"
+          exec ${pkgsUnstable.python312Packages.mkdocs}/bin/mkdocs "\$@"
           MKDOCS
 
           chmod +x $out/bin/mkdocs
@@ -31,7 +31,7 @@
       docsPath = "./docs/nixos/modules";
       nixosMarkdownDocs = runCommand "nixos-options" {} ''
         mkdir $out
-        ${lib.createNixosMarkdownDocs {modulesPath = ./modules;}}
+        ${lib.mkdocs.createNixosMarkdownDocs {modulesPath = ./modules;}}
       '';
     in
       stdenv.mkDerivation {
