@@ -15,74 +15,47 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 
 ## Eager to use Ethereum.nix?
 
-::cards::cols=2
+<div class="grid cards" markdown>
 
-- title: :material-information:{ .lg .middle } New to Ethereum.nix and Nix?
-  content: |
-    <br/>
+-   :material-information:{ .lg .middle } New to Ethereum.nix and Nix?
+
+    ---
+
     Get started by installing Nix on your system and how to use it with Ethereum.nix
-    <br/>
-    <br/>
-    [Getting Started :octicons-arrow-right-24:](./getting-started.md){ .md-button }
 
-- title: :material-apps-box:{ .lg .middle } Want to use an application now?
-  content: |
-    <br />
+    [Getting Started :octicons-arrow-right-24:](./getting-started.md)
+
+-   :material-apps-box:{ .lg .middle } Want to use an application now?
+
+    ---
+
     See our list of supported applications ready to be used in seconds.
-    <br />
-    <br />
-    [See supported Applications :octicons-arrow-right-24:](./apps.md){ .md-button }
 
-- title: :simple-nixos:{ .lg .middle } Want to run Ethereum services on NixOS?
-  content: |
-    <br />
+    [See supported Applications :octicons-arrow-right-24:](./apps.md)
+
+-   :simple-nixos:{ .lg .middle } Want to run Ethereum services on NixOS?
+
+    ---
+
     Run Ethereum services easily with our supported NixOS modules.
-    <br />
-    <br />
-    [Run Ethereum services on NixOS :octicons-arrow-right-24:](./nixos/installation.md){ .md-button }
 
-- title: :material-chat-question:{ .lg .middle } Have a question or need help?
-  content: |
-    <br />
+    [Run Ethereum services on NixOS :octicons-arrow-right-24:](./nixos/installation.md)
+
+-   :material-chat-question:{ .lg .middle } Have a question or need help?
+
+    ---
+
     Ask questions on our discussion board and get in touch with our community.
-    <br />
-    <br />
-    [Ask a question :octicons-arrow-right-24:](https://github.com/nix-community/ethereum.nix/discussions){ .md-button }
 
-::/cards::
+    [Ask a question :octicons-arrow-right-24:](https://github.com/nix-community/ethereum.nix/discussions)
+
+</div>
 
 ## About the project
 
 In the beginning Ethereum.nix was a playground for [Aldo Borrero](https://aldoborrero.com/) to experiment with _nix'ifying_
 Ethereum related processes. Since then, the project got accepted by the [Nix Community incubator program](https://github.com/nix-community)
 and it has a grown into an ever-increasing number of packages and modules targeted towards streamlining day-to-day operations across a variety of different projects.
-
-::cards::
-- title: Aldo Borrero
-  content: |
-    Creator of Ethereum.nix
-    <br/>
-    <br/>
-    Full Stack freak! Blockchain passionate!
-  image: https://avatars.githubusercontent.com/u/82811?v=4
-  url: https://github.com/aldoborrero
-- title: Brian McGee
-  content: |
-    Maintainer of Ethereum.nix
-    <br/>
-    <br/>
-    Writer of software • Lover of craft beer
-  image: https://avatars.githubusercontent.com/u/1173648?v=4
-  url: https://github.com/brianmcgee
-- title: Sergey Yakovlev
-  content: |
-    Maintainer of Ethereum.nix
-    <br/>
-    <br/>
-    Love Nix, Rust, Ethereum | SRE
-  image: https://avatars.githubusercontent.com/u/2993917?v=4
-  url: https://github.com/selfuryon
-::/cards::
 
 ## Commercial Support?
 
