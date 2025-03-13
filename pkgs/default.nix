@@ -78,6 +78,7 @@
         mcl = callPackage2311 ./mcl {};
       };
       staking-deposit-cli = callPackage ./staking-deposit-cli {};
+      surya = callPackage ./surya {};
       teku = callPackage ./teku {};
       tx-fuzz = callPackage ./tx-fuzz {};
       vouch = callPackage ./vouch {inherit bls mcl;};
@@ -146,6 +147,7 @@
       ssv-dkg.bin = "ssv-dkg";
       ssvnode.bin = "ssvnode";
       staking-deposit-cli.bin = "deposit";
+      surya.bin = "surya";
       teku.bin = "teku";
       tx-fuzz.bin = "tx-fuzz";
       vouch.bin = "vouch";
