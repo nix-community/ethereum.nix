@@ -4,6 +4,7 @@
   jre,
   lib,
   makeWrapper,
+  nix-update-script,
   runCommand,
   stdenv,
   testers,
@@ -33,6 +34,8 @@ stdenv.mkDerivation (finalAttrs: rec {
   '';
 
   passthru.tests = {
+    updateScript = nix-update-script {};
+
     version = testers.testVersion {
       package = finalAttrs.finalPackage;
       version = "v${version}";

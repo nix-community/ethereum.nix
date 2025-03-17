@@ -2,6 +2,7 @@
   cli11,
   cmake,
   fetchFromGitHub,
+  nix-update-script,
   stdenv,
 }:
 stdenv.mkDerivation rec {
@@ -29,6 +30,8 @@ stdenv.mkDerivation rec {
     ./001-Disable-vmtester.patch
     ./002-Disable-hunter-package.patch
   ];
+
+  passthru.updateScript = nix-update-script {};
 
   meta = {
     description = "EVMC – Ethereum Client-VM Connector API";

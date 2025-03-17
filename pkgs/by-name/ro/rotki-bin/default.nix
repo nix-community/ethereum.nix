@@ -3,6 +3,7 @@
   fetchurl,
   lib,
   makeWrapper,
+  nix-update-script,
 }:
 appimageTools.wrapType2 rec {
   pname = "rotki-bin";
@@ -26,6 +27,8 @@ appimageTools.wrapType2 rec {
     substituteInPlace $out/share/applications/rotki.desktop \
       --replace-fail 'Exec=AppRun --no-sandbox %U' 'Exec=rotki' \
   '';
+
+  passthru.updateScript = nix-update-script {};
 
   meta = with lib; {
     description = "An open source portfolio tracking tool that respects your privacy";

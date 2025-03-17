@@ -4,6 +4,7 @@
   fetchFromGitHub,
   lib,
   mcl,
+  nix-update-script,
 }:
 buildGo120Module rec {
   pname = "ssv-dkg";
@@ -23,6 +24,8 @@ buildGo120Module rec {
   subPackages = ["cmd/ssv-dkg"];
 
   ldflags = ["-X main.Version=v${version}"];
+
+  passthru.updateScript = nix-update-script {};
 
   meta = with lib; {
     description = "The ssv-dkg tool enable operators to participate in ceremonies to generate distributed validator keys for Ethereum stakers.";

@@ -1,11 +1,11 @@
 {
-  buildGoModule,
-  fetchFromGitHub,
-  clang,
-  mcl,
   bls,
+  buildGoModule,
+  clang,
+  fetchFromGitHub,
   lib,
-  ...
+  mcl,
+  nix-update-script,
 }:
 buildGoModule rec {
   pname = "ethdo";
@@ -25,6 +25,8 @@ buildGoModule rec {
   buildInputs = [mcl bls];
 
   doCheck = false;
+
+  passthru.updateScript = nix-update-script {};
 
   meta = with lib; {
     description = "A command-line tool for managing common tasks in Ethereum 2";

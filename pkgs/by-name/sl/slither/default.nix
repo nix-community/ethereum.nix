@@ -1,6 +1,7 @@
 {
-  lib,
   fetchFromGitHub,
+  lib,
+  nix-update-script,
   python3,
 }:
 python3.pkgs.buildPythonPackage rec {
@@ -39,6 +40,8 @@ python3.pkgs.buildPythonPackage rec {
   doCheck = false;
 
   pythonImportsCheck = ["slither"];
+
+  passthru.updateScript = nix-update-script {};
 
   meta = with lib; {
     description = "Static Analyzer for Solidity";

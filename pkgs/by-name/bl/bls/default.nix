@@ -1,11 +1,12 @@
 {
+  clang,
   cmake,
   fetchFromGitHub,
   gmp,
-  stdenv,
-  clang,
-  system,
   lib,
+  nix-update-script,
+  stdenv,
+  system,
 }:
 stdenv.mkDerivation rec {
   pname = "bls";
@@ -29,6 +30,8 @@ stdenv.mkDerivation rec {
 
   # ETH2.0 spec
   CFLAGS = [''-DBLS_ETH''];
+
+  passthru.updateScript = nix-update-script {};
 
   meta = {
     description = "BLS threshold signature";

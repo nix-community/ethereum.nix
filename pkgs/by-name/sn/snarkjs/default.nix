@@ -2,6 +2,7 @@
   buildNpmPackage,
   fetchFromGitHub,
   lib,
+  nix-update-script,
   nodejs,
 }:
 buildNpmPackage rec {
@@ -16,6 +17,8 @@ buildNpmPackage rec {
   };
 
   npmDepsHash = "sha256-cASHuNEH5g6D1CSScp12JQ4in8dddG4EEFW5INHLMg8=";
+
+  passthru.updateScript = nix-update-script {};
 
   meta = with lib; {
     description = "zkSNARK implementation in JavaScript & WASM";

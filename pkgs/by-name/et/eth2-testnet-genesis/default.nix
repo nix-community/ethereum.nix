@@ -2,6 +2,7 @@
   bls,
   buildGoModule,
   fetchFromGitHub,
+  nix-update-script,
 }:
 buildGoModule rec {
   pname = "eth2-testnet-genesis";
@@ -21,6 +22,8 @@ buildGoModule rec {
   subPackages = ["."];
 
   ldflags = ["-s" "-w"];
+
+  passthru.updateScript = nix-update-script {};
 
   meta = {
     description = "Create a genesis state for an Eth2 testnet";

@@ -4,6 +4,7 @@
   fetchFromGitHub,
   lib,
   lz4,
+  nix-update-script,
   rocksdb,
   snappy,
   stdenv,
@@ -49,6 +50,8 @@
     dotnet-runtime = dotnetCorePackages.aspnetcore_9_0;
 
     passthru = {
+      passthru.updateScript = nix-update-script {};
+
       # buildDotnetModule's `fetch-deps` uses `writeShellScript` instead of writeShellScriptBin making nix run .#nethermind.fetch-deps command to fail
       # This alias solves that issue. On parent folder, we only need to run this command to produce a new nuget-deps.nix file with updated deps:
       # $ nix run .#nethermind.fetch-nethermind-deps $PRJ_ROOT/pkgs/nethermind/nuget-deps.nix

@@ -4,6 +4,7 @@
   buildGo123Module,
   fetchFromGitHub,
   libelf,
+  nix-update-script,
 }:
 buildGo123Module rec {
   pname = "prysm";
@@ -34,6 +35,8 @@ buildGo123Module rec {
     "-w"
     "-X github.com/prysmaticlabs/prysm/v4/runtime/version.gitTag=v${version}"
   ];
+
+  passthru.updateScript = nix-update-script {};
 
   meta = {
     description = "Go implementation of Ethereum proof of stake";

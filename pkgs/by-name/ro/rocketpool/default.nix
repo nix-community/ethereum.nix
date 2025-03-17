@@ -1,6 +1,7 @@
 {
   buildGoModule,
   fetchFromGitHub,
+  nix-update-script,
 }:
 buildGoModule rec {
   pname = "rocketpool";
@@ -20,6 +21,8 @@ buildGoModule rec {
   postInstall = ''
     mv $out/bin/rocketpool-cli $out/bin/rocketpool
   '';
+
+  passthru.updateScript = nix-update-script {};
 
   meta = {
     description = "Rocket Pool CLI";
