@@ -8,14 +8,14 @@ buildGoModule rec {
   version = "2.61.3";
 
   src = fetchFromGitHub {
-    owner = "ledgerwatch";
+    owner = "erigontech";
     repo = pname;
-    rev = "${version}";
-    hash = "sha256-cHEJbRP/v1GOmpfjrYjso2d+SVcXG+TEiIZoX+sSdYQ=";
+    rev = "v${version}";
+    hash = "sha256-VGLuPaGYx/DQc3Oc9wAbELXAtkuxr8cbePVBExlZikk=";
     fetchSubmodules = true;
   };
 
-  vendorHash = "sha256-J535F9xXtxuCHvshJOJ63fOGpa5ZhReaOu9+jAKXDfo=";
+  vendorHash = "sha256-1LB2T0o9LjFdpl86NPMKx1lFLrQZefAGldcSQyL6O7M=";
   proxyVendor = true;
 
   # Silkworm's .so fails to find libgmp when linking
@@ -30,7 +30,7 @@ buildGoModule rec {
 
   meta = {
     description = "Ethereum node implementation focused on scalability and modularity";
-    homepage = "https://github.com/ledgerwatch/erigon/";
+    homepage = "https://github.com/erigontech/erigon/";
     mainProgram = "erigon";
     platforms = ["x86_64-linux"];
   };
