@@ -2,6 +2,7 @@
   darwin,
   fetchFromGitHub,
   lib,
+  nix-update-script,
   openssl,
   pkg-config,
   rustPlatform,
@@ -38,6 +39,8 @@ rustPlatform.buildRustPackage rec {
   # Loads of tests do some kind of I/O incompatible with nix sandbox, but are
   # tested in upstream CI.
   doCheck = false;
+
+  passthru.updateScript = nix-update-script {};
 
   meta = with lib; {
     description = "A toolkit for EVM bytecode analysis";

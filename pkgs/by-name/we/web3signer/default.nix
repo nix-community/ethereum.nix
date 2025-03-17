@@ -3,6 +3,7 @@
   jre,
   lib,
   makeWrapper,
+  nix-update-script,
   stdenv,
 }:
 stdenv.mkDerivation rec {
@@ -23,6 +24,8 @@ stdenv.mkDerivation rec {
     cp -r lib $out/
     wrapProgram $out/bin/${pname} --set JAVA_HOME "${jre}"
   '';
+
+  passthru.updateScript = nix-update-script {};
 
   meta = with lib; {
     description = "Web3Signer is an open-source signing service capable of signing on multiple platforms (Ethereum1 and 2, Filecoin) using private keys stored in an external vault, or encrypted on a disk";

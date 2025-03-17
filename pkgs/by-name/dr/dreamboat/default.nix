@@ -2,6 +2,7 @@
   blst,
   buildGoModule,
   fetchFromGitHub,
+  nix-update-script,
 }:
 buildGoModule rec {
   pname = "dreamboat";
@@ -21,6 +22,8 @@ buildGoModule rec {
   subPackages = ["cmd/dreamboat"];
 
   ldflags = ["-s" "-w"];
+
+  passthru.updateScript = nix-update-script {};
 
   meta = {
     description = "An Ethereum 2.0 Relay for proposer-builder separation (PBS) with MEV-boost";

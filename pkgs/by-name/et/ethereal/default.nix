@@ -2,7 +2,7 @@
   buildGoModule,
   fetchFromGitHub,
   lib,
-  ...
+  nix-update-script,
 }:
 buildGoModule rec {
   pname = "ethereal";
@@ -18,6 +18,8 @@ buildGoModule rec {
   vendorHash = "sha256-WtFQ75tgWim76Gsg/q1yx0nkJql3wiOwmjF7KVClxXY=";
 
   doCheck = false;
+
+  passthru.updateScript = nix-update-script {};
 
   meta = with lib; {
     description = "A command-line tool for managing common tasks in Ethereum";

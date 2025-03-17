@@ -3,6 +3,7 @@
   jre,
   lib,
   makeWrapper,
+  nix-update-script,
   stdenv,
 }:
 stdenv.mkDerivation rec {
@@ -23,6 +24,8 @@ stdenv.mkDerivation rec {
     cp -r lib $out/
     wrapProgram $out/bin/${pname} --set JAVA_HOME "${jre}"
   '';
+
+  passthru.updateScript = nix-update-script {};
 
   meta = with lib; {
     description = "Java Implementation of the Ethereum 2.0 Beacon Chain";

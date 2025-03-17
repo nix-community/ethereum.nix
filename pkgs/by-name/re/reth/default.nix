@@ -1,6 +1,7 @@
 {
   fetchFromGitHub,
   lib,
+  nix-update-script,
   rustPlatform,
 }:
 rustPlatform.buildRustPackage rec {
@@ -30,6 +31,8 @@ rustPlatform.buildRustPackage rec {
     "--skip=cli::tests::override_trusted_setup_file"
     "--skip=cli::tests::parse_env_filter_directives"
   ];
+
+  passthru.updateScript = nix-update-script {};
 
   meta = with lib; {
     description = "Modular, contributor-friendly and blazing-fast implementation of the Ethereum protocol, in Rust";

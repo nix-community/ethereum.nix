@@ -1,12 +1,13 @@
 {
-  lib,
-  stdenv,
   darwin,
   fetchFromGitHub,
   installShellFiles,
+  lib,
   libusb1,
+  nix-update-script,
   pkg-config,
   rustPlatform,
+  stdenv,
 }:
 rustPlatform.buildRustPackage rec {
   pname = "foundry";
@@ -61,6 +62,8 @@ rustPlatform.buildRustPackage rec {
   # Tests are run upstream, and many perform I/O
   # incompatible with the nix build sandbox.
   doCheck = false;
+
+  passthru.updateScript = nix-update-script {};
 
   meta = with lib; {
     description = "A portable, modular toolkit for Ethereum application development written in Rust.";

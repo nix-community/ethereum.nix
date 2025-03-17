@@ -3,6 +3,7 @@
   buildGoModule,
   fetchFromGitHub,
   mcl,
+  nix-update-script,
   openssl,
 }:
 buildGoModule rec {
@@ -34,6 +35,8 @@ buildGoModule rec {
   '';
 
   subPackages = ["cmd/ssvnode"];
+
+  passthru.updateScript = nix-update-script {};
 
   meta = {
     description = "Secret-Shared-Validator(SSV) for ethereum staking";

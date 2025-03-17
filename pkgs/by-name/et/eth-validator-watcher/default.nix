@@ -1,7 +1,8 @@
 {
-  lib,
-  python3,
   fetchFromGitHub,
+  lib,
+  nix-update-script,
+  python3,
 }:
 python3.pkgs.buildPythonPackage rec {
   pname = "eth-validator-watcher";
@@ -28,6 +29,8 @@ python3.pkgs.buildPythonPackage rec {
     tenacity
     more-itertools
   ];
+
+  passthru.updateScript = nix-update-script {};
 
   meta = with lib; {
     description = "Ethereum validator monitor";

@@ -1,5 +1,6 @@
 {
   fetchFromGitHub,
+  nix-update-script,
   openssl,
   pkg-config,
   rustPlatform,
@@ -25,6 +26,8 @@ rustPlatform.buildRustPackage rec {
 
   useFetchCargoVendor = true;
   cargoHash = "sha256-kkfIcx8sDQkPWzcTii8NHRq8S8gi+rZYSxaJptEL1QM=";
+
+  passthru.updateScript = nix-update-script {};
 
   meta = {
     description = "the wd40 of ethereum load balancers";

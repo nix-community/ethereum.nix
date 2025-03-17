@@ -3,6 +3,7 @@
   blst,
   buildGoModule,
   fetchFromGitHub,
+  nix-update-script,
 }:
 buildGoModule rec {
   pname = "rocketpool";
@@ -26,6 +27,8 @@ buildGoModule rec {
   postInstall = ''
     mv $out/bin/rocketpool $out/bin/rocketpoold
   '';
+
+  passthru.updateScript = nix-update-script {};
 
   meta = {
     description = "Rocket Pool Daemon";

@@ -1,11 +1,12 @@
 {
-  fetchFromGitHub,
-  gmpxx,
-  stdenv,
   clang,
   cmake,
-  system,
+  fetchFromGitHub,
+  gmpxx,
   lib,
+  nix-update-script,
+  stdenv,
+  system,
 }:
 stdenv.mkDerivation rec {
   pname = "mcl";
@@ -29,6 +30,8 @@ stdenv.mkDerivation rec {
   installPhase = ''
     make PREFIX=$out/ install
   '';
+
+  passthru.updateScript = nix-update-script {};
 
   meta = {
     description = "A portable and fast pairing-based cryptography library";

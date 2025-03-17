@@ -2,6 +2,7 @@
   buildGoModule,
   fetchFromGitHub,
   lib,
+  nix-update-script,
 }:
 buildGoModule rec {
   pname = "tx-fuzz";
@@ -21,6 +22,8 @@ buildGoModule rec {
   postInstall = ''
     mv $out/bin/livefuzzer $out/bin/tx-fuzz
   '';
+
+  passthru.updateScript = nix-update-script {};
 
   meta = with lib; {
     homepage = "https://github.com/MariusVanDerWijden/tx-fuzz";

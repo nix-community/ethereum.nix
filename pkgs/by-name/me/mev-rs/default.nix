@@ -1,6 +1,7 @@
 {
   fetchFromGitHub,
   lib,
+  nix-update-script,
   openssl,
   rustPlatform,
 }:
@@ -32,6 +33,8 @@ rustPlatform.buildRustPackage rec {
   OPENSSL_NO_VENDOR = 1;
   OPENSSL_LIB_DIR = "${lib.getLib openssl}/lib";
   OPENSSL_DIR = "${lib.getDev openssl}";
+
+  passthru.updateScript = nix-update-script {};
 
   meta = {
     description = "A gateway to a network of block builders";
