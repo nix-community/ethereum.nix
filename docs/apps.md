@@ -22,7 +22,6 @@ The consensus client (also known as the Beacon Node, CL client or formerly the E
 | [Lodestar](https://lodestar.chainsafe.io/)                    | Not supported yet.             |
 | [Prysm](https://prysmaticlabs.com/) @span                     | `nix run .#prysm-beacon-chain` |
 |                                                               | `nix run .#prysm-validator`    |
-|                                                               | `nix run .#prysm-validator`    |
 |                                                               | `nix run .#prysm-client-stats` |
 |                                                               | `nix run .#prysm-prysmctl`     |
 | [Teku](https://consensys.net/knowledge-base/ethereum-2/teku/) | `nix run .#teku`               |
