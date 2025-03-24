@@ -16,16 +16,17 @@ The consensus client (also known as the Beacon Node, CL client or formerly the E
 
 ::spantable::
 
-| App                                                           | Command                        |
-| ------------------------------------------------------------- | ------------------------------ |
-| [Lighthouse](https://lighthouse.sigmaprime.io/)               | `nix run .#lighthouse`         |
-| [Lodestar](https://lodestar.chainsafe.io/)                    | Not supported yet.             |
-| [Prysm](https://prysmaticlabs.com/) @span                     | `nix run .#prysm-beacon-chain` |
-|                                                               | `nix run .#prysm-validator`    |
-|                                                               | `nix run .#prysm-client-stats` |
-|                                                               | `nix run .#prysm-prysmctl`     |
-| [Teku](https://consensys.net/knowledge-base/ethereum-2/teku/) | `nix run .#teku`               |
-| [Nimbus](https://github.com/status-im/nimbus-eth2)            | `nix run .#teku`               |
+| App                                                           | Command                              |
+| ------------------------------------------------------------- | ------------------------------------ |
+| [Lighthouse](https://lighthouse.sigmaprime.io/)               | `nix run .#lighthouse`               |
+| [Lodestar](https://lodestar.chainsafe.io/)                    | Not supported yet.                   |
+| [Prysm](https://prysmaticlabs.com/) @span                     | `nix run .#prysm-beacon-chain`       |
+|                                                               | `nix run .#prysm-validator`          |
+|                                                               | `nix run .#prysm-client-stats`       |
+|                                                               | `nix run .#prysm-ctl`                |
+| [Teku](https://consensys.net/knowledge-base/ethereum-2/teku/) | `nix run .#teku`                     |
+| [Nimbus](https://github.com/status-im/nimbus-eth2)            | `nix  run .#nimbus-beacon-node`      |
+|                                                               | `nix  run .#nimbus-validator-client` |
 
 ::end-spantable::
 
