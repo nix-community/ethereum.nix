@@ -57,7 +57,7 @@
       mev-boost-relay = callPackage ./by-name/me/mev-boost-relay {inherit blst;};
       mev-rs = callPackage ./by-name/me/mev-rs {};
       nethermind = callPackageUnstable ./by-name/ne/nethermind {};
-      # nimbus = callPackageUnstable ./by-name/ni/nimbus {};
+      nimbus = callPackageUnstable ./by-name/ni/nimbus {};
       prysm = callPackageUnstable ./by-name/pr/prysm {inherit bls blst;};
       reth = callPackageUnstable ./by-name/re/reth {};
       rocketpool = callPackage ./by-name/ro/rocketpool {};
