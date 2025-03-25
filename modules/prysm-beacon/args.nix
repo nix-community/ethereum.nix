@@ -1,7 +1,7 @@
 lib:
 with lib; {
   network = mkOption {
-    type = types.nullOr (types.enum ["goerli" "holesky" "prater" "ropsten" "sepolia"]);
+    type = types.nullOr (types.enum ["holesky" "hoodi" "sepolia"]);
     default = null;
     description = "The network to connect to. Mainnet (null) is the default ethereum network.";
   };
@@ -17,14 +17,14 @@ with lib; {
     type = types.nullOr types.str;
     default = null;
     description = "URL of a synced beacon node to trust in obtaining checkpoint sync data. As an additional safety measure, it is strongly recommended to only use this option in conjunction with --weak-subjectivity-checkpoint flag";
-    example = "https://goerli.checkpoint-sync.ethpandaops.io";
+    example = "https://checkpoint-sync.sepolia.ethpandaops.io";
   };
 
   genesis-beacon-api-url = mkOption {
     type = types.nullOr types.str;
     default = null;
     description = "URL of a synced beacon node to trust for obtaining genesis state. As an additional safety measure, it is strongly recommended to only use this option in conjunction with --weak-subjectivity-checkpoint flag";
-    example = "https://goerli.checkpoint-sync.ethpandaops.io";
+    example = "https://checkpoint-sync.sepolia.ethpandaops.io";
   };
 
   p2p-udp-port = mkOption {
