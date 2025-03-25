@@ -20,7 +20,7 @@
 
         ${pkgs.prysm}/bin/validator wallet create \
           --accept-terms-of-use \
-          --goerli \
+          --sepolia \
           --keymanager-kind="direct" \
           --mnemonic-25th-word-file /tmp/wallet/mnemonic.txt \
           --skip-mnemonic-25th-word-check true \
@@ -44,7 +44,7 @@
             enable = true;
             args = {
               datadir = "/tmp/prysm-validator";
-              network = "goerli";
+              network = "sepolia";
               rpc = {
                 enable = true;
                 host = "127.0.0.1";
