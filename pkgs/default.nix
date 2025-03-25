@@ -39,7 +39,7 @@
       eth2-val-tools = callPackage ./by-name/et/eth2-val-tools {inherit bls mcl;};
       eth-validator-watcher = callPackage2311 ./by-name/et/eth-validator-watcher {};
       ethdo = callPackage ./by-name/et/ethdo {inherit bls mcl;};
-      ethereal = callPackage ./by-name/et/ethereal {inherit bls mcl;};
+      ethereal = callPackage ./by-name/et/ethereal {};
       evmc = callPackage ./by-name/ev/evmc {};
       foundry = callPackageUnstable ./by-name/fo/foundry {};
       foundry-bin = inputs.foundry-nix.defaultPackage.${system}.overrideAttrs (_oldAttrs: {
