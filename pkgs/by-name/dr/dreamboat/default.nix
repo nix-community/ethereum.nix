@@ -6,16 +6,16 @@
 }:
 buildGoModule rec {
   pname = "dreamboat";
-  version = "0.4.20";
+  version = "0.6.3";
 
   src = fetchFromGitHub {
     owner = "blocknative";
     repo = "${pname}";
     rev = "v${version}";
-    hash = "sha256-Hqsx4zP0KB3rXXC7aYk3G4qS9sQfCqXP5ODFAP1TLoE=";
+    hash = "sha256-jbUJekXC2YzR4ZmnAAYjNNrae90aXALCAw0pf1bfTiw=";
   };
 
-  vendorHash = "sha256-fjkBek1/AdBlm4plN0zPLLiqh3jHg8MA2FJs06SXkFQ=";
+  vendorHash = "sha256-1eA7tO9xxUVlcWLxBoBTmmXwVsact7N5fND9NCrvReg=";
 
   buildInputs = [blst];
 
