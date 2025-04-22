@@ -47,7 +47,7 @@
         # meta.platforms = [system];
         meta.platforms = ["x86_64-linux" "aarch64-linux"];
       });
-      geth = callPackage ./by-name/ge/geth {};
+      geth = callPackageUnstable ./by-name/ge/geth {};
       geth-sealer = callPackage ./by-name/ge/geth-sealer {};
       heimdall = callPackage ./by-name/he/heimdall {};
       lighthouse = callPackageUnstable ./by-name/li/lighthouse {inherit foundry;};
