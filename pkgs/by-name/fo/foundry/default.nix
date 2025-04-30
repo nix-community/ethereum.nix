@@ -70,9 +70,8 @@ rustPlatform.buildRustPackage rec {
     homepage = "https://github.com/foundry-rs/foundry";
     license = with licenses; [asl20 mit];
     maintainers = with maintainers; [mitchmindtree];
-    # For now, solc binaries are only built for x86_64.
-    # Track darwin-aarch64 here:
-    # https://github.com/ethereum/solidity/issues/12291
-    platforms = ["x86_64-linux" "x86_64-darwin"];
+    # TODO: Change this to `platforms = platforms.unix;` when this is resolved:
+    # https://github.com/ethereum/solidity/issues/11351
+    platforms = ["aarch64-darwin" "x86_64-linux" "x86_64-darwin"];
   };
 }
