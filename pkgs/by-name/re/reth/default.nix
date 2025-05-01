@@ -39,6 +39,6 @@ rustPlatform.buildRustPackage rec {
     homepage = "https://github.com/paradigmxyz/reth";
     license = with licenses; [mit asl20];
     mainProgram = "reth";
-    platforms = ["aarch64-linux" "x86_64-linux"];
+    platforms = platforms.unix;
   };
 }
