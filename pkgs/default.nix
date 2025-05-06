@@ -17,6 +17,7 @@
     pkgs,
     pkgsUnstable,
     pkgs2311,
+    pkgs2411,
     system,
     ...
   }: let
@@ -24,6 +25,7 @@
     inherit (lib) platformPkgs platformApps;
     callPackageUnstable = pkgsUnstable.callPackage;
     callPackage2311 = pkgs2311.callPackage;
+    callPackage2411 = pkgs2411.callPackage;
   in {
     packages = platformPkgs system rec {
       besu = callPackageUnstable ./by-name/be/besu {};
@@ -34,7 +36,7 @@
       dirk = callPackage ./by-name/di/dirk {inherit bls mcl;};
       dreamboat = callPackage ./by-name/dr/dreamboat {inherit blst;};
       eigenlayer = callPackage ./by-name/ei/eigenlayer {};
-      erigon = callPackage ./by-name/er/erigon {};
+      erigon = callPackage2411 ./by-name/er/erigon {};
       eth2-testnet-genesis = callPackage ./by-name/et/eth2-testnet-genesis {inherit bls;};
       eth2-val-tools = callPackage ./by-name/et/eth2-val-tools {inherit bls mcl;};
       eth-validator-watcher = callPackage2311 ./by-name/et/eth-validator-watcher {};
