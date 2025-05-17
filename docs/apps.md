@@ -84,8 +84,6 @@ Maximal extractable value (MEV) refers to the maximum value that can be extracte
 | --------------------------------------------------------------- | ----------------------------- |
 | [Dreamboat](https://github.com/blocknative/dreamboat)           | `nix run .#dreamboat`         |
 | [mev-boost](https://github.com/flashbots/mev-boost)             | `nix run .#mev-boost`         |
-| [mev-boost-builder](https://github.com/flashbots/builder)       | `nix run .#mev-boost-builder` |
-| [mev-boost-prysm](https://github.com/flashbots/prysm)           | `nix run .#mev-boost-prysm`   |
 | [mev-boost-relay](https://github.com/flashbots/mev-boost-relay) | `nix run .#mev-boost-relay`   |
 | [mev-rs](https://github.com/ralexstokes/mev-rs)                 | `nix run .#mev`               |
 
