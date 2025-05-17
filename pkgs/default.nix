@@ -54,7 +54,6 @@
       lighthouse = callPackageUnstable ./by-name/li/lighthouse {inherit foundry;};
       mcl = callPackage ./by-name/mc/mcl {};
       mev-boost = callPackageUnstable ./by-name/me/mev-boost {inherit blst;};
-      mev-boost-builder = callPackage ./by-name/me/mev-boost-builder {inherit blst;};
       mev-boost-relay = callPackage ./by-name/me/mev-boost-relay {inherit blst;};
       mev-rs = callPackage ./by-name/me/mev-rs {};
       nethermind = callPackageUnstable ./by-name/ne/nethermind {};
@@ -119,7 +118,6 @@
         geth-rlpdump.bin = "rlpdump";
       };
       lighthouse.bin = "lighthouse";
-      mev-boost-builder.bin = "geth";
       mev-boost-relay.bin = "mev-boost-relay";
       mev-boost.bin = "mev-boost";
       mev-rs.bin = "mev";
