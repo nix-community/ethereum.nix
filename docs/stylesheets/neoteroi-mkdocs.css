@@ -2,7 +2,7 @@
  *  All CSS for the neoteroi-mkdocs extensions.
  *
  *  https://github.com/Neoteroi/mkdocs-plugins
-**/
+ **/
 :root {
   --nt-color-0: #cd853f;
   --nt-color-1: #b22222;
@@ -572,7 +572,7 @@
  *  Extra CSS file for MkDocs and the neoteroi.timeline extension.
  *
  *  https://github.com/Neoteroi/mkdocs-plugins
-**/
+ **/
 .nt-error {
   border: 2px dashed darkred;
   padding: 0 1rem;
@@ -660,11 +660,10 @@
 }
 .nt-timeline.vertical.center .nt-timeline-items {
   background: radial-gradient(
-      circle,
-      rgb(63, 94, 251) 0%,
-      rgb(252, 70, 107) 100%
-    )
-    no-repeat center/2px 100%;
+    circle,
+    rgb(63, 94, 251) 0%,
+    rgb(252, 70, 107) 100%
+  ) no-repeat center/2px 100%;
 }
 .nt-timeline.vertical.center .nt-timeline-dot {
   left: calc(50% - 10px);
@@ -695,11 +694,10 @@
 }
 .nt-timeline.vertical.left .nt-timeline-items {
   background: radial-gradient(
-      circle,
-      rgb(63, 94, 251) 0%,
-      rgb(252, 70, 107) 100%
-    )
-    no-repeat 30px/2px 100%;
+    circle,
+    rgb(63, 94, 251) 0%,
+    rgb(252, 70, 107) 100%
+  ) no-repeat 30px/2px 100%;
 }
 .nt-timeline.vertical.left .nt-timeline-dot {
   left: 21px;
@@ -730,11 +728,10 @@
 }
 .nt-timeline.vertical.right .nt-timeline-items {
   background: radial-gradient(
-      circle,
-      rgb(63, 94, 251) 0%,
-      rgb(252, 70, 107) 100%
-    )
-    no-repeat calc(100% - 30px) / 2px 100%;
+    circle,
+    rgb(63, 94, 251) 0%,
+    rgb(252, 70, 107) 100%
+  ) no-repeat calc(100% - 30px) / 2px 100%;
 }
 .nt-timeline.vertical.right .nt-timeline-dot {
   right: 21px;
@@ -826,7 +823,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14),
+  box-shadow:
+    0 2px 1px -1px rgba(0, 0, 0, 0.2),
+    0 1px 1px 0 rgba(0, 0, 0, 0.14),
     0 1px 3px 0 rgba(0, 0, 0, 0.12);
   border: 3px solid white;
 }
@@ -963,7 +962,7 @@
  *  Extra CSS for the neoteroi.projects.gantt extension.
  *
  *  https://github.com/Neoteroi/mkdocs-plugins
-**/
+ **/
 :root {
   --nt-scrollbar-color: #2751b0;
   --nt-plan-actions-height: 24px;
@@ -1036,7 +1035,8 @@
 .month {
   flex: auto;
   display: inline-block;
-  box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 1px -2px,
+  box-shadow:
+    rgba(0, 0, 0, 0.2) 0px 3px 1px -2px,
     rgba(0, 0, 0, 0.14) 0px 2px 2px 0px,
     rgba(0, 0, 0, 0.12) 0px 1px 5px 0px inset;
   background-color: var(--nt-months-background);
@@ -1262,7 +1262,9 @@
 .day,
 .nt-tooltip {
   border: 3px solid white;
-  box-shadow: 0 2px 3px -1px rgba(0, 0, 0, 0.2), 0 3px 3px 0 rgba(0, 0, 0, 0.14),
+  box-shadow:
+    0 2px 3px -1px rgba(0, 0, 0, 0.2),
+    0 3px 3px 0 rgba(0, 0, 0, 0.14),
     0 1px 5px 0 rgba(0, 0, 0, 0.12);
 }
 
@@ -1324,20 +1326,27 @@
   }
 }
 .nt-card {
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2),
+  box-shadow:
+    0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 3px 1px -2px rgba(0, 0, 0, 0.2),
     0 1px 5px 0 rgba(0, 0, 0, 0.12);
 }
 .nt-card:hover {
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 3px 1px -2px rgba(0, 0, 0, 0.3),
+  box-shadow:
+    0 2px 2px 0 rgba(0, 0, 0, 0.24),
+    0 3px 1px -2px rgba(0, 0, 0, 0.3),
     0 1px 5px 0 rgba(0, 0, 0, 0.22);
 }
 
 [data-md-color-scheme="slate"] .nt-card {
-  box-shadow: 0 2px 2px 0 rgba(4, 40, 33, 0.14),
-    0 3px 1px -2px rgba(40, 86, 94, 0.47), 0 1px 5px 0 rgba(139, 252, 255, 0.64);
+  box-shadow:
+    0 2px 2px 0 rgba(4, 40, 33, 0.14),
+    0 3px 1px -2px rgba(40, 86, 94, 0.47),
+    0 1px 5px 0 rgba(139, 252, 255, 0.64);
 }
 [data-md-color-scheme="slate"] .nt-card:hover {
-  box-shadow: 0 2px 2px 0 rgba(0, 255, 206, 0.14),
+  box-shadow:
+    0 2px 2px 0 rgba(0, 255, 206, 0.14),
     0 3px 1px -2px rgba(33, 156, 177, 0.47),
     0 1px 5px 0 rgba(96, 251, 255, 0.64);
 }
@@ -1403,7 +1412,7 @@
  *   Extra CSS file recommended for MkDocs and neoteroi.spantable extension.
  *
  *   https://github.com/Neoteroi/mkdocs-plugins
-**/
+ **/
 .span-table-wrapper table {
   border-collapse: collapse;
   margin-bottom: 2rem;
