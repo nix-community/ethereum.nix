@@ -50,7 +50,6 @@
         meta.platforms = ["x86_64-linux" "aarch64-linux"];
       });
       geth = callPackageUnstable ./by-name/ge/geth {};
-      geth-sealer = callPackage ./by-name/ge/geth-sealer {};
       heimdall = callPackage ./by-name/he/heimdall {};
       lighthouse = callPackageUnstable ./by-name/li/lighthouse {inherit foundry;};
       mcl = callPackage ./by-name/mc/mcl {};
@@ -119,7 +118,6 @@
         geth-faucet.bin = "faucet";
         geth-rlpdump.bin = "rlpdump";
       };
-      geth-sealer.bin = "geth";
       lighthouse.bin = "lighthouse";
       mev-boost-builder.bin = "geth";
       mev-boost-relay.bin = "mev-boost-relay";
