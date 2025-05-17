@@ -10,13 +10,13 @@
 }:
 rustPlatform.buildRustPackage rec {
   pname = "heimdall";
-  version = "0.7.3";
+  version = "0.8.7";
 
   src = fetchFromGitHub {
     owner = "jon-becker";
     repo = "${pname}-rs";
     rev = version;
-    hash = "sha256-E3WFJ+1ps5UiA+qzJAjouBR4wJbzxrJfvcW6Kany/jU=";
+    hash = "sha256-Bg3xSnzghLlDpQ1KTzabEVqjX/wPqoeEzKDYb7IBJ6o=";
   };
 
   cargoLock = {

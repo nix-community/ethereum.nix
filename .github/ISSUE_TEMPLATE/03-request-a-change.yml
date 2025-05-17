@@ -1,7 +1,6 @@
 name: Request a change
 description: Want to submit an idea? Propose a change or feature request
 body:
-
   - type: textarea
     id: context
     attributes:
@@ -33,6 +32,6 @@ body:
         learn about it and understand why it is necessary before ticking the box.
         This will save the maintainers and you valuable time.
       options:
-      - label: >-
+        - label: >-
             I have verified that my idea is a change request and not a bug report
-        required: true
+          required: true

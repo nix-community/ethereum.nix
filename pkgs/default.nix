@@ -17,7 +17,6 @@
     pkgs,
     pkgsUnstable,
     pkgs2311,
-    pkgs2411,
     system,
     ...
   }: let
@@ -25,7 +24,6 @@
     inherit (lib) platformPkgs platformApps;
     callPackageUnstable = pkgsUnstable.callPackage;
     callPackage2311 = pkgs2311.callPackage;
-    callPackage2411 = pkgs2411.callPackage;
   in {
     packages = platformPkgs system rec {
       besu = callPackageUnstable ./by-name/be/besu {};
@@ -36,7 +34,7 @@
       dirk = callPackage ./by-name/di/dirk {inherit bls mcl;};
       dreamboat = callPackage ./by-name/dr/dreamboat {inherit blst;};
       eigenlayer = callPackage ./by-name/ei/eigenlayer {};
-      erigon = callPackage2411 ./by-name/er/erigon {};
+      erigon = callPackage ./by-name/er/erigon {};
       eth2-testnet-genesis = callPackage ./by-name/et/eth2-testnet-genesis {inherit bls;};
       eth2-val-tools = callPackage ./by-name/et/eth2-val-tools {inherit bls mcl;};
       eth-validator-watcher = callPackage2311 ./by-name/et/eth-validator-watcher {};
@@ -50,12 +48,10 @@
         meta.platforms = ["x86_64-linux" "aarch64-linux"];
       });
       geth = callPackageUnstable ./by-name/ge/geth {};
-      geth-sealer = callPackage ./by-name/ge/geth-sealer {};
       heimdall = callPackage ./by-name/he/heimdall {};
       lighthouse = callPackageUnstable ./by-name/li/lighthouse {inherit foundry;};
       mcl = callPackage ./by-name/mc/mcl {};
       mev-boost = callPackageUnstable ./by-name/me/mev-boost {inherit blst;};
-      mev-boost-builder = callPackage ./by-name/me/mev-boost-builder {inherit blst;};
       mev-boost-relay = callPackage ./by-name/me/mev-boost-relay {inherit blst;};
       mev-rs = callPackage ./by-name/me/mev-rs {};
       nethermind = callPackageUnstable ./by-name/ne/nethermind {};
@@ -119,9 +115,7 @@
         geth-faucet.bin = "faucet";
         geth-rlpdump.bin = "rlpdump";
       };
-      geth-sealer.bin = "geth";
       lighthouse.bin = "lighthouse";
-      mev-boost-builder.bin = "geth";
       mev-boost-relay.bin = "mev-boost-relay";
       mev-boost.bin = "mev-boost";
       mev-rs.bin = "mev";

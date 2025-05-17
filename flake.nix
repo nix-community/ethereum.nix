@@ -8,9 +8,8 @@
 
   inputs = {
     # packages
-    nixpkgs.url = "github:nixos/nixpkgs/24.05";
+    nixpkgs.url = "github:nixos/nixpkgs/24.11";
     nixpkgs-2311.url = "github:nixos/nixpkgs/23.11";
-    nixpkgs-2411.url = "github:nixos/nixpkgs/24.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
     foundry-nix = {
@@ -85,10 +84,6 @@
             inherit system;
             nixpkgs = inputs.nixpkgs-2311;
           };
-          pkgs2411 = lib.mkNixpkgs {
-            inherit system;
-            nixpkgs = inputs.nixpkgs-2411;
-          };
         };
 
         # devshell
@@ -143,10 +138,10 @@
             ]));
             mdformat.excludes = [
               # mdformat doesn't behave well with some admonitions features
-              "apps.md"
-              "getting-started.md"
-              "index.md"
-              "restore-from-backup.md"
+              "docs/apps.md"
+              "docs/getting-started.md"
+              "docs/index.md"
+              "docs/nixos/restore-from-backup.md"
             ];
           };
         };
