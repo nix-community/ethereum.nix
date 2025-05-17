@@ -138,10 +138,10 @@
             ]));
             mdformat.excludes = [
               # mdformat doesn't behave well with some admonitions features
-              "apps.md"
-              "getting-started.md"
-              "index.md"
-              "restore-from-backup.md"
+              "docs/apps.md"
+              "docs/getting-started.md"
+              "docs/index.md"
+              "docs/nixos/restore-from-backup.md"
             ];
           };
         };
