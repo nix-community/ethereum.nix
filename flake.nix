@@ -10,6 +10,7 @@
     # packages
     nixpkgs.url = "github:nixos/nixpkgs/24.05";
     nixpkgs-2311.url = "github:nixos/nixpkgs/23.11";
+    nixpkgs-2411.url = "github:nixos/nixpkgs/24.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
     foundry-nix = {
@@ -83,6 +84,10 @@
           pkgs2311 = lib.mkNixpkgs {
             inherit system;
             nixpkgs = inputs.nixpkgs-2311;
+          };
+          pkgs2411 = lib.mkNixpkgs {
+            inherit system;
+            nixpkgs = inputs.nixpkgs-2411;
           };
         };
 
