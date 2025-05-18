@@ -1,23 +1,23 @@
 {
   bls,
   blst,
-  buildGo123Module,
+  buildGo124Module,
   fetchFromGitHub,
   libelf,
   nix-update-script,
 }:
-buildGo123Module rec {
+buildGo124Module rec {
   pname = "prysm";
-  version = "5.3.0";
+  version = "5.3.2";
 
   src = fetchFromGitHub {
     owner = "prysmaticlabs";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-bTA7KOfhdsVIQk6d9pnBAYmmuzj3KQnvMO/OrEpx5uA=";
+    hash = "sha256-Nptf4ORSSx6m2wlPhUwzihMX+yWyGGP4l0VNsaOQFJU=";
   };
 
-  vendorHash = "sha256-1PAeAI6yaXSE881Bsp2hhPSctePc5CwWYkk8QVounAA=";
+  vendorHash = "sha256-sS6fIVF707J2fgtAwI8QAVFDnZqIStemqTXrNL2RKiI=";
 
   buildInputs = [bls blst libelf];
 
