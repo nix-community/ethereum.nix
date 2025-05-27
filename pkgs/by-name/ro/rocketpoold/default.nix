@@ -1,11 +1,14 @@
 {
   bls,
   blst,
-  buildGoModule,
+  buildGo123Module,
   fetchFromGitHub,
   nix-update-script,
 }:
-buildGoModule rec {
+# 1.23 is force due to this issue:
+# https://github.com/NordSecurity/uniffi-bindgen-go/issues/66
+# this can likely be removed in the next upstream version
+buildGo123Module rec {
   pname = "rocketpool";
   version = "1.15.3";
 
