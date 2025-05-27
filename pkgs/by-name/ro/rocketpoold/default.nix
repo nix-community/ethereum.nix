@@ -10,13 +10,13 @@
 # this can likely be removed in the next upstream version
 buildGo123Module rec {
   pname = "rocketpool";
-  version = "1.15.3";
+  version = "1.15.6";
 
   src = fetchFromGitHub {
     owner = "rocket-pool";
     repo = "smartnode";
     rev = "v${version}";
-    hash = "sha256-DX1e44m22em1wO1rSsUYOHfbBiTgq8bBTjPpdNsxrDg=";
+    hash = "sha256-vXk7WgN77SWDVzOs5QBJsPO8O4AJiS+VbUl1xNmZOP0=";
   };
 
   vendorHash = "sha256-tsrhti14Lj/yc8IZbiWi5wqDxJh4/m3FR2cpu1bh/hg=";
