@@ -1,29 +1,29 @@
 {
   perSystem = {
     lib,
-    pkgsUnstable,
+    pkgs,
     ...
   }: let
-    inherit (pkgsUnstable) stdenv runCommand;
+    inherit (pkgs) stdenv runCommand;
   in {
     packages.docs = let
       mkdocs-custom =
-        pkgsUnstable.runCommand "mkdocs-custom" {
+        pkgs.runCommand "mkdocs-custom" {
           buildInputs = [
-            pkgsUnstable.python312
-            pkgsUnstable.python312Packages.mkdocs
-            pkgsUnstable.python312Packages.mkdocs-material
-            pkgsUnstable.python312Packages.neoteroi-mkdocs
+            pkgs.python312
+            pkgs.python312Packages.mkdocs
+            pkgs.python312Packages.mkdocs-material
+            pkgs.python312Packages.neoteroi-mkdocs
           ];
           meta.mainProgram = "mkdocs";
         } ''
           mkdir -p $out/bin
 
           cat <<MKDOCS > $out/bin/mkdocs
-          #!${pkgsUnstable.runtimeShell}
+          #!${pkgs.runtimeShell}
           set -euo pipefail
           export PYTHONPATH=$PYTHONPATH
-          exec ${pkgsUnstable.python312Packages.mkdocs}/bin/mkdocs "\$@"
+          exec ${pkgs.python312Packages.mkdocs}/bin/mkdocs "\$@"
           MKDOCS
 
           chmod +x $out/bin/mkdocs
@@ -64,7 +64,7 @@
           mv site $out
         '';
 
-        passthru.serve = pkgsUnstable.writeShellScriptBin "serve" ''
+        passthru.serve = pkgs.writeShellScriptBin "serve" ''
           set -euo pipefail
 
           # create link to nixos markdown options reference
