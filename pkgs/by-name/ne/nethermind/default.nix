@@ -13,13 +13,13 @@
 }: let
   self = buildDotnetModule rec {
     pname = "nethermind";
-    version = "1.31.9";
+    version = "1.32.4";
 
     src = fetchFromGitHub {
       owner = "NethermindEth";
       repo = pname;
       rev = version;
-      hash = "sha256-5ExEFy9iFV69Q0ryykHRrFtHdXO7AXIp+AQxqCvcVUI=";
+      hash = "sha256-bzK/CV4fEhAhuha/bVPlZzZgLchrzt4vrAM2n4cKC8A=";
       fetchSubmodules = true;
     };
 
@@ -37,12 +37,10 @@
 
     projectFile = [
       "src/Nethermind/Nethermind.Runner/Nethermind.Runner.csproj"
-      "src/Nethermind/Nethermind.Cli/Nethermind.Cli.csproj"
     ];
     nugetDeps = ./nuget-deps.nix;
 
     executables = [
-      "nethermind-cli"
       "nethermind"
     ];
 
