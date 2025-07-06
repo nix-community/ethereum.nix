@@ -37,6 +37,7 @@
       erigon = callPackage ./by-name/er/erigon {};
       eth2-testnet-genesis = callPackage ./by-name/et/eth2-testnet-genesis {inherit bls;};
       eth2-val-tools = callPackage ./by-name/et/eth2-val-tools {inherit bls mcl;};
+      ethstaker-deposit-cli = callPackage ./by-name/et/ethstaker-deposit-cli {};
       eth-validator-watcher = callPackage2311 ./by-name/et/eth-validator-watcher {};
       ethdo = callPackage ./by-name/et/ethdo {inherit bls mcl;};
       ethereal = callPackage ./by-name/et/ethereal {};
