@@ -19,6 +19,7 @@
     flatten
     mapAttrs'
     mapAttrsToList
+    mkDefault
     mkIf
     mkMerge
     nameValuePair
@@ -121,9 +122,9 @@ in {
               serviceConfig = mkMerge [
                 baseServiceConfig
                 {
-                  User = serviceName;
-                  StateDirectory = serviceName;
-                  ExecStart = "${cfg.package}/bin/geth ${scriptArgs}";
+                  User = mkDefault serviceName;
+                  StateDirectory = mkDefault serviceName;
+                  ExecStart = mkDefault "${cfg.package}/bin/geth ${scriptArgs}";
                 }
                 (mkIf (cfg.args.authrpc.jwtsecret != null) {
                   LoadCredential = ["jwtsecret:${cfg.args.authrpc.jwtsecret}"];
