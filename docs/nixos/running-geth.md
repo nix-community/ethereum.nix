@@ -46,21 +46,21 @@ Additional arguments can be provided in a list directly to the Geth process via 
 For each instance that is configured a corresponding [Systemd](https://systemd.io/) service is created. The service name
 follows a convention of `geth-${name}.service`.
 
-| Config                           | Name    | Service name           |
+| Config | Name | Service name |
 | :------------------------------- | :------ | :--------------------- |
 | `services.ethereum.geth.sepolia` | sepolia | `geth-sepolia.service` |
-| `services.ethereum.geth.goerli`  | goerli  | `geth-goerli.service`  |
+| `services.ethereum.geth.goerli` | goerli | `geth-goerli.service` |
 | `services.ethereum.geth.mainnet` | mainnet | `geth-mainnet.service` |
 
 The service that is created can then be introspected and managed via the standard Systemd toolset.
 
-| Action  | Command                                  |
+| Action | Command |
 | :------ | :--------------------------------------- |
-| Status  | `systemctl status geth-sepolia.service`  |
-| Stop    | `systemctl stop geth-sepolia.service`    |
-| Start   | `systemctl start geth-sepolia.service`   |
+| Status | `systemctl status geth-sepolia.service` |
+| Stop | `systemctl stop geth-sepolia.service` |
+| Start | `systemctl start geth-sepolia.service` |
 | Restart | `systemctl restart geth-sepolia.service` |
-| Logs    | `journalctl -xefu geth-sepolia.service`  |
+| Logs | `journalctl -xefu geth-sepolia.service` |
 
 ## Using a Geth fork
 
@@ -83,13 +83,13 @@ To configure [Geth Sealer](https://github.com/manifoldfinance/geth-sealer) for e
 By default, [openFirewall](./modules/geth.md#servicesethereumgethnameopenfirewall) is set to `false`.
 If set to `true`, firewall rules are added which will expose the following ports:
 
-| Protocol | Config                                                                    | Default value |
+| Protocol | Config | Default value |
 | :------- | :------------------------------------------------------------------------ | :------------ |
-| TCP, UDP | [port](./modules/geth.md#servicesethereumgethnameargsport)                | 30303         |
-| TCP      | [authrpc.port](./modules/geth.md#servicesethereumgethnameargsauthrpcport) | 8551          |
-| TCP      | [http.port](./modules/geth.md#servicesethereumgethnameargshttpport)       | 8545          |
-| TCP      | [ws.port](./modules/geth.md#servicesethereumgethnameargswsport)           | 8546          |
-| TCP      | [metrics.port](./modules/geth.md#servicesethereumgethnameargsmetricsport) | 6060          |
+| TCP, UDP | [port](./modules/geth.md#servicesethereumgethnameargsport) | 30303 |
+| TCP | [authrpc.port](./modules/geth.md#servicesethereumgethnameargsauthrpcport) | 8551 |
+| TCP | [http.port](./modules/geth.md#servicesethereumgethnameargshttpport) | 8545 |
+| TCP | [ws.port](./modules/geth.md#servicesethereumgethnameargswsport) | 8546 |
+| TCP | [metrics.port](./modules/geth.md#servicesethereumgethnameargsmetricsport) | 6060 |
 
 **Note:** it is important when running multiple instances of Geth on the same machine that you ensure they are configured
 with different ports.
