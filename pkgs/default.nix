@@ -40,6 +40,7 @@
       eth-validator-watcher = callPackage2311 ./by-name/et/eth-validator-watcher {};
       ethdo = callPackage ./by-name/et/ethdo {inherit bls mcl;};
       ethereal = callPackage ./by-name/et/ethereal {};
+      ethstaker-deposit-cli = callPackage ./by-name/et/ethstaker-deposit-cli {};
       evmc = callPackage ./by-name/ev/evmc {};
       foundry = callPackageUnstable ./by-name/fo/foundry {};
       foundry-bin = inputs.foundry-nix.defaultPackage.${system}.overrideAttrs (_oldAttrs: {
