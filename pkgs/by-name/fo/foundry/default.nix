@@ -11,13 +11,13 @@
 }:
 rustPlatform.buildRustPackage rec {
   pname = "foundry";
-  version = "1.2.1";
+  version = "1.3.0";
 
   src = fetchFromGitHub {
     owner = "foundry-rs";
     repo = "foundry";
     rev = "v${version}";
-    hash = "sha256-oTeG1HwqLfPAq5e1V4W9YeyQaJ9jFNolfw4+oyHwZFY=";
+    hash = "sha256-YMeGTPx3kqQ9CKFiH7rUEYzK0BCPksC1XIGfOj5MVd0=";
   };
 
   cargoLock = {
