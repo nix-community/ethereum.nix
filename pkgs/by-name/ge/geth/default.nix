@@ -28,11 +28,11 @@ buildGoModule rec {
     owner = "ethereum";
     repo = "go-ethereum";
     rev = "v${version}";
-    hash = "sha256-lsjs/bZhCwfp8OfTES1GDXayjDcg0R8+L0Z3pZ9/Mvs=";
+    hash = "sha256-12bmK9OYYIDBeN52dQElnDaOcWOzwvjpAZmzHH8IHvw=";
   };
 
   proxyVendor = true;
-  vendorHash = "sha256-Ggng6EDd5qRqcSbdycfivO8yiQcMOCSZt229JZcOlVs=";
+  vendorHash = "sha256-i1PhF1DFdt2X4faxe5+iYsPIyco0Xb6stOzaCy6JIto=";
 
   ldflags = [ "-s" "-w" ];
 
