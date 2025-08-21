@@ -6,7 +6,7 @@
 }:
 with lib; {
   network = mkOption {
-    type = types.nullOr (types.enum ["mainnet" "prater" "goerli" "gnosis" "chiado" "sepolia" "holesky"]);
+    type = types.nullOr (types.enum ["mainnet" "prater" "goerli" "gnosis" "chiado" "sepolia" "holesky" "hoodi"]);
     default = name;
     defaultText = "name";
     description = "The network to connect to. Mainnet is the default ethereum network.";

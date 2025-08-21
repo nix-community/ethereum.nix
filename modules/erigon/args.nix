@@ -28,6 +28,7 @@ with lib; {
       "rinkeby"
       "goerli"
       "holesky"
+      "hoodi"
       "sokol"
       "fermion"
       "mumbai"
