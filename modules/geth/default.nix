@@ -122,7 +122,10 @@ in {
               serviceConfig = mkMerge [
                 baseServiceConfig
                 {
-                  User = mkDefault serviceName;
+                  User =
+                    if cfg.user != null
+                    then cfg.user
+                    else mkDefault serviceName;
                   StateDirectory = mkDefault serviceName;
                   ExecStart = mkDefault "${cfg.package}/bin/geth ${scriptArgs}";
                 }

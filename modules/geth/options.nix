@@ -9,6 +9,12 @@
     options = rec {
       enable = mkEnableOption "Go Ethereum Node";
 
+      user = mkOption {
+        type = types.nullOr types.str;
+        default = null;
+        description = "User to run the service as.";
+      };
+
       inherit args;
 
       extraArgs = mkOption {
