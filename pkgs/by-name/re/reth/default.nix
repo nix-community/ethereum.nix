@@ -6,13 +6,13 @@
 }:
 rustPlatform.buildRustPackage rec {
   pname = "reth";
-  version = "1.4.3";
+  version = "1.6.0";
 
   src = fetchFromGitHub {
     owner = "paradigmxyz";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-pl0eQU7BjkSg8ECxeB13oNMO9CNIwLyOOHiWWC4CWhY=";
+    hash = "sha256-dT5H+0lfkf9QeWAV7BsCpctzNCwF3oW9Gn7CM7hexDs=";
   };
 
   cargoLock = {
@@ -37,7 +37,10 @@ rustPlatform.buildRustPackage rec {
   meta = with lib; {
     description = "Modular, contributor-friendly and blazing-fast implementation of the Ethereum protocol, in Rust";
     homepage = "https://github.com/paradigmxyz/reth";
-    license = with licenses; [mit asl20];
+    license = with licenses; [
+      mit
+      asl20
+    ];
     mainProgram = "reth";
     platforms = platforms.unix;
   };
