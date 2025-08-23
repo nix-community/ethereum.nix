@@ -20,6 +20,7 @@
     mapAttrs'
     mapAttrsToList
     mkDefault
+    mkForce
     mkIf
     mkMerge
     nameValuePair
@@ -131,6 +132,14 @@ in {
                 }
                 (mkIf (cfg.args.authrpc.jwtsecret != null) {
                   LoadCredential = ["jwtsecret:${cfg.args.authrpc.jwtsecret}"];
+                })
+                (mkIf (cfg.user != null) {
+                  DynamicUser = mkForce false;
+                  RemoveIPC = mkDefault true;
+                  PrivateTmp = mkDefault true;
+                  NoNewPrivileges = mkDefault "strict";
+                  RestrictSUIDSGID = mkDefault true;
+                  ProtectSystem = mkDefault true;
                 })
               ];
             })
