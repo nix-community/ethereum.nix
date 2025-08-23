@@ -82,6 +82,7 @@ in {
 
               # filter out certain args which need to be treated differently
               specialArgs = [
+                "--datadir"
                 "--authrpc.jwtsecret"
                 "--http.enable"
                 "--metrics.enable"
