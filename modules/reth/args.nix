@@ -17,6 +17,7 @@ with lib; {
       "mainnet"
       "sepolia"
       "holesky"
+      "hoodi"
       "dev"
     ];
     default = "mainnet";
