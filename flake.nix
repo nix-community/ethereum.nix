@@ -28,6 +28,13 @@
     flake-utils.url = "github:numtide/flake-utils";
     flake-utils.inputs.systems.follows = "systems";
 
+    # ci
+    hercules-ci-effects = {
+      url = "github:hercules-ci/hercules-ci-effects";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-parts.follows = "flake-parts";
+    };
+
     # utils
     systems.url = "github:nix-systems/default";
     devshell = {
@@ -56,11 +63,14 @@
     {
       imports = [
         inputs.devshell.flakeModule
+        inputs.hercules-ci-effects.flakeModule
         inputs.treefmt-nix.flakeModule
         ./mkdocs.nix
         ./modules
         ./pkgs
+        ./hercules-ci.nix
       ];
+
       systems = import systems;
       perSystem = {
         config,
