@@ -89,6 +89,14 @@
          <lastmod>1980-01-01</lastmod>
     </url>
     <url>
+         <loc>https://nix-community.github.io/ethereum.nix/nixos/modules/nimbus-validator/</loc>
+         <lastmod>1980-01-01</lastmod>
+    </url>
+    <url>
+         <loc>https://nix-community.github.io/ethereum.nix/nixos/modules/nimbus/</loc>
+         <lastmod>1980-01-01</lastmod>
+    </url>
+    <url>
          <loc>https://nix-community.github.io/ethereum.nix/nixos/modules/prysm-beacon/</loc>
          <lastmod>1980-01-01</lastmod>
     </url>
