@@ -19,7 +19,6 @@
       ./prysm-validator
       ./restore
       ./reth
-      ./nimbus
       ./nimbus-validator
     ];
   };
