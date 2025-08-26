@@ -24,7 +24,6 @@ rustPlatform.buildRustPackage rec {
     openssl
   ];
 
-  useFetchCargoVendor = true;
   cargoHash = "sha256-kkfIcx8sDQkPWzcTii8NHRq8S8gi+rZYSxaJptEL1QM=";
 
   passthru.updateScript = nix-update-script {};
