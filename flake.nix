@@ -138,7 +138,8 @@
               p.mdformat-mkdocs
               p.mdformat-nix-alejandra
               p.mdformat-simple-breaks
-              p.mdformat-toc
+              # TODO: now it's broken, return after fix
+              # p.mdformat-toc
             ]));
             mdformat.excludes = [
               # mdformat doesn't behave well with some admonitions features
