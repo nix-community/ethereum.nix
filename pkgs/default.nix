@@ -29,6 +29,7 @@
       blst = callPackage ./by-name/bl/blst {};
       blutgang = callPackage ./by-name/bl/blutgang {inherit (pkgsUnstable) rustPlatform;};
       charon = callPackage ./by-name/ch/charon {inherit bls mcl;};
+      ckzg = callPackage ./by-name/ck/c-kzg {};
       dirk = callPackage ./by-name/di/dirk {inherit bls mcl;};
       dreamboat = callPackage ./by-name/dr/dreamboat {inherit blst;};
       eigenlayer = callPackage ./by-name/ei/eigenlayer {};
