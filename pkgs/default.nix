@@ -24,7 +24,7 @@
     callPackageUnstable = pkgsUnstable.callPackage;
   in {
     packages = platformPkgs system rec {
-      besu = callPackageUnstable ./by-name/be/besu {};
+      besu = callPackage ./by-name/be/besu {};
       bls = callPackage ./by-name/bl/bls {};
       blst = callPackage ./by-name/bl/blst {};
       blutgang = callPackage ./by-name/bl/blutgang {inherit (pkgsUnstable) rustPlatform;};
