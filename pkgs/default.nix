@@ -29,7 +29,7 @@
       blst = callPackage ./by-name/bl/blst {};
       blutgang = callPackage ./by-name/bl/blutgang {inherit (pkgsUnstable) rustPlatform;};
       charon = callPackage ./by-name/ch/charon {inherit bls mcl;};
-      ckzg = callPackage ./by-name/ck/c-kzg {};
+      ckzg = callPackage ./by-name/ck/ckzg {};
       dirk = callPackage ./by-name/di/dirk {inherit bls mcl;};
       dreamboat = callPackage ./by-name/dr/dreamboat {inherit blst;};
       eigenlayer = callPackage ./by-name/ei/eigenlayer {};
@@ -56,7 +56,7 @@
       mev-rs = callPackage ./by-name/me/mev-rs {};
       nethermind = callPackage ./by-name/ne/nethermind {};
       nimbus = callPackage ./by-name/ni/nimbus {};
-      prysm = callPackage ./by-name/pr/prysm {inherit bls blst;};
+      prysm = callPackage ./by-name/pr/prysm {inherit bls blst ckzg;};
       reth = callPackage ./by-name/re/reth {};
       rocketpool = callPackage ./by-name/ro/rocketpool {};
       rocketpoold = callPackage ./by-name/ro/rocketpoold {inherit bls blst;};

@@ -1,6 +1,7 @@
 {
   bls,
   blst,
+  ckzg,
   buildGo124Module,
   fetchFromGitHub,
   libelf,
@@ -19,7 +20,13 @@ buildGo124Module rec {
 
   vendorHash = "sha256-WiS4hTFZeJ3gZDumYndkZ8H7B8JP3qzuJQmVqNsIuoo=";
 
-  buildInputs = [bls blst libelf];
+  buildInputs = [bls blst ckzg libelf];
+
+  preBuild = ''
+    # Set up C-KZG environment variables for Go bindings
+    export CGO_CFLAGS="-I${ckzg}/include -I${ckzg}/src"
+    export CGO_LDFLAGS="-L${ckzg}/lib -lckzg"
+  '';
 
   subPackages = [
     "cmd/beacon-chain"
