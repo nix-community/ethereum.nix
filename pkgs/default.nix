@@ -21,7 +21,7 @@
   }: let
     inherit (pkgs) callPackage;
     inherit (lib) platformPkgs platformApps;
-    callPackageUnstable = pkgsUnstable.callPackage;
+    # callPackageUnstable = pkgsUnstable.callPackage;
   in {
     packages = platformPkgs system rec {
       besu = callPackage ./by-name/be/besu {};
@@ -40,26 +40,26 @@
       ethereal = callPackage ./by-name/et/ethereal {};
       ethstaker-deposit-cli = callPackage ./by-name/et/ethstaker-deposit-cli {};
       evmc = callPackage ./by-name/ev/evmc {};
-      foundry = callPackageUnstable ./by-name/fo/foundry {};
+      foundry = callPackage ./by-name/fo/foundry {};
       foundry-bin = inputs.foundry-nix.defaultPackage.${system}.overrideAttrs (_oldAttrs: {
         # TODO: Uncomment when https://github.com/shazow/foundry.nix/issues/23
         # meta.platforms = [system];
         meta.platforms = ["x86_64-linux" "aarch64-linux"];
       });
-      geth = callPackageUnstable ./by-name/ge/geth {};
+      geth = callPackage ./by-name/ge/geth {};
       heimdall = callPackage ./by-name/he/heimdall {};
-      lighthouse = callPackageUnstable ./by-name/li/lighthouse {inherit foundry;};
+      lighthouse = callPackage ./by-name/li/lighthouse {inherit foundry;};
       mcl = callPackage ./by-name/mc/mcl {};
-      mev-boost = callPackageUnstable ./by-name/me/mev-boost {inherit blst;};
+      mev-boost = callPackage ./by-name/me/mev-boost {inherit blst;};
       mev-boost-relay = callPackage ./by-name/me/mev-boost-relay {inherit blst;};
       mev-rs = callPackage ./by-name/me/mev-rs {};
-      nethermind = callPackageUnstable ./by-name/ne/nethermind {};
-      nimbus = callPackageUnstable ./by-name/ni/nimbus {};
-      prysm = callPackageUnstable ./by-name/pr/prysm {inherit bls blst;};
-      reth = callPackageUnstable ./by-name/re/reth {};
+      nethermind = callPackage ./by-name/ne/nethermind {};
+      nimbus = callPackage ./by-name/ni/nimbus {};
+      prysm = callPackage ./by-name/pr/prysm {inherit bls blst;};
+      reth = callPackage ./by-name/re/reth {};
       rocketpool = callPackage ./by-name/ro/rocketpool {};
       rocketpoold = callPackage ./by-name/ro/rocketpoold {inherit bls blst;};
-      rotki-bin = callPackageUnstable ./by-name/ro/rotki-bin {};
+      rotki-bin = callPackage ./by-name/ro/rotki-bin {};
       sedge = callPackage ./by-name/se/sedge {
         bls = callPackage ./by-name/bl/bls {};
         mcl = callPackage ./by-name/mc/mcl {};

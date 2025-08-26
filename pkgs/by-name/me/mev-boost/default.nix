@@ -6,7 +6,7 @@
 }:
 buildGoModule rec {
   pname = "mev-boost";
-  version = "1.9";
+  version = "1.9.0";
   src = fetchFromGitHub {
     owner = "flashbots";
     repo = "${pname}";
