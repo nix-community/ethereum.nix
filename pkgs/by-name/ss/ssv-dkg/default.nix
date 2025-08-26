@@ -1,23 +1,23 @@
 {
   bls,
-  buildGo120Module,
+  buildGoModule,
   fetchFromGitHub,
   lib,
   mcl,
   nix-update-script,
 }:
-buildGo120Module rec {
+buildGoModule rec {
   pname = "ssv-dkg";
-  version = "2.1.0";
+  version = "3.0.3";
 
   src = fetchFromGitHub {
     owner = "ssvlabs";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-PXqjLvX9ewYtrOb3TDeNfuMxHamS1b6fh61FLAV2srE=";
+    hash = "sha256-RsiYd00W5TBQmPzFCDKkzxEG+Yk+MDgMNcSRXoCa0tY=";
   };
 
-  vendorHash = "sha256-NtZRe8ldkYU2TXZQMEJ0bZyH44ZOknNdZON3cZhMOmg=";
+  vendorHash = "sha256-MGIW+3Prti6vNWIrY6mbImMbaaEXi/OJnRRJpwM0m98=";
 
   buildInputs = [bls mcl];
 
