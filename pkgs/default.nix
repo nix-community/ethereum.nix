@@ -16,14 +16,12 @@
     self',
     pkgs,
     pkgsUnstable,
-    pkgs2311,
     system,
     ...
   }: let
     inherit (pkgs) callPackage;
     inherit (lib) platformPkgs platformApps;
     callPackageUnstable = pkgsUnstable.callPackage;
-    callPackage2311 = pkgs2311.callPackage;
   in {
     packages = platformPkgs system rec {
       besu = callPackageUnstable ./by-name/be/besu {};
@@ -37,7 +35,7 @@
       erigon = callPackage ./by-name/er/erigon {};
       eth2-testnet-genesis = callPackage ./by-name/et/eth2-testnet-genesis {inherit bls;};
       eth2-val-tools = callPackage ./by-name/et/eth2-val-tools {inherit bls mcl;};
-      eth-validator-watcher = callPackage2311 ./by-name/et/eth-validator-watcher {};
+      eth-validator-watcher = callPackage ./by-name/et/eth-validator-watcher {};
       ethdo = callPackage ./by-name/et/ethdo {inherit bls mcl;};
       ethereal = callPackage ./by-name/et/ethereal {};
       ethstaker-deposit-cli = callPackage ./by-name/et/ethstaker-deposit-cli {};
@@ -62,19 +60,19 @@
       rocketpool = callPackage ./by-name/ro/rocketpool {};
       rocketpoold = callPackage ./by-name/ro/rocketpoold {inherit bls blst;};
       rotki-bin = callPackageUnstable ./by-name/ro/rotki-bin {};
-      sedge = callPackage2311 ./by-name/se/sedge {
-        bls = callPackage2311 ./by-name/bl/bls {};
-        mcl = callPackage2311 ./by-name/mc/mcl {};
+      sedge = callPackage ./by-name/se/sedge {
+        bls = callPackage ./by-name/bl/bls {};
+        mcl = callPackage ./by-name/mc/mcl {};
       };
       slither = callPackage ./by-name/sl/slither {};
       snarkjs = callPackage ./by-name/sn/snarkjs {};
-      ssv-dkg = callPackage2311 ./by-name/ss/ssv-dkg {
-        bls = callPackage2311 ./by-name/bl/bls {};
-        mcl = callPackage2311 ./by-name/mc/mcl {};
+      ssv-dkg = callPackage ./by-name/ss/ssv-dkg {
+        bls = callPackage ./by-name/bl/bls {};
+        mcl = callPackage ./by-name/mc/mcl {};
       };
       ssvnode = callPackage ./by-name/ss/ssvnode {
-        bls = callPackage2311 ./by-name/bl/bls {};
-        mcl = callPackage2311 ./by-name/mc/mcl {};
+        bls = callPackage ./by-name/bl/bls {};
+        mcl = callPackage ./by-name/mc/mcl {};
       };
       staking-deposit-cli = callPackage ./by-name/st/staking-deposit-cli {};
       teku = callPackage ./by-name/te/teku {};
