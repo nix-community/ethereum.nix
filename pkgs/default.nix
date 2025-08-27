@@ -21,7 +21,7 @@
   }: let
     inherit (pkgs) callPackage;
     inherit (lib) platformPkgs platformApps;
-    # callPackageUnstable = pkgsUnstable.callPackage;
+    callPackageUnstable = pkgsUnstable.callPackage;
   in {
     packages = platformPkgs system rec {
       besu = callPackage ./by-name/be/besu {};
@@ -41,7 +41,7 @@
       ethereal = callPackage ./by-name/et/ethereal {};
       ethstaker-deposit-cli = callPackage ./by-name/et/ethstaker-deposit-cli {};
       evmc = callPackage ./by-name/ev/evmc {};
-      foundry = callPackage ./by-name/fo/foundry {};
+      foundry = callPackageUnstable ./by-name/fo/foundry {};
       foundry-bin = inputs.foundry-nix.defaultPackage.${system}.overrideAttrs (_oldAttrs: {
         # TODO: Uncomment when https://github.com/shazow/foundry.nix/issues/23
         # meta.platforms = [system];
