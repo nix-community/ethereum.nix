@@ -8,6 +8,8 @@
   pkg-config,
   rustPlatform,
   stdenv,
+  solc,
+  versionCheckHook,
 }:
 rustPlatform.buildRustPackage rec {
   pname = "foundry";
@@ -16,13 +18,17 @@ rustPlatform.buildRustPackage rec {
   src = fetchFromGitHub {
     owner = "foundry-rs";
     repo = "foundry";
-    rev = "v${version}";
+    tag = "v${version}";
     hash = "sha256-YMeGTPx3kqQ9CKFiH7rUEYzK0BCPksC1XIGfOj5MVd0=";
   };
 
   cargoLock = {
     lockFile = "${src}/Cargo.lock";
   };
+
+  nativeBuildInputs = [pkg-config installShellFiles] ++ lib.optionals stdenv.hostPlatform.isDarwin [darwin.DarwinTools];
+
+  buildInputs = [solc] ++ lib.optionals stdenv.hostPlatform.isDarwin [libusb1];
 
   env = {
     # Make svm-rs use local release list rather than fetching from non-reproducible URL.
@@ -32,19 +38,6 @@ rustPlatform.buildRustPackage rec {
       then "${./svm-lists/macosx-amd64.json}"
       else "${./svm-lists/linux-amd64.json}";
   };
-
-  nativeBuildInputs =
-    [
-      installShellFiles
-      pkg-config
-    ]
-    ++ lib.optionals stdenv.isDarwin [
-      darwin.DarwinTools
-    ];
-
-  buildInputs = lib.optionals stdenv.isDarwin [
-    libusb1
-  ];
 
   postInstall = let
     binsWithCompletions = ["anvil" "cast" "forge"];
@@ -61,6 +54,11 @@ rustPlatform.buildRustPackage rec {
   # Tests are run upstream, and many perform I/O
   # incompatible with the nix build sandbox.
   doCheck = false;
+
+  nativeInstallCheckInputs = [versionCheckHook];
+  versionCheckProgram = "${placeholder "out"}/bin/forge";
+  versionCheckProgramArg = "--version";
+  doInstallCheck = true;
 
   passthru.updateScript = nix-update-script {};
 

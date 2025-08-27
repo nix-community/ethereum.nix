@@ -37,21 +37,21 @@ Additional arguments can be provided in a list directly to the Lighthouse Beacon
 For each instance that is configured a corresponding [Systemd](https://systemd.io/) service is created. The service name
 follows a convention of `lighthouse-beacon-${name}.service`.
 
-| Config                                        | Name    | Service name                        |
+| Config | Name | Service name |
 | :-------------------------------------------- | :------ | :---------------------------------- |
 | `services.ethereum.lighthouse-beacon.sepolia` | sepolia | `lighthouse-beacon-sepolia.service` |
-| `services.ethereum.lighthouse-beacon.goerli`  | goerli  | `lighthouse-beacon-goerli.service`  |
+| `services.ethereum.lighthouse-beacon.goerli` | goerli | `lighthouse-beacon-goerli.service` |
 | `services.ethereum.lighthouse-beacon.mainnet` | mainnet | `lighthouse-beacon-mainnet.service` |
 
 The service that is created can then be introspected and managed via the standard Systemd toolset.
 
-| Action  | Command                                               |
+| Action | Command |
 | :------ | :---------------------------------------------------- |
-| Status  | `systemctl status lighthouse-beacon-sepolia.service`  |
-| Stop    | `systemctl stop lighthouse-beacon-sepolia.service`    |
-| Start   | `systemctl start lighthouse-beacon-sepolia.service`   |
+| Status | `systemctl status lighthouse-beacon-sepolia.service` |
+| Stop | `systemctl stop lighthouse-beacon-sepolia.service` |
+| Start | `systemctl start lighthouse-beacon-sepolia.service` |
 | Restart | `systemctl restart lighthouse-beacon-sepolia.service` |
-| Logs    | `journalctl -xefu lighthouse-beacon-sepolia.service`  |
+| Logs | `journalctl -xefu lighthouse-beacon-sepolia.service` |
 
 ## Using a Lighthouse Beacon fork
 
@@ -74,11 +74,11 @@ To configure a custom fork for example:
 By default, [openFirewall](./modules/lighthouse-beacon.md#servicesethereumlighthouse-beaconnameopenfirewall) is set to `false`.
 If set to `true` firewall rules are added which will expose the following ports:
 
-| Protocol | Config                                                                                                   | Default value |
+| Protocol | Config | Default value |
 | :------- | :------------------------------------------------------------------------------------------------------- | :------------ |
-| UDP      | [discovery-port](./modules/lighthouse-beacon.md#servicesethereumlighthouse-beaconnameargsdiscovery-port) | 9000          |
-| UDP/TCP  | [quic-port](./modules/lighthouse-beacon.md#servicesethereumlighthouse-beaconnameargsquic-port)           | 9001          |
-| TCP      | [http-port](./modules/lighthouse-beacon.md#servicesethereumlighthouse-beaconnameargshttp-port)           | 5052          |
+| UDP | [discovery-port](./modules/lighthouse-beacon.md#servicesethereumlighthouse-beaconnameargsdiscovery-port) | 9000 |
+| UDP/TCP | [quic-port](./modules/lighthouse-beacon.md#servicesethereumlighthouse-beaconnameargsquic-port) | 9001 |
+| TCP | [http-port](./modules/lighthouse-beacon.md#servicesethereumlighthouse-beaconnameargshttp-port) | 5052 |
 
 **Note:** it is important when running multiple instances of Lighthouse Beacon on the same machine that you ensure they are configured
 with different ports.

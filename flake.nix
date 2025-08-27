@@ -8,8 +8,7 @@
 
   inputs = {
     # packages
-    nixpkgs.url = "github:nixos/nixpkgs/24.11";
-    nixpkgs-2311.url = "github:nixos/nixpkgs/23.11";
+    nixpkgs.url = "github:nixos/nixpkgs/25.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
     foundry-nix = {
@@ -89,10 +88,6 @@
             inherit system;
             nixpkgs = inputs.nixpkgs-unstable;
           };
-          pkgs2311 = lib.mkNixpkgs {
-            inherit system;
-            nixpkgs = inputs.nixpkgs-2311;
-          };
         };
 
         # devshell
@@ -143,7 +138,8 @@
               p.mdformat-mkdocs
               p.mdformat-nix-alejandra
               p.mdformat-simple-breaks
-              p.mdformat-toc
+              # TODO: now it's broken, return after fix
+              # p.mdformat-toc
             ]));
             mdformat.excludes = [
               # mdformat doesn't behave well with some admonitions features
