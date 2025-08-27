@@ -58,8 +58,8 @@
       nimbus = callPackage ./by-name/ni/nimbus {};
       prysm = callPackage ./by-name/pr/prysm {inherit bls blst ckzg;};
       reth = callPackage ./by-name/re/reth {};
-      rocketpool = callPackage ./by-name/ro/rocketpool {};
-      rocketpoold = callPackage ./by-name/ro/rocketpoold {inherit bls blst;};
+      rocketpool = callPackageUnstable ./by-name/ro/rocketpool {};
+      rocketpoold = callPackageUnstable ./by-name/ro/rocketpoold {inherit bls blst;};
       rotki-bin = callPackage ./by-name/ro/rotki-bin {};
       sedge = callPackage ./by-name/se/sedge {
         bls = callPackage ./by-name/bl/bls {};
