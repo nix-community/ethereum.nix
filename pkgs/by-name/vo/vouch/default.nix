@@ -7,16 +7,16 @@
 }:
 buildGoModule rec {
   pname = "vouch";
-  version = "1.9.2";
+  version = "1.11.1";
 
   src = fetchFromGitHub {
     owner = "attestantio";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-1FH4H4iH5uc7nUYVlQdqwYylB9puNJ557LLgy3ovcRI=";
+    hash = "sha256-LdcIXagKeOxCZAY1odIf9+6y/X3l9vl/xtQZFjHkBEc=";
   };
 
-  vendorHash = "sha256-h5MQ3v3YLKxyOK16wb/p8ND68P5LaugWiIXXG8mtXqE=";
+  vendorHash = "sha256-cb5qHLy8ZfhlkbdE1/ceMQorpBDuQEauQ1ptWfJT6Tk=";
 
   runVend = true;
 
