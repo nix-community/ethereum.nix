@@ -79,7 +79,6 @@
       teku = callPackage ./by-name/teku {};
       tx-fuzz = callPackage ./by-name/tx-fuzz {};
       vouch = callPackage ./by-name/vouch {inherit bls mcl;};
-      vouch-unstable = callPackage ./by-name/vouch/unstable.nix {inherit bls mcl;};
       vscode-plugin-ackee-blockchain-solidity-tools = callPackage ./by-name/ackee-blockchain.solidity-tools {};
       vscode-plugin-consensys-vscode-solidity-visual-editor = callPackage ./by-name/consensys.vscode-solidity-auditor {};
       web3signer = callPackage ./by-name/web3signer {};
