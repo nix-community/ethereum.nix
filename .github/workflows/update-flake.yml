@@ -3,31 +3,31 @@ on:
   workflow_call:
     inputs:
       packages:
-        description: 'Space-separated list of specific packages to update (empty for all)'
+        description: "Space-separated list of specific packages to update (empty for all)"
         required: false
         type: string
-        default: ''
+        default: ""
       inputs:
-        description: 'Space-separated list of specific inputs to update (empty for all)'
+        description: "Space-separated list of specific inputs to update (empty for all)"
         required: false
         type: string
-        default: ''
+        default: ""
       pr-labels:
-        description: 'Comma-separated list of labels to add to PRs'
+        description: "Comma-separated list of labels to add to PRs"
         required: false
         type: string
-        default: 'dependencies,automated'
+        default: "dependencies,automated"
       auto-merge:
-        description: 'Enable auto-merge for created pull requests'
+        description: "Enable auto-merge for created pull requests"
         required: false
         type: boolean
         default: false
     secrets:
       APP_ID:
-        description: 'GitHub App ID'
+        description: "GitHub App ID"
         required: true
       APP_PRIVATE_KEY:
-        description: 'GitHub App private key'
+        description: "GitHub App private key"
         required: true
 jobs:
   discover:
