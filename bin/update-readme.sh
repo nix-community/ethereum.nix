@@ -8,14 +8,10 @@ set -euo pipefail
 packages=()
 
 # Discover all packages
-for prefix_dir in pkgs/by-name/*/; do
-  if [ -d "$prefix_dir" ]; then
-    for package_dir in "$prefix_dir"*/; do
-      if [ -f "$package_dir/default.nix" ]; then
-        package_name=$(basename "$package_dir")
-        packages+=("$package_name")
-      fi
-    done
+for package_dir in pkgs/by-name/*/; do
+  if [ -f "$package_dir/default.nix" ]; then
+    package_name=$(basename "$package_dir")
+    packages+=("$package_name")
   fi
 done
 
