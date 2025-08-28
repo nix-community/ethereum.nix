@@ -3,7 +3,9 @@
 
   nixConfig = {
     extra-substituters = ["https://nix-community.cachix.org"];
-    extra-trusted-public-keys = ["nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="];
+    extra-trusted-public-keys = [
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+    ];
   };
 
   inputs = {
@@ -54,7 +56,8 @@
   }: let
     lib = nixpkgs.lib.extend (l: _: (import ./lib.nix l));
   in
-    flake-parts.lib.mkFlake {
+    flake-parts.lib.mkFlake
+    {
       inherit inputs;
       specialArgs = {inherit lib;};
     }
@@ -63,7 +66,6 @@
         inputs.devshell.flakeModule
         inputs.hercules-ci-effects.flakeModule
         inputs.treefmt-nix.flakeModule
-        ./mkdocs.nix
         ./modules
         ./pkgs
         ./hercules-ci.nix
@@ -129,18 +131,20 @@
               "*.md"
               "*.html"
             ];
-            mdformat.package = lib.mkDefault (pkgs.mdformat.withPlugins (p: [
-              p.mdformat-admon
-              p.mdformat-beautysh
-              p.mdformat-footnote
-              p.mdformat-frontmatter
-              p.mdformat-gfm
-              p.mdformat-mkdocs
-              p.mdformat-nix-alejandra
-              p.mdformat-simple-breaks
-              # TODO: now it's broken, return after fix
-              # p.mdformat-toc
-            ]));
+            mdformat.package = lib.mkDefault (
+              pkgs.mdformat.withPlugins (p: [
+                p.mdformat-admon
+                p.mdformat-beautysh
+                p.mdformat-footnote
+                p.mdformat-frontmatter
+                p.mdformat-gfm
+                p.mdformat-mkdocs
+                p.mdformat-nix-alejandra
+                p.mdformat-simple-breaks
+                # TODO: now it's broken, return after fix
+                # p.mdformat-toc
+              ])
+            );
             mdformat.excludes = [
               # mdformat doesn't behave well with some admonitions features
               "docs/apps.md"
@@ -154,7 +158,12 @@
         # checks
         checks =
           # merge in the package derivations to force a build of all packages during a `nix flake check`
-          (with lib; mapAttrs' (n: nameValuePair "package-${n}") (filterAttrs (n: _: ! builtins.elem n ["docs"]) self'.packages))
+          (
+            with lib;
+              mapAttrs' (n: nameValuePair "package-${n}") (
+                filterAttrs (n: _: !builtins.elem n ["docs"]) self'.packages
+              )
+          )
           # mix in tests
           // config.testing.checks;
       };
