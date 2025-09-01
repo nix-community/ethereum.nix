@@ -133,7 +133,7 @@ in {
                 (mkIf (cfg.args.authrpc.jwtsecret != null) {
                   LoadCredential = ["jwtsecret:${cfg.args.authrpc.jwtsecret}"];
                 })
-                (mkIf (cfg.user != null) {
+                (mkIf (!cfg.dynamicUser) {
                   DynamicUser = mkForce false;
                   RemoveIPC = mkDefault true;
                   PrivateTmp = mkDefault true;
