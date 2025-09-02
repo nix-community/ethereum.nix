@@ -55,7 +55,6 @@
       mcl = callPackage ./by-name/mcl {};
       mev-boost = callPackage ./by-name/mev-boost {inherit blst;};
       mev-boost-relay = callPackage ./by-name/mev-boost-relay {inherit blst;};
-      mev-rs = callPackage ./by-name/mev-rs {};
       nethermind = callPackage ./by-name/nethermind {};
       nimbus = callPackage ./by-name/nimbus {};
       prysm = callPackage ./by-name/prysm {inherit bls blst ckzg;};
@@ -116,7 +115,6 @@
       lighthouse.bin = "lighthouse";
       mev-boost-relay.bin = "mev-boost-relay";
       mev-boost.bin = "mev-boost";
-      mev-rs.bin = "mev";
       nethermind = {
         nethermind.bin = "Nethermind.Cli";
         nethermind-runner.bin = "Nethermind.Runner";
