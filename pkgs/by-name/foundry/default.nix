@@ -13,17 +13,20 @@
 }:
 rustPlatform.buildRustPackage rec {
   pname = "foundry";
-  version = "1.3.0";
+  version = "1.3.3";
 
   src = fetchFromGitHub {
     owner = "foundry-rs";
     repo = "foundry";
     tag = "v${version}";
-    hash = "sha256-YMeGTPx3kqQ9CKFiH7rUEYzK0BCPksC1XIGfOj5MVd0=";
+    hash = "sha256-xu+Y60sGxKk5AWkkai/HBGNjkIhBIQEkof71nouDdwo=";
   };
 
   cargoLock = {
     lockFile = "${src}/Cargo.lock";
+    outputHashes = {
+      "op-revm-8.1.0" = "sha256-/wx6hKFSZZOUQYsNd4i4oH0aX6FPHwunGY4aZudeNfk=";
+    };
   };
 
   nativeBuildInputs = [pkg-config installShellFiles] ++ lib.optionals stdenv.hostPlatform.isDarwin [darwin.DarwinTools];
