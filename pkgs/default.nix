@@ -28,7 +28,7 @@
       bls = callPackage ./by-name/bls {};
       blst = callPackage ./by-name/blst {};
       blutgang = callPackage ./by-name/blutgang {inherit (pkgsUnstable) rustPlatform;};
-      charon = callPackage ./by-name/charon {inherit bls mcl;};
+      charon = callPackageUnstable ./by-name/charon {inherit bls mcl;};
       ckzg = callPackage ./by-name/ckzg {};
       dirk = callPackage ./by-name/dirk {inherit bls mcl;};
       dreamboat = callPackage ./by-name/dreamboat {inherit blst;};
