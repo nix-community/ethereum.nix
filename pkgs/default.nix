@@ -31,7 +31,6 @@
       charon = callPackageUnstable ./by-name/charon {inherit bls mcl;};
       ckzg = callPackage ./by-name/ckzg {};
       dirk = callPackage ./by-name/dirk {inherit bls mcl;};
-      dreamboat = callPackage ./by-name/dreamboat {inherit blst;};
       eigenlayer = callPackage ./by-name/eigenlayer {};
       erigon = callPackage ./by-name/erigon {};
       eth2-testnet-genesis = callPackage ./by-name/eth2-testnet-genesis {inherit bls;};
@@ -91,7 +90,6 @@
       blutgang.bin = "blutgang";
       charon.bin = "charon";
       dirk.bin = "dirk";
-      dreamboat.bin = "dreamboat";
       erigon.bin = "erigon";
       eth2-testnet-genesis.bin = "eth2-testnet-genesis";
       eth2-val-tools.bin = "eth2-val-tools";
