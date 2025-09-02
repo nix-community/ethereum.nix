@@ -7,13 +7,13 @@
 }:
 stdenv.mkDerivation rec {
   pname = "evmc";
-  version = "10.0.0";
+  version = "12.1.0";
 
   src = fetchFromGitHub {
     owner = "ethereum";
     repo = "evmc";
     rev = "v${version}";
-    hash = "sha256-e6V7lNszvR8mmLhPk7pvFMh2LQUl/VHupzVgMfsNlsM=";
+    hash = "sha256-VbhU5FcAW0PkHcvS6tbEkhNnx1NErTv4yH57g9bAdh4=";
   };
 
   nativeBuildInputs = [cmake];
