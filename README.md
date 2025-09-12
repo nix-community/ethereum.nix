@@ -30,7 +30,6 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 <!-- `> ./bin/update-readme.sh` -->
 
 <!-- BEGIN mdsh -->
-
 #### ackee-blockchain.solidity-tools
 
 - **Description**: No description available
@@ -410,7 +409,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### vouch
 
 - **Description**: An Ethereum 2 multi-node validator client
-- **Version**: 1.9.2
+- **Version**: 1.11.1
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/attestantio/vouch
