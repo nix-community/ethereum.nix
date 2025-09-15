@@ -28,10 +28,9 @@
       bls = callPackage ./by-name/bls {};
       blst = callPackage ./by-name/blst {};
       blutgang = callPackage ./by-name/blutgang {inherit (pkgsUnstable) rustPlatform;};
-      charon = callPackage ./by-name/charon {inherit bls mcl;};
+      charon = callPackageUnstable ./by-name/charon {inherit bls mcl;};
       ckzg = callPackage ./by-name/ckzg {};
       dirk = callPackage ./by-name/dirk {inherit bls mcl;};
-      dreamboat = callPackage ./by-name/dreamboat {inherit blst;};
       eigenlayer = callPackage ./by-name/eigenlayer {};
       erigon = callPackage ./by-name/erigon {};
       eth2-testnet-genesis = callPackage ./by-name/eth2-testnet-genesis {inherit bls;};
@@ -53,7 +52,6 @@
       mcl = callPackage ./by-name/mcl {};
       mev-boost = callPackage ./by-name/mev-boost {inherit blst;};
       mev-boost-relay = callPackage ./by-name/mev-boost-relay {inherit blst;};
-      mev-rs = callPackage ./by-name/mev-rs {};
       nethermind = callPackage ./by-name/nethermind {};
       nimbus = callPackage ./by-name/nimbus {};
       prysm = callPackage ./by-name/prysm {inherit bls blst ckzg;};
@@ -90,7 +88,6 @@
       blutgang.bin = "blutgang";
       charon.bin = "charon";
       dirk.bin = "dirk";
-      dreamboat.bin = "dreamboat";
       erigon.bin = "erigon";
       eth2-testnet-genesis.bin = "eth2-testnet-genesis";
       eth2-val-tools.bin = "eth2-val-tools";
@@ -117,7 +114,6 @@
       lighthouse.bin = "lighthouse";
       mev-boost-relay.bin = "mev-boost-relay";
       mev-boost.bin = "mev-boost";
-      mev-rs.bin = "mev";
       nethermind = {
         nethermind.bin = "Nethermind.Cli";
         nethermind-runner.bin = "Nethermind.Runner";
