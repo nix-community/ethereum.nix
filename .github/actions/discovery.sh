@@ -74,8 +74,8 @@ else
         fi
       done
     else
-      # Get all inputs
-      inputs=$(echo "$metadata" | jq -r '.locks.nodes | to_entries[] | select(.key != "root") | .key' | sort)
+      # Get only direct inputs (not transitive dependencies)
+      inputs=$(echo "$metadata" | jq -r '.locks.nodes.root.inputs | keys[]' | sort)
 
       for input in $inputs; do
         current_rev=$(echo "$metadata" | jq -r ".locks.nodes.\"$input\".locked.rev // \"unknown\"" | head -c 8)
