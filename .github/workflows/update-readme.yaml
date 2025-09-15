@@ -23,9 +23,10 @@ jobs:
             experimental-features = nix-command flakes
 
       - name: Update package documentation
-        run: |
-          # Run mdsh to update the README
-          nix run nixpkgs#mdsh -- --input README.md --output README.md
+        run: nix run nixpkgs#mdsh -- --input README.md --output README.md
+
+      - name: Format code
+        run: nix fmt
 
       - name: Check for changes
         id: check-changes
@@ -53,3 +54,6 @@ jobs:
           delete-branch: true
           signoff: true
           sign-commits: true
+          labels: |
+            documentation
+            automated
