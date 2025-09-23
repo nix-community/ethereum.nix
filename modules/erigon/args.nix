@@ -12,14 +12,6 @@ with lib; {
     description = "Network listening port.";
   };
 
-  snapshots = mkOption {
-    type = types.bool;
-    default = true;
-    description = ''
-      Default: use snapshots "true" for BSC, Mainnet and Goerli. use snapshots "false" in all other cases.
-    '';
-  };
-
   externalcl = mkEnableOption "enables external consensus";
 
   chain = mkOption {
