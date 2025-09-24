@@ -50,7 +50,7 @@
         ];
       });
       geth = callPackage ./by-name/geth {};
-      heimdall = callPackage ./by-name/heimdall {};
+      heimdall = callPackageUnstable ./by-name/heimdall {};
       lighthouse = callPackage ./by-name/lighthouse {inherit foundry;};
       mcl = callPackage ./by-name/mcl {};
       mev-boost = callPackage ./by-name/mev-boost {inherit blst;};

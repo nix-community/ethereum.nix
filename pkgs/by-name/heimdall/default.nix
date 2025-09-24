@@ -1,5 +1,5 @@
 {
-  darwin,
+  apple-sdk,
   fetchFromGitHub,
   lib,
   nix-update-script,
@@ -10,13 +10,13 @@
 }:
 rustPlatform.buildRustPackage rec {
   pname = "heimdall";
-  version = "0.9.0";
+  version = "0.9.1";
 
   src = fetchFromGitHub {
     owner = "jon-becker";
     repo = "${pname}-rs";
     rev = version;
-    hash = "sha256-6yzsZvgJ0XvQGjnb+TD7xrhtPFbi6zGspt4pPXQuQzg=";
+    hash = "sha256-xDplFw/IMfe2S6fxdG/uNlMCZ2KOisTyNG4482UefOA=";
   };
 
   cargoLock = {
@@ -31,10 +31,9 @@ rustPlatform.buildRustPackage rec {
     [
       openssl
     ]
-    ++ lib.optionals stdenv.isDarwin (with darwin.apple_sdk.frameworks; [
-      Security
-      SystemConfiguration
-    ]);
+    ++ lib.optionals stdenv.isDarwin [
+      apple-sdk
+    ];
 
   # Loads of tests do some kind of I/O incompatible with nix sandbox, but are
   # tested in upstream CI.
