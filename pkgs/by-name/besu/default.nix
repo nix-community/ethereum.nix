@@ -18,8 +18,8 @@ stdenv.mkDerivation (finalAttrs: rec {
     hash = "sha256-j4gWZ65eYpcCcNgYTmVVZXsSs/n6HHcRT3+ElxGPa8Y=";
   };
 
-  buildInputs = lib.optionals stdenv.isLinux [ jemalloc ];
-  nativeBuildInputs = [ makeWrapper ];
+  buildInputs = lib.optionals stdenv.isLinux [jemalloc];
+  nativeBuildInputs = [makeWrapper];
 
   installPhase = ''
     mkdir -p $out/bin
@@ -27,12 +27,14 @@ stdenv.mkDerivation (finalAttrs: rec {
     mkdir -p $out/lib
     cp -r lib $out/
     wrapProgram $out/bin/${pname} --set JAVA_HOME "${jre}" --suffix ${
-      if stdenv.isDarwin then "DYLD_LIBRARY_PATH" else "LD_LIBRARY_PATH"
+      if stdenv.isDarwin
+      then "DYLD_LIBRARY_PATH"
+      else "LD_LIBRARY_PATH"
     } : ${lib.makeLibraryPath buildInputs}
   '';
 
   passthru.tests = {
-    updateScript = nix-update-script { };
+    updateScript = nix-update-script {};
 
     version = testers.testVersion {
       package = finalAttrs.finalPackage;
@@ -40,15 +42,15 @@ stdenv.mkDerivation (finalAttrs: rec {
     };
     jemalloc =
       runCommand "${pname}-test-jemalloc"
-        {
-          nativeBuildInputs = [ finalAttrs.finalPackage ];
-          meta.platforms = with lib.platforms; linux;
-        }
-        ''
-          # Expect to find this string in the output, ignore other failures.
-          (besu 2>&1 || true) | grep -q "# jemalloc: ${jemalloc.version}"
-          mkdir $out
-        '';
+      {
+        nativeBuildInputs = [finalAttrs.finalPackage];
+        meta.platforms = with lib.platforms; linux;
+      }
+      ''
+        # Expect to find this string in the output, ignore other failures.
+        (besu 2>&1 || true) | grep -q "# jemalloc: ${jemalloc.version}"
+        mkdir $out
+      '';
   };
 
   meta = with lib; {
@@ -60,6 +62,6 @@ stdenv.mkDerivation (finalAttrs: rec {
       "aarch64-darwin"
       "x86_64-linux"
     ];
-    sourceProvenance = with sourceTypes; [ binaryBytecode ];
+    sourceProvenance = with sourceTypes; [binaryBytecode];
   };
 })

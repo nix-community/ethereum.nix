@@ -15,7 +15,7 @@ stdenv.mkDerivation rec {
     hash = "sha256-u0H4dHODKNI/tJGrq+TNR4hfQaOolJK2YE4gFALCGok=";
   };
 
-  nativeBuildInputs = [ makeWrapper ];
+  nativeBuildInputs = [makeWrapper];
 
   installPhase = ''
     mkdir -p $out/bin
@@ -25,14 +25,14 @@ stdenv.mkDerivation rec {
     wrapProgram $out/bin/${pname} --set JAVA_HOME "${jre}"
   '';
 
-  passthru.updateScript = nix-update-script { };
+  passthru.updateScript = nix-update-script {};
 
   meta = with lib; {
     description = "Java Implementation of the Ethereum 2.0 Beacon Chain";
     homepage = "https://github.com/ConsenSys/teku";
     license = licenses.asl20;
     mainProgram = "teku";
-    platforms = [ "x86_64-linux" ];
-    sourceProvenance = with sourceTypes; [ binaryBytecode ];
+    platforms = ["x86_64-linux"];
+    sourceProvenance = with sourceTypes; [binaryBytecode];
   };
 }
