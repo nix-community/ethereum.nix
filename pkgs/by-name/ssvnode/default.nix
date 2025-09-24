@@ -8,7 +8,7 @@
 }:
 buildGoModule rec {
   pname = "ssv";
-  version = "2.3.4";
+  version = "2.3.6";
 
   src = fetchFromGitHub {
     owner = "ssvlabs";
