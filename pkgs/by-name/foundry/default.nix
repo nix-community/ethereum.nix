@@ -24,48 +24,50 @@ rustPlatform.buildRustPackage rec {
 
   cargoHash = "sha256-TZTnaPsnfRjtfFMw5vdz4wV0ddjJ63TKrDHUkKvOfDw=";
 
-  nativeBuildInputs = [
-    pkg-config
-    installShellFiles
-  ]
-  ++ lib.optionals stdenv.hostPlatform.isDarwin [ darwin.DarwinTools ];
+  nativeBuildInputs =
+    [
+      pkg-config
+      installShellFiles
+    ]
+    ++ lib.optionals stdenv.hostPlatform.isDarwin [darwin.DarwinTools];
 
-  buildInputs = [ solc ] ++ lib.optionals stdenv.hostPlatform.isDarwin [ libusb1 ];
+  buildInputs = [solc] ++ lib.optionals stdenv.hostPlatform.isDarwin [libusb1];
 
   env = {
     # Make svm-rs use local release list rather than fetching from non-reproducible URL.
     # Run the `update-svm-lists.sh` script to update these lists.
     SVM_RELEASES_LIST_JSON =
-      if stdenv.isDarwin then "${./svm-lists/macosx-amd64.json}" else "${./svm-lists/linux-amd64.json}";
+      if stdenv.isDarwin
+      then "${./svm-lists/macosx-amd64.json}"
+      else "${./svm-lists/linux-amd64.json}";
   };
 
-  postInstall =
-    let
-      binsWithCompletions = [
-        "anvil"
-        "cast"
-        "forge"
-      ];
-    in
-    ''
-      ${lib.concatMapStringsSep "\n" (bin: ''
+  postInstall = let
+    binsWithCompletions = [
+      "anvil"
+      "cast"
+      "forge"
+    ];
+  in ''
+    ${lib.concatMapStringsSep "\n" (bin: ''
         installShellCompletion --cmd ${bin} \
           --bash <($out/bin/${bin} completions bash) \
           --fish <($out/bin/${bin} completions fish) \
           --zsh <($out/bin/${bin} completions zsh)
-      '') binsWithCompletions}
-    '';
+      '')
+      binsWithCompletions}
+  '';
 
   # Tests are run upstream, and many perform I/O
   # incompatible with the nix build sandbox.
   doCheck = false;
 
-  nativeInstallCheckInputs = [ versionCheckHook ];
+  nativeInstallCheckInputs = [versionCheckHook];
   versionCheckProgram = "${placeholder "out"}/bin/forge";
   versionCheckProgramArg = "--version";
   doInstallCheck = true;
 
-  passthru.updateScript = nix-update-script { };
+  passthru.updateScript = nix-update-script {};
 
   meta = with lib; {
     description = "A portable, modular toolkit for Ethereum application development written in Rust.";
@@ -74,7 +76,7 @@ rustPlatform.buildRustPackage rec {
       asl20
       mit
     ];
-    maintainers = with maintainers; [ mitchmindtree ];
+    maintainers = with maintainers; [mitchmindtree];
     # TODO: Change this to `platforms = platforms.unix;` when this is resolved:
     # https://github.com/ethereum/solidity/issues/11351
     platforms = [
