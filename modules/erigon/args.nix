@@ -12,14 +12,6 @@ with lib; {
     description = "Network listening port.";
   };
 
-  snapshots = mkOption {
-    type = types.bool;
-    default = true;
-    description = ''
-      Default: use snapshots "true" for BSC, Mainnet and Goerli. use snapshots "false" in all other cases.
-    '';
-  };
-
   externalcl = mkEnableOption "enables external consensus";
 
   chain = mkOption {
@@ -47,6 +39,24 @@ with lib; {
       type = types.port;
       default = 42069;
       description = "Port to listen and serve BitTorrent protocol .";
+    };
+    upload.rate = mkOption {
+      type = types.nullOr types.str;
+      default = null;
+      example = "128mb";
+      description = "Maximum upload rate in bytes per second.";
+    };
+    download.rate = mkOption {
+      type = types.nullOr types.str;
+      default = null;
+      example = "128mb";
+      description = "Maximum download rate in bytes per second.";
+    };
+    webseed.download.rate = mkOption {
+      type = types.nullOr types.str;
+      default = null;
+      example = "128mb";
+      description = "Maximum download rate for webseeds in bytes per second.";
     };
   };
 
@@ -217,6 +227,13 @@ with lib; {
       type = types.port;
       default = 6060;
       description = "Metrics HTTP server listening port";
+    };
+  };
+  prune = {
+    mode = mkOption {
+      type = types.enum ["full" "archive" "minimal" "blocks"];
+      default = "full";
+      description = "Selects a pruning preset.";
     };
   };
 }

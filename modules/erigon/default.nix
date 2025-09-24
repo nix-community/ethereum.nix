@@ -107,6 +107,9 @@ in {
                     "+${scripts.setupSubVolume} /var/lib/private/${serviceName}"
                   ]);
                   ExecStart = "${cfg.package}/bin/erigon ${scriptArgs}";
+
+                  # Erigon needs this system call for some reason
+                  SystemCallFilter = ["@system-service" "~@privileged" "mincore"];
                 }
               ];
             })
