@@ -13,13 +13,16 @@ buildGoModule rec {
   src = fetchFromGitHub {
     owner = "ssvlabs";
     repo = "${pname}";
-    rev = "e39f1d0ec67c47f6ba437d83367aba0d2b4d34dd";
-    hash = "sha256-2/o+FyfJcX/Av82O3DV3gSkLHDtJCoUw2+zpozyr628=";
+    rev = "v${version}";
+    hash = "sha256-3XRGBUDuzIqizqa1un/Pp9rcwB6AdvHPYopFwOSRXp8=";
   };
 
-  vendorHash = "sha256-lr62X/Fo97CzxKgwdNCv3OELa6yMSEQBOs2cG53rYJY=";
+  vendorHash = "sha256-ql9V/MHdu9U64N1GeRL3/Ta2YXN6wOTw86OzYQeUUbA=";
 
-  buildInputs = [bls mcl];
+  buildInputs = [
+    bls
+    mcl
+  ];
 
   ldflags = [
     "-X main.Commit=${src.rev}"
