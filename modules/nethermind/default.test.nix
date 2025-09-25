@@ -33,11 +33,11 @@
           basicConf.wait_for_unit("nethermind-sepolia.service")
 
           # TODO: Finish properly these tests once PR is merged in upstream https://github.com/NethermindEth/nethermind/pull/4320
-          # basicConf.wait_for_open_port(30303)
-          # basicConf.wait_for_open_port(8545)
+          basicConf.wait_for_open_port(30303)
+          basicConf.wait_for_open_port(8545)
 
-          # out = basicConf.succeed("systemctl status nethermind-sepolia.service")
-          # print(out)
+          out = basicConf.succeed("systemctl status nethermind-sepolia.service")
+          print(out)
     '';
   };
 }

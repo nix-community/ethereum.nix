@@ -13,13 +13,13 @@
 }: let
   self = buildDotnetModule rec {
     pname = "nethermind";
-    version = "1.33.0";
+    version = "1.33.1";
 
     src = fetchFromGitHub {
       owner = "NethermindEth";
       repo = pname;
       rev = version;
-      hash = "sha256-6EDROSKW7tOe38Z5onfvx7nbHG/3gQ+JBRosDyu+L/c=";
+      hash = "sha256-34g/MduQ5bTFdJvZieOYY4WcGyB2eM1hW9xaHf2q1KY=";
       fetchSubmodules = true;
     };
 
@@ -53,7 +53,7 @@
       # buildDotnetModule's `fetch-deps` uses `writeShellScript` instead of writeShellScriptBin making nix run .#nethermind.fetch-deps command to fail
       # This alias solves that issue. On parent folder, we only need to run this command to produce a new nuget-deps.nix file with updated deps:
       # $ nix run .#nethermind.fetch-nethermind-deps $PRJ_ROOT/pkgs/nethermind/nuget-deps.nix
-      fetch-nethermind-deps = writeShellScriptBin "fetch-nethermind-deps" ''${self.fetch-deps} $@'';
+      fetch-deps = writeShellScriptBin "fetch-nethermind-deps" ''${self.fetch-deps} $@'';
     };
 
     meta = {
