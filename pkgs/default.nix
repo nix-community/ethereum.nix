@@ -45,7 +45,10 @@
       foundry-bin = inputs.foundry-nix.defaultPackage.${system}.overrideAttrs (_oldAttrs: {
         # TODO: Uncomment when https://github.com/shazow/foundry.nix/issues/23
         # meta.platforms = [system];
-        meta.platforms = ["x86_64-linux" "aarch64-linux"];
+        meta.platforms = [
+          "x86_64-linux"
+          "aarch64-linux"
+        ];
       });
       geth = callPackage ./by-name/geth {};
       heimdall = callPackage ./by-name/heimdall {};
@@ -79,8 +82,6 @@
       teku = callPackage ./by-name/teku {};
       tx-fuzz = callPackage ./by-name/tx-fuzz {};
       vouch = callPackage ./by-name/vouch {inherit bls mcl;};
-      vscode-plugin-ackee-blockchain-solidity-tools = callPackage ./by-name/ackee-blockchain.solidity-tools {};
-      vscode-plugin-consensys-vscode-solidity-visual-editor = callPackage ./by-name/consensys.vscode-solidity-auditor {};
       web3signer = callPackage ./by-name/web3signer {};
       zcli = callPackage ./by-name/zcli {};
     };
