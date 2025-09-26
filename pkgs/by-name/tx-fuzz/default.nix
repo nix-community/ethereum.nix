@@ -6,16 +6,16 @@
 }:
 buildGoModule rec {
   pname = "tx-fuzz";
-  version = "1.3.2";
+  version = "1.4.0";
 
   src = fetchFromGitHub {
     owner = "MariusVanDerWijden";
     repo = pname;
     rev = "v${version}";
-    sha256 = "sha256-pVmh5fD82lxXA7t2z/pFUKleIFG9dXdj6EXmxvWM5ck=";
+    sha256 = "sha256-CqxCquPfxyKL6ck7YCnpq9Yj2jdBOO36xf9ojIr/0bk=";
   };
 
-  vendorHash = "sha256-tJ/IHOitOQMPd9U1KUYhVKksz1Du1kKAc6ZKSYsPKKg=";
+  vendorHash = "sha256-s5cbutqpaXhNRT4HORrSmSLelQAzQCgkyLRJfM66bHQ=";
 
   subPackages = ["cmd/livefuzzer"];
 

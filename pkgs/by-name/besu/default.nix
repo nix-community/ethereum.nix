@@ -11,11 +11,11 @@
 }:
 stdenv.mkDerivation (finalAttrs: rec {
   pname = "besu";
-  version = "25.7.0";
+  version = "25.9.0";
 
   src = fetchurl {
     url = "https://github.com/hyperledger/${pname}/releases/download/${version}/${pname}-${version}.tar.gz";
-    hash = "sha256-AyUV0GVJWuqCSiXvUBtVQwlpMa2ASLShIpakELHLjBI=";
+    hash = "sha256-j4gWZ65eYpcCcNgYTmVVZXsSs/n6HHcRT3+ElxGPa8Y=";
   };
 
   buildInputs = lib.optionals stdenv.isLinux [jemalloc];
@@ -45,7 +45,8 @@ stdenv.mkDerivation (finalAttrs: rec {
       {
         nativeBuildInputs = [finalAttrs.finalPackage];
         meta.platforms = with lib.platforms; linux;
-      } ''
+      }
+      ''
         # Expect to find this string in the output, ignore other failures.
         (besu 2>&1 || true) | grep -q "# jemalloc: ${jemalloc.version}"
         mkdir $out
@@ -57,7 +58,10 @@ stdenv.mkDerivation (finalAttrs: rec {
     homepage = "https://github.com/hyperledger/besu";
     license = licenses.asl20;
     mainProgram = "besu";
-    platforms = ["aarch64-darwin" "x86_64-linux"];
+    platforms = [
+      "aarch64-darwin"
+      "x86_64-linux"
+    ];
     sourceProvenance = with sourceTypes; [binaryBytecode];
   };
 })

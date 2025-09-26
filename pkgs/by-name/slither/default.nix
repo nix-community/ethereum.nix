@@ -3,27 +3,25 @@
   lib,
   nix-update-script,
   python3,
+  makeWrapper,
 }:
 python3.pkgs.buildPythonPackage rec {
   pname = "slither";
-  version = "0.10.0";
-  format = "pyproject";
+  version = "0.11.3";
+  pyproject = true;
 
-  disabled = python3.pythonOlder "3.7";
+  disabled = python3.pythonOlder "3.8";
 
   src = fetchFromGitHub {
     owner = "crytic";
     repo = pname;
     rev = "refs/tags/${version}";
-    hash = "sha256-lyjHubnYIwGiA6uAt9erKlTr2sCRGHQy/ZkNByFrFgM=";
+    hash = "sha256-HgPQPyxDvKrmqGiHjiVGxEguYUcaNYwK1gZoMMkQWhM=";
   };
 
-  nativeBuildInputs = with python3.pkgs; [
-    eth-abi
-    eth-typing
-    eth-utils
-    pycryptodome
-    web3
+  nativeBuildInputs = [
+    makeWrapper
+    python3.pkgs.setuptools-scm
   ];
 
   propagatedBuildInputs = with python3.pkgs; [
@@ -31,6 +29,12 @@ python3.pkgs.buildPythonPackage rec {
     packaging
     prettytable
     web3
+  ];
+
+  pythonRelaxDeps = [
+    "web3"
+    "eth-account"
+    "coincurve"
   ];
 
   # required for import check to work

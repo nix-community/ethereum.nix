@@ -6,16 +6,16 @@
 }:
 buildGoModule rec {
   pname = "eth2-testnet-genesis";
-  version = "0.9.0";
+  version = "0.12.0";
 
   src = fetchFromGitHub {
     owner = "protolambda";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-dgn6kI6U+ZsztAaAtjjvAstasjy8LQo+OOyOySKRfCk=";
+    hash = "sha256-DbmBAf3FxfB6KYfGcmswBUos9P5bwEvpA6+ntev88Wg=";
   };
 
-  vendorHash = "sha256-iXJDZtm68Qk1Za8+Bsk140hyl/GeyXlj47PBEZw1tro=";
+  vendorHash = "sha256-YGKfJOpzFw9X1z2Q4LyB+0ahEdfv1cJ9fDCzbDFH9Gs=";
 
   buildInputs = [bls];
 

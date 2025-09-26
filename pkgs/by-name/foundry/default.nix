@@ -22,11 +22,14 @@ rustPlatform.buildRustPackage rec {
     hash = "sha256-YMeGTPx3kqQ9CKFiH7rUEYzK0BCPksC1XIGfOj5MVd0=";
   };
 
-  cargoLock = {
-    lockFile = "${src}/Cargo.lock";
-  };
+  cargoHash = "sha256-TZTnaPsnfRjtfFMw5vdz4wV0ddjJ63TKrDHUkKvOfDw=";
 
-  nativeBuildInputs = [pkg-config installShellFiles] ++ lib.optionals stdenv.hostPlatform.isDarwin [darwin.DarwinTools];
+  nativeBuildInputs =
+    [
+      pkg-config
+      installShellFiles
+    ]
+    ++ lib.optionals stdenv.hostPlatform.isDarwin [darwin.DarwinTools];
 
   buildInputs = [solc] ++ lib.optionals stdenv.hostPlatform.isDarwin [libusb1];
 
@@ -40,7 +43,11 @@ rustPlatform.buildRustPackage rec {
   };
 
   postInstall = let
-    binsWithCompletions = ["anvil" "cast" "forge"];
+    binsWithCompletions = [
+      "anvil"
+      "cast"
+      "forge"
+    ];
   in ''
     ${lib.concatMapStringsSep "\n" (bin: ''
         installShellCompletion --cmd ${bin} \
@@ -65,10 +72,17 @@ rustPlatform.buildRustPackage rec {
   meta = with lib; {
     description = "A portable, modular toolkit for Ethereum application development written in Rust.";
     homepage = "https://github.com/foundry-rs/foundry";
-    license = with licenses; [asl20 mit];
+    license = with licenses; [
+      asl20
+      mit
+    ];
     maintainers = with maintainers; [mitchmindtree];
     # TODO: Change this to `platforms = platforms.unix;` when this is resolved:
     # https://github.com/ethereum/solidity/issues/11351
-    platforms = ["aarch64-darwin" "x86_64-linux" "x86_64-darwin"];
+    platforms = [
+      "aarch64-darwin"
+      "x86_64-linux"
+      "x86_64-darwin"
+    ];
   };
 }
