@@ -31,18 +31,10 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 
 <!-- BEGIN mdsh -->
 
-#### ackee-blockchain.solidity-tools
-
-- **Description**: No description available
-- **Version**: unknown
-- **Source**: unknown
-- **License**: Check package
-- **Usage**: `nix run .#ackee-blockchain.solidity-tools -- --help`
-
 #### besu
 
 - **Description**: Besu is an Apache 2.0 licensed, MainNet compatible, Ethereum client written in Java
-- **Version**: 25.7.0
+- **Version**: 25.9.0
 - **Source**: bytecode
 - **License**: Apache-2.0
 - **Homepage**: https://github.com/hyperledger/besu
@@ -78,7 +70,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### charon
 
 - **Description**: Charon (pronounced 'kharon') is a Proof of Stake Ethereum Distributed Validator Client
-- **Version**: 0.19.1
+- **Version**: 1.6.1
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/ObolNetwork/charon
@@ -93,14 +85,6 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 - **Homepage**: https://github.com/ethereum/c-kzg-4844
 - **Usage**: `nix run .#ckzg -- --help`
 
-#### consensys.vscode-solidity-auditor
-
-- **Description**: No description available
-- **Version**: unknown
-- **Source**: unknown
-- **License**: Check package
-- **Usage**: `nix run .#consensys.vscode-solidity-auditor -- --help`
-
 #### dirk
 
 - **Description**: An Ethereum 2 distributed remote keymanager, focused on security and long-term performance of signing operations
@@ -110,19 +94,10 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 - **Homepage**: https://github.com/attestantio/dirk
 - **Usage**: `nix run .#dirk -- --help`
 
-#### dreamboat
-
-- **Description**: An Ethereum 2.0 Relay for proposer-builder separation (PBS) with MEV-boost
-- **Version**: 0.6.3
-- **Source**: unknown
-- **License**: Check package
-- **Homepage**: https://github.com/blocknative/dreamboat
-- **Usage**: `nix run .#dreamboat -- --help`
-
 #### eigenlayer
 
 - **Description**: Utility manages core operator functionalities like local key management, operator registration and updates
-- **Version**: 0.6.2
+- **Version**: 0.13.3
 - **Source**: unknown
 - **License**: BUSL-1.1
 - **Homepage**: https://www.eigenlayer.xyz/
@@ -131,7 +106,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### erigon
 
 - **Description**: Ethereum node implementation focused on scalability and modularity
-- **Version**: 3.0.15
+- **Version**: 3.1.0
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/erigontech/erigon/
@@ -149,7 +124,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### eth2-testnet-genesis
 
 - **Description**: Create a genesis state for an Eth2 testnet
-- **Version**: 0.9.0
+- **Version**: 0.12.0
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/protolambda/eth2-testnet-genesis
@@ -176,7 +151,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### ethereal
 
 - **Description**: A command-line tool for managing common tasks in Ethereum
-- **Version**: 2.9.0
+- **Version**: 2.11.5
 - **Source**: unknown
 - **License**: APSL-2.0
 - **Homepage**: https://github.com/wealdtech/ethereal/
@@ -194,7 +169,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### evmc
 
 - **Description**: EVMC – Ethereum Client-VM Connector API
-- **Version**: 10.0.0
+- **Version**: 12.1.0
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/ethereum/evmc
@@ -212,7 +187,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### geth
 
 - **Description**: Official golang implementation of the Ethereum protocol
-- **Version**: 1.16.2
+- **Version**: 1.16.3
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://geth.ethereum.org/
@@ -221,7 +196,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### heimdall
 
 - **Description**: A toolkit for EVM bytecode analysis
-- **Version**: 0.8.7
+- **Version**: 0.9.1
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://heimdall.rs
@@ -257,25 +232,16 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### mev-boost-relay
 
 - **Description**: MEV-Boost Relay for Ethereum proposer/builder separation (PBS)
-- **Version**: 0.29.1
+- **Version**: 0.31.2
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/flashbots/mev-boost-relay
 - **Usage**: `nix run .#mev-boost-relay -- --help`
 
-#### mev-rs
-
-- **Description**: A gateway to a network of block builders
-- **Version**: 0.3.0
-- **Source**: unknown
-- **License**: Check package
-- **Homepage**: https://github.com/ralexstokes/mev-rs
-- **Usage**: `nix run .#mev-rs -- --help`
-
 #### nethermind
 
 - **Description**: Our flagship Ethereum client for Linux, Windows, and macOS—full and actively developed
-- **Version**: 1.32.4
+- **Version**: 1.33.1
 - **Source**: unknown
 - **License**: GPL-3.0
 - **Homepage**: https://nethermind.io/nethermind-client
@@ -284,7 +250,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### nimbus
 
 - **Description**: Nimbus is a lightweight client for the Ethereum consensus layer
-- **Version**: 25.7.1-unknown
+- **Version**: 25.9.0-unknown
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://nimbus.guide/
@@ -302,7 +268,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### reth
 
 - **Description**: Modular, contributor-friendly and blazing-fast implementation of the Ethereum protocol, in Rust
-- **Version**: 1.6.0
+- **Version**: 1.8.1
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/paradigmxyz/reth
@@ -347,7 +313,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### slither
 
 - **Description**: Static Analyzer for Solidity
-- **Version**: 0.10.0
+- **Version**: 0.11.3
 - **Source**: unknown
 - **License**: AGPL-3.0-only
 - **Homepage**: https://github.com/crytic/slither
@@ -356,7 +322,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### snarkjs
 
 - **Description**: zkSNARK implementation in JavaScript & WASM
-- **Version**: 0.7.3
+- **Version**: 0.7.5
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/iden3/snarkjs
@@ -374,7 +340,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### ssvnode
 
 - **Description**: Secret-Shared-Validator(SSV) for ethereum staking
-- **Version**: 2.0.0
+- **Version**: 2.3.6
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/ssvlabs/ssv
@@ -392,7 +358,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### teku
 
 - **Description**: Java Implementation of the Ethereum 2.0 Beacon Chain
-- **Version**: 25.7.1
+- **Version**: 25.9.3
 - **Source**: bytecode
 - **License**: Apache-2.0
 - **Homepage**: https://github.com/ConsenSys/teku
@@ -401,7 +367,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### tx-fuzz
 
 - **Description**: TX-Fuzz is a package containing helpful functions to create random transactions
-- **Version**: 1.3.2
+- **Version**: 1.4.0
 - **Source**: unknown
 - **License**: MIT
 - **Homepage**: https://github.com/MariusVanDerWijden/tx-fuzz
@@ -419,7 +385,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### web3signer
 
 - **Description**: Web3Signer is an open-source signing service capable of signing on multiple platforms (Ethereum1 and 2, Filecoin) using private keys stored in an external vault, or encrypted on a disk
-- **Version**: 25.4.1
+- **Version**: 25.6.0
 - **Source**: bytecode
 - **License**: APSL-2.0
 - **Homepage**: https://github.com/ConsenSys/web3signer
@@ -428,7 +394,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### zcli
 
 - **Description**: Eth2 CLI debugging tool
-- **Version**: 0.7.1
+- **Version**: 0.8.0
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/protolambda/zcli
