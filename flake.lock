@@ -83,11 +83,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1756890677,
-        "narHash": "sha256-HV9JT8ZnXiArg951KbDIGRl5TQGRhPWWQ4Wi58CD8iI=",
+        "lastModified": 1759482675,
+        "narHash": "sha256-Xkt4i/kl93t6sy3emzkSFs9XjcMo9FmzddqNPfjLbd0=",
         "owner": "shazow",
         "repo": "foundry.nix",
-        "rev": "4d141e10444cd2c330a9bae4acbf07280e67acc4",
+        "rev": "9bf04a40dd727cf803f11f9978adecfa0a4b7770",
         "type": "github"
       },
       "original": {
