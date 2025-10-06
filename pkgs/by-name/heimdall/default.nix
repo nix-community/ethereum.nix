@@ -10,7 +10,7 @@
 }:
 rustPlatform.buildRustPackage rec {
   pname = "heimdall";
-  version = "0.9.1";
+  version = "3323a0e454e5f66980a4c1a8d3448b651ecac651";
 
   src = fetchFromGitHub {
     owner = "jon-becker";
