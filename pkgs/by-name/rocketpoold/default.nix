@@ -22,8 +22,8 @@ buildGoModule rec {
 
   subPackages = ["rocketpool"];
 
-  CGO_CFLAGS = "-O -D__BLST_PORTABLE__";
-  CGO_ENABLED = 1;
+  env.CGO_CFLAGS = "-O -D__BLST_PORTABLE__";
+  env.CGO_ENABLED = 1;
   postInstall = ''
     mv $out/bin/rocketpool $out/bin/rocketpoold
   '';
