@@ -30,7 +30,7 @@ if [ "$type" = "package" ]; then
   else
     # Try nix-update as fallback
     echo "No update script found, trying nix-update..."
-    if output=$(nix-update --flake --version=branch "$name" 2>&1); then
+    if output=$(nix-update --flake --version=stable "$name" 2>&1); then
       echo "$output"
     else
       echo "::error::nix-update failed for package $name"
