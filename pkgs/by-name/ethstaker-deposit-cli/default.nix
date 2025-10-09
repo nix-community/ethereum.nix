@@ -7,7 +7,7 @@
 }:
 stdenv.mkDerivation rec {
   pname = "staking-deposit-cli";
-  version = "1.2.2";
+  version = "1.2.2-unstable-2025-10-08";
 
   src = fetchurl {
     url = "https://github.com/ethstaker/ethstaker-deposit-cli/releases/download/v1.2.2/ethstaker_deposit-cli-b13dcb9-linux-amd64.tar.gz";
