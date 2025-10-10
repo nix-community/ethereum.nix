@@ -10,13 +10,13 @@
 }:
 stdenv.mkDerivation rec {
   pname = "mcl";
-  version = "1.81";
+  version = "3.04";
 
   src = fetchFromGitHub {
     owner = "herumi";
     repo = "mcl";
     rev = "v${version}";
-    hash = "sha256-aVuBt5T+tNjrK1QahzaCxuimUDQVtoKfK/v0LTT3hy8=";
+    hash = "sha256-is5P0dhIU1WhAJb7EA085x40Lkw4EA34sgTnCxrcmdE=";
   };
 
   nativeBuildInputs = [cmake] ++ (lib.optionals (system == "aarch64-linux") [clang]);
