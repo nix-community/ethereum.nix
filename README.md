@@ -52,7 +52,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### blst
 
 - **Description**: Multilingual BLS12-381 signature library
-- **Version**: 0.3.11
+- **Version**: 0.3.16
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/supranational/blst
@@ -70,7 +70,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### charon
 
 - **Description**: Charon (pronounced 'kharon') is a Proof of Stake Ethereum Distributed Validator Client
-- **Version**: 1.6.1
+- **Version**: 1.7.0
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/ObolNetwork/charon
@@ -79,7 +79,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### ckzg
 
 - **Description**: A minimal implementation of the Polynomial Commitments API
-- **Version**: 2.1.1
+- **Version**: 2.1.5
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/ethereum/c-kzg-4844
@@ -106,7 +106,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### erigon
 
 - **Description**: Ethereum node implementation focused on scalability and modularity
-- **Version**: 3.1.0
+- **Version**: 3.2.0
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/erigontech/erigon/
@@ -178,7 +178,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### foundry
 
 - **Description**: A portable, modular toolkit for Ethereum application development written in Rust.
-- **Version**: 1.3.0
+- **Version**: 1.4.0
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/foundry-rs/foundry
@@ -187,7 +187,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### geth
 
 - **Description**: Official golang implementation of the Ethereum protocol
-- **Version**: 1.16.3
+- **Version**: 1.16.4
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://geth.ethereum.org/
@@ -214,7 +214,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### mcl
 
 - **Description**: A portable and fast pairing-based cryptography library
-- **Version**: 1.81
+- **Version**: 3.04
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/herumi/mcl
@@ -268,7 +268,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### reth
 
 - **Description**: Modular, contributor-friendly and blazing-fast implementation of the Ethereum protocol, in Rust
-- **Version**: 1.8.1
+- **Version**: 1.8.2
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/paradigmxyz/reth
@@ -295,7 +295,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### rotki-bin
 
 - **Description**: An open source portfolio tracking tool that respects your privacy
-- **Version**: 1.40.0
+- **Version**: 1.40.1
 - **Source**: binary
 - **License**: AGPL-3.0-or-later
 - **Homepage**: https://rotki.com/
@@ -385,7 +385,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### web3signer
 
 - **Description**: Web3Signer is an open-source signing service capable of signing on multiple platforms (Ethereum1 and 2, Filecoin) using private keys stored in an external vault, or encrypted on a disk
-- **Version**: 25.6.0
+- **Version**: 25.9.1
 - **Source**: bytecode
 - **License**: APSL-2.0
 - **Homepage**: https://github.com/ConsenSys/web3signer
