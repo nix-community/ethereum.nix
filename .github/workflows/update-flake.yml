@@ -72,10 +72,6 @@ jobs:
         uses: cachix/install-nix-action@v31
         with:
           github_access_token: ${{ steps.app-token.outputs.token }}
-      - name: Set up git
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
       - name: Perform update
         id: update
         env:
@@ -88,19 +84,46 @@ jobs:
           else
             .github/actions/update.sh "${{ matrix.type }}" "${{ matrix.name }}"
           fi
+      - name: Prepare PR metadata
+        id: pr-metadata
+        if: steps.update.outputs.updated == 'true'
+        run: |
+          if [ "${{ matrix.type }}" = "package" ]; then
+            echo "branch=update/${{ matrix.name }}" >> "$GITHUB_OUTPUT"
+            echo "title=${{ matrix.name }}: ${{ matrix.current_version }} -> ${{ steps.update.outputs.new_version }}" >> "$GITHUB_OUTPUT"
+            echo "body=Automated update of ${{ matrix.name }} from ${{ matrix.current_version }} to ${{ steps.update.outputs.new_version }}." >> "$GITHUB_OUTPUT"
+          else
+            echo "branch=update-${{ matrix.name }}" >> "$GITHUB_OUTPUT"
+            echo "title=flake.lock: Update ${{ matrix.name }}" >> "$GITHUB_OUTPUT"
+            cat <<EOF >> "$GITHUB_OUTPUT"
+          body<<EOFMARKER
+          This PR updates the flake input \`${{ matrix.name }}\` to the latest version.
+
+          ## Changes
+          - ${{ matrix.name }}: \`${{ matrix.current_version }}\` → \`${{ steps.update.outputs.new_version }}\`
+          EOFMARKER
+          EOF
+          fi
       - name: Create pull request
         if: steps.update.outputs.updated == 'true'
+        uses: peter-evans/create-pull-request@v7
+        id: create-pr
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          commit-message: ${{ steps.pr-metadata.outputs.title }}
+          branch: ${{ steps.pr-metadata.outputs.branch }}
+          delete-branch: true
+          title: ${{ steps.pr-metadata.outputs.title }}
+          body: ${{ steps.pr-metadata.outputs.body }}
+          labels: ${{ inputs.pr-labels }}
+          signoff: true
+          sign-commits: true
+      - name: Enable auto-merge
+        if: steps.update.outputs.updated == 'true' && inputs.auto-merge == true && steps.create-pr.outputs.pull-request-number != ''
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
-          PR_LABELS: ${{ inputs.pr-labels }}
-          AUTO_MERGE: ${{ inputs.auto-merge }}
         run: |
-          # The script should be available from the checkout
-          .github/actions/create-pr.sh \
-            "${{ matrix.type }}" \
-            "${{ matrix.name }}" \
-            "${{ matrix.current_version }}" \
-            "${{ steps.update.outputs.new_version }}"
+          gh pr merge ${{ steps.create-pr.outputs.pull-request-number }} --auto --squash || echo "Note: Auto-merge may require branch protection rules"
   summary:
     needs: [discover, update]
     runs-on: ubuntu-latest
