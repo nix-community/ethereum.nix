@@ -964,8 +964,8 @@
   })
   (fetchNuGet {
     pname = "Nethermind.MclBindings";
-    version = "1.0.2";
-    hash = "sha256-dvz0tIa/8cSF0Q0+MIfCY1FJGM6HUpTCnHdyRHFWFcM=";
+    version = "1.0.3-preview.1";
+    hash = "sha256-l+6rO24PGJ3PhtqIN35fFyM+pJmpvnBCFMVMwQFSXLk=";
   })
   (fetchNuGet {
     pname = "Nethermind.Multiformats.Address";
