@@ -34,7 +34,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### besu
 
 - **Description**: Besu is an Apache 2.0 licensed, MainNet compatible, Ethereum client written in Java
-- **Version**: 25.9.0
+- **Version**: 25.10.0
 - **Source**: bytecode
 - **License**: Apache-2.0
 - **Homepage**: https://github.com/hyperledger/besu
@@ -142,7 +142,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### ethdo
 
 - **Description**: A command-line tool for managing common tasks in Ethereum 2
-- **Version**: 1.38.0
+- **Version**: 1.39.0
 - **Source**: unknown
 - **License**: APSL-2.0
 - **Homepage**: https://github.com/wealdtech/ethdo
@@ -178,7 +178,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### foundry
 
 - **Description**: A portable, modular toolkit for Ethereum application development written in Rust.
-- **Version**: 1.4.0
+- **Version**: 1.4.1
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/foundry-rs/foundry
@@ -187,7 +187,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### geth
 
 - **Description**: Official golang implementation of the Ethereum protocol
-- **Version**: 1.16.4
+- **Version**: 1.16.5
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://geth.ethereum.org/
