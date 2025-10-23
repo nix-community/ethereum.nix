@@ -13,16 +13,16 @@
 }:
 rustPlatform.buildRustPackage rec {
   pname = "foundry";
-  version = "1.4.2";
+  version = "1.4.3";
 
   src = fetchFromGitHub {
     owner = "foundry-rs";
     repo = "foundry";
     tag = "v${version}";
-    hash = "sha256-axAZPyPaWm9xaKwF54Uko8120DB2AKZMJR++k2vTVhk=";
+    hash = "sha256-SrkFfc9+cb3nDqEOj3gRkQq9aKOSfk3s7a3EGka5ACw=";
   };
 
-  cargoHash = "sha256-rIQxk0hjRIzNPUQ8M1wzCJ6S11jM9wFurQqDZ8W6IF4=";
+  cargoHash = "sha256-PoPfuMNeK6ArZddBd0lsR2r8UrvRieqkxYZ8jCCxw5o=";
 
   nativeBuildInputs =
     [
