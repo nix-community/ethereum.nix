@@ -51,6 +51,7 @@
       });
       geth = callPackage ./by-name/geth {};
       heimdall = callPackageUnstable ./by-name/heimdall {};
+      kurtosis = callPackage ./by-name/kurtosis {};
       lighthouse = callPackage ./by-name/lighthouse {inherit foundry;};
       mcl = callPackage ./by-name/mcl {};
       mev-boost = callPackage ./by-name/mev-boost {inherit blst;};
@@ -112,6 +113,7 @@
         geth-faucet.bin = "faucet";
         geth-rlpdump.bin = "rlpdump";
       };
+      kurtosis.bin = "kurtosis";
       lighthouse.bin = "lighthouse";
       mev-boost-relay.bin = "mev-boost-relay";
       mev-boost.bin = "mev-boost";
