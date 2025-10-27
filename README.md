@@ -70,7 +70,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### charon
 
 - **Description**: Charon (pronounced 'kharon') is a Proof of Stake Ethereum Distributed Validator Client
-- **Version**: 1.7.0
+- **Version**: 1.7.1
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/ObolNetwork/charon
@@ -106,7 +106,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### erigon
 
 - **Description**: Ethereum node implementation focused on scalability and modularity
-- **Version**: 3.2.0
+- **Version**: 3.2.1
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/erigontech/erigon/
@@ -178,7 +178,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### foundry
 
 - **Description**: A portable, modular toolkit for Ethereum application development written in Rust.
-- **Version**: 1.4.1
+- **Version**: 1.4.3
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/foundry-rs/foundry
@@ -201,6 +201,15 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 - **License**: Check package
 - **Homepage**: https://heimdall.rs
 - **Usage**: `nix run .#heimdall -- --help`
+
+#### kurtosis
+
+- **Description**: CLI for Kurtosis, a framework for building and running distributed systems
+- **Version**: 1.11.2
+- **Source**: unknown
+- **License**: Apache-2.0
+- **Homepage**: https://github.com/kurtosis-tech/kurtosis
+- **Usage**: `nix run .#kurtosis -- --help`
 
 #### lighthouse
 
@@ -241,7 +250,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### nethermind
 
 - **Description**: Our flagship Ethereum client for Linux, Windows, and macOS—full and actively developed
-- **Version**: 1.33.1
+- **Version**: 1.35.0
 - **Source**: unknown
 - **License**: GPL-3.0
 - **Homepage**: https://nethermind.io/nethermind-client
