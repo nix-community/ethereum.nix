@@ -55,7 +55,7 @@ in
     buildInputs = [openssl protobuf sqlite rust-jemalloc-sys];
 
     buildNoDefaultFeatures = true;
-    buildFeatures = ["gnosis" "modern" "slasher-lmdb"];
+    buildFeatures = ["gnosis" "portable" "slasher-lmdb"];
 
     # Needed to get openssl-sys to use pkg-config.
     OPENSSL_NO_VENDOR = 1;
