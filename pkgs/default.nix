@@ -52,7 +52,7 @@
       geth = callPackage ./by-name/geth {};
       heimdall = callPackageUnstable ./by-name/heimdall {};
       kurtosis = callPackage ./by-name/kurtosis {};
-      lighthouse = callPackage ./by-name/lighthouse {inherit foundry;};
+      lighthouse = callPackageUnstable ./by-name/lighthouse {inherit foundry;};
       mcl = callPackage ./by-name/mcl {};
       mev-boost = callPackage ./by-name/mev-boost {inherit blst;};
       mev-boost-relay = callPackage ./by-name/mev-boost-relay {inherit blst;};
