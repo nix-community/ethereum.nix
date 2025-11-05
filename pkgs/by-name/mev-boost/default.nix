@@ -6,15 +6,15 @@
 }:
 buildGoModule rec {
   pname = "mev-boost";
-  version = "1.9.0";
+  version = "1.10.0";
   src = fetchFromGitHub {
     owner = "flashbots";
     repo = "${pname}";
     rev = "v${version}";
-    hash = "sha256-VBvbiB7M6X+bQ5xEwmJo5dptiR7PIBiFDqkg1fyU8ro=";
+    hash = "sha256-YPvSlR03whY0s2p/GX2yHDSPd8+ElU/0aqziJFhlCZw=";
   };
 
-  vendorHash = "sha256-OyRyMsINy4I04E2QvToOEY7UKh2s6NUeJJO0gJI5uS0=";
+  vendorHash = "sha256-FpkQp/PgmZ9+swQYI984j87ODbT0kpanBkHfJK86FWA=";
 
   buildInputs = [blst];
 
