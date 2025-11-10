@@ -34,7 +34,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### besu
 
 - **Description**: Besu is an Apache 2.0 licensed, MainNet compatible, Ethereum client written in Java
-- **Version**: 25.10.0
+- **Version**: 25.11.0
 - **Source**: bytecode
 - **License**: Apache-2.0
 - **Homepage**: https://github.com/hyperledger/besu
@@ -70,7 +70,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### charon
 
 - **Description**: Charon (pronounced 'kharon') is a Proof of Stake Ethereum Distributed Validator Client
-- **Version**: 1.7.0
+- **Version**: 1.7.1
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/ObolNetwork/charon
@@ -106,7 +106,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### erigon
 
 - **Description**: Ethereum node implementation focused on scalability and modularity
-- **Version**: 3.2.0
+- **Version**: 3.2.2-gno
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/erigontech/erigon/
@@ -178,7 +178,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### foundry
 
 - **Description**: A portable, modular toolkit for Ethereum application development written in Rust.
-- **Version**: 1.4.1
+- **Version**: 1.4.4
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/foundry-rs/foundry
@@ -187,7 +187,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### geth
 
 - **Description**: Official golang implementation of the Ethereum protocol
-- **Version**: 1.16.5
+- **Version**: 1.16.7
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://geth.ethereum.org/
@@ -201,6 +201,15 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 - **License**: Check package
 - **Homepage**: https://heimdall.rs
 - **Usage**: `nix run .#heimdall -- --help`
+
+#### kurtosis
+
+- **Description**: CLI for Kurtosis, a framework for building and running distributed systems
+- **Version**: 1.11.2
+- **Source**: unknown
+- **License**: Apache-2.0
+- **Homepage**: https://github.com/kurtosis-tech/kurtosis
+- **Usage**: `nix run .#kurtosis -- --help`
 
 #### lighthouse
 
@@ -223,7 +232,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### mev-boost
 
 - **Description**: MEV-Boost allows proof-of-stake Ethereum consensus clients to source blocks from a competitive builder marketplace
-- **Version**: 1.9.0
+- **Version**: 1.10.0
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/flashbots/mev-boost
@@ -241,7 +250,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### nethermind
 
 - **Description**: Our flagship Ethereum client for Linux, Windows, and macOS—full and actively developed
-- **Version**: 1.33.1
+- **Version**: 1.35.0
 - **Source**: unknown
 - **License**: GPL-3.0
 - **Homepage**: https://nethermind.io/nethermind-client
@@ -250,7 +259,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### nimbus
 
 - **Description**: Nimbus is a lightweight client for the Ethereum consensus layer
-- **Version**: 25.9.0-unknown
+- **Version**: 25.11.0-00000000
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://nimbus.guide/
@@ -268,7 +277,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### reth
 
 - **Description**: Modular, contributor-friendly and blazing-fast implementation of the Ethereum protocol, in Rust
-- **Version**: 1.8.2
+- **Version**: 1.9.1
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/paradigmxyz/reth
@@ -277,7 +286,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### rocketpool
 
 - **Description**: Rocket Pool CLI
-- **Version**: 1.17.2
+- **Version**: 1.18.2
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/rocket-pool/smartnode
@@ -286,7 +295,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### rocketpoold
 
 - **Description**: Rocket Pool Daemon
-- **Version**: 1.17.2
+- **Version**: 1.18.2
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/rocket-pool/smartnode
@@ -295,7 +304,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### rotki-bin
 
 - **Description**: An open source portfolio tracking tool that respects your privacy
-- **Version**: 1.40.1
+- **Version**: 1.41.0
 - **Source**: binary
 - **License**: AGPL-3.0-or-later
 - **Homepage**: https://rotki.com/
