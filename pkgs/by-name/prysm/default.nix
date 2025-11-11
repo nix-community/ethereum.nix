@@ -2,23 +2,23 @@
   bls,
   blst,
   ckzg,
-  buildGo124Module,
+  buildGoModule,
   fetchFromGitHub,
   libelf,
   nix-update-script,
 }:
-buildGo124Module rec {
+buildGoModule rec {
   pname = "prysm";
-  version = "6.0.4";
+  version = "7.0.0";
 
   src = fetchFromGitHub {
     owner = "prysmaticlabs";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-Z11ty5XwLG7G4t1/yJTdZMGpM6xJsYPxfa0xZ2mk+I0=";
+    hash = "sha256-Rre7eFhGTt5QnkyOhfctqoblQRlaQl+ZpUlaHBEo+E0=";
   };
 
-  vendorHash = "sha256-WiS4hTFZeJ3gZDumYndkZ8H7B8JP3qzuJQmVqNsIuoo=";
+  vendorHash = "sha256-qD65NoPCj8YH0vl4szu3sDDn0y4w3cmcQZFzhHZpqMM=";
 
   buildInputs = [bls blst ckzg libelf];
 
