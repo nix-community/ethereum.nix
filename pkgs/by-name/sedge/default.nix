@@ -7,7 +7,7 @@
   nix-update-script,
 }: let
   pname = "sedge";
-  version = "1.9.1";
+  version = "1.10.0";
 in
   buildGoModule {
     inherit pname version;
@@ -16,7 +16,7 @@ in
       owner = "NethermindEth";
       repo = pname;
       rev = "v${version}";
-      hash = "sha256-gjdRa0cjeRimMg2EpI81DagbauTq2eotlpoVx7nqVns=";
+      hash = "sha256-lZnjWaMyWGfgyqG9+81evzvaGm2DwxlyzUOGl87yesQ=";
     };
     vendorHash = "sha256-UWwhs63U68vuX8iyCE0vwZ0zLa+vukgycaU3Gz+myZI=";
     proxyVendor = true;
