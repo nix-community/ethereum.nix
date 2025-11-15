@@ -7,11 +7,11 @@
 }:
 appimageTools.wrapType2 rec {
   pname = "rotki-bin";
-  version = "1.41.0";
+  version = "1.41.1";
 
   src = fetchurl {
     url = "https://github.com/rotki/rotki/releases/download/v${version}/rotki-linux_x86_64-v${version}.AppImage";
-    sha256 = "sha256-73LrKYivkgZ7tTXYcTbgD7j6wXw8WpdsM/kvIDGLPss=";
+    sha256 = "sha256-pOiEG3hdzixxgsiIkk11MuxMWz8KaM4Bsm/jWdjJ6PQ=";
   };
 
   nativeBuildInputs = [makeWrapper];
