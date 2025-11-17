@@ -214,7 +214,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### lighthouse
 
 - **Description**: Ethereum consensus client in Rust
-- **Version**: 7.1.0
+- **Version**: 8.0.0
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/sigp/lighthouse
@@ -232,7 +232,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### mev-boost
 
 - **Description**: MEV-Boost allows proof-of-stake Ethereum consensus clients to source blocks from a competitive builder marketplace
-- **Version**: 1.10.0
+- **Version**: 1.10.1
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/flashbots/mev-boost
@@ -241,7 +241,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### mev-boost-relay
 
 - **Description**: MEV-Boost Relay for Ethereum proposer/builder separation (PBS)
-- **Version**: 0.31.2
+- **Version**: 0.32.0
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/flashbots/mev-boost-relay
@@ -250,7 +250,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### nethermind
 
 - **Description**: Our flagship Ethereum client for Linux, Windows, and macOS—full and actively developed
-- **Version**: 1.35.0
+- **Version**: 1.35.2
 - **Source**: unknown
 - **License**: GPL-3.0
 - **Homepage**: https://nethermind.io/nethermind-client
@@ -268,7 +268,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### prysm
 
 - **Description**: Go implementation of Ethereum proof of stake
-- **Version**: 6.0.4
+- **Version**: 7.0.0
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/prysmaticlabs/prysm
@@ -277,7 +277,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### reth
 
 - **Description**: Modular, contributor-friendly and blazing-fast implementation of the Ethereum protocol, in Rust
-- **Version**: 1.9.1
+- **Version**: 1.9.2
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/paradigmxyz/reth
@@ -286,7 +286,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### rocketpool
 
 - **Description**: Rocket Pool CLI
-- **Version**: 1.18.2
+- **Version**: 1.18.3
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/rocket-pool/smartnode
@@ -295,7 +295,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### rocketpoold
 
 - **Description**: Rocket Pool Daemon
-- **Version**: 1.18.2
+- **Version**: 1.18.3
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/rocket-pool/smartnode
@@ -304,7 +304,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### rotki-bin
 
 - **Description**: An open source portfolio tracking tool that respects your privacy
-- **Version**: 1.41.0
+- **Version**: 1.41.1
 - **Source**: binary
 - **License**: AGPL-3.0-or-later
 - **Homepage**: https://rotki.com/
@@ -313,7 +313,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### sedge
 
 - **Description**: A one-click setup tool for PoS network/chain validators and nodes.
-- **Version**: 1.9.1
+- **Version**: 1.10.0
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://docs.sedge.nethermind.io/
@@ -367,7 +367,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### teku
 
 - **Description**: Java Implementation of the Ethereum 2.0 Beacon Chain
-- **Version**: 25.9.3
+- **Version**: 25.11.0
 - **Source**: bytecode
 - **License**: Apache-2.0
 - **Homepage**: https://github.com/ConsenSys/teku
@@ -385,7 +385,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### vouch
 
 - **Description**: An Ethereum 2 multi-node validator client
-- **Version**: 1.11.1
+- **Version**: 1.12.0
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/attestantio/vouch
@@ -394,7 +394,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### web3signer
 
 - **Description**: Web3Signer is an open-source signing service capable of signing on multiple platforms (Ethereum1 and 2, Filecoin) using private keys stored in an external vault, or encrypted on a disk
-- **Version**: 25.9.1
+- **Version**: 25.11.0
 - **Source**: bytecode
 - **License**: APSL-2.0
 - **Homepage**: https://github.com/ConsenSys/web3signer
