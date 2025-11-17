@@ -24,6 +24,12 @@
         type = types.nullOr types.str;
         description = "Service user";
       };
+
+      network = mkOption {
+        type = types.enum ["mainnet" "prater" "sepolia" "holesky" "gnosis" "chiado" "hoodi"];
+        default = "mainnet";
+        description = "The Eth2 network to join";
+      };
     };
   };
 in {

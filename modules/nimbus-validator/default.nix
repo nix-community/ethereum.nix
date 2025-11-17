@@ -29,7 +29,13 @@ in {
         nimbusValidatorName: let
           serviceName = "nimbus-validator-${nimbusValidatorName}";
         in
-          cfg:
+          cfg: let
+            bin = let
+              bins.gnosis = "nimbus_validator_client_gnosis";
+              bins.chiado = "nimbus_validator_client_gnosis";
+            in
+              bins.${cfg.network} or "nimbus_validator_client";
+          in
             nameValuePair serviceName (mkIf cfg.enable {
               after = ["network.target"];
               wantedBy = ["multi-user.target"];
@@ -44,7 +50,7 @@ in {
                     then cfg.user
                     else serviceName;
                   StateDirectory = serviceName;
-                  ExecStart = "${cfg.package}/bin/nimbus_validator_client ${lib.escapeShellArgs cfg.extraArgs}";
+                  ExecStart = "${cfg.package}/bin/${bin} ${lib.escapeShellArgs cfg.extraArgs}";
                   MemoryDenyWriteExecute = "false";
                 }
               ];
