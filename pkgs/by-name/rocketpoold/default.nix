@@ -7,7 +7,7 @@
 }:
 buildGoModule rec {
   pname = "rocketpool";
-  version = "1.18.5";
+  version = "1.18.6-devnet5";
 
   src = fetchFromGitHub {
     owner = "rocket-pool";
