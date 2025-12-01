@@ -106,7 +106,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### erigon
 
 - **Description**: Ethereum node implementation focused on scalability and modularity
-- **Version**: 3.2.2-gno
+- **Version**: 3.2.2
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/erigontech/erigon/
@@ -178,7 +178,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### foundry
 
 - **Description**: A portable, modular toolkit for Ethereum application development written in Rust.
-- **Version**: 1.4.4
+- **Version**: 1.5.0
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/foundry-rs/foundry
@@ -196,7 +196,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### heimdall
 
 - **Description**: A toolkit for EVM bytecode analysis
-- **Version**: 0.9.1
+- **Version**: 0.9.2
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://heimdall.rs
@@ -214,7 +214,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### lighthouse
 
 - **Description**: Ethereum consensus client in Rust
-- **Version**: 8.0.0
+- **Version**: 8.0.1
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/sigp/lighthouse
@@ -277,7 +277,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### reth
 
 - **Description**: Modular, contributor-friendly and blazing-fast implementation of the Ethereum protocol, in Rust
-- **Version**: 1.9.2
+- **Version**: 1.9.3
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/paradigmxyz/reth
@@ -295,7 +295,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### rocketpoold
 
 - **Description**: Rocket Pool Daemon
-- **Version**: 1.18.3
+- **Version**: 1.18.5
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/rocket-pool/smartnode
@@ -349,7 +349,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### ssvnode
 
 - **Description**: Secret-Shared-Validator(SSV) for ethereum staking
-- **Version**: 2.3.6
+- **Version**: 2.3.7
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/ssvlabs/ssv
