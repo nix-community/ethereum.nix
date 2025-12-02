@@ -6,17 +6,17 @@
 }:
 buildGoModule rec {
   pname = "ethereal";
-  version = "2.11.5";
+  version = "2.12.0";
 
   src = fetchFromGitHub {
     owner = "wealdtech";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-P9JIclquejwZ14NbHalfaBvLu0oHKaXt3mmlMbnr5G8=";
+    hash = "sha256-XPXID0Q0fx/3yJ5LaUBj/xqhMsoOxCNwZOX9vNT7S+k=";
   };
 
   proxyVendor = true;
-  vendorHash = "sha256-TnWN5FW1xEkHIJ/nhhc1mHAk14O65Wi43zD2FZctBBQ=";
+  vendorHash = "sha256-RLcnMVx64Xz+irOo5KPjgjv6XXttVPuzAr+jJkr5ev0=";
 
   doCheck = false;
 
