@@ -23,7 +23,7 @@ For the uninitiated, using Ethereum.nix will give you the following benefits:
 - We aim that every Ethereum application stored in the repository is constructed from its source, including all input dependencies. This approach guarantees the code's reproducibility and trustworthiness. Furthermore, with Nix, expert users can tweak and adjust the build process to any degree of detail as required.
 - We develop custom NixOS modules to streamline operations with applications such as Execution and Consensus clients (including performing backups). Moreover, we aim to introduce further abstractions that simplify everyday tasks, such as running a development environment effortlessly without needing docker.
 
-This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/Flakes) (but it offers compatibility with legacy Nix thanks to [`flake-compat`](https://github.com/nix-community/flake-compat)).
+This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/Flakes).
 
 ## Available Tools
 
