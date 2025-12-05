@@ -15,7 +15,7 @@
     mkMerge
     nameValuePair
     ;
-  inherit (builtins) concatStringsSep attrNames map;
+  inherit (builtins) concatStringsSep map;
 
   modulesLib = import ../lib.nix lib;
   inherit (modulesLib) findEnabled;
