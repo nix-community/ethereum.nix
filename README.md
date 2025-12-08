@@ -151,7 +151,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### ethereal
 
 - **Description**: A command-line tool for managing common tasks in Ethereum
-- **Version**: 2.11.5
+- **Version**: 2.12.0
 - **Source**: unknown
 - **License**: APSL-2.0
 - **Homepage**: https://github.com/wealdtech/ethereal/
@@ -259,7 +259,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### nimbus
 
 - **Description**: Nimbus is a lightweight client for the Ethereum consensus layer
-- **Version**: 25.11.0-00000000
+- **Version**: 25.11.1-00000000
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://nimbus.guide/
@@ -286,7 +286,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### rocketpool
 
 - **Description**: Rocket Pool CLI
-- **Version**: 1.18.3
+- **Version**: 1.18.6
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/rocket-pool/smartnode
@@ -295,7 +295,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### rocketpoold
 
 - **Description**: Rocket Pool Daemon
-- **Version**: 1.18.5
+- **Version**: 1.18.6
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/rocket-pool/smartnode
@@ -349,7 +349,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### ssvnode
 
 - **Description**: Secret-Shared-Validator(SSV) for ethereum staking
-- **Version**: 2.3.7
+- **Version**: 2.3.8
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/ssvlabs/ssv
