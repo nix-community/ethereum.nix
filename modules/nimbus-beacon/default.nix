@@ -187,6 +187,7 @@ in {
                     then cfg.args.user
                     else user;
                   StateDirectory = user;
+                  TimeoutStartSec = "5min"; # Checkpoint download may take longer than the usual 90s default
                   ExecStartPre = lib.mkBefore [
                     ''                      ${pkgs.coreutils-full}/bin/cp --no-preserve=all --update=none \
                       /proc/sys/kernel/random/uuid ${data-dir}/${cfg.args.keymanager.token-file}''
