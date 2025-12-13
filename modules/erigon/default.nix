@@ -5,7 +5,8 @@
   pkgs,
   ...
 }: let
-  inherit (lib.lists) optionals;
+  inherit (lib.lists) optionals findFirst;
+  inherit (lib.strings) hasPrefix;
   inherit
     (lib)
     concatStringsSep
@@ -82,13 +83,23 @@ in {
                   inherit pathReducer opts;
                   inherit (cfg) args;
                 };
+
+              specialArgs = ["--authrpc.jwtsecret"];
+              isNormalArg = name: (findFirst (arg: hasPrefix arg name) null specialArgs) == null;
+              filteredArgs = builtins.filter isNormalArg args;
+
               datadir =
                 if cfg.args.datadir != null
                 then "--datadir ${cfg.args.datadir}"
                 else "--datadir %S/${serviceName}";
+              jwtsecret =
+                if cfg.args.authrpc.jwtsecret != null
+                then "--authrpc.jwtsecret=%d/jwtsecret"
+                else "";
             in ''
               ${datadir} \
-              ${concatStringsSep " \\\n" args} \
+              ${jwtsecret} \
+              ${concatStringsSep " \\\n" filteredArgs} \
               ${lib.escapeShellArgs cfg.extraArgs}
             '';
           in
@@ -111,6 +122,9 @@ in {
                   # Erigon needs this system call for some reason
                   SystemCallFilter = ["@system-service" "~@privileged" "mincore"];
                 }
+                (mkIf (cfg.args.authrpc.jwtsecret != null) {
+                  LoadCredential = ["jwtsecret:${cfg.args.authrpc.jwtsecret}"];
+                })
               ];
             })
       )
