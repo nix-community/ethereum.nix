@@ -7,6 +7,7 @@
   flake.nixosModules.default = {
     imports = [
       ./backup
+      ./besu
       ./erigon
       ./geth
       ./geth-bootnode
