@@ -52,6 +52,10 @@ in {
                   StateDirectory = serviceName;
                   ExecStart = "${cfg.package}/bin/${bin} ${lib.escapeShellArgs cfg.extraArgs}";
                   MemoryDenyWriteExecute = "false";
+
+                  # Used by doppelganger detection to signal we should NOT restart.
+                  # https://nimbus.guide/doppelganger-detection.html
+                  RestartPreventExitStatus = 129;
                 }
               ];
             })

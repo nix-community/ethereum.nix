@@ -194,6 +194,10 @@ in {
                     "${cfg.package}/bin/${bin} trustedNodeSync ${checkpointSyncArgs}"
                   ];
                   ExecStart = "${cfg.package}/bin/${bin} ${scriptArgs}";
+
+                  # Used by doppelganger detection to signal we should NOT restart.
+                  # https://nimbus.guide/doppelganger-detection.html
+                  RestartPreventExitStatus = 129;
                 }
                 baseServiceConfig
                 (mkIf (cfg.args.jwt-secret != null) {
