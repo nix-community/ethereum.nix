@@ -8,6 +8,7 @@
   runCommand,
   stdenv,
   testers,
+  gawk,
 }:
 stdenv.mkDerivation (finalAttrs: rec {
   pname = "besu";
@@ -20,7 +21,6 @@ stdenv.mkDerivation (finalAttrs: rec {
 
   buildInputs = lib.optionals stdenv.isLinux [jemalloc];
   nativeBuildInputs = [makeWrapper];
-
   installPhase = ''
     mkdir -p $out/bin
     cp -r bin $out/
@@ -30,7 +30,11 @@ stdenv.mkDerivation (finalAttrs: rec {
       if stdenv.isDarwin
       then "DYLD_LIBRARY_PATH"
       else "LD_LIBRARY_PATH"
-    } : ${lib.makeLibraryPath buildInputs}
+    } : ${lib.makeLibraryPath buildInputs} ${
+      if stdenv.isLinux
+      then (" --prefix PATH : " + lib.makeBinPath [gawk])
+      else ""
+    }
   '';
 
   passthru.tests = {
