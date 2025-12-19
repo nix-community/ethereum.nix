@@ -33,7 +33,7 @@
       erigon = callPackage ./by-name/erigon {};
       eth2-testnet-genesis = callPackage ./by-name/eth2-testnet-genesis {inherit bls;};
       eth2-val-tools = callPackage ./by-name/eth2-val-tools {inherit bls mcl;};
-      eth-validator-watcher = callPackage ./by-name/eth-validator-watcher {};
+      eth-validator-watcher = callPackage ./by-name/eth-validator-watcher {inherit pydantic-yaml;};
       ethdo = callPackage ./by-name/ethdo {inherit bls mcl;};
       ethereal = callPackage ./by-name/ethereal {};
       ethstaker-deposit-cli = callPackage ./by-name/ethstaker-deposit-cli {};
@@ -81,6 +81,9 @@
       vouch = callPackage ./by-name/vouch {inherit bls mcl;};
       web3signer = callPackage ./by-name/web3signer {};
       zcli = callPackage ./by-name/zcli {};
+
+      # NOTE: required until https://github.com/NixOS/nixpkgs/pull/468105 is merged
+      pydantic-yaml = pkgs.python3Packages.callPackage ./by-name/pydantic-yaml {};
     };
 
     apps = platformApps self'.packages {

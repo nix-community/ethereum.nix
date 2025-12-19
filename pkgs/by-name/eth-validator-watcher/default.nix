@@ -3,6 +3,7 @@
   lib,
   nix-update-script,
   python3,
+  pydantic-yaml,
 }:
 python3.pkgs.buildPythonPackage rec {
   pname = "eth-validator-watcher";
