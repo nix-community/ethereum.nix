@@ -106,7 +106,7 @@ jobs:
           fi
       - name: Create pull request
         if: steps.update.outputs.updated == 'true'
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         id: create-pr
         with:
           token: ${{ steps.app-token.outputs.token }}
