@@ -21,6 +21,7 @@
       ./restore
       ./reth
       ./nimbus-validator
+      ./teku-beacon
     ];
   };
 }
