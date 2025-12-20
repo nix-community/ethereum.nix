@@ -337,6 +337,16 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 - **Homepage**: https://github.com/iden3/snarkjs
 - **Usage**: `nix run .#snarkjs -- --help`
 
+#### solidity-language-server
+
+- **Description**: Solidity language server by Nomic Foundation
+- **Version**: 0.8.25
+- **Source**: unknown
+- **License**: MIT
+- **Homepage**: https://github.com/NomicFoundation/hardhat-vscode
+- **Usage**: `nix run .#solidity-language-server -- --stdio` (or integrate with your
+  editor's LSP client)
+
 #### ssv-dkg
 
 - **Description**: The ssv-dkg tool enable operators to participate in ceremonies to generate distributed validator keys for Ethereum stakers.
