@@ -7,17 +7,17 @@
 }:
 buildGoModule rec {
   pname = "dirk";
-  version = "1.2.0";
+  version = "1.2.1";
 
   src = fetchFromGitHub {
     owner = "attestantio";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-IWaAEO2eaqBGkj3TxA9xPDLz5PCYJuUUawCbZ7ZEi8w=";
+    hash = "sha256-uYS1yaXsooUsx84EPAV1+pT6d9yK3y9SqpsGQwtKmR8=";
   };
 
   runVend = true;
-  vendorHash = "sha256-icvKE6I2NrzwykQ13kS4Lo75k9pZ8yUyQLsT/j8KjoY=";
+  vendorHash = "sha256-SlYg3QFHXh6jlZFGIFLivydGVZHocF/CZHbSg4Q/4r0=";
 
   buildInputs = [mcl bls];
 
