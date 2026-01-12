@@ -34,7 +34,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### besu
 
 - **Description**: Besu is an Apache 2.0 licensed, MainNet compatible, Ethereum client written in Java
-- **Version**: 25.11.0
+- **Version**: 25.12.0
 - **Source**: bytecode
 - **License**: Apache-2.0
 - **Homepage**: https://github.com/hyperledger/besu
@@ -70,7 +70,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### charon
 
 - **Description**: Charon (pronounced 'kharon') is a Proof of Stake Ethereum Distributed Validator Client
-- **Version**: 1.7.1
+- **Version**: 1.8.0
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/ObolNetwork/charon
@@ -88,7 +88,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### dirk
 
 - **Description**: An Ethereum 2 distributed remote keymanager, focused on security and long-term performance of signing operations
-- **Version**: 1.2.0
+- **Version**: 1.2.1
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/attestantio/dirk
@@ -106,7 +106,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### erigon
 
 - **Description**: Ethereum node implementation focused on scalability and modularity
-- **Version**: 3.2.2
+- **Version**: 3.3.2
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/erigontech/erigon/
@@ -178,7 +178,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### foundry
 
 - **Description**: A portable, modular toolkit for Ethereum application development written in Rust.
-- **Version**: 1.5.0
+- **Version**: 1.5.1
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/foundry-rs/foundry
@@ -250,7 +250,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### nethermind
 
 - **Description**: Our flagship Ethereum client for Linux, Windows, and macOS—full and actively developed
-- **Version**: 1.35.2
+- **Version**: 1.35.7
 - **Source**: unknown
 - **License**: GPL-3.0
 - **Homepage**: https://nethermind.io/nethermind-client
@@ -268,11 +268,20 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### prysm
 
 - **Description**: Go implementation of Ethereum proof of stake
-- **Version**: 7.0.0
+- **Version**: 7.1.1
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/prysmaticlabs/prysm
 - **Usage**: `nix run .#prysm -- --help`
+
+#### pydantic-yaml
+
+- **Description**: Small helper library that adds some YAML capabilities to pydantic
+- **Version**: 1.6.0
+- **Source**: unknown
+- **License**: MIT
+- **Homepage**: https://github.com/NowanIlfideme/pydantic-yaml
+- **Usage**: `nix run .#pydantic-yaml -- --help`
 
 #### reth
 
@@ -286,7 +295,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### rocketpool
 
 - **Description**: Rocket Pool CLI
-- **Version**: 1.18.6
+- **Version**: 1.18.7
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/rocket-pool/smartnode
@@ -295,7 +304,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### rocketpoold
 
 - **Description**: Rocket Pool Daemon
-- **Version**: 1.18.6
+- **Version**: 1.18.7
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/rocket-pool/smartnode
@@ -304,7 +313,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### rotki-bin
 
 - **Description**: An open source portfolio tracking tool that respects your privacy
-- **Version**: 1.41.1
+- **Version**: 1.41.3
 - **Source**: binary
 - **License**: AGPL-3.0-or-later
 - **Homepage**: https://rotki.com/
@@ -349,7 +358,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### ssvnode
 
 - **Description**: Secret-Shared-Validator(SSV) for ethereum staking
-- **Version**: 2.3.8
+- **Version**: 2.3.9
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/ssvlabs/ssv
@@ -367,7 +376,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### teku
 
 - **Description**: Java Implementation of the Ethereum 2.0 Beacon Chain
-- **Version**: 25.11.0
+- **Version**: 25.11.1
 - **Source**: bytecode
 - **License**: Apache-2.0
 - **Homepage**: https://github.com/ConsenSys/teku
@@ -394,7 +403,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### web3signer
 
 - **Description**: Web3Signer is an open-source signing service capable of signing on multiple platforms (Ethereum1 and 2, Filecoin) using private keys stored in an external vault, or encrypted on a disk
-- **Version**: 25.11.0
+- **Version**: 25.12.0
 - **Source**: bytecode
 - **License**: APSL-2.0
 - **Homepage**: https://github.com/ConsenSys/web3signer
