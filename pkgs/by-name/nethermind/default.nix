@@ -13,13 +13,13 @@
 }: let
   self = buildDotnetModule rec {
     pname = "nethermind";
-    version = "1.35.7";
+    version = "1.36.0";
 
     src = fetchFromGitHub {
       owner = "NethermindEth";
       repo = pname;
       rev = version;
-      hash = "sha256-pIg+a+XuiwtdxOMyn9pyd+IBlateLWEIOTjl+qVO6hI=";
+      hash = "sha256-BhWhmJPDG/C4i8UL1E2j1doHxDlF5JAoWhKlgJbrwPw=";
       fetchSubmodules = true;
     };
 
@@ -38,14 +38,14 @@
     projectFile = [
       "src/Nethermind/Nethermind.Runner/Nethermind.Runner.csproj"
     ];
-    nugetDeps = ./nuget-deps.nix;
+    nugetDeps = ./nuget-deps.json;
 
     executables = [
       "nethermind"
     ];
 
-    dotnet-sdk = dotnetCorePackages.sdk_9_0;
-    dotnet-runtime = dotnetCorePackages.aspnetcore_9_0;
+    dotnet-sdk = dotnetCorePackages.sdk_10_0;
+    dotnet-runtime = dotnetCorePackages.aspnetcore_10_0;
 
     passthru = {
       passthru.updateScript = nix-update-script {};
