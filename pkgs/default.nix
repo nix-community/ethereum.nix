@@ -66,6 +66,7 @@
         mcl = callPackage ./by-name/mcl {};
       };
       slither = callPackage ./by-name/slither {};
+      solidity-language-server = callPackage ./by-name/solidity-language-server {};
       snarkjs = callPackage ./by-name/snarkjs {};
       ssv-dkg = callPackage ./by-name/ssv-dkg {
         bls = callPackage ./by-name/bls {};
