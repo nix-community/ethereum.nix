@@ -8,61 +8,51 @@
   rocksdb,
   snappy,
   stdenv,
-  writeShellScriptBin,
   zstd,
-}: let
-  self = buildDotnetModule rec {
-    pname = "nethermind";
-    version = "1.36.0";
+}:
+buildDotnetModule rec {
+  pname = "nethermind";
+  version = "1.36.0";
 
-    src = fetchFromGitHub {
-      owner = "NethermindEth";
-      repo = pname;
-      rev = version;
-      hash = "sha256-BhWhmJPDG/C4i8UL1E2j1doHxDlF5JAoWhKlgJbrwPw=";
-      fetchSubmodules = true;
-    };
-
-    buildInputs = [
-      lz4
-      snappy
-      stdenv.cc.cc.lib
-      zstd
-    ];
-
-    runtimeDeps = [
-      rocksdb
-      snappy
-    ];
-
-    projectFile = [
-      "src/Nethermind/Nethermind.Runner/Nethermind.Runner.csproj"
-    ];
-    nugetDeps = ./nuget-deps.json;
-
-    executables = [
-      "nethermind"
-    ];
-
-    dotnet-sdk = dotnetCorePackages.sdk_10_0;
-    dotnet-runtime = dotnetCorePackages.aspnetcore_10_0;
-
-    passthru = {
-      passthru.updateScript = nix-update-script {};
-
-      # buildDotnetModule's `fetch-deps` uses `writeShellScript` instead of writeShellScriptBin making nix run .#nethermind.fetch-deps command to fail
-      # This alias solves that issue. On parent folder, we only need to run this command to produce a new nuget-deps.nix file with updated deps:
-      # $ nix run .#nethermind.fetch-nethermind-deps $PRJ_ROOT/pkgs/nethermind/nuget-deps.nix
-      fetch-deps = writeShellScriptBin "fetch-nethermind-deps" ''${self.fetch-deps} $@'';
-    };
-
-    meta = {
-      description = "Our flagship Ethereum client for Linux, Windows, and macOS—full and actively developed";
-      homepage = "https://nethermind.io/nethermind-client";
-      license = lib.licenses.gpl3;
-      mainProgram = "Nethermind.Runner";
-      platforms = ["x86_64-linux"];
-    };
+  src = fetchFromGitHub {
+    owner = "NethermindEth";
+    repo = pname;
+    rev = version;
+    hash = "sha256-BhWhmJPDG/C4i8UL1E2j1doHxDlF5JAoWhKlgJbrwPw=";
+    fetchSubmodules = true;
   };
-in
-  self
+
+  buildInputs = [
+    lz4
+    snappy
+    stdenv.cc.cc.lib
+    zstd
+  ];
+
+  runtimeDeps = [
+    rocksdb
+    snappy
+  ];
+
+  projectFile = [
+    "src/Nethermind/Nethermind.Runner/Nethermind.Runner.csproj"
+  ];
+  nugetDeps = ./nuget-deps.json;
+
+  executables = [
+    "nethermind"
+  ];
+
+  dotnet-sdk = dotnetCorePackages.sdk_10_0;
+  dotnet-runtime = dotnetCorePackages.aspnetcore_10_0;
+
+  passthru.updateScript = nix-update-script {};
+
+  meta = {
+    description = "Our flagship Ethereum client for Linux, Windows, and macOS—full and actively developed";
+    homepage = "https://nethermind.io/nethermind-client";
+    license = lib.licenses.gpl3;
+    mainProgram = "Nethermind.Runner";
+    platforms = ["x86_64-linux"];
+  };
+}
