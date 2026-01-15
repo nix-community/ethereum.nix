@@ -7,16 +7,16 @@
 }:
 buildNpmPackage rec {
   pname = "snarkjs";
-  version = "0.7.5";
+  version = "0.7.6";
 
   src = fetchFromGitHub {
     owner = "iden3";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-NVi5DCRbf4/nLt8vcKA/X0E7HMgfzJGcgqNJ+5+6wIk=";
+    hash = "sha256-9+sph+mca5ToC8l4l3hDdT0jLLeY7fuQi5lbH/BUHOQ=";
   };
 
-  npmDepsHash = "sha256-WYs4qxaV2/UoiAlfRKxeN4KEbzrVXP1QLYcoS+kjp4w=";
+  npmDepsHash = "sha256-UfaB+aExi0kSjqiCFErvwTlK9hdq7kxtDUIzNxPx2Uc=";
 
   passthru.updateScript = nix-update-script {};
 
