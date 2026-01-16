@@ -11,17 +11,17 @@
       ./erigon
       ./geth
       ./geth-bootnode
-      ./lighthouse-beacon
+      ./lighthouse
       ./lighthouse-validator
       ./mev-boost
       ./nethermind
-      ./nimbus-beacon
+      ./nimbus
       ./prysm
       ./prysm-validator
       ./restore
       ./reth
       ./nimbus-validator
-      ./teku-beacon
+      ./teku
     ];
   };
 }

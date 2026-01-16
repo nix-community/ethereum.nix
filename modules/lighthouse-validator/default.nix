@@ -93,8 +93,8 @@ in {
                 if (cfg.args.beacon-nodes != null) && (length cfg.args.beacon-nodes != 0)
                 then "--beacon-nodes ${concatStringsSep "," cfg.args.beacon-nodes}"
                 else let
-                  beaconCfg = config.services.ethereum.lighthouse-beacon.${name};
-                  beaconUrl = "http://${beaconCfg.args.http.address}:${toString beaconCfg.args.http.port}";
+                  beaconCfg = config.services.ethereum.lighthouse.${name};
+                  beaconUrl = "http://${beaconCfg.settings.http-address or "127.0.0.1"}:${toString (beaconCfg.settings.http-port or 5052)}";
                 in "--beacon-nodes ${beaconUrl}";
             in ''
               ${datadir} \
@@ -128,10 +128,10 @@ in {
       (
         name: cfg: {
           assertion =
-            !cfg.enable || (cfg.args.beacon-nodes != null) || (hasAttr name config.services.ethereum.lighthouse-beacon);
+            !cfg.enable || (cfg.args.beacon-nodes != null) || (hasAttr name config.services.ethereum.lighthouse);
           message = ''
             Lighthouse Validator ${name} could not find a matching beacon.
-            Either set `services.ethereum.lighthouse-beacon.${name}` or `services.ethereum.lighthouse-validator.${name}.args.beacon-nodes`
+            Either set `services.ethereum.lighthouse.${name}` or `services.ethereum.lighthouse-validator.${name}.args.beacon-nodes`
           '';
         }
       )

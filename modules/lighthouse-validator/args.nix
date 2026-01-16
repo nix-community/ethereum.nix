@@ -74,7 +74,7 @@ with lib; {
       When null, looks up the http address+port from the lighthouse
       beacon node service with the same name.
       (eg `services.ethereum.lighthouse-validator.holesky` will look
-      at the config of `services.ethereum.lighthouse-beacon.holesky`)
+      at the config of `services.ethereum.lighthouse.holesky`)
     '';
   };
 
