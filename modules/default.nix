@@ -16,7 +16,7 @@
       ./mev-boost
       ./nethermind
       ./nimbus-beacon
-      ./prysm-beacon
+      ./prysm
       ./prysm-validator
       ./restore
       ./reth

@@ -44,7 +44,7 @@ in {
       (
         validatorName: let
           serviceName = "prysm-validator-${validatorName}";
-          beaconServiceName = "prysm-beacon-${validatorName}";
+          beaconServiceName = "prysm-${validatorName}";
         in
           cfg: let
             scriptArgs = let

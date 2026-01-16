@@ -80,7 +80,7 @@
                 | ${pkgs.jq}/bin/jq -f ${executionClientJq} > $METADATA_JSON
             ;;
 
-        prysm-beacon-*)
+        prysm-*)
             ${pkgs.curl}/bin/curl -s http://$GRPC_GATEWAY_HOST:$GRPC_GATEWAY_PORT/eth/v1/node/syncing \
                 | ${pkgs.jq}/bin/jq '.data + { "height": (.data.head_slot | tonumber) }' > $METADATA_JSON
             ;;
