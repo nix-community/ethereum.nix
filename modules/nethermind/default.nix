@@ -4,146 +4,90 @@
   pkgs,
   ...
 }: let
-  inherit
-    (builtins)
-    isBool
-    isList
-    toString
-    ;
-  inherit
-    (lib)
-    boolToString
-    concatStringsSep
-    filterAttrs
-    findFirst
-    flatten
-    hasPrefix
-    mapAttrs'
-    mapAttrsToList
-    mkIf
-    mkMerge
-    nameValuePair
-    optionals
-    zipAttrsWith
-    ;
+  inherit (lib) mkIf mkMerge mapAttrs' nameValuePair;
+  inherit (lib) concatStringsSep filterAttrs mapAttrsToList flatten optionals elem mapAttrs;
+  inherit (lib.attrsets) zipAttrsWith;
+  inherit (lib.trivial) boolToString;
+  inherit (builtins) isList isBool toString;
 
   modulesLib = import ../lib.nix lib;
-  inherit (modulesLib) mkArgs baseServiceConfig;
+  inherit (modulesLib) baseServiceConfig;
 
-  # capture config for all configured netherminds
   eachNethermind = config.services.ethereum.nethermind;
+
+  # Convert lists to comma-separated, bools to strings
+  processSettings = mapAttrs (_: v:
+    if isList v then concatStringsSep "," v
+    else if isBool v then boolToString v
+    else v);
 in {
-  ###### interface
   inherit (import ./options.nix {inherit lib pkgs;}) options;
 
-  ###### implementation
-
   config = mkIf (eachNethermind != {}) {
-    # configure the firewall for each service
     networking.firewall = let
       openFirewall = filterAttrs (_: cfg: cfg.openFirewall) eachNethermind;
       perService =
         mapAttrsToList
-        (
-          _: cfg:
-            with cfg.args; {
-              allowedUDPPorts = [modules.Network.DiscoveryPort];
-              allowedTCPPorts =
-                [modules.Network.P2PPort modules.JsonRpc.EnginePort]
-                ++ (optionals modules.JsonRpc.Enabled [modules.JsonRpc.Port modules.JsonRpc.WebSocketsPort])
-                ++ (optionals modules.Metrics.Enabled && (modules.Metrics.ExposePort != null) [modules.Metrics.ExposePort]);
-            }
-        )
+        (_: cfg: let
+          s = cfg.settings;
+        in {
+          allowedUDPPorts = [(s."Network.DiscoveryPort" or 30303)];
+          allowedTCPPorts =
+            [(s."Network.P2PPort" or 30303) (s."JsonRpc.EnginePort" or 8551)]
+            ++ optionals (s."JsonRpc.Enabled" or true) [(s."JsonRpc.Port" or 8545) (s."JsonRpc.WebSocketsPort" or 8545)]
+            ++ optionals ((s."Metrics.Enabled" or true) && (s."Metrics.ExposePort" or null) != null) [(s."Metrics.ExposePort")];
+        })
         openFirewall;
     in
       zipAttrsWith (_name: flatten) perService;
 
-    # create a service for each instance
     systemd.services =
-      mapAttrs' (
-        nethermindName: let
+      mapAttrs'
+      (
+        nethermindName: cfg: let
           serviceName = "nethermind-${nethermindName}";
+          s = cfg.settings;
+          datadir = s.datadir or "%S/${serviceName}";
+          jwtSecret = s."JsonRpc.JwtSecretFile" or null;
+
+          # Keys to skip (handled separately)
+          skipKeys = ["datadir" "JsonRpc.JwtSecretFile"];
+          normalSettings = filterAttrs (k: _: !elem k skipKeys) s;
+
+          # Nethermind uses space separator
+          cliArgs = lib.cli.toGNUCommandLine {} (processSettings normalSettings);
+
+          allArgs =
+            ["--datadir" datadir]
+            ++ cliArgs
+            ++ optionals (jwtSecret != null) ["--JsonRpc.JwtSecretFile" "%d/jwtsecret"]
+            ++ cfg.extraArgs;
+
+          scriptArgs = concatStringsSep " \\\n  " allArgs;
         in
-          cfg: let
-            scriptArgs = let
-              # custom arg reducer for nethermind
-              argReducer = value:
-                if (isList value)
-                then concatStringsSep "," value
-                else if (isBool value)
-                then boolToString value
-                else toString value;
+          nameValuePair serviceName (mkIf cfg.enable {
+            after = ["network.target"];
+            wantedBy = ["multi-user.target"];
+            description = "Nethermind Node (${nethermindName})";
 
-              # remove modules from arguments
-              pathReducer = path: let
-                arg = concatStringsSep "." (lib.lists.remove "modules" path);
-              in "--${arg}";
+            environment = {
+              WEB3_HTTP_HOST = s."JsonRpc.Host" or "127.0.0.1";
+              WEB3_HTTP_PORT = toString (s."JsonRpc.Port" or 8545);
+            };
 
-              # custom arg formatter for nethermind
-              argFormatter = {
-                path,
-                value,
-                argReducer,
-                pathReducer,
-                ...
-              }: let
-                arg = pathReducer path;
-              in "${arg} ${argReducer value}";
-
-              jwtSecret =
-                if cfg.args.modules.JsonRpc.JwtSecretFile != null
-                then "--JsonRpc.JwtSecretFile %d/jwtsecret"
-                else "";
-              datadir =
-                if cfg.args.datadir != null
-                then "--datadir ${cfg.args.datadir}"
-                else "--datadir %S/${serviceName}";
-
-              # generate flags
-              args = let
-                opts = import ./args.nix lib;
-              in
-                mkArgs {
-                  inherit pathReducer argReducer argFormatter opts;
-                  inherit (cfg) args;
-                };
-
-              # filter out certain args which need to be treated differently
-              specialArgs = ["--JsonRpc.JwtSecretFile"];
-              isNormalArg = name: (findFirst (arg: hasPrefix arg name) null specialArgs) == null;
-
-              filteredArgs = builtins.filter isNormalArg args;
-            in ''
-              ${datadir} \
-              ${jwtSecret} \
-              ${concatStringsSep " \\\n" filteredArgs} \
-              ${lib.escapeShellArgs cfg.extraArgs}
-            '';
-          in
-            nameValuePair serviceName (mkIf cfg.enable {
-              after = ["network.target"];
-              wantedBy = ["multi-user.target"];
-              description = "Nethermind Node (${nethermindName})";
-
-              environment = {
-                WEB3_HTTP_HOST = cfg.args.modules.JsonRpc.Host;
-                WEB3_HTTP_PORT = builtins.toString cfg.args.modules.JsonRpc.Port;
-              };
-
-              # create service config by merging with the base config
-              serviceConfig = mkMerge [
-                {
-                  User = serviceName;
-                  StateDirectory = serviceName;
-                  MemoryDenyWriteExecute = false; # setting this option is incompatible with JIT
-                  ExecStart = "${cfg.package}/bin/nethermind ${scriptArgs}";
-                }
-                baseServiceConfig
-                (mkIf (cfg.args.modules.JsonRpc.JwtSecretFile != null) {
-                  LoadCredential = ["jwtsecret:${cfg.args.modules.JsonRpc.JwtSecretFile}"];
-                })
-              ];
-            })
+            serviceConfig = mkMerge [
+              baseServiceConfig
+              {
+                MemoryDenyWriteExecute = false; # incompatible with JIT
+                User = serviceName;
+                StateDirectory = serviceName;
+                ExecStart = "${cfg.package}/bin/nethermind ${scriptArgs}";
+              }
+              (mkIf (jwtSecret != null) {
+                LoadCredential = ["jwtsecret:${jwtSecret}"];
+              })
+            ];
+          })
       )
       eachNethermind;
   };
