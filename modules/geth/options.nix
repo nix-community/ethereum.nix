@@ -3,19 +3,11 @@
   pkgs,
   ...
 }: let
-  args = import ./args.nix lib;
+  inherit (lib) mkEnableOption mkOption types literalExpression;
 
-  gethOpts = with lib; {
-    options = rec {
+  gethOpts = {
+    options = {
       enable = mkEnableOption "Go Ethereum Node";
-
-      inherit args;
-
-      extraArgs = mkOption {
-        type = types.listOf types.str;
-        description = "Additional arguments to pass to Go Ethereum.";
-        default = [];
-      };
 
       package = mkOption {
         type = types.package;
@@ -27,7 +19,41 @@
       openFirewall = mkOption {
         type = types.bool;
         default = false;
-        description = "Open ports in the firewall for any enabled networking services";
+        description = "Open ports in the firewall for any enabled networking services.";
+      };
+
+      settings = mkOption {
+        type = types.submodule {
+          freeformType = types.attrsOf types.anything;
+        };
+        default = {};
+        description = ''
+          Geth configuration. Converted to CLI arguments.
+
+          Use flat dotted keys (e.g., "http.addr" not http.addr).
+          Use http = true for --http flag.
+          Use sepolia/holesky/hoodi = true for network selection.
+
+          See https://geth.ethereum.org/docs for available options.
+        '';
+        example = literalExpression ''
+          {
+            sepolia = true;
+            http = true;
+            "http.addr" = "0.0.0.0";
+            "http.api" = ["eth" "net" "web3"];
+            ws = true;
+            "authrpc.jwtsecret" = "/var/run/geth/jwtsecret";
+            metrics = true;
+            "metrics.addr" = "127.0.0.1";
+          }
+        '';
+      };
+
+      extraArgs = mkOption {
+        type = types.listOf types.str;
+        default = [];
+        description = "Additional arguments to pass to Go Ethereum.";
       };
 
       # mixin backup options
@@ -44,10 +70,9 @@
     };
   };
 in {
-  options.services.ethereum.geth = with lib;
-    mkOption {
-      type = types.attrsOf (types.submodule gethOpts);
-      default = {};
-      description = "Specification of one or more geth instances.";
-    };
+  options.services.ethereum.geth = mkOption {
+    type = types.attrsOf (types.submodule gethOpts);
+    default = {};
+    description = "Specification of one or more geth instances.";
+  };
 }
