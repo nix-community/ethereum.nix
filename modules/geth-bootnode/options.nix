@@ -3,19 +3,11 @@
   pkgs,
   ...
 }: let
-  args = import ./args.nix lib;
+  inherit (lib) mkEnableOption mkOption types literalExpression;
 
-  bootnodeOpts = with lib; {
-    options = with lib; rec {
+  bootnodeOpts = {
+    options = {
       enable = mkEnableOption "Go Ethereum Boot Node";
-
-      inherit args;
-
-      extraArgs = mkOption {
-        type = types.listOf types.str;
-        description = "Additional arguments to pass to the Go Ethereum Bootnode.";
-        default = [];
-      };
 
       package = mkOption {
         type = types.package;
@@ -27,15 +19,43 @@
       openFirewall = mkOption {
         type = types.bool;
         default = false;
-        description = "Open ports in the firewall for any enabled networking services";
+        description = "Open ports in the firewall for any enabled networking services.";
+      };
+
+      settings = mkOption {
+        type = types.submodule {
+          freeformType = types.attrsOf types.anything;
+        };
+        default = {};
+        description = ''
+          Geth Bootnode configuration. Converted to CLI arguments.
+
+          All options passed as -option-name value (single dash).
+
+          See geth bootnode --help for available options.
+        '';
+        example = literalExpression ''
+          {
+            addr = ":30301";
+            nat = "none";
+            nodekey = "/var/lib/geth-bootnode/nodekey";
+            verbosity = 3;
+            v5 = true;
+          }
+        '';
+      };
+
+      extraArgs = mkOption {
+        type = types.listOf types.str;
+        default = [];
+        description = "Additional arguments to pass to the Go Ethereum Bootnode.";
       };
     };
   };
 in {
-  options.services.ethereum.geth-bootnode = with lib;
-    mkOption {
-      type = types.attrsOf (types.submodule bootnodeOpts);
-      default = {};
-      description = "Specification of one or more geth bootnode instances.";
-    };
+  options.services.ethereum.geth-bootnode = mkOption {
+    type = types.attrsOf (types.submodule bootnodeOpts);
+    default = {};
+    description = "Specification of one or more geth bootnode instances.";
+  };
 }

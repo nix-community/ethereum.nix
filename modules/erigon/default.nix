@@ -1,132 +1,88 @@
 {
-  options,
   config,
   lib,
   pkgs,
   ...
 }: let
-  inherit (lib.lists) optionals findFirst;
-  inherit (lib.strings) hasPrefix;
-  inherit
-    (lib)
-    concatStringsSep
-    filterAttrs
-    flatten
-    mapAttrs'
-    mapAttrsToList
-    mkBefore
-    mkIf
-    mkMerge
-    nameValuePair
-    zipAttrsWith
-    ;
+  inherit (lib) mkIf mkMerge mapAttrs' nameValuePair;
+  inherit (lib) concatStringsSep filterAttrs mapAttrsToList flatten optionals elem;
+  inherit (lib.attrsets) zipAttrsWith;
 
   modulesLib = import ../lib.nix lib;
-  inherit (modulesLib) baseServiceConfig mkArgs scripts;
+  inherit (modulesLib) baseServiceConfig;
 
   eachErigon = config.services.ethereum.erigon;
 in {
-  # Disable the service definition currently in nixpkgs
   disabledModules = ["services/blockchain/ethereum/erigon.nix"];
 
-  ###### interface
   inherit (import ./options.nix {inherit lib pkgs;}) options;
 
-  ###### implementation
-
   config = mkIf (eachErigon != {}) {
-    # configure the firewall for each service
     networking.firewall = let
       openFirewall = filterAttrs (_: cfg: cfg.openFirewall) eachErigon;
       perService =
         mapAttrsToList
-        (
-          _: cfg:
-            with cfg.args; {
-              allowedUDPPorts = [port torrent.port];
-              allowedTCPPorts =
-                [port authrpc.port torrent.port]
-                ++ (optionals http.enable [http.port])
-                ++ (optionals ws.enable [])
-                ++ (optionals metrics.enable [metrics.port]);
-            }
-        )
+        (_: cfg: let
+          s = cfg.settings;
+        in {
+          allowedUDPPorts = [(s.port or 30303) (s."torrent.port" or 42069)];
+          allowedTCPPorts =
+            [(s.port or 30303) (s."authrpc.port" or 8551) (s."torrent.port" or 42069)]
+            ++ optionals (s.http or false) [(s."http.port" or 8545)]
+            ++ optionals (s.ws or false) [(s."http.port" or 8545)]
+            ++ optionals (s.metrics or false) [(s."metrics.port" or 6060)];
+        })
         openFirewall;
     in
       zipAttrsWith (_name: flatten) perService;
 
-    # configure systemd to create the state directory with a subvolume
     systemd.tmpfiles.rules =
       map
       (name: "v /var/lib/private/erigon-${name}")
       (builtins.attrNames (filterAttrs (_: v: v.subVolume) eachErigon));
 
-    # create a service for each instance
     systemd.services =
       mapAttrs'
       (
-        erigonName: let
+        erigonName: cfg: let
           serviceName = "erigon-${erigonName}";
+          s = cfg.settings;
+          datadir = s.datadir or "%S/${serviceName}";
+          jwtSecret = s."authrpc.jwtsecret" or null;
+
+          # Keys to skip (handled separately)
+          skipKeys = ["datadir" "authrpc.jwtsecret"];
+          normalSettings = filterAttrs (k: _: !elem k skipKeys) s;
+
+          # Erigon uses space separator
+          cliArgs = lib.cli.toGNUCommandLine {} normalSettings;
+
+          allArgs =
+            ["--datadir" datadir]
+            ++ optionals (jwtSecret != null) ["--authrpc.jwtsecret=%d/jwtsecret"]
+            ++ cliArgs
+            ++ cfg.extraArgs;
+
+          scriptArgs = concatStringsSep " \\\n  " allArgs;
         in
-          cfg: let
-            scriptArgs = let
-              # replace enable flags like --http.enable with just --http
-              pathReducer = path: let
-                arg = concatStringsSep "." (lib.lists.remove "enable" path);
-              in "--${arg}";
+          nameValuePair serviceName (mkIf cfg.enable {
+            description = "Erigon Ethereum node (${erigonName})";
+            wantedBy = ["multi-user.target"];
+            after = ["network.target"];
 
-              # generate flags
-              args = let
-                opts = import ./args.nix lib;
-              in
-                mkArgs {
-                  inherit pathReducer opts;
-                  inherit (cfg) args;
-                };
-
-              specialArgs = ["--authrpc.jwtsecret"];
-              isNormalArg = name: (findFirst (arg: hasPrefix arg name) null specialArgs) == null;
-              filteredArgs = builtins.filter isNormalArg args;
-
-              datadir =
-                if cfg.args.datadir != null
-                then "--datadir ${cfg.args.datadir}"
-                else "--datadir %S/${serviceName}";
-              jwtsecret =
-                if cfg.args.authrpc.jwtsecret != null
-                then "--authrpc.jwtsecret=%d/jwtsecret"
-                else "";
-            in ''
-              ${datadir} \
-              ${jwtsecret} \
-              ${concatStringsSep " \\\n" filteredArgs} \
-              ${lib.escapeShellArgs cfg.extraArgs}
-            '';
-          in
-            nameValuePair serviceName (mkIf cfg.enable {
-              description = "Erigon Ethereum node (${erigonName})";
-              wantedBy = ["multi-user.target"];
-              after = ["network.target"];
-
-              # create service config by merging with the base config
-              serviceConfig = mkMerge [
-                baseServiceConfig
-                {
-                  User = serviceName;
-                  StateDirectory = serviceName;
-                  ExecStartPre = mkIf cfg.subVolume (mkBefore [
-                    "+${scripts.setupSubVolume} /var/lib/private/${serviceName}"
-                  ]);
-                  ExecStart = "${cfg.package}/bin/erigon ${scriptArgs}";
-
-                  # Erigon needs this system call for some reason
-                  SystemCallFilter = ["@system-service" "~@privileged" "mincore"];
-                }
-                (mkIf (cfg.args.authrpc.jwtsecret != null) {
-                  LoadCredential = ["jwtsecret:${cfg.args.authrpc.jwtsecret}"];
-                })
-              ];
-            })
+            serviceConfig = mkMerge [
+              baseServiceConfig
+              {
+                User = serviceName;
+                StateDirectory = serviceName;
+                ExecStart = "${cfg.package}/bin/erigon ${scriptArgs}";
+                SystemCallFilter = ["@system-service" "~@privileged" "mincore"];
+              }
+              (mkIf (jwtSecret != null) {
+                LoadCredential = ["jwtsecret:${jwtSecret}"];
+              })
+            ];
+          })
       )
       eachErigon;
   };
