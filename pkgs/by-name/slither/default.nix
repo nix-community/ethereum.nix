@@ -7,7 +7,7 @@
 }:
 python3.pkgs.buildPythonPackage rec {
   pname = "slither";
-  version = "0.11.3";
+  version = "0.11.4";
   pyproject = true;
 
   disabled = python3.pythonOlder "3.8";
@@ -16,16 +16,18 @@ python3.pkgs.buildPythonPackage rec {
     owner = "crytic";
     repo = pname;
     rev = "refs/tags/${version}";
-    hash = "sha256-HgPQPyxDvKrmqGiHjiVGxEguYUcaNYwK1gZoMMkQWhM=";
+    hash = "sha256-rtEcEXZpaimcoLcXYXNrKzm0zfF28U0nMsqHdM/cdDw=";
   };
 
   nativeBuildInputs = [
     makeWrapper
     python3.pkgs.setuptools-scm
+    python3.pkgs.hatchling
   ];
 
   propagatedBuildInputs = with python3.pkgs; [
     crytic-compile
+    importlib-metadata
     packaging
     prettytable
     web3
