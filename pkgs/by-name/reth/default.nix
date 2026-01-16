@@ -2,17 +2,18 @@
   fetchFromGitHub,
   lib,
   nix-update-script,
+  perl,
   rustPlatform,
 }:
 rustPlatform.buildRustPackage rec {
   pname = "reth";
-  version = "1.9.3";
+  version = "1.10.0";
 
   src = fetchFromGitHub {
     owner = "paradigmxyz";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-zTSwRSSZDINHEkbtTiLP3mgod9lDzFrPxMXq88NTOAM=";
+    hash = "sha256-kCSSMbYkJ0NORCEf3tSzMGezz1uanQyGQiHn+cK4YJo=";
   };
 
   cargoLock = {
@@ -21,6 +22,7 @@ rustPlatform.buildRustPackage rec {
 
   nativeBuildInputs = [
     rustPlatform.bindgenHook
+    perl # required for building sha3-asm
   ];
 
   # Some tests fail due to I/O that is unfriendly with nix sandbox.
