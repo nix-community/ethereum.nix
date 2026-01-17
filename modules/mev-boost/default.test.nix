@@ -11,11 +11,11 @@
 
         services.ethereum.mev-boost.test = {
           enable = true;
-          args = {
+          settings = {
+            hoodi = true;
             addr = "localhost:18550";
-            network = "holesky";
             relays = [
-              "https://0xafa4c6985aa049fb79dd37010438cfebeb0f2bd42b115b89dd678dab0670c1de38da0c4e9138c9290a398ecd9a0b3110@boost-relay-holesky.flashbots.net"
+              "https://0xac6e77dfe25ecd6110b8e780608cce0dab71fdd5ebea22a16c0205200f2f8e2e3ad3b71d3499c54ad14d6c21b41a37ae@boost-relay.flashbots.net"
             ];
           };
         };

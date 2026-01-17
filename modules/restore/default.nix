@@ -34,10 +34,8 @@
         --cache-dir=$CACHE_DIRECTORY \
         $SNAPSHOT
 
-      # fix permissions
-      cd $STATE_DIRECTORY
-      chown -R $USER:$USER /var/lib/private/$USER
-      chmod -R 750 /var/lib/private/$USER
+      # Note: permissions are handled automatically by systemd's StateDirectory
+      # when DynamicUser=true - ownership is set to the service user before ExecStart
 
       CONTENT_HASH_FILE="$STATE_DIRECTORY/.backup/content-hash"
 

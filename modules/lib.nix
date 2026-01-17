@@ -81,6 +81,12 @@ lib: let
     #   * ProtectHome = "read-only"
     DynamicUser = mkDefault true;
 
+    # Drop all capabilities - services don't need any
+    CapabilityBoundingSet = mkDefault "";
+
+    # Restrict to IPv4, IPv6 and Unix sockets only
+    RestrictAddressFamilies = mkDefault ["AF_INET" "AF_INET6" "AF_UNIX"];
+
     ProtectClock = mkDefault true;
     ProtectProc = mkDefault "noaccess";
     ProtectKernelLogs = mkDefault true;

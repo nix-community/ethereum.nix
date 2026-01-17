@@ -11,78 +11,78 @@
   modulesLib = import ../lib.nix lib;
   inherit (modulesLib) baseServiceConfig;
 
-  eachNode = config.services.ethereum.besu;
+  eachTeku = config.services.ethereum.teku;
 in {
   inherit (import ./options.nix {inherit lib pkgs;}) options;
 
-  config = mkIf (eachNode != {}) {
+  config = mkIf (eachTeku != {}) {
     networking.firewall = let
-      openFirewall = filterAttrs (_: cfg: cfg.openFirewall) eachNode;
+      openFirewall = filterAttrs (_: cfg: cfg.openFirewall) eachTeku;
       perService =
         mapAttrsToList
         (_: cfg: let
           s = cfg.settings;
         in {
+          allowedUDPPorts = [(s.p2p-port or 9000)];
           allowedTCPPorts =
-            [(s.p2p-port or 30303) (s.engine-rpc-port or 8551)]
-            ++ optionals (s.rpc-http-enabled or false) [(s.rpc-http-port or 8545)]
-            ++ optionals (s.metrics-enabled or false) [(s.metrics-port or 9545)];
+            [(s.p2p-port or 9000)]
+            ++ optionals (s.rest-api-enabled or false) [(s.rest-api-port or 5051)]
+            ++ optionals (s.metrics-enabled or true) [(s.metrics-port or 8008)];
         })
         openFirewall;
     in
       zipAttrsWith (_name: flatten) perService;
 
-    systemd.tmpfiles.rules =
-      map
-      (name: "v /var/lib/private/besu-${name}")
-      (builtins.attrNames (filterAttrs (_: v: v.subVolume) eachNode));
-
     systemd.services =
       mapAttrs'
       (
-        besuName: cfg: let
-          serviceName = "besu-${besuName}";
+        tekuName: cfg: let
+          serviceName = "teku-${tekuName}";
           s = cfg.settings;
           dataPath = s.data-path or "%S/${serviceName}";
-          jwtSecret = s.engine-jwt-secret or null;
+          jwtSecret = s.ee-jwt-secret-file or null;
 
           # Keys to skip (handled separately)
-          skipKeys = ["data-path" "engine-jwt-secret"];
+          skipKeys = ["data-path" "ee-jwt-secret-file"];
           normalSettings = filterAttrs (k: _: !elem k skipKeys) s;
 
-          # Besu uses = separator
+          # Teku uses = separator
           cliArgs =
-            lib.cli.toGNUCommandLine {
-              optionValueSeparator = "=";
-            }
+            lib.cli.toCommandLine (name: {
+              option = "--${name}";
+              sep = "=";
+              explicitBool = false;
+            })
             normalSettings;
 
           allArgs =
             ["--data-path=${dataPath}"]
-            ++ optionals (jwtSecret != null) ["--engine-jwt-secret=%d/jwtsecret"]
             ++ cliArgs
+            ++ optionals (jwtSecret != null) ["--ee-jwt-secret-file=%d/jwt-secret"]
             ++ cfg.extraArgs;
 
           scriptArgs = concatStringsSep " \\\n  " allArgs;
         in
           nameValuePair serviceName (mkIf cfg.enable {
-            description = "Besu Execution Client (${besuName})";
-            wantedBy = ["multi-user.target"];
             after = ["network.target"];
+            wantedBy = ["multi-user.target"];
+            description = "Teku Beacon Node (${tekuName})";
 
             serviceConfig = mkMerge [
               baseServiceConfig
               {
                 StateDirectory = serviceName;
-                ExecStart = "${cfg.package}/bin/besu ${scriptArgs}";
-                MemoryDenyWriteExecute = false; # JIT compilation
+                ExecStart = "${cfg.package}/bin/teku ${scriptArgs}";
+                SystemCallFilter = ["@system-service" "~@privileged" "mincore"];
+                MemoryDenyWriteExecute = false; # JVM
+                RestartPreventExitStatus = 2;
               }
               (mkIf (jwtSecret != null) {
-                LoadCredential = ["jwtsecret:${jwtSecret}"];
+                LoadCredential = ["jwt-secret:${jwtSecret}"];
               })
             ];
           })
       )
-      eachNode;
+      eachTeku;
   };
 }

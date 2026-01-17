@@ -5,9 +5,9 @@
 }: let
   inherit (lib) mkEnableOption mkOption types literalExpression;
 
-  validatorOpts = {
+  prysmOpts = {
     options = {
-      enable = mkEnableOption "Prysm Validator Client";
+      enable = mkEnableOption "Prysm Beacon Chain Node";
 
       package = mkOption {
         type = types.package;
@@ -28,26 +28,21 @@
         };
         default = {};
         description = ''
-          Prysm Validator configuration. Converted to CLI arguments.
+          Prysm Beacon Chain configuration. Converted to CLI arguments.
 
-          Use network = "holesky" for --holesky flag (null = mainnet).
-          Use rpc = true for --rpc flag.
+          Use sepolia/holesky/hoodi = true for network selection.
           All options passed as --option-name value.
 
           See https://docs.prylabs.network for available options.
         '';
         example = literalExpression ''
           {
-            network = "holesky";
-            wallet-dir = "/var/lib/prysm/wallet";
-            wallet-password-file = "/run/secrets/wallet-password";
-            suggested-fee-recipient = "0x...";
-            graffiti = "my-validator";
-            grpc-gateway-host = "127.0.0.1";
-            grpc-gateway-port = 7500;
-            rpc = true;
-            rpc-host = "127.0.0.1";
-            rpc-port = 7000;
+            sepolia = true;
+            jwt-secret = "/var/run/prysm/jwtsecret";
+            checkpoint-sync-url = "https://checkpoint-sync.sepolia.ethpandaops.io";
+            genesis-beacon-api-url = "https://checkpoint-sync.sepolia.ethpandaops.io";
+            grpc-gateway-host = "0.0.0.0";
+            monitoring-host = "0.0.0.0";
           }
         '';
       };
@@ -55,7 +50,7 @@
       extraArgs = mkOption {
         type = types.listOf types.str;
         default = [];
-        description = "Additional arguments to pass to Prysm Validator.";
+        description = "Additional arguments to pass to Prysm Beacon Chain.";
       };
 
       # mixin backup options
@@ -72,9 +67,9 @@
     };
   };
 in {
-  options.services.ethereum.prysm-validator = mkOption {
-    type = types.attrsOf (types.submodule validatorOpts);
+  options.services.ethereum.prysm = mkOption {
+    type = types.attrsOf (types.submodule prysmOpts);
     default = {};
-    description = "Specification of one or more Prysm validator instances.";
+    description = "Specification of one or more Prysm Beacon Chain instances.";
   };
 }

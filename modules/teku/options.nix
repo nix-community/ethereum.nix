@@ -5,15 +5,15 @@
 }: let
   inherit (lib) mkEnableOption mkOption types literalExpression;
 
-  gethOpts = {
+  tekuOpts = {
     options = {
-      enable = mkEnableOption "Go Ethereum Node";
+      enable = mkEnableOption "Teku Ethereum Consensus Client";
 
       package = mkOption {
         type = types.package;
-        default = pkgs.geth;
-        defaultText = literalExpression "pkgs.geth";
-        description = "Package to use as Go Ethereum node.";
+        default = pkgs.teku;
+        defaultText = literalExpression "pkgs.teku";
+        description = "Package to use for Teku binary.";
       };
 
       openFirewall = mkOption {
@@ -28,24 +28,23 @@
         };
         default = {};
         description = ''
-          Geth configuration. Converted to CLI arguments.
+          Teku configuration. Converted to CLI arguments.
 
-          Use flat dotted keys (e.g., "http.addr" not http.addr).
-          Use http = true for --http flag.
-          Use sepolia/holesky/hoodi = true for network selection.
+          All options passed as --option-name=value.
+          Use rest-api-enabled = true for --rest-api-enabled.
 
-          See https://geth.ethereum.org/docs for available options.
+          See https://docs.teku.consensys.io for available options.
         '';
         example = literalExpression ''
           {
-            sepolia = true;
-            http = true;
-            "http.addr" = "0.0.0.0";
-            "http.api" = ["eth" "net" "web3"];
-            ws = true;
-            "authrpc.jwtsecret" = "/var/run/geth/jwtsecret";
-            metrics = true;
-            "metrics.addr" = "127.0.0.1";
+            network = "mainnet";
+            ee-endpoint = "http://127.0.0.1:8551";
+            ee-jwt-secret-file = "/var/run/teku/jwtsecret";
+            p2p-port = 9000;
+            rest-api-enabled = true;
+            rest-api-interface = "0.0.0.0";
+            metrics-enabled = true;
+            metrics-interface = "0.0.0.0";
           }
         '';
       };
@@ -53,7 +52,7 @@
       extraArgs = mkOption {
         type = types.listOf types.str;
         default = [];
-        description = "Additional arguments to pass to Go Ethereum.";
+        description = "Additional arguments to pass to Teku.";
       };
 
       # mixin backup options
@@ -70,9 +69,9 @@
     };
   };
 in {
-  options.services.ethereum.geth = mkOption {
-    type = types.attrsOf (types.submodule gethOpts);
+  options.services.ethereum.teku = mkOption {
+    type = types.attrsOf (types.submodule tekuOpts);
     default = {};
-    description = "Specification of one or more geth instances.";
+    description = "Specification of one or more Teku instances.";
   };
 }

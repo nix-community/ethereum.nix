@@ -5,15 +5,15 @@
 }: let
   inherit (lib) mkEnableOption mkOption types literalExpression;
 
-  gethOpts = {
+  nimbusOpts = {
     options = {
-      enable = mkEnableOption "Go Ethereum Node";
+      enable = mkEnableOption "Nimbus Beacon Chain Node";
 
       package = mkOption {
         type = types.package;
-        default = pkgs.geth;
-        defaultText = literalExpression "pkgs.geth";
-        description = "Package to use as Go Ethereum node.";
+        default = pkgs.nimbus;
+        defaultText = literalExpression "pkgs.nimbus";
+        description = "Package to use for Nimbus binary.";
       };
 
       openFirewall = mkOption {
@@ -28,24 +28,23 @@
         };
         default = {};
         description = ''
-          Geth configuration. Converted to CLI arguments.
+          Nimbus Beacon Chain configuration. Converted to CLI arguments.
 
-          Use flat dotted keys (e.g., "http.addr" not http.addr).
-          Use http = true for --http flag.
-          Use sepolia/holesky/hoodi = true for network selection.
+          All options passed as --option-name=value.
+          Use rest = true for --rest flag.
 
-          See https://geth.ethereum.org/docs for available options.
+          See https://nimbus.guide for available options.
         '';
         example = literalExpression ''
           {
-            sepolia = true;
-            http = true;
-            "http.addr" = "0.0.0.0";
-            "http.api" = ["eth" "net" "web3"];
-            ws = true;
-            "authrpc.jwtsecret" = "/var/run/geth/jwtsecret";
+            network = "mainnet";
+            el = ["http://127.0.0.1:8551"];
+            jwt-secret = "/var/run/nimbus/jwtsecret";
+            trusted-node-url = "https://checkpoint-sync.ethpandaops.io";
+            rest = true;
+            rest-address = "0.0.0.0";
             metrics = true;
-            "metrics.addr" = "127.0.0.1";
+            metrics-address = "0.0.0.0";
           }
         '';
       };
@@ -53,7 +52,7 @@
       extraArgs = mkOption {
         type = types.listOf types.str;
         default = [];
-        description = "Additional arguments to pass to Go Ethereum.";
+        description = "Additional arguments to pass to Nimbus Beacon Chain.";
       };
 
       # mixin backup options
@@ -70,9 +69,9 @@
     };
   };
 in {
-  options.services.ethereum.geth = mkOption {
-    type = types.attrsOf (types.submodule gethOpts);
+  options.services.ethereum.nimbus = mkOption {
+    type = types.attrsOf (types.submodule nimbusOpts);
     default = {};
-    description = "Specification of one or more geth instances.";
+    description = "Specification of one or more Nimbus Beacon Chain instances.";
   };
 }

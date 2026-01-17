@@ -11,45 +11,41 @@
   modulesLib = import ../lib.nix lib;
   inherit (modulesLib) baseServiceConfig;
 
-  eachReth = config.services.ethereum.reth;
+  eachLighthouse = config.services.ethereum.lighthouse;
 in {
-  disabledModules = ["services/blockchain/ethereum/reth.nix"];
-
   inherit (import ./options.nix {inherit lib pkgs;}) options;
 
-  config = mkIf (eachReth != {}) {
+  config = mkIf (eachLighthouse != {}) {
     networking.firewall = let
-      openFirewall = filterAttrs (_: cfg: cfg.openFirewall) eachReth;
+      openFirewall = filterAttrs (_: cfg: cfg.openFirewall) eachLighthouse;
       perService =
         mapAttrsToList
         (_: cfg: let
           s = cfg.settings;
         in {
+          allowedUDPPorts =
+            [(s.discovery-port or 9000)]
+            ++ optionals (!(s.disable-quic or false)) [(s.quic-port or 9001)];
           allowedTCPPorts =
-            [(s.port or 30303) (s."authrpc.port" or 8551)]
-            ++ optionals (s.http or false) [(s."http.port" or 8545)]
-            ++ optionals (s.ws or false) [(s."ws.port" or 8546)];
+            optionals (s.disable-quic or false) [(s.quic-port or 9001)]
+            ++ optionals (s.http or false) [(s.http-port or 5052)]
+            ++ optionals (s.metrics or false) [(s.metrics-port or 5054)];
         })
         openFirewall;
     in
       zipAttrsWith (_name: flatten) perService;
 
-    systemd.tmpfiles.rules =
-      map
-      (name: "v /var/lib/private/reth-${name}")
-      (builtins.attrNames (filterAttrs (_: v: v.subVolume) eachReth));
-
     systemd.services =
       mapAttrs'
       (
-        rethName: cfg: let
-          serviceName = "reth-${rethName}";
+        lighthouseName: cfg: let
+          serviceName = "lighthouse-${lighthouseName}";
           s = cfg.settings;
           datadir = s.datadir or "%S/${serviceName}";
-          jwtSecret = s."authrpc.jwtsecret" or null;
+          jwtSecret = s.execution-jwt or null;
 
           # Keys to skip (handled separately)
-          skipKeys = ["datadir" "authrpc.jwtsecret"];
+          skipKeys = ["datadir" "execution-jwt"];
           normalSettings = filterAttrs (k: _: !elem k skipKeys) s;
 
           # Standard lib.cli
@@ -64,29 +60,28 @@ in {
           allArgs =
             ["--datadir" datadir]
             ++ cliArgs
-            ++ optionals (jwtSecret != null) ["--authrpc.jwtsecret" "%d/jwtsecret"]
+            ++ optionals (jwtSecret != null) ["--execution-jwt" "%d/execution-jwt"]
             ++ cfg.extraArgs;
 
           scriptArgs = concatStringsSep " \\\n  " allArgs;
         in
           nameValuePair serviceName (mkIf cfg.enable {
-            description = "Reth Ethereum node (${rethName})";
-            wantedBy = ["multi-user.target"];
             after = ["network.target"];
+            wantedBy = ["multi-user.target"];
+            description = "Lighthouse Beacon Node (${lighthouseName})";
 
             serviceConfig = mkMerge [
               baseServiceConfig
               {
                 StateDirectory = serviceName;
-                ExecStart = "${cfg.package}/bin/reth node ${scriptArgs}";
-                SystemCallFilter = ["@system-service" "~@privileged" "mincore"];
+                ExecStart = "${cfg.package}/bin/lighthouse beacon ${scriptArgs}";
               }
               (mkIf (jwtSecret != null) {
-                LoadCredential = ["jwtsecret:${jwtSecret}"];
+                LoadCredential = ["execution-jwt:${jwtSecret}"];
               })
             ];
           })
       )
-      eachReth;
+      eachLighthouse;
   };
 }

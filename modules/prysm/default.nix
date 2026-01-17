@@ -11,45 +11,40 @@
   modulesLib = import ../lib.nix lib;
   inherit (modulesLib) baseServiceConfig;
 
-  eachReth = config.services.ethereum.reth;
+  eachPrysm = config.services.ethereum.prysm;
 in {
-  disabledModules = ["services/blockchain/ethereum/reth.nix"];
-
   inherit (import ./options.nix {inherit lib pkgs;}) options;
 
-  config = mkIf (eachReth != {}) {
+  config = mkIf (eachPrysm != {}) {
     networking.firewall = let
-      openFirewall = filterAttrs (_: cfg: cfg.openFirewall) eachReth;
+      openFirewall = filterAttrs (_: cfg: cfg.openFirewall) eachPrysm;
       perService =
         mapAttrsToList
         (_: cfg: let
           s = cfg.settings;
         in {
+          allowedUDPPorts = [(s.p2p-udp-port or 12000)];
           allowedTCPPorts =
-            [(s.port or 30303) (s."authrpc.port" or 8551)]
-            ++ optionals (s.http or false) [(s."http.port" or 8545)]
-            ++ optionals (s.ws or false) [(s."ws.port" or 8546)];
+            [(s.rpc-port or 4000) (s.p2p-tcp-port or 13000)]
+            ++ optionals (!(s.disable-monitoring or false)) [(s.monitoring-port or 8080)]
+            ++ optionals (!(s.disable-grpc-gateway or false)) [(s.grpc-gateway-port or 3500)]
+            ++ optionals (s.pprof or false) [(s.pprofport or 6060)];
         })
         openFirewall;
     in
       zipAttrsWith (_name: flatten) perService;
 
-    systemd.tmpfiles.rules =
-      map
-      (name: "v /var/lib/private/reth-${name}")
-      (builtins.attrNames (filterAttrs (_: v: v.subVolume) eachReth));
-
     systemd.services =
       mapAttrs'
       (
-        rethName: cfg: let
-          serviceName = "reth-${rethName}";
+        prysmName: cfg: let
+          serviceName = "prysm-${prysmName}";
           s = cfg.settings;
           datadir = s.datadir or "%S/${serviceName}";
-          jwtSecret = s."authrpc.jwtsecret" or null;
+          jwtSecret = s.jwt-secret or null;
 
           # Keys to skip (handled separately)
-          skipKeys = ["datadir" "authrpc.jwtsecret"];
+          skipKeys = ["datadir" "jwt-secret"];
           normalSettings = filterAttrs (k: _: !elem k skipKeys) s;
 
           # Standard lib.cli
@@ -62,31 +57,36 @@ in {
             normalSettings;
 
           allArgs =
-            ["--datadir" datadir]
+            ["--accept-terms-of-use" "--datadir" datadir]
             ++ cliArgs
-            ++ optionals (jwtSecret != null) ["--authrpc.jwtsecret" "%d/jwtsecret"]
+            ++ optionals (jwtSecret != null) ["--jwt-secret" "%d/jwt-secret"]
             ++ cfg.extraArgs;
 
           scriptArgs = concatStringsSep " \\\n  " allArgs;
         in
           nameValuePair serviceName (mkIf cfg.enable {
-            description = "Reth Ethereum node (${rethName})";
-            wantedBy = ["multi-user.target"];
             after = ["network.target"];
+            wantedBy = ["multi-user.target"];
+            description = "Prysm Beacon Node (${prysmName})";
+
+            environment = {
+              GRPC_GATEWAY_HOST = s.grpc-gateway-host or "127.0.0.1";
+              GRPC_GATEWAY_PORT = toString (s.grpc-gateway-port or 3500);
+            };
 
             serviceConfig = mkMerge [
               baseServiceConfig
               {
                 StateDirectory = serviceName;
-                ExecStart = "${cfg.package}/bin/reth node ${scriptArgs}";
-                SystemCallFilter = ["@system-service" "~@privileged" "mincore"];
+                ExecStart = "${cfg.package}/bin/beacon-chain ${scriptArgs}";
+                MemoryDenyWriteExecute = "false"; # library loading
               }
               (mkIf (jwtSecret != null) {
-                LoadCredential = ["jwtsecret:${jwtSecret}"];
+                LoadCredential = ["jwt-secret:${jwtSecret}"];
               })
             ];
           })
       )
-      eachReth;
+      eachPrysm;
   };
 }

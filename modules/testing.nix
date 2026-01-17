@@ -57,13 +57,17 @@
           # speed up evaluation by skipping docs
           defaults.documentation.enable = lib.mkDefault false;
 
-          # make self available in test modules and our custom pkgs
-          node.specialArgs = {inherit self pkgs;};
+          # make self available in test modules
+          node.specialArgs = {inherit self;};
 
           # import all of our flake nixos modules by default
           defaults.imports = [
             self.nixosModules.default
           ];
+
+          # use nixpkgs.pkgs to pass our custom pkgs with overlays
+          # this avoids the warning about specialArgs.pkgs
+          defaults.nixpkgs.pkgs = lib.mkForce pkgs;
 
           # import the test module
           imports = [test.module];

@@ -5,9 +5,9 @@
 }: let
   inherit (lib) mkEnableOption mkOption types literalExpression;
 
-  validatorOpts = {
+  lighthouseOpts = {
     options = {
-      enable = mkEnableOption "Lighthouse Validator Client";
+      enable = mkEnableOption "Lighthouse Beacon Chain Node";
 
       package = mkOption {
         type = types.package;
@@ -28,28 +28,23 @@
         };
         default = {};
         description = ''
-          Lighthouse Validator configuration. Converted to CLI arguments.
+          Lighthouse Beacon Chain configuration. Converted to CLI arguments.
 
-          Use http = true for --http flag, metrics = true for --metrics flag.
+          Use mainnet/sepolia/holesky/hoodi = true for network selection.
           All options passed as --option-name value.
-
-          When beacon-nodes is not set, automatically looks up the
-          lighthouse beacon node with the same name.
 
           See https://lighthouse-book.sigmaprime.io for available options.
         '';
         example = literalExpression ''
           {
-            network = "mainnet";
-            beacon-nodes = ["http://127.0.0.1:5052"];
-            suggested-fee-recipient = "0x...";
-            graffiti = "my-validator";
+            mainnet = true;
+            execution-endpoint = "http://127.0.0.1:8551";
+            execution-jwt = "/var/run/lighthouse/jwtsecret";
+            checkpoint-sync-url = "https://checkpoint-sync.ethpandaops.io";
             http = true;
-            http-address = "127.0.0.1";
-            http-port = 5062;
+            http-address = "0.0.0.0";
             metrics = true;
-            metrics-address = "127.0.0.1";
-            metrics-port = 5064;
+            metrics-address = "0.0.0.0";
           }
         '';
       };
@@ -57,7 +52,7 @@
       extraArgs = mkOption {
         type = types.listOf types.str;
         default = [];
-        description = "Additional arguments to pass to Lighthouse Validator Client.";
+        description = "Additional arguments to pass to Lighthouse Beacon Chain.";
       };
 
       # mixin backup options
@@ -74,9 +69,9 @@
     };
   };
 in {
-  options.services.ethereum.lighthouse-validator = mkOption {
-    type = types.attrsOf (types.submodule validatorOpts);
+  options.services.ethereum.lighthouse = mkOption {
+    type = types.attrsOf (types.submodule lighthouseOpts);
     default = {};
-    description = "Specification of one or more Lighthouse validator instances.";
+    description = "Specification of one or more Lighthouse Beacon Chain instances.";
   };
 }
