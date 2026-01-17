@@ -17,8 +17,10 @@
 
   # Convert lists to comma-separated, bools to strings
   processSettings = mapAttrs (_: v:
-    if isList v then concatStringsSep "," v
-    else if isBool v then boolToString v
+    if isList v
+    then concatStringsSep "," v
+    else if isBool v
+    then boolToString v
     else v);
 in {
   inherit (import ./options.nix {inherit lib pkgs;}) options;
@@ -35,7 +37,7 @@ in {
           allowedTCPPorts =
             [(s."Network.P2PPort" or 30303) (s."JsonRpc.EnginePort" or 8551)]
             ++ optionals (s."JsonRpc.Enabled" or true) [(s."JsonRpc.Port" or 8545) (s."JsonRpc.WebSocketsPort" or 8545)]
-            ++ optionals ((s."Metrics.Enabled" or true) && (s."Metrics.ExposePort" or null) != null) [(s."Metrics.ExposePort")];
+            ++ optionals ((s."Metrics.Enabled" or true) && (s."Metrics.ExposePort" or null) != null) [s."Metrics.ExposePort"];
         })
         openFirewall;
     in

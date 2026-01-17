@@ -13,7 +13,10 @@
   eachMevBoost = config.services.ethereum.mev-boost;
 
   # Convert lists to comma-separated strings
-  processSettings = mapAttrs (_: v: if isList v then concatStringsSep "," v else v);
+  processSettings = mapAttrs (_: v:
+    if isList v
+    then concatStringsSep "," v
+    else v);
 in {
   inherit (import ./options.nix {inherit lib pkgs;}) options;
 

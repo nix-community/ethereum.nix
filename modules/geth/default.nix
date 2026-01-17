@@ -15,7 +15,10 @@
   eachGeth = config.services.ethereum.geth;
 
   # Convert lists to comma-separated strings
-  processSettings = mapAttrs (_: v: if isList v then concatStringsSep "," v else v);
+  processSettings = mapAttrs (_: v:
+    if isList v
+    then concatStringsSep "," v
+    else v);
 in {
   disabledModules = ["services/blockchain/ethereum/geth.nix"];
 

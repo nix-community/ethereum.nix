@@ -51,9 +51,11 @@ in {
           normalSettings = filterAttrs (k: _: !elem k skipKeys) s;
 
           # Besu uses = separator
-          cliArgs = lib.cli.toGNUCommandLine {
-            optionValueSeparator = "=";
-          } normalSettings;
+          cliArgs =
+            lib.cli.toGNUCommandLine {
+              optionValueSeparator = "=";
+            }
+            normalSettings;
 
           allArgs =
             ["--data-path=${dataPath}"]

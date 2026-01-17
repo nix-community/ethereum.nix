@@ -48,11 +48,13 @@ in {
           normalSettings = filterAttrs (k: _: !elem k skipKeys) s;
 
           # Standard lib.cli
-          cliArgs = lib.cli.toCommandLine (name: {
-            option = "--${name}";
-            sep = null;
-            explicitBool = false;
-          }) normalSettings;
+          cliArgs =
+            lib.cli.toCommandLine (name: {
+              option = "--${name}";
+              sep = null;
+              explicitBool = false;
+            })
+            normalSettings;
 
           allArgs =
             ["--accept-terms-of-use" "--datadir" datadir]

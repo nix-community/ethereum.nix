@@ -47,11 +47,13 @@ in {
           normalSettings = filterAttrs (k: _: !elem k skipKeys) s;
 
           # Teku uses = separator
-          cliArgs = lib.cli.toCommandLine (name: {
-            option = "--${name}";
-            sep = "=";
-            explicitBool = false;
-          }) normalSettings;
+          cliArgs =
+            lib.cli.toCommandLine (name: {
+              option = "--${name}";
+              sep = "=";
+              explicitBool = false;
+            })
+            normalSettings;
 
           allArgs =
             ["--data-path=${dataPath}"]

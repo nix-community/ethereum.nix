@@ -47,9 +47,11 @@ in {
           normalSettings = filterAttrs (k: _: !elem k skipKeys) s;
 
           # Bootnode uses single-dash format
-          cliArgs = lib.cli.toGNUCommandLine {
-            mkOptionName = k: "-${k}";
-          } normalSettings;
+          cliArgs =
+            lib.cli.toGNUCommandLine {
+              mkOptionName = k: "-${k}";
+            }
+            normalSettings;
 
           allArgs =
             cliArgs

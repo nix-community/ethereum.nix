@@ -16,8 +16,10 @@
 
   # Convert lists to comma-separated, bools to strings
   processSettings = mapAttrs (_: v:
-    if isList v then concatStringsSep "," v
-    else if isBool v then boolToString v
+    if isList v
+    then concatStringsSep "," v
+    else if isBool v
+    then boolToString v
     else v);
 in {
   inherit (import ./options.nix {inherit lib pkgs;}) options;
@@ -51,10 +53,13 @@ in {
           scriptArgs = concatStringsSep " \\\n  " allArgs;
 
           # Binary selection for gnosis/chiado
-          bin = {
-            gnosis = "nimbus_validator_client_gnosis";
-            chiado = "nimbus_validator_client_gnosis";
-          }.${network} or "nimbus_validator_client";
+          bin =
+            {
+              gnosis = "nimbus_validator_client_gnosis";
+              chiado = "nimbus_validator_client_gnosis";
+            }.${
+              network
+            } or "nimbus_validator_client";
         in
           nameValuePair serviceName (mkIf cfg.enable {
             after = ["network.target"];

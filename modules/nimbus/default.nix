@@ -8,7 +8,7 @@
   inherit (lib) concatStringsSep filterAttrs mapAttrsToList flatten optionals elem mapAttrs;
   inherit (lib.attrsets) zipAttrsWith;
   inherit (lib.trivial) boolToString;
-  inherit (builtins) isList isBool toString;
+  inherit (builtins) isList isBool;
 
   modulesLib = import ../lib.nix lib;
   inherit (modulesLib) baseServiceConfig;
@@ -17,8 +17,10 @@
 
   # Convert lists to comma-separated, bools to strings
   processSettings = mapAttrs (_: v:
-    if isList v then concatStringsSep "," v
-    else if isBool v then boolToString v
+    if isList v
+    then concatStringsSep "," v
+    else if isBool v
+    then boolToString v
     else v);
 in {
   inherit (import ./options.nix {inherit lib pkgs;}) options;
@@ -78,10 +80,13 @@ in {
           );
 
           # Binary selection for gnosis/chiado
-          bin = {
-            gnosis = "nimbus_beacon_node_gnosis";
-            chiado = "nimbus_beacon_node_gnosis";
-          }.${network} or "nimbus_beacon_node";
+          bin =
+            {
+              gnosis = "nimbus_beacon_node_gnosis";
+              chiado = "nimbus_beacon_node_gnosis";
+            }.${
+              network
+            } or "nimbus_beacon_node";
         in
           nameValuePair serviceName (mkIf cfg.enable {
             after = ["network.target"];
