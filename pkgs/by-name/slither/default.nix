@@ -7,7 +7,7 @@
 }:
 python3.pkgs.buildPythonPackage rec {
   pname = "slither";
-  version = "0.11.4";
+  version = "0.11.5";
   pyproject = true;
 
   disabled = python3.pythonOlder "3.8";
@@ -16,7 +16,7 @@ python3.pkgs.buildPythonPackage rec {
     owner = "crytic";
     repo = pname;
     rev = "refs/tags/${version}";
-    hash = "sha256-rtEcEXZpaimcoLcXYXNrKzm0zfF28U0nMsqHdM/cdDw=";
+    hash = "sha256-sy1vE9XniwyvvZRFnnKhPfmYh2auHHcMel9sZx2YK3c=";
   };
 
   nativeBuildInputs = [
