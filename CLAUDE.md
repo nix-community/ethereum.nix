@@ -1,268 +1,82 @@
-# Module Migration Guide: RFC 42 Settings Pattern
+# ethereum.nix
 
-This document describes the approach for migrating ethereum.nix modules from the legacy `args` pattern to the RFC 42 `settings` pattern with `freeformType`.
+Reproducible Nix package set for Ethereum clients and utilities.
 
-## Overview
+## Project Structure
 
-RFC 42 recommends using structured `settings` options instead of manually declared args. This allows:
+```
+pkgs/
+├── default.nix              # package definitions + overlay
+└── by-name/
+    └── <package>/
+        └── default.nix      # individual package derivation
 
-- Unknown options to pass through via `freeformType`
-- Better composability with `mkDefault`/`mkForce`
-- Less boilerplate when upstream adds new CLI flags
-- Cleaner module code
+modules/
+├── <client>/
+│   ├── default.nix      # systemd service implementation
+│   ├── options.nix      # NixOS module options
+│   └── default.test.nix # NixOS VM test
+├── lib.nix              # shared utilities (baseServiceConfig)
+└── testing.nix          # test discovery framework
+```
 
-## Migration Steps
+## Packages (44 total)
 
-### 1. Delete `args.nix`
+**Execution Layer:** geth, reth, erigon, besu, nethermind
 
-Remove the `args.nix` file entirely. Options move to either:
+**Consensus Layer:** lighthouse, prysm, nimbus, teku
 
-- Explicit `settings` options (for required/special-handling options)
-- `freeformType` (for everything else)
+**MEV:** mev-boost, mev-boost-relay
 
-### 2. Update `options.nix`
+**Validators & Key Management:** dirk, vouch, web3signer, ethdo, eth2-val-tools, staking-deposit-cli, ethstaker-deposit-cli
 
-Replace the `args` pattern with `settings` submodule:
+**SSV (Distributed Validators):** ssvnode, ssv-dkg, charon
+
+**Development Tools:** foundry, foundry-bin, slither, solidity-language-server, snarkjs, evmc, tx-fuzz, kurtosis, sedge
+
+**Utilities:** eigenlayer, ethereal, rocketpool, rocketpoold, heimdall, zcli, blutgang, eth-validator-watcher, rotki-bin, eth2-testnet-genesis
+
+**Crypto Libraries:** bls, blst, mcl, ckzg
+
+## RFC 42 Settings Pattern
+
+All modules use RFC 42 `settings` pattern with `freeformType`:
 
 ```nix
-{
-  lib,
-  pkgs,
-  ...
-}: let
-  inherit (lib) mkEnableOption mkOption types literalExpression;
-
-  moduleOpts = {
-    options = {
-      enable = mkEnableOption "Service description";
-
-      package = mkOption {
-        type = types.package;
-        default = pkgs.example;
-        defaultText = literalExpression "pkgs.example";
-        description = "Package to use.";
-      };
-
-      settings = mkOption {
-        type = types.submodule {
-          freeformType = types.attrsOf types.anything;
-
-          options = {
-            # Only declare options that:
-            # 1. Are required (no default)
-            # 2. Need special handling (enums -> flags, etc.)
-            # 3. Are commonly used and benefit from documentation
-          };
-        };
-        default = {};
-        description = ''
-          Service configuration. Converted to CLI arguments.
-          See upstream documentation for available options.
-        '';
-      };
-
-      extraArgs = mkOption {
-        type = types.listOf types.str;
-        default = [];
-        description = "Additional arguments to pass to the service.";
-      };
-    };
+services.ethereum.geth.mainnet = {
+  enable = true;
+  settings = {
+    http = true;
+    "http.addr" = "0.0.0.0";
+    "http.api" = ["eth" "net" "web3"];
+    sepolia = true;
   };
-in {
-  options.services.ethereum.example = mkOption {
-    type = types.attrsOf (types.submodule moduleOpts);
-    default = {};
-    description = "Specification of one or more service instances.";
-  };
-}
+  extraArgs = ["--custom-flag"];
+};
 ```
 
-### 3. Update `default.nix`
+Key points:
 
-Replace `mkArgs` with `lib.cli.toCommandLine`:
+- Use flat dotted keys: `"http.addr"` not `http.addr`
+- Unknown options pass through via `freeformType`
+- `extraArgs` for flags not covered by settings
 
-```nix
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: let
-  inherit (lib) mkIf mkMerge mapAttrs' nameValuePair;
-  inherit (lib) concatStringsSep mapAttrs;
-  inherit (builtins) isList;
+## Using `lib.cli` for CLI Arguments
 
-  modulesLib = import ../lib.nix lib;
-  inherit (modulesLib) baseServiceConfig;
-
-  eachInstance = config.services.ethereum.example;
-
-  # Convert lists to comma-separated strings (if needed by upstream CLI)
-  processSettings = mapAttrs (_: v: if isList v then concatStringsSep "," v else v);
-in {
-  inherit (import ./options.nix {inherit lib pkgs;}) options;
-
-  config = mkIf (eachInstance != {}) {
-    systemd.services =
-      mapAttrs'
-      (
-        instanceName: cfg: let
-          serviceName = "example-${instanceName}";
-
-          cliArgs = lib.cli.toCommandLine (name: {
-            option = "-${name}";
-            sep = null;
-            explicitBool = false;
-          }) (processSettings cfg.settings);
-
-          scriptArgs = concatStringsSep " \\\n  " (cliArgs ++ cfg.extraArgs);
-        in
-          nameValuePair serviceName (mkIf cfg.enable {
-            after = ["network.target"];
-            wantedBy = ["multi-user.target"];
-            description = "Example Service (${instanceName})";
-
-            serviceConfig = mkMerge [
-              baseServiceConfig
-              {
-                User = serviceName;
-                StateDirectory = serviceName;
-                ExecStart = "${cfg.package}/bin/example ${scriptArgs}";
-              }
-            ];
-          })
-      )
-      eachInstance;
-  };
-}
-```
-
-## Using `lib.cli` from nixpkgs
-
-Use `lib.cli.toCommandLine` instead of custom CLI argument generators.
-
-### Available Functions
-
-| Function | Returns | Description |
-|----------|---------|-------------|
-| `toCommandLine` | `[list]` | Fully customizable via `optionFormat` |
-| `toCommandLineShell` | `"string"` | Same + shell-escaped |
-| `toCommandLineGNU` | `[list]` | GNU-style with options |
-| `toCommandLineShellGNU` | `"string"` | GNU-style + shell-escaped |
-
-### `toCommandLine` — Most Flexible
-
-```nix
-lib.cli.toCommandLine (name: {
-  option = "-${name}";     # flag format
-  sep = null;              # null = space, "=" = joined
-  explicitBool = false;    # false: true→flag, false→omitted
-                           # true: both rendered as values
-}) { foo = "bar"; verbose = true; }
-# → [ "-foo" "bar" "-verbose" ]
-```
-
-### `toCommandLineGNU` — GNU-style
-
-```nix
-lib.cli.toCommandLineGNU {} { v = true; verbose = true; file = "x"; }
-# → [ "-v" "--verbose" "--file=x" ]
-```
-
-GNU conventions:
-
-- Short options (1 char): `-v`
-- Long options: `--verbose`
-- Long options use `=`: `--file=x`
-
-### Which to Use?
+Modules use `lib.cli.toCommandLine` to convert settings to CLI args:
 
 | CLI Style | Function |
 |-----------|----------|
-| `-flag value` (mev-boost) | `toCommandLine` with `option = "-${name}"` |
-| `--flag value` (reth) | `toCommandLine` with `option = "--${name}"` |
-| GNU-compatible (`-v`, `--file=x`) | `toCommandLineGNU` |
-| Need shell string, not list | `*Shell` variants |
-
-### Example: mev-boost
-
-```nix
-# Convert lists to comma-separated (mev-boost expects -relays a,b,c)
-processSettings = mapAttrs (_: v: if isList v then concatStringsSep "," v else v);
-
-cliArgs = lib.cli.toCommandLine (name: {
-  option = "-${name}";
-  sep = null;
-  explicitBool = false;
-}) (processSettings cfg.settings);
-```
-
-### Example: reth
-
-```nix
-cliArgs = lib.cli.toCommandLine (name: {
-  option = "--${name}";
-  sep = null;
-  explicitBool = false;
-}) normalSettings;
-```
-
-### Flat Keys for Dotted Options
-
-Use flat dotted keys instead of nested attrs:
-
-```nix
-# Good - flat keys
-settings = {
-  http = true;              # → --http
-  "http.addr" = "0.0.0.0";  # → --http.addr 0.0.0.0
-};
-
-# Avoid - nested attrs (lib.cli doesn't support)
-settings = {
-  http.enable = true;
-  http.addr = "0.0.0.0";
-};
-```
-
-## What to Remove
-
-### 1. Deprecated Networks
-
-Remove networks that are no longer active (e.g., holesky, zhejiang, goerli).
-
-### 2. Non-Existent Options
-
-Check upstream documentation and remove options that don't exist.
-
-### 3. Backup/Restore Mixins (for Stateless Services)
-
-If the service doesn't store state (like mev-boost), remove:
-
-```nix
-# Remove these
-backup = let
-  inherit (import ../backup/lib.nix lib) options;
-in options;
-
-restore = let
-  inherit (import ../restore/lib.nix lib) options;
-in options;
-```
-
-## Deciding What Options to Declare Explicitly
-
-| Category | Example | Declare Explicitly? |
-|----------|---------|---------------------|
-| Required (no sensible default) | `relays` | Yes |
-| Special handling needed | `network` (enum->flag) | Yes |
-| Commonly used | `addr`, `port` | Optional |
-| Rarely used | `request-timeout-*` | No, use freeform |
-| New upstream options | Any future flags | No, freeform handles it |
+| `-flag value` | `toCommandLine` with `option = "-${name}"` |
+| `--flag value` | `toCommandLine` with `option = "--${name}"` |
+| `--flag=value` | `toCommandLine` with `sep = "="` |
+| GNU-style | `toCommandLineGNU` |
 
 ## Testing
 
-Update `default.test.nix` to use new `settings` format:
+### Test file format
+
+Each module can have `default.test.nix`:
 
 ```nix
 {
@@ -276,8 +90,7 @@ Update `default.test.nix` to use new `settings` format:
         services.ethereum.example.test = {
           enable = true;
           settings = {
-            # Use settings instead of args
-            addr = "localhost:8080";
+            network = "sepolia";
           };
         };
       };
@@ -285,35 +98,42 @@ Update `default.test.nix` to use new `settings` format:
 
     testScript = ''
       basic.wait_for_unit("example-test.service")
+      basic.sleep(10)
+      basic.succeed("systemctl is-active example-test.service")
     '';
   };
 }
 ```
 
-Run test:
+### Running tests
 
 ```bash
-nix build .#checks.x86_64-linux.testing-example-default.driver
-./result/bin/nixos-test-driver
+# Build and run test
+nix build .#checks.x86_64-linux.testing-geth-default
+
+# Interactive mode
+nix build .#checks.x86_64-linux.testing-geth-default.driver
+./result/bin/nixos-test-driver --interactive
+
+# List available tests
+nix eval .#checks.x86_64-linux --apply 'x: builtins.filter (n: builtins.substring 0 8 n == "testing-") (builtins.attrNames x)'
 ```
 
-## Migration Priority
+### Available tests
 
-Start with simpler modules and progress to complex ones:
-
-| Priority | Module | Complexity | Notes |
-|----------|--------|------------|-------|
-| 1 | mev-boost | Low | Done - good reference |
-| 2 | reth | Low | Dot-separated args |
-| 3 | geth | Medium | Standard dash-separated |
-| 4 | prysm-beacon | Medium | Has --accept-terms-of-use |
-| 5 | teku-beacon | Medium | Underscore/dash mix |
-| 6 | lighthouse-beacon | High | Complex boolean reconstruction |
-| 7 | nimbus-beacon | High | Equals-separated format |
-| 8 | nethermind | High | Custom formatting, deep nesting |
+- `testing-geth-default`
+- `testing-reth-default`
+- `testing-erigon-default`
+- `testing-besu-default`
+- `testing-nethermind-default`
+- `testing-prysm-default`
+- `testing-lighthouse-default`
+- `testing-nimbus-default`
+- `testing-teku-default`
+- `testing-mev-boost-default`
+- `testing-prysm-validator-default`
 
 ## References
 
 - [RFC 42: NixOS settings options](https://github.com/NixOS/rfcs/blob/master/rfcs/0042-config-option.md)
 - [Discussion #325: Module System Consideration](https://github.com/nix-community/ethereum.nix/discussions/325)
-- [mev-boost migration commit](./modules/mev-boost/) - reference implementation
