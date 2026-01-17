@@ -64,7 +64,8 @@ in {
             serviceConfig = mkMerge [
               baseServiceConfig
               {
-                User = s.user or serviceName;
+                # Note: User is ignored when DynamicUser=true (from baseServiceConfig)
+                # Each service gets its own dynamic UID for isolation
                 StateDirectory = serviceName;
                 ExecStart = "${cfg.package}/bin/${bin} ${scriptArgs}";
                 MemoryDenyWriteExecute = "false";

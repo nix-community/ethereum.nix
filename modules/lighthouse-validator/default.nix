@@ -35,10 +35,9 @@ in {
       mapAttrs'
       (
         name: cfg: let
-          user = "lighthouse-${name}";
           serviceName = "lighthouse-validator-${name}";
           s = cfg.settings;
-          datadir = s.datadir or "%S/${user}";
+          datadir = s.datadir or "%S/${serviceName}";
 
           # Keys to skip (handled separately)
           skipKeys = ["datadir" "beacon-nodes" "http" "http-address" "http-port" "metrics" "metrics-address" "metrics-port" "user"];
@@ -86,8 +85,9 @@ in {
             serviceConfig = mkMerge [
               baseServiceConfig
               {
-                User = s.user or user;
-                StateDirectory = user;
+                # Note: User is ignored when DynamicUser=true (from baseServiceConfig)
+                # Each service gets its own dynamic UID for isolation
+                StateDirectory = serviceName;
                 ExecStart = "${cfg.package}/bin/lighthouse validator ${scriptArgs}";
               }
             ];

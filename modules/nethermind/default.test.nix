@@ -14,13 +14,11 @@
 
         services.ethereum.nethermind.sepolia = {
           enable = true;
-          args = {
+          settings = {
             config = "sepolia";
-            modules = {
-              JsonRpc.JwtSecretFile = "${jwtSecret}";
-              Metrics.Enabled = true;
-              Metrics.ExposePort = 1313;
-            };
+            "JsonRpc.JwtSecretFile" = jwtSecret;
+            "Metrics.Enabled" = true;
+            "Metrics.ExposePort" = 1313;
           };
         };
       };

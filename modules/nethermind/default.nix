@@ -78,10 +78,9 @@ in {
             serviceConfig = mkMerge [
               baseServiceConfig
               {
-                MemoryDenyWriteExecute = false; # incompatible with JIT
-                User = serviceName;
                 StateDirectory = serviceName;
                 ExecStart = "${cfg.package}/bin/nethermind ${scriptArgs}";
+                MemoryDenyWriteExecute = false; # JIT compilation
               }
               (mkIf (jwtSecret != null) {
                 LoadCredential = ["jwtsecret:${jwtSecret}"];

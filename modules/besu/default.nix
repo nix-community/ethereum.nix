@@ -71,10 +71,9 @@ in {
             serviceConfig = mkMerge [
               baseServiceConfig
               {
-                User = serviceName;
                 StateDirectory = serviceName;
                 ExecStart = "${cfg.package}/bin/besu ${scriptArgs}";
-                MemoryDenyWriteExecute = false;
+                MemoryDenyWriteExecute = false; # JIT compilation
               }
               (mkIf (jwtSecret != null) {
                 LoadCredential = ["jwtsecret:${jwtSecret}"];

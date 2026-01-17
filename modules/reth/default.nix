@@ -76,7 +76,6 @@ in {
             serviceConfig = mkMerge [
               baseServiceConfig
               {
-                User = serviceName;
                 StateDirectory = serviceName;
                 ExecStart = "${cfg.package}/bin/reth node ${scriptArgs}";
                 SystemCallFilter = ["@system-service" "~@privileged" "mincore"];

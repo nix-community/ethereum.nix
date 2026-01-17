@@ -91,15 +91,14 @@ in {
             serviceConfig = mkMerge [
               baseServiceConfig
               {
-                MemoryDenyWriteExecute = false;
-                User = serviceName;
                 StateDirectory = serviceName;
-                TimeoutStartSec = "5min";
                 ExecStartPre = lib.mkBefore [
                   "${cfg.package}/bin/${bin} trustedNodeSync ${checkpointSyncArgs}"
                 ];
                 ExecStart = "${cfg.package}/bin/${bin} ${scriptArgs}";
-                RestartPreventExitStatus = 129;
+                TimeoutStartSec = "5min";
+                MemoryDenyWriteExecute = false; # library loading
+                RestartPreventExitStatus = 129; # doppelganger detection
               }
               (mkIf (jwtSecret != null) {
                 LoadCredential = ["jwt-secret:${jwtSecret}"];

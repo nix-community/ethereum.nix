@@ -75,10 +75,9 @@ in {
             serviceConfig = mkMerge [
               baseServiceConfig
               {
-                User = serviceName;
                 StateDirectory = serviceName;
                 ExecStart = "${cfg.package}/bin/beacon-chain ${scriptArgs}";
-                MemoryDenyWriteExecute = "false"; # causes a library loading error
+                MemoryDenyWriteExecute = "false"; # library loading
               }
               (mkIf (jwtSecret != null) {
                 LoadCredential = ["jwt-secret:${jwtSecret}"];

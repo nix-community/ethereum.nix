@@ -42,14 +42,12 @@
 
           services.ethereum.prysm-validator.test = {
             enable = true;
-            args = {
+            settings = {
               datadir = "/tmp/prysm-validator";
               network = "sepolia";
-              rpc = {
-                enable = true;
-                host = "127.0.0.1";
-                port = 7000;
-              };
+              rpc = true;
+              rpc-host = "127.0.0.1";
+              rpc-port = 7000;
               wallet-dir = "/tmp/wallet/";
               wallet-password-file = "/tmp/wallet/password.txt";
             };

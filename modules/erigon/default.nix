@@ -73,7 +73,6 @@ in {
             serviceConfig = mkMerge [
               baseServiceConfig
               {
-                User = serviceName;
                 StateDirectory = serviceName;
                 ExecStart = "${cfg.package}/bin/erigon ${scriptArgs}";
                 SystemCallFilter = ["@system-service" "~@privileged" "mincore"];

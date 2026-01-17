@@ -37,9 +37,8 @@ in {
       (
         validatorName: cfg: let
           serviceName = "prysm-validator-${validatorName}";
-          beaconServiceName = "prysm-${validatorName}";
           s = cfg.settings;
-          datadir = s.datadir or "%S/${beaconServiceName}";
+          datadir = s.datadir or "%S/${serviceName}";
           network = s.network or null;
 
           # Keys to skip (handled separately)
@@ -78,7 +77,8 @@ in {
             serviceConfig = mkMerge [
               baseServiceConfig
               {
-                User = s.user or beaconServiceName;
+                # Note: User is ignored when DynamicUser=true (from baseServiceConfig)
+                # Each service gets its own dynamic UID for isolation
                 StateDirectory = serviceName;
                 ExecStart = "${cfg.package}/bin/validator ${scriptArgs}";
                 MemoryDenyWriteExecute = "false"; # causes a library loading error

@@ -69,11 +69,10 @@ in {
             serviceConfig = mkMerge [
               baseServiceConfig
               {
-                MemoryDenyWriteExecute = false;
-                User = serviceName;
                 StateDirectory = serviceName;
                 ExecStart = "${cfg.package}/bin/teku ${scriptArgs}";
                 SystemCallFilter = ["@system-service" "~@privileged" "mincore"];
+                MemoryDenyWriteExecute = false; # JVM
                 RestartPreventExitStatus = 2;
               }
               (mkIf (jwtSecret != null) {
