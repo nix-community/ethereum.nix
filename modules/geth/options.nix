@@ -11,6 +11,18 @@
 
       inherit args;
 
+      dynamicUser = mkOption {
+        type = types.bool;
+        default = true;
+        description = "Whether to use systemd's DynamicUser feature.";
+      };
+
+      user = mkOption {
+        type = types.nullOr types.str;
+        default = null;
+        description = "User to run the service as.";
+      };
+
       extraArgs = mkOption {
         type = types.listOf types.str;
         description = "Additional arguments to pass to Go Ethereum.";
