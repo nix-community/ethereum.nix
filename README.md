@@ -70,7 +70,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### charon
 
 - **Description**: Charon (pronounced 'kharon') is a Proof of Stake Ethereum Distributed Validator Client
-- **Version**: 1.8.0
+- **Version**: 1.8.1
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/ObolNetwork/charon
@@ -106,7 +106,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### erigon
 
 - **Description**: Ethereum node implementation focused on scalability and modularity
-- **Version**: 3.3.2
+- **Version**: 3.3.3
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/erigontech/erigon/
@@ -187,7 +187,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### geth
 
 - **Description**: Official golang implementation of the Ethereum protocol
-- **Version**: 1.16.7
+- **Version**: 1.16.8
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://geth.ethereum.org/
@@ -250,7 +250,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### nethermind
 
 - **Description**: Our flagship Ethereum client for Linux, Windows, and macOS—full and actively developed
-- **Version**: 1.35.7
+- **Version**: 1.36.0
 - **Source**: unknown
 - **License**: GPL-3.0
 - **Homepage**: https://nethermind.io/nethermind-client
@@ -259,7 +259,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### nimbus
 
 - **Description**: Nimbus is a lightweight client for the Ethereum consensus layer
-- **Version**: 25.11.1-00000000
+- **Version**: 25.12.0-00000000
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://nimbus.guide/
@@ -268,7 +268,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### prysm
 
 - **Description**: Go implementation of Ethereum proof of stake
-- **Version**: 7.1.1
+- **Version**: 7.1.2
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/prysmaticlabs/prysm
@@ -286,7 +286,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### reth
 
 - **Description**: Modular, contributor-friendly and blazing-fast implementation of the Ethereum protocol, in Rust
-- **Version**: 1.9.3
+- **Version**: 1.10.2
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/paradigmxyz/reth
@@ -295,7 +295,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### rocketpool
 
 - **Description**: Rocket Pool CLI
-- **Version**: 1.18.7
+- **Version**: 1.18.10
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/rocket-pool/smartnode
@@ -304,7 +304,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### rocketpoold
 
 - **Description**: Rocket Pool Daemon
-- **Version**: 1.18.7
+- **Version**: 1.18.10
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/rocket-pool/smartnode
@@ -331,7 +331,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### slither
 
 - **Description**: Static Analyzer for Solidity
-- **Version**: 0.11.3
+- **Version**: 0.11.5
 - **Source**: unknown
 - **License**: AGPL-3.0-only
 - **Homepage**: https://github.com/crytic/slither
@@ -340,7 +340,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### snarkjs
 
 - **Description**: zkSNARK implementation in JavaScript & WASM
-- **Version**: 0.7.5
+- **Version**: 0.7.6
 - **Source**: unknown
 - **License**: Check package
 - **Homepage**: https://github.com/iden3/snarkjs
@@ -349,12 +349,11 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### solidity-language-server
 
 - **Description**: Solidity language server by Nomic Foundation
-- **Version**: 0.8.25
+- **Version**: 0.8.26
 - **Source**: unknown
 - **License**: MIT
 - **Homepage**: https://github.com/NomicFoundation/hardhat-vscode
-- **Usage**: `nix run .#solidity-language-server -- --stdio` (or integrate with your
-  editor's LSP client)
+- **Usage**: `nix run .#solidity-language-server -- --help`
 
 #### ssv-dkg
 
@@ -386,7 +385,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 #### teku
 
 - **Description**: Java Implementation of the Ethereum 2.0 Beacon Chain
-- **Version**: 25.11.1
+- **Version**: 25.12.0
 - **Source**: bytecode
 - **License**: Apache-2.0
 - **Homepage**: https://github.com/ConsenSys/teku
