@@ -1,3 +1,0 @@
-# Reporting a bug
-
-TBW
