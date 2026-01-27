@@ -33,7 +33,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 
 ## Development
 
-We use [`devshell`](https://github.com/numtide/devshell) to have nice development environments. 
+We use [`devshell`](https://github.com/numtide/devshell) to have nice development environments.
 
 ### Requirements
 
