@@ -1,6 +1,7 @@
 {
   buildGoModule,
   fetchFromGitHub,
+  lib,
   nix-update-script,
 }:
 buildGoModule rec {
@@ -30,10 +31,12 @@ buildGoModule rec {
   meta = {
     description = "Rocket Pool CLI";
     homepage = "https://github.com/rocket-pool/smartnode";
+    license = lib.licenses.gpl3Only;
     mainProgram = "rocketpool";
     platforms = [
       "aarch64-linux"
       "x86_64-linux"
     ];
+    sourceProvenance = with lib.sourceTypes; [ fromSource ];
   };
 }

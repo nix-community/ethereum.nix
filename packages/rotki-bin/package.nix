@@ -41,5 +41,6 @@ appimageTools.wrapType2 rec {
     license = licenses.agpl3Plus;
     maintainers = with maintainers; [ mitchmindtree ];
     platforms = [ "x86_64-linux" ];
+    sourceProvenance = with sourceTypes; [ binaryNativeCode ];
   };
 }

@@ -2,6 +2,7 @@
   bls,
   buildGoModule,
   fetchFromGitHub,
+  lib,
   mcl,
   nix-update-script,
 }:
@@ -38,7 +39,9 @@ buildGoModule rec {
   meta = {
     description = "Charon (pronounced 'kharon') is a Proof of Stake Ethereum Distributed Validator Client";
     homepage = "https://github.com/ObolNetwork/charon";
+    license = lib.licenses.bsl11;
     mainProgram = "charon";
     platforms = [ "x86_64-linux" ];
+    sourceProvenance = with lib.sourceTypes; [ fromSource ];
   };
 }

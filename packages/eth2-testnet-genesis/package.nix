@@ -2,6 +2,7 @@
   bls,
   buildGoModule,
   fetchFromGitHub,
+  lib,
   nix-update-script,
 }:
 buildGoModule rec {
@@ -34,7 +35,9 @@ buildGoModule rec {
   meta = {
     description = "Create a genesis state for an Eth2 testnet";
     homepage = "https://github.com/protolambda/eth2-testnet-genesis";
+    license = lib.licenses.mit;
     mainProgram = "eth2-testnet-genesis";
     platforms = [ "x86_64-linux" ];
+    sourceProvenance = with lib.sourceTypes; [ fromSource ];
   };
 }

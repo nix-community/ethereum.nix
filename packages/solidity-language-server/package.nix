@@ -65,5 +65,6 @@ buildNpmPackage rec {
     license = lib.licenses.mit;
     mainProgram = "nomicfoundation-solidity-language-server";
     inherit (nodejs.meta) platforms;
+    sourceProvenance = with lib.sourceTypes; [ fromSource ];
   };
 }

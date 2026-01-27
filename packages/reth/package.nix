@@ -48,5 +48,6 @@ rustPlatform.buildRustPackage rec {
     ];
     mainProgram = "reth";
     platforms = platforms.unix;
+    sourceProvenance = with sourceTypes; [ fromSource ];
   };
 }

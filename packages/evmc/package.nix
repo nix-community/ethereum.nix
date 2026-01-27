@@ -2,6 +2,7 @@
   cli11,
   cmake,
   fetchFromGitHub,
+  lib,
   nix-update-script,
   stdenv,
 }:
@@ -39,9 +40,11 @@ stdenv.mkDerivation rec {
   meta = {
     description = "EVMC – Ethereum Client-VM Connector API";
     homepage = "https://github.com/ethereum/evmc";
+    license = lib.licenses.asl20;
     platforms = [
       "x86_64-linux"
       "aarch64-linux"
     ];
+    sourceProvenance = with lib.sourceTypes; [ fromSource ];
   };
 }

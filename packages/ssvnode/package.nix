@@ -2,6 +2,7 @@
   bls,
   buildGoModule,
   fetchFromGitHub,
+  lib,
   mcl,
   nix-update-script,
   openssl,
@@ -47,7 +48,9 @@ buildGoModule rec {
   meta = {
     description = "Secret-Shared-Validator(SSV) for ethereum staking";
     homepage = "https://github.com/ssvlabs/ssv";
-    platforms = [ "x86_64-linux" ];
+    license = lib.licenses.gpl3Only;
     mainProgram = "ssvnode";
+    platforms = [ "x86_64-linux" ];
+    sourceProvenance = with lib.sourceTypes; [ fromSource ];
   };
 }

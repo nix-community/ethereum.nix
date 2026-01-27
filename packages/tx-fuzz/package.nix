@@ -35,5 +35,6 @@ buildGoModule rec {
     license = licenses.mit;
     mainProgram = pname;
     platforms = [ "x86_64-linux" ];
+    sourceProvenance = [ sourceTypes.fromSource ];
   };
 }

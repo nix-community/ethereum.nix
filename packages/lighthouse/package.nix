@@ -336,7 +336,9 @@ rustPlatform.buildRustPackage rec {
   meta = {
     description = "Ethereum consensus client in Rust";
     homepage = "https://github.com/sigp/lighthouse";
+    license = lib.licenses.asl20;
     mainProgram = "lighthouse";
     platforms = [ "x86_64-linux" ];
+    sourceProvenance = with lib.sourceTypes; [ fromSource ];
   };
 }

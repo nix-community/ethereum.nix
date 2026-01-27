@@ -1,6 +1,7 @@
 {
-  stdenv,
   fetchFromGitHub,
+  lib,
+  stdenv,
 }:
 stdenv.mkDerivation rec {
   pname = "blst";
@@ -20,9 +21,11 @@ stdenv.mkDerivation rec {
   meta = {
     description = "Multilingual BLS12-381 signature library";
     homepage = "https://github.com/supranational/blst";
+    license = lib.licenses.asl20;
     platforms = [
       "x86_64-linux"
       "aarch64-linux"
     ];
+    sourceProvenance = with lib.sourceTypes; [ fromSource ];
   };
 }

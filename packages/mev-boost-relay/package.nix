@@ -2,6 +2,7 @@
   blst,
   buildGoModule,
   fetchFromGitHub,
+  lib,
   nix-update-script,
 }:
 buildGoModule rec {
@@ -35,7 +36,9 @@ buildGoModule rec {
   meta = {
     description = "MEV-Boost Relay for Ethereum proposer/builder separation (PBS)";
     homepage = "https://github.com/flashbots/mev-boost-relay";
+    license = lib.licenses.agpl3Only;
     mainProgram = "mev-boost-relay";
     platforms = [ "x86_64-linux" ];
+    sourceProvenance = with lib.sourceTypes; [ fromSource ];
   };
 }

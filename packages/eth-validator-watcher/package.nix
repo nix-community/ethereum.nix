@@ -56,5 +56,6 @@ python3.pkgs.buildPythonPackage rec {
     homepage = "https://github.com/kilnfi/eth-validator-watcher";
     license = licenses.mit;
     platforms = [ "x86_64-linux" ];
+    sourceProvenance = with sourceTypes; [ fromSource ];
   };
 }
