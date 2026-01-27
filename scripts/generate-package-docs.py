@@ -54,7 +54,7 @@ def generate_package_doc(package: str, metadata: dict[str, str | bool | None]) -
         lines.append(f"- **Homepage**: {homepage}")
 
     lines.append(
-        f"- **Usage**: `nix run github:nix-community/eth.nix#{package} -- --help`"
+        f"- **Usage**: `nix run github:nix-community/ethereum.nix#{package} -- --help`"
     )
     lines.append(
         f"- **Nix**: [packages/{package}/package.nix](packages/{package}/package.nix)"
