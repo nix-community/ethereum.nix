@@ -1,0 +1,5 @@
+{ pkgs, perSystem }:
+pkgs.callPackage ./package.nix {
+  inherit (perSystem.self) bls;
+  inherit (perSystem.self) mcl;
+}
