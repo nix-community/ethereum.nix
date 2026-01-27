@@ -14,6 +14,10 @@ let
 
       # markdown
       mdformat.enable = true;
+
+      # python
+      ruff-format.enable = true;
+      ruff-check.enable = true;
     };
     settings.formatter = {
       # nix
@@ -39,6 +43,12 @@ let
           p.mdformat-gfm
         ])
       );
+
+      # python
+      ruff-check.pipeline = "python";
+      ruff-check.priority = 1;
+      ruff-format.pipeline = "python";
+      ruff-format.priority = 2;
     };
   };
 in
