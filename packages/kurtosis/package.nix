@@ -47,5 +47,6 @@ stdenvNoCC.mkDerivation {
       "aarch64-darwin"
     ];
     mainProgram = "kurtosis";
+    sourceProvenance = with sourceTypes; [ binaryNativeCode ];
   };
 }

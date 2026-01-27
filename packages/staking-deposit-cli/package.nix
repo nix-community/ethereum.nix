@@ -1,6 +1,7 @@
 {
   autoPatchelfHook,
   fetchurl,
+  lib,
   nix-update-script,
   stdenv,
   zlib,
@@ -35,7 +36,9 @@ stdenv.mkDerivation rec {
   meta = {
     description = "Secure key generation for deposits";
     homepage = "https://github.com/ethereum/staking-deposit-cli";
+    license = lib.licenses.cc0;
     mainProgram = "deposit";
     platforms = [ "x86_64-linux" ];
+    sourceProvenance = with lib.sourceTypes; [ binaryNativeCode ];
   };
 }

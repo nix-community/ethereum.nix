@@ -43,5 +43,6 @@ buildGoModule rec {
       "x86_64-linux"
       "aarch64-darwin"
     ];
+    sourceProvenance = [ sourceTypes.fromSource ];
   };
 }

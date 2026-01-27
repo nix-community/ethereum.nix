@@ -2,6 +2,7 @@
   bls,
   buildGoModule,
   fetchFromGitHub,
+  lib,
   mcl,
   nix-update-script,
 }:
@@ -35,7 +36,9 @@ buildGoModule rec {
   meta = {
     description = "An Ethereum 2 multi-node validator client";
     homepage = "https://github.com/attestantio/vouch";
+    license = lib.licenses.asl20;
     mainProgram = "vouch";
     platforms = [ "x86_64-linux" ];
+    sourceProvenance = with lib.sourceTypes; [ fromSource ];
   };
 }

@@ -1,6 +1,7 @@
 {
   buildGoModule,
   fetchFromGitHub,
+  lib,
   nix-update-script,
 }:
 buildGoModule rec {
@@ -26,7 +27,9 @@ buildGoModule rec {
   meta = {
     description = "Eth2 CLI debugging tool";
     homepage = "https://github.com/protolambda/zcli";
+    license = lib.licenses.mit;
     mainProgram = "zcli";
     platforms = [ "x86_64-linux" ];
+    sourceProvenance = with lib.sourceTypes; [ fromSource ];
   };
 }

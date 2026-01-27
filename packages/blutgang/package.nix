@@ -1,5 +1,6 @@
 {
   fetchFromGitHub,
+  lib,
   nix-update-script,
   openssl,
   pkg-config,
@@ -34,7 +35,9 @@ rustPlatform.buildRustPackage rec {
   meta = {
     description = "the wd40 of ethereum load balancers";
     homepage = "https://github.com/rainshowerLabs/blutgang";
+    license = lib.licenses.gpl2Only;
     mainProgram = "blutgang";
     platforms = [ "x86_64-linux" ];
+    sourceProvenance = with lib.sourceTypes; [ fromSource ];
   };
 }

@@ -85,5 +85,6 @@ rustPlatform.buildRustPackage rec {
       "x86_64-linux"
       "x86_64-darwin"
     ];
+    sourceProvenance = with sourceTypes; [ fromSource ];
   };
 }

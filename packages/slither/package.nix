@@ -57,5 +57,6 @@ python3.pkgs.buildPythonPackage rec {
     homepage = "https://github.com/crytic/slither";
     license = licenses.agpl3Only;
     platforms = [ "x86_64-linux" ];
+    sourceProvenance = with sourceTypes; [ fromSource ];
   };
 }

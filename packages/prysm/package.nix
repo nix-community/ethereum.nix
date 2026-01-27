@@ -1,9 +1,10 @@
 {
   bls,
   blst,
-  ckzg,
   buildGoModule,
+  ckzg,
   fetchFromGitHub,
+  lib,
   libelf,
   nix-update-script,
 }:
@@ -56,10 +57,12 @@ buildGoModule rec {
   meta = {
     description = "Go implementation of Ethereum proof of stake";
     homepage = "https://github.com/prysmaticlabs/prysm";
+    license = lib.licenses.gpl3Only;
     mainProgram = "beacon-chain";
     platforms = [
       "x86_64-linux"
       "aarch64-linux"
     ];
+    sourceProvenance = with lib.sourceTypes; [ fromSource ];
   };
 }

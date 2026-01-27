@@ -49,5 +49,6 @@ rustPlatform.buildRustPackage rec {
     license = [ licenses.mit ];
     mainProgram = "heimdall";
     platforms = platforms.unix;
+    sourceProvenance = with sourceTypes; [ fromSource ];
   };
 }

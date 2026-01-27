@@ -34,5 +34,6 @@ buildGoModule rec {
     license = licenses.bsl11;
     mainProgram = "eigenlayer";
     platforms = [ "x86_64-linux" ];
+    sourceProvenance = [ sourceTypes.fromSource ];
   };
 }

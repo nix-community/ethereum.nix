@@ -41,5 +41,6 @@ python3.pkgs.buildPythonPackage rec {
     homepage = "https://github.com/NowanIlfideme/pydantic-yaml";
     changelog = "https://github.com/NowanIlfideme/pydantic-yaml/releases/tag/${src.tag}";
     license = lib.licenses.mit;
+    sourceProvenance = with lib.sourceTypes; [ fromSource ];
   };
 }

@@ -1,6 +1,7 @@
 {
   clang,
   fetchFromGitHub,
+  lib,
   nix-update-script,
   stdenv,
 }:
@@ -66,10 +67,12 @@ stdenv.mkDerivation rec {
   meta = {
     description = "A minimal implementation of the Polynomial Commitments API";
     homepage = "https://github.com/ethereum/c-kzg-4844";
+    license = lib.licenses.asl20;
     platforms = [
       "x86_64-linux"
       "aarch64-darwin"
       "aarch64-linux"
     ];
+    sourceProvenance = with lib.sourceTypes; [ fromSource ];
   };
 }

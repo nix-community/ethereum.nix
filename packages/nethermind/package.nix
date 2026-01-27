@@ -57,5 +57,6 @@ buildDotnetModule rec {
     license = lib.licenses.gpl3;
     mainProgram = "Nethermind.Runner";
     platforms = [ "x86_64-linux" ];
+    sourceProvenance = with lib.sourceTypes; [ fromSource ];
   };
 }

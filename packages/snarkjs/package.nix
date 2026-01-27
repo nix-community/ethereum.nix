@@ -28,5 +28,6 @@ buildNpmPackage rec {
     homepage = "https://github.com/iden3/snarkjs";
     license = with licenses; [ gpl3Only ];
     inherit (nodejs.meta) platforms;
+    sourceProvenance = with sourceTypes; [ fromSource ];
   };
 }

@@ -1,6 +1,7 @@
 {
   buildGoModule,
   fetchFromGitHub,
+  lib,
   nix-update-script,
   subPackages ? [
     "cmd/erigon"
@@ -47,7 +48,9 @@ buildGoModule rec {
   meta = {
     description = "Ethereum node implementation focused on scalability and modularity";
     homepage = "https://github.com/erigontech/erigon/";
+    license = lib.licenses.lgpl3Only;
     mainProgram = "erigon";
     platforms = [ "x86_64-linux" ];
+    sourceProvenance = with lib.sourceTypes; [ fromSource ];
   };
 }
