@@ -29,30 +29,479 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 
 <!-- BEGIN GENERATED PACKAGE DOCS -->
 
+### Execution Clients
+
+<details>
+<summary><strong>besu</strong> - Besu is an Apache 2.0 licensed, MainNet compatible, Ethereum client written in Java</summary>
+
+- **Source**: bytecode
+- **License**: Apache-2.0
+- **Homepage**: https://github.com/hyperledger/besu
+- **Usage**: `nix run github:nix-community/ethereum.nix#besu -- --help`
+- **Nix**: [packages/besu/package.nix](packages/besu/package.nix)
+
+</details>
+<details>
+<summary><strong>erigon</strong> - Ethereum node implementation focused on scalability and modularity</summary>
+
+- **Source**: source
+- **License**: LGPL-3.0-only
+- **Homepage**: https://github.com/erigontech/erigon/
+- **Usage**: `nix run github:nix-community/ethereum.nix#erigon -- --help`
+- **Nix**: [packages/erigon/package.nix](packages/erigon/package.nix)
+
+</details>
+<details>
+<summary><strong>geth</strong> - Official golang implementation of the Ethereum protocol</summary>
+
+- **Source**: source
+- **License**: Check package
+- **Homepage**: https://geth.ethereum.org/
+- **Usage**: `nix run github:nix-community/ethereum.nix#geth -- --help`
+- **Nix**: [packages/geth/package.nix](packages/geth/package.nix)
+
+</details>
+<details>
+<summary><strong>nethermind</strong> - Our flagship Ethereum client for Linux, Windows, and macOS—full and actively developed</summary>
+
+- **Source**: source
+- **License**: GPL-3.0
+- **Homepage**: https://nethermind.io/nethermind-client
+- **Usage**: `nix run github:nix-community/ethereum.nix#nethermind -- --help`
+- **Nix**: [packages/nethermind/package.nix](packages/nethermind/package.nix)
+
+</details>
+<details>
+<summary><strong>reth</strong> - Modular, contributor-friendly and blazing-fast implementation of the Ethereum protocol, in Rust</summary>
+
+- **Source**: source
+- **License**: Check package
+- **Homepage**: https://github.com/paradigmxyz/reth
+- **Usage**: `nix run github:nix-community/ethereum.nix#reth -- --help`
+- **Nix**: [packages/reth/package.nix](packages/reth/package.nix)
+
+</details>
+
+### Consensus Clients
+
+<details>
+<summary><strong>lighthouse</strong> - Ethereum consensus client in Rust</summary>
+
+- **Source**: source
+- **License**: Apache-2.0
+- **Homepage**: https://github.com/sigp/lighthouse
+- **Usage**: `nix run github:nix-community/ethereum.nix#lighthouse -- --help`
+- **Nix**: [packages/lighthouse/package.nix](packages/lighthouse/package.nix)
+
+</details>
+<details>
+<summary><strong>prysm</strong> - Go implementation of Ethereum proof of stake</summary>
+
+- **Source**: source
+- **License**: GPL-3.0-only
+- **Homepage**: https://github.com/prysmaticlabs/prysm
+- **Usage**: `nix run github:nix-community/ethereum.nix#prysm -- --help`
+- **Nix**: [packages/prysm/package.nix](packages/prysm/package.nix)
+
+</details>
+<details>
+<summary><strong>teku</strong> - Java Implementation of the Ethereum 2.0 Beacon Chain</summary>
+
+- **Source**: bytecode
+- **License**: Apache-2.0
+- **Homepage**: https://github.com/ConsenSys/teku
+- **Usage**: `nix run github:nix-community/ethereum.nix#teku -- --help`
+- **Nix**: [packages/teku/package.nix](packages/teku/package.nix)
+
+</details>
+
+### Validators
+
+<details>
+<summary><strong>charon</strong> - Charon (pronounced 'kharon') is a Proof of Stake Ethereum Distributed Validator Client</summary>
+
+- **Source**: source
+- **License**: BUSL-1.1
+- **Homepage**: https://github.com/ObolNetwork/charon
+- **Usage**: `nix run github:nix-community/ethereum.nix#charon -- --help`
+- **Nix**: [packages/charon/package.nix](packages/charon/package.nix)
+
+</details>
+<details>
+<summary><strong>dirk</strong> - An Ethereum 2 distributed remote keymanager, focused on security and long-term performance of signing operations</summary>
+
+- **Source**: source
+- **License**: Apache-2.0
+- **Homepage**: https://github.com/attestantio/dirk
+- **Usage**: `nix run github:nix-community/ethereum.nix#dirk -- --help`
+- **Nix**: [packages/dirk/package.nix](packages/dirk/package.nix)
+
+</details>
+<details>
+<summary><strong>vouch</strong> - An Ethereum 2 multi-node validator client</summary>
+
+- **Source**: source
+- **License**: Apache-2.0
+- **Homepage**: https://github.com/attestantio/vouch
+- **Usage**: `nix run github:nix-community/ethereum.nix#vouch -- --help`
+- **Nix**: [packages/vouch/package.nix](packages/vouch/package.nix)
+
+</details>
+<details>
+<summary><strong>web3signer</strong> - Web3Signer is an open-source signing service capable of signing on multiple platforms (Ethereum1 and 2, Filecoin) using private keys stored in an external vault, or encrypted on a disk</summary>
+
+- **Source**: bytecode
+- **License**: APSL-2.0
+- **Homepage**: https://github.com/ConsenSys/web3signer
+- **Usage**: `nix run github:nix-community/ethereum.nix#web3signer -- --help`
+- **Nix**: [packages/web3signer/package.nix](packages/web3signer/package.nix)
+
+</details>
+
+### MEV
+
+<details>
+<summary><strong>mev-boost</strong> - MEV-Boost allows proof-of-stake Ethereum consensus clients to source blocks from a competitive builder marketplace</summary>
+
+- **Source**: source
+- **License**: MIT
+- **Homepage**: https://github.com/flashbots/mev-boost
+- **Usage**: `nix run github:nix-community/ethereum.nix#mev-boost -- --help`
+- **Nix**: [packages/mev-boost/package.nix](packages/mev-boost/package.nix)
+
+</details>
+<details>
+<summary><strong>mev-boost-relay</strong> - MEV-Boost Relay for Ethereum proposer/builder separation (PBS)</summary>
+
+- **Source**: source
+- **License**: AGPL-3.0-only
+- **Homepage**: https://github.com/flashbots/mev-boost-relay
+- **Usage**: `nix run github:nix-community/ethereum.nix#mev-boost-relay -- --help`
+- **Nix**: [packages/mev-boost-relay/package.nix](packages/mev-boost-relay/package.nix)
+
+</details>
+
+### SSV
+
+<details>
+<summary><strong>ssv-dkg</strong> - The ssv-dkg tool enable operators to participate in ceremonies to generate distributed validator keys for Ethereum stakers.</summary>
+
+- **Source**: source
+- **License**: Check package
+- **Homepage**: https://github.com/ssvlabs/ssv-dkg
+- **Usage**: `nix run github:nix-community/ethereum.nix#ssv-dkg -- --help`
+- **Nix**: [packages/ssv-dkg/package.nix](packages/ssv-dkg/package.nix)
+
+</details>
+<details>
+<summary><strong>ssvnode</strong> - Secret-Shared-Validator(SSV) for ethereum staking</summary>
+
+- **Source**: source
+- **License**: GPL-3.0-only
+- **Homepage**: https://github.com/ssvlabs/ssv
+- **Usage**: `nix run github:nix-community/ethereum.nix#ssvnode -- --help`
+- **Nix**: [packages/ssvnode/package.nix](packages/ssvnode/package.nix)
+
+</details>
+
+### Development Tools
+
+<details>
+<summary><strong>eth2-testnet-genesis</strong> - Create a genesis state for an Eth2 testnet</summary>
+
+- **Source**: source
+- **License**: MIT
+- **Homepage**: https://github.com/protolambda/eth2-testnet-genesis
+- **Usage**: `nix run github:nix-community/ethereum.nix#eth2-testnet-genesis -- --help`
+- **Nix**: [packages/eth2-testnet-genesis/package.nix](packages/eth2-testnet-genesis/package.nix)
+
+</details>
+<details>
+<summary><strong>eth2-val-tools</strong> - Some experimental tools to manage validators</summary>
+
+- **Source**: source
+- **License**: MIT
+- **Homepage**: https://github.com/protolambda/eth2-val-tools
+- **Usage**: `nix run github:nix-community/ethereum.nix#eth2-val-tools -- --help`
+- **Nix**: [packages/eth2-val-tools/package.nix](packages/eth2-val-tools/package.nix)
+
+</details>
+<details>
+<summary><strong>ethdo</strong> - A command-line tool for managing common tasks in Ethereum 2</summary>
+
+- **Source**: source
+- **License**: APSL-2.0
+- **Homepage**: https://github.com/wealdtech/ethdo
+- **Usage**: `nix run github:nix-community/ethereum.nix#ethdo -- --help`
+- **Nix**: [packages/ethdo/package.nix](packages/ethdo/package.nix)
+
+</details>
+<details>
+<summary><strong>ethereal</strong> - A command-line tool for managing common tasks in Ethereum</summary>
+
+- **Source**: source
+- **License**: APSL-2.0
+- **Homepage**: https://github.com/wealdtech/ethereal/
+- **Usage**: `nix run github:nix-community/ethereum.nix#ethereal -- --help`
+- **Nix**: [packages/ethereal/package.nix](packages/ethereal/package.nix)
+
+</details>
+<details>
+<summary><strong>heimdall</strong> - A toolkit for EVM bytecode analysis</summary>
+
+- **Source**: source
+- **License**: Check package
+- **Homepage**: https://heimdall.rs
+- **Usage**: `nix run github:nix-community/ethereum.nix#heimdall -- --help`
+- **Nix**: [packages/heimdall/package.nix](packages/heimdall/package.nix)
+
+</details>
+<details>
+<summary><strong>kurtosis</strong> - CLI for Kurtosis, a framework for building and running distributed systems</summary>
+
+- **Source**: binary
+- **License**: Apache-2.0
+- **Homepage**: https://github.com/kurtosis-tech/kurtosis
+- **Usage**: `nix run github:nix-community/ethereum.nix#kurtosis -- --help`
+- **Nix**: [packages/kurtosis/package.nix](packages/kurtosis/package.nix)
+
+</details>
+<details>
+<summary><strong>sedge</strong> - A one-click setup tool for PoS network/chain validators and nodes.</summary>
+
+- **Source**: source
+- **License**: Apache-2.0
+- **Homepage**: https://docs.sedge.nethermind.io/
+- **Usage**: `nix run github:nix-community/ethereum.nix#sedge -- --help`
+- **Nix**: [packages/sedge/package.nix](packages/sedge/package.nix)
+
+</details>
+<details>
+<summary><strong>tx-fuzz</strong> - TX-Fuzz is a package containing helpful functions to create random transactions</summary>
+
+- **Source**: source
+- **License**: MIT
+- **Homepage**: https://github.com/MariusVanDerWijden/tx-fuzz
+- **Usage**: `nix run github:nix-community/ethereum.nix#tx-fuzz -- --help`
+- **Nix**: [packages/tx-fuzz/package.nix](packages/tx-fuzz/package.nix)
+
+</details>
+<details>
+<summary><strong>zcli</strong> - Eth2 CLI debugging tool</summary>
+
+- **Source**: source
+- **License**: MIT
+- **Homepage**: https://github.com/protolambda/zcli
+- **Usage**: `nix run github:nix-community/ethereum.nix#zcli -- --help`
+- **Nix**: [packages/zcli/package.nix](packages/zcli/package.nix)
+
+</details>
+
+### Utilities
+
+<details>
+<summary><strong>blutgang</strong> - the wd40 of ethereum load balancers</summary>
+
+- **Source**: source
+- **License**: GPL-2.0-only
+- **Homepage**: https://github.com/rainshowerLabs/blutgang
+- **Usage**: `nix run github:nix-community/ethereum.nix#blutgang -- --help`
+- **Nix**: [packages/blutgang/package.nix](packages/blutgang/package.nix)
+
+</details>
+<details>
+<summary><strong>rotki-bin</strong> - An open source portfolio tracking tool that respects your privacy</summary>
+
+- **Source**: binary
+- **License**: AGPL-3.0-or-later
+- **Homepage**: https://rotki.com/
+- **Usage**: `nix run github:nix-community/ethereum.nix#rotki-bin -- --help`
+- **Nix**: [packages/rotki-bin/package.nix](packages/rotki-bin/package.nix)
+
+</details>
+
+### Uncategorized
+
+<details>
+<summary><strong>formatter</strong> - One CLI to format the code tree</summary>
+
+- **Source**: unknown
+- **License**: MIT
+- **Homepage**: https://github.com/numtide/treefmt
+- **Usage**: `nix run github:nix-community/ethereum.nix#formatter -- --help`
+- **Nix**: [packages/formatter/package.nix](packages/formatter/package.nix)
+
+</details>
+
+### LSP
+
+<details>
+<summary><strong>solidity-language-server</strong> - Solidity language server by Nomic Foundation</summary>
+
+- **Source**: source
+- **License**: MIT
+- **Homepage**: https://github.com/NomicFoundation/hardhat-vscode
+- **Usage**: `nix run github:nix-community/ethereum.nix#solidity-language-server -- --help`
+- **Nix**: [packages/solidity-language-server/package.nix](packages/solidity-language-server/package.nix)
+
+</details>
+
+### Staking
+
+<details>
+<summary><strong>eigenlayer</strong> - Utility manages core operator functionalities like local key management, operator registration and updates</summary>
+
+- **Source**: source
+- **License**: BUSL-1.1
+- **Homepage**: https://www.eigenlayer.xyz/
+- **Usage**: `nix run github:nix-community/ethereum.nix#eigenlayer -- --help`
+- **Nix**: [packages/eigenlayer/package.nix](packages/eigenlayer/package.nix)
+
+</details>
+<details>
+<summary><strong>ethstaker-deposit-cli</strong> - Secure key generation for deposits (ethstaker fork)</summary>
+
+- **Source**: binary
+- **License**: CC0-1.0
+- **Homepage**: https://github.com/ethstaker/ethstaker-deposit-cli/
+- **Usage**: `nix run github:nix-community/ethereum.nix#ethstaker-deposit-cli -- --help`
+- **Nix**: [packages/ethstaker-deposit-cli/package.nix](packages/ethstaker-deposit-cli/package.nix)
+
+</details>
+<details>
+<summary><strong>rocketpool</strong> - Rocket Pool CLI</summary>
+
+- **Source**: source
+- **License**: GPL-3.0-only
+- **Homepage**: https://github.com/rocket-pool/smartnode
+- **Usage**: `nix run github:nix-community/ethereum.nix#rocketpool -- --help`
+- **Nix**: [packages/rocketpool/package.nix](packages/rocketpool/package.nix)
+
+</details>
+<details>
+<summary><strong>rocketpoold</strong> - Rocket Pool Daemon</summary>
+
+- **Source**: source
+- **License**: GPL-3.0-only
+- **Homepage**: https://github.com/rocket-pool/smartnode
+- **Usage**: `nix run github:nix-community/ethereum.nix#rocketpoold -- --help`
+- **Nix**: [packages/rocketpoold/package.nix](packages/rocketpoold/package.nix)
+
+</details>
+<details>
+<summary><strong>staking-deposit-cli</strong> - Secure key generation for deposits</summary>
+
+- **Source**: binary
+- **License**: CC0-1.0
+- **Homepage**: https://github.com/ethereum/staking-deposit-cli
+- **Usage**: `nix run github:nix-community/ethereum.nix#staking-deposit-cli -- --help`
+- **Nix**: [packages/staking-deposit-cli/package.nix](packages/staking-deposit-cli/package.nix)
+
+</details>
 <!-- END GENERATED PACKAGE DOCS -->
+
+## Installation
+
+### Using Nix Flakes (Recommended)
+
+Add to your system configuration:
+
+```nix
+{
+  inputs = {
+    ethereum.url = "github:nix-community/ethereum.nix";
+  };
+
+  # In your system packages:
+  environment.systemPackages = with inputs.ethereum.packages.${pkgs.stdenv.hostPlatform.system}; [
+    geth
+    lighthouse
+    reth
+    mev-boost
+    # ... other tools
+  ];
+}
+```
+
+### Using Overlay
+
+Alternatively, use the overlay to access packages under the `ethereum` namespace:
+
+```nix
+{
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    ethereum.url = "github:nix-community/ethereum.nix";
+  };
+
+  outputs = { nixpkgs, ethereum, ... }: {
+    # NixOS configuration
+    nixosConfigurations.myhost = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [{
+        nixpkgs.overlays = [ ethereum.overlays.default ];
+        environment.systemPackages = [
+          pkgs.ethereum.geth
+          pkgs.ethereum.lighthouse
+          pkgs.ethereum.prysm
+        ];
+      }];
+    };
+  };
+}
+```
+
+### Try Without Installing
+
+```bash
+# Try Geth (Execution Client)
+nix run github:nix-community/ethereum.nix#geth -- --help
+
+# Try Lighthouse (Consensus Client)
+nix run github:nix-community/ethereum.nix#lighthouse -- --help
+
+# Try Reth (Execution Client)
+nix run github:nix-community/ethereum.nix#reth -- --help
+
+# Try MEV-Boost
+nix run github:nix-community/ethereum.nix#mev-boost -- --help
+
+# etc...
+```
 
 ## Development
 
-We use [`devshell`](https://github.com/numtide/devshell) to have nice development environments.
+We use [`devshell`](https://github.com/numtide/devshell) to have nice development environments. Otherwise:
 
-### Requirements
+```bash
+nix develop
+```
 
-To make the most of this repository, you should have the following installed:
+### Building Packages
 
-- [Nix](https://nixos.org/)
-- [Direnv](https://direnv.net/)
+```bash
+# Build a specific package
+nix build .#claude-code
+nix build .#opencode
+nix build .#qwen-code
+# etc...
+```
 
-After cloning this repository and entering inside, run `direnv allow` when prompted, and you will be met with the previous prompt.
+### Running checks
 
-### Running tests
+To run all tests:
 
-To run all tests, you can use `check` (alias for `nix flake check`); it will build all packages and run all tests.
-
-You can use `tests -h` to execute a specific test, which will provide more information.
+```bash
+nix flake check
+```
 
 ### Formatting
 
-You can manually format the source using the `fmt` command.
+You can manually format the source:
+
+```bash
+nix fmt
+```
 
 ## Contribute
 
@@ -72,3 +521,9 @@ This project has been inspired by the awesome work of:
 - [`cosmos.nix`](https://github.com/informalsystems/cosmos.nix) by [Informal Systems](https://github.com/informalsystems), which this repository takes inspiration from its README and several other places.
 
 - [willruggiano](https://github.com/willruggiano) on his work done in [`eth-nix`](https://github.com/willruggiano/eth-nix) repository that served as the initial kick-start for working on this project.
+
+## License
+
+Individual tools are licensed under their respective licenses.
+
+The Nix packaging code in this repository is licensed under MIT.
