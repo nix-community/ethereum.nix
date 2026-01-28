@@ -33,5 +33,11 @@
       overlays.default = import ./overlays {
         inherit (blueprintOutputs) packages;
       };
+      nixosModules =
+        let
+          modules = blueprintOutputs.nixosModules;
+          modulePaths = builtins.attrValues modules;
+        in
+        modules // { default = { imports = modulePaths; }; };
     };
 }
