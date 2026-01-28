@@ -12,7 +12,7 @@ let
     nameValuePair
     ;
 
-  modulesLib = import ../lib.nix lib;
+  modulesLib = import ../../../lib/modules.nix lib;
   inherit (modulesLib) baseServiceConfig;
 
   eachNimbusValidator = config.services.ethereum.nimbus-validator;

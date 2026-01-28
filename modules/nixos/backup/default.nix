@@ -17,7 +17,7 @@ let
     ;
   inherit (builtins) concatStringsSep map;
 
-  modulesLib = import ../lib.nix lib;
+  modulesLib = import ../../../lib/modules.nix lib;
   inherit (modulesLib) findEnabled;
 
   cfg =

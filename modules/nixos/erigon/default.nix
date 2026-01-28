@@ -21,7 +21,7 @@ let
     zipAttrsWith
     ;
 
-  modulesLib = import ../lib.nix lib;
+  modulesLib = import ../../../lib/modules.nix lib;
   inherit (modulesLib) baseServiceConfig mkArgs scripts;
 
   eachErigon = config.services.ethereum.erigon;
