@@ -208,6 +208,192 @@ nativeInstallCheckInputs = [ versionCheckHook ];
 - Sandbox experiments: consider using confined execution wrappers for sensitive operations.
 - Pin sources with hashes; avoid network access at build time.
 
+## NixOS Modules (RFC 42 Settings Pattern)
+
+Modules live under `modules/nixos/<client>/` with three files:
+
+- `options.nix` - Option definitions with RFC 42 `settings` freeformType
+- `default.nix` - systemd service implementation
+- `default.test.nix` - NixOS VM test (optional)
+
+### Module Structure
+
+```
+modules/nixos/<client>/
+├── default.nix      # systemd service implementation
+├── options.nix      # NixOS module options with settings
+└── default.test.nix # NixOS VM test (optional)
+```
+
+### options.nix Pattern
+
+```nix
+{
+  lib,
+  pkgs,
+  ...
+}: let
+  inherit (lib) mkEnableOption mkOption types literalExpression;
+
+  clientOpts = {
+    options = {
+      enable = mkEnableOption "Client description";
+
+      package = mkOption {
+        type = types.package;
+        default = pkgs.client;
+        defaultText = literalExpression "pkgs.client";
+        description = "Package to use.";
+      };
+
+      openFirewall = mkOption {
+        type = types.bool;
+        default = false;
+        description = "Open ports in the firewall.";
+      };
+
+      # RFC 42: freeformType allows any options to pass through
+      settings = mkOption {
+        type = types.submodule {
+          freeformType = types.attrsOf types.anything;
+        };
+        default = {};
+        description = ''
+          Client configuration. Converted to CLI arguments.
+          Use flat dotted keys (e.g., "http.addr" not http.addr).
+        '';
+        example = literalExpression ''
+          {
+            sepolia = true;
+            http = true;
+            "http.addr" = "0.0.0.0";
+            "http.api" = ["eth" "net" "web3"];
+          }
+        '';
+      };
+
+      extraArgs = mkOption {
+        type = types.listOf types.str;
+        default = [];
+        description = "Additional CLI arguments.";
+      };
+    };
+  };
+in {
+  options.services.ethereum.client = mkOption {
+    type = types.attrsOf (types.submodule clientOpts);
+    default = {};
+    description = "Specification of one or more client instances.";
+  };
+}
+```
+
+### default.nix Pattern
+
+```nix
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
+  inherit (lib) mkIf mkMerge mapAttrs' nameValuePair;
+  inherit (lib) concatStringsSep filterAttrs mapAttrsToList flatten optionals elem mapAttrs;
+  inherit (lib.attrsets) zipAttrsWith;
+  inherit (builtins) isList;
+
+  modulesLib = import ../../../lib/modules.nix lib;
+  inherit (modulesLib) baseServiceConfig;
+
+  eachClient = config.services.ethereum.client;
+
+  # Convert lists to comma-separated strings for CLI
+  processSettings = mapAttrs (_: v:
+    if isList v
+    then concatStringsSep "," v
+    else v);
+in {
+  inherit (import ./options.nix {inherit lib pkgs;}) options;
+
+  config = mkIf (eachClient != {}) {
+    # Firewall configuration
+    networking.firewall = let
+      openFirewall = filterAttrs (_: cfg: cfg.openFirewall) eachClient;
+      perService = mapAttrsToList (_: cfg: let
+        s = cfg.settings;
+      in {
+        allowedUDPPorts = [(s.port or 30303)];
+        allowedTCPPorts = [(s.port or 30303)]
+          ++ optionals (s.http or false) [(s."http.port" or 8545)];
+      }) openFirewall;
+    in zipAttrsWith (_name: flatten) perService;
+
+    # systemd services
+    systemd.services = mapAttrs' (
+      clientName: cfg: let
+        serviceName = "client-${clientName}";
+        s = cfg.settings;
+        datadir = s.datadir or "%S/${serviceName}";
+        jwtSecret = s."authrpc.jwtsecret" or null;
+
+        # Keys handled separately
+        skipKeys = ["datadir" "authrpc.jwtsecret"];
+        normalSettings = filterAttrs (k: _: !elem k skipKeys) s;
+
+        # Use lib.cli.toCommandLine for RFC 42 settings
+        cliArgs = lib.cli.toCommandLine (name: {
+          option = "--${name}";
+          sep = null;
+          explicitBool = false;
+        }) (processSettings normalSettings);
+
+        allArgs = ["--datadir" datadir]
+          ++ cliArgs
+          ++ optionals (jwtSecret != null) ["--authrpc.jwtsecret" "%d/jwtsecret"]
+          ++ cfg.extraArgs;
+
+        scriptArgs = concatStringsSep " \\\n  " allArgs;
+      in nameValuePair serviceName (mkIf cfg.enable {
+        after = ["network.target"];
+        wantedBy = ["multi-user.target"];
+        description = "Client (${clientName})";
+
+        serviceConfig = mkMerge [
+          baseServiceConfig
+          {
+            StateDirectory = serviceName;
+            ExecStart = "${cfg.package}/bin/client ${scriptArgs}";
+          }
+          (mkIf (jwtSecret != null) {
+            LoadCredential = ["jwtsecret:${jwtSecret}"];
+          })
+        ];
+      })
+    ) eachClient;
+  };
+}
+```
+
+### Key Principles
+
+1. **RFC 42 freeformType** - Use `types.attrsOf types.anything` for settings to allow any CLI options
+1. **Flat dotted keys** - Use `"http.addr"` instead of nested `http.addr` attributes
+1. **lib.cli.toCommandLine** - Standard nixpkgs function for settings → CLI conversion
+1. **baseServiceConfig** - Import from `lib/modules.nix` for hardened systemd defaults
+1. **LoadCredential** - Use systemd credentials for secrets (JWT, etc.)
+1. **DynamicUser** - Services run without pre-created users
+
+### Testing Modules
+
+```bash
+# Build and run test
+nix build .#checks.x86_64-linux.testing-geth-default
+
+# Interactive mode
+nix build .#checks.x86_64-linux.testing-geth-default.driver
+./result/bin/nixos-test-driver --interactive
+```
+
 ## Installing Nix (Required for Package Testing)
 
 When working on package requests or fixes, you MUST install Nix from the official installer to properly test changes,
