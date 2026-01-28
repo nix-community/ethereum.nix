@@ -6,7 +6,7 @@
   ...
 }:
 let
-  modulesLib = import ../lib.nix lib;
+  modulesLib = import ../../../lib/modules.nix lib;
   inherit (modulesLib) mkArgs baseServiceConfig;
 
   # capture config for all configured geths
