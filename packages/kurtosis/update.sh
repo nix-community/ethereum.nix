@@ -1,5 +1,5 @@
 #!/usr/bin/env nix-shell
-#!nix-shell -i bash -p curl jq nix-prefetch-url
+#!nix-shell -i bash -p curl jq nix-prefetch-scripts
 
 set -euo pipefail
 
