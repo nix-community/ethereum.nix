@@ -332,6 +332,16 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 - **Nix**: [packages/formatter/package.nix](packages/formatter/package.nix)
 
 </details>
+<details>
+<summary><strong>nimbus</strong> - Nimbus is a lightweight client for the Ethereum consensus layer</summary>
+
+- **Source**: unknown
+- **License**: Check package
+- **Homepage**: https://nimbus.guide/
+- **Usage**: `nix run github:nix-community/ethereum.nix#nimbus -- --help`
+- **Nix**: [packages/nimbus/package.nix](packages/nimbus/package.nix)
+
+</details>
 
 ### LSP
 
