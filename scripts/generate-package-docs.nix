@@ -1,6 +1,6 @@
 let
   flake = builtins.getFlake (toString ./..);
-  packages = builtins.attrNames (flake.packages.x86_64-linux);
+  packages = builtins.attrNames flake.packages.x86_64-linux;
 
   extractMetadata =
     pkg:
@@ -41,7 +41,7 @@ let
       version = pkg.version or "unknown";
       license = licenseStr;
       homepage = pkg.meta.homepage or null;
-      sourceType = sourceType;
+      inherit sourceType;
       hideFromDocs = pkg.passthru.hideFromDocs or false;
       hasMainProgram = builtins.hasAttr "mainProgram" pkg.meta;
       category = pkg.passthru.category or "Uncategorized";
@@ -49,7 +49,7 @@ let
 
   results = builtins.listToAttrs (
     builtins.map (name: {
-      name = name;
+      inherit name;
       value =
         let
           pkg = flake.packages.x86_64-linux.${name} or null;

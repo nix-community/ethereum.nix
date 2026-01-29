@@ -2,10 +2,11 @@
   lib,
   stdenvNoCC,
   fetchurl,
-  system,
   ...
 }:
 let
+  inherit (stdenvNoCC.hostPlatform) system;
+
   version = "1.11.2";
 
   kurtosisBinVersions = builtins.fromJSON (builtins.readFile ./hashes.json);
