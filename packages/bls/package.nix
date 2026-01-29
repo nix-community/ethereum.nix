@@ -6,8 +6,10 @@
   lib,
   nix-update-script,
   stdenv,
-  system,
 }:
+let
+  inherit (stdenv.hostPlatform) system;
+in
 stdenv.mkDerivation rec {
   pname = "bls";
   version = "1.86";
