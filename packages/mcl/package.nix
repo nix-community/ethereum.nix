@@ -6,8 +6,10 @@
   lib,
   nix-update-script,
   stdenv,
-  system,
 }:
+let
+  inherit (stdenv.hostPlatform) system;
+in
 stdenv.mkDerivation rec {
   pname = "mcl";
   version = "3.04";
