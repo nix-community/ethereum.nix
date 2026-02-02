@@ -93,7 +93,7 @@ jobs:
           # Use the update script
           if [[ "${{ matrix.type }}" = package ]]; then
             # Only load the devshell to update packages
-            nix develop -c .github/actions/update.sh "${{ matrix.type }}" "${{ matrix.name }}"
+            nix develop .#ci -c .github/actions/update.sh "${{ matrix.type }}" "${{ matrix.name }}"
           else
             .github/actions/update.sh "${{ matrix.type }}" "${{ matrix.name }}"
           fi
