@@ -74,10 +74,9 @@ stdenv.mkDerivation rec {
   preBuild = ''
     pushd vendor/nimbus-build-system/vendor/Nim
     mkdir dist
-    cp -r ${callPackage ./nimble.nix { }}    dist/nimble
-    cp -r ${callPackage ./checksums.nix { }} dist/checksums
-    cp -r ${callPackage ./csources.nix { }}  csources_v2
-    chmod 777 -R dist/nimble csources_v2
+    cp -r --no-preserve=mode ${callPackage ./nimble.nix { }}    dist/nimble
+    cp -r --no-preserve=mode ${callPackage ./checksums.nix { }} dist/checksums
+    cp -r --no-preserve=mode ${callPackage ./csources.nix { }}  csources_v2
     popd
   '';
 
