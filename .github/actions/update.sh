@@ -30,7 +30,25 @@ if [ "$type" = "package" ]; then
   else
     # Try nix-update as fallback
     echo "No update script found, trying nix-update..."
-    if output=$(nix-update --flake --version=stable "$name" 2>&1); then
+
+    # Build nix-update arguments
+    nix_update_args=(--flake)
+
+    # Check for custom nix-update-args file
+    if [ -f "packages/$name/nix-update-args" ]; then
+      echo "Loading custom nix-update-args..."
+      while IFS= read -r line || [ -n "$line" ]; do
+        # Skip empty lines and comments
+        [[ -z "$line" || "$line" =~ ^# ]] && continue
+        nix_update_args+=("$line")
+      done <"packages/$name/nix-update-args"
+    else
+      # Default to stable version if no custom args
+      nix_update_args+=(--version=stable)
+    fi
+
+    echo "Running: nix-update ${nix_update_args[*]} $name"
+    if output=$(nix-update "${nix_update_args[@]}" "$name" 2>&1); then
       echo "$output"
     else
       echo "::error::nix-update failed for package $name"
