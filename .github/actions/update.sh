@@ -17,10 +17,17 @@ output_var="${GITHUB_OUTPUT:-/dev/stdout}"
 if [ "$type" = "package" ]; then
   echo "Updating package $name..."
 
-  # Check if package has an update script
+  # Check if package has a custom update script
+  update_script=""
   if [ -f "packages/$name/update.sh" ]; then
-    echo "Running update script for $name..."
-    if output=$(packages/"$name"/update.sh 2>&1); then
+    update_script="packages/$name/update.sh"
+  elif [ -f "packages/$name/update.py" ]; then
+    update_script="packages/$name/update.py"
+  fi
+
+  if [ -n "$update_script" ]; then
+    echo "Running update script: $update_script"
+    if output=$("$update_script" 2>&1); then
       echo "$output"
     else
       echo "::error::Update script failed for package $name"
