@@ -5,41 +5,54 @@
   ...
 }:
 let
-  inherit (lib.lists) optional optionals findFirst;
-  inherit (lib.strings) hasPrefix;
+  modulesLib = import ../../../lib/modules.nix lib;
+
+  inherit (lib.attrsets) zipAttrsWith;
   inherit (lib)
     concatStringsSep
     filterAttrs
     flatten
+    mapAttrs
     mapAttrs'
     mapAttrsToList
     mkIf
     mkMerge
     nameValuePair
-    zipAttrsWith
+    optionals
+    elem
     ;
+  inherit (builtins) isList attrNames;
+  inherit (modulesLib) baseServiceConfig;
 
-  modulesLib = import ../../../lib/modules.nix lib;
-  inherit (modulesLib) baseServiceConfig mkArgs dotPathReducer;
+  eachBesu = config.services.ethereum.besu;
 
-  eachNode = config.services.ethereum.besu;
+  # Convert lists to comma-separated strings for CLI
+  processSettings = mapAttrs (_: v: if isList v then concatStringsSep "," v else v);
 in
 {
+  ###### interface
   inherit (import ./options.nix { inherit lib pkgs; }) options;
 
-  config = mkIf (eachNode != { }) {
+  ###### implementation
+  config = mkIf (eachBesu != { }) {
     # configure the firewall for each service
     networking.firewall =
       let
-        openFirewall = filterAttrs (_: cfg: cfg.openFirewall) eachNode;
+        openFirewall = filterAttrs (_: cfg: cfg.openFirewall) eachBesu;
         perService = mapAttrsToList (
-          _: cfg: with cfg.args; {
+          _: cfg:
+          let
+            s = cfg.settings;
+          in
+          {
+            allowedUDPPorts = [ (s.p2p-port or 30303) ];
             allowedTCPPorts = [
-              port
-              authrpc.port
+              (s.p2p-port or 30303)
             ]
-            ++ (optionals http.enable [ http.port ])
-            ++ (optionals metrics.enable [ metrics.port ]);
+            ++ [ (s.engine-rpc-port or 8551) ]
+            ++ (optionals (s.rpc-http-enabled or false) [ (s.rpc-http-port or 8545) ])
+            ++ (optionals (s.rpc-ws-enabled or false) [ (s.rpc-ws-port or 8546) ])
+            ++ (optionals (s.metrics-enabled or false) [ (s.metrics-port or 6060) ]);
           }
         ) openFirewall;
       in
@@ -47,7 +60,7 @@ in
 
     # configure systemd to create the state directory with a subvolume
     systemd.tmpfiles.rules = map (name: "v /var/lib/private/besu-${name}") (
-      builtins.attrNames (filterAttrs (_: v: v.subVolume) eachNode)
+      attrNames (filterAttrs (_: v: v.subVolume) eachBesu)
     );
 
     # create a service for each instance
@@ -58,69 +71,38 @@ in
       in
       cfg:
       let
-        scriptArgs =
-          let
-            args = mkArgs {
-              opts = import ./args.nix lib;
-              pathReducer = dotPathReducer;
-              inherit (cfg) args;
-            };
+        s = cfg.settings;
+        dataPath = s.data-path or "%S/${serviceName}";
+        jwtSecret = s.engine-jwt-secret or null;
 
-            # filter out certain args which need to be treated differently
-            specialArgs = [
-              "--datadir"
-              "--engine-api.enable"
-              "--engine-api.jwtsecret"
-              "--engine-api.port"
-              "--http.enable"
-              "--http.host"
-              "--http.port"
-              "--http.api"
-              "--http.cors-domains"
-              "--metrics.enable"
-              "--metrics.host"
-              "--metrics.port"
-            ];
+        # Keys that need special handling
+        skipKeys = [
+          "data-path"
+          "engine-jwt-secret"
+        ];
+        normalSettings = filterAttrs (k: _: !elem k skipKeys) s;
 
-            isNormalArg = name: (findFirst (arg: hasPrefix arg name) null specialArgs) == null;
-            filteredArgs =
-              (builtins.filter isNormalArg args)
-              ++ (optionals cfg.args.http.enable [
-                "--engine-rpc-enabled=true"
-                "--engine-rpc-port=${toString cfg.args.engine-api.port}"
-              ])
-              ++ (optionals cfg.args.http.enable (
-                [
-                  "--rpc-http-enabled=true"
-                  "--rpc-http-host=${cfg.args.http.host}"
-                  "--rpc-http-port=${toString cfg.args.http.port}"
-                  "--rpc-http-cors-origins=${concatStringsSep "," cfg.args.http.cors-domains}"
-                ]
-                ++ (optional (cfg.args.http.api != [ ]) "--rpc-http-api=${concatStringsSep "," cfg.args.http.api}")
-              ))
-              ++ (optionals cfg.args.metrics.enable [
-                "--metrics-enabled=true"
-                "--metrics-host=${cfg.args.metrics.host}"
-                "--metrics-port=${toString cfg.args.metrics.port}"
-              ]);
+        # Use lib.cli.toGNUCommandLine for RFC 42 settings
+        cliArgs = lib.cli.toGNUCommandLine { } (processSettings normalSettings);
 
-            jwtSecret =
-              if cfg.args.engine-api.jwtsecret != null then "--engine-jwt-secret=%d/jwtsecret" else "";
+        allArgs = [
+          "--data-path"
+          dataPath
+        ]
+        ++ cliArgs
+        ++ (optionals (jwtSecret != null) [
+          "--engine-jwt-secret"
+          "%d/jwtsecret"
+        ])
+        ++ cfg.extraArgs;
 
-            data-dir = if cfg.args.data-dir != null then "${cfg.args.data-dir}" else "%S/${serviceName}";
-          in
-          ''
-            --data-path=${data-dir} \
-            ${jwtSecret} \
-            ${concatStringsSep " \\\n" filteredArgs} \
-            ${lib.escapeShellArgs cfg.extraArgs}
-          '';
+        scriptArgs = concatStringsSep " \\\n  " allArgs;
       in
       nameValuePair serviceName (
         mkIf cfg.enable {
-          description = "Besu Execution Client (${besuName})";
-          wantedBy = [ "multi-user.target" ];
           after = [ "network.target" ];
+          wantedBy = [ "multi-user.target" ];
+          description = "Besu Ethereum Execution Client (${besuName})";
 
           # create service config by merging with the base config
           serviceConfig = mkMerge [
@@ -130,14 +112,15 @@ in
               StateDirectory = serviceName;
               ExecStart = "${cfg.package}/bin/besu ${scriptArgs}";
 
+              # Besu requires JIT compilation
               MemoryDenyWriteExecute = false;
             }
-            (mkIf (cfg.args.engine-api.jwtsecret != null) {
-              LoadCredential = [ "jwtsecret:${cfg.args.engine-api.jwtsecret}" ];
+            (mkIf (jwtSecret != null) {
+              LoadCredential = [ "jwtsecret:${jwtSecret}" ];
             })
           ];
         }
       )
-    ) eachNode;
+    ) eachBesu;
   };
 }
