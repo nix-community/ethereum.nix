@@ -9,8 +9,8 @@ LATEST_VERSION=$(curl -s https://api.github.com/repos/kurtosis-tech/kurtosis-cli
 
 echo "Latest version: $LATEST_VERSION"
 
-# Update version in default.nix
-sed -i "s/version = \".*\";/version = \"$LATEST_VERSION\";/" "$(dirname "$0")/default.nix"
+# Update version in package.nix
+sed -i "s/version = \".*\";/version = \"$LATEST_VERSION\";/" "$(dirname "$0")/package.nix"
 
 # Fetch hashes for all platforms
 declare -A PLATFORMS=(
