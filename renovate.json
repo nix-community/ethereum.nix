@@ -1,7 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended", "schedule:weekly"],
-  "nix": {
-    "enabled": true
-  }
+  "extends": ["config:recommended"],
+  "schedule": ["before 6am every day"],
+  "automerge": true,
+  "platformAutomerge": true
 }
