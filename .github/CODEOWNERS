@@ -1,0 +1,5 @@
+# Code owners for ethereum.nix
+# These users will be automatically requested for review on PRs
+
+# Package changes
+/packages/ @aldoborrero @selfuryon @bbjubjub2494
