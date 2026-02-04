@@ -8,16 +8,16 @@
 }:
 buildNpmPackage rec {
   pname = "solidity-language-server";
-  version = "0.8.26";
+  version = "0.8.27";
 
   src = fetchFromGitHub {
     owner = "NomicFoundation";
     repo = "hardhat-vscode";
     rev = "v${version}";
-    hash = "sha256-QXkfPRVQLYmMlhidiLH34wproYpJiVpdZEw1wLRbGAY=";
+    hash = "sha256-Qmqsm9Gv1vmdU6v37VGZhTiJLVgW/anxQwP/oSyZkoM=";
   };
 
-  npmDepsHash = "sha256-L3obeOyS4uCsaDYwMJJDJoK8vmWhSqGT2a7I/NsHdwM=";
+  npmDepsHash = "sha256-STgqGYzChXv/4vpBTboGhSAnN1ml2nDLHsu53bmBw4M=";
 
   makeCacheWritable = true;
   npmFlags = [ "--ignore-scripts" ];
