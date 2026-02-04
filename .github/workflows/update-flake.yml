@@ -87,10 +87,6 @@ jobs:
           extra_nix_config: |
             extra-substituters = https://nix-community.cachix.org
             extra-trusted-public-keys = nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=
-      - name: Set up git
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
       - name: Perform update
         id: update
         env:
@@ -105,16 +101,25 @@ jobs:
           fi
       - name: Create pull request
         if: steps.update.outputs.updated == 'true'
+        uses: peter-evans/create-pull-request@v8
+        id: cpr
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          branch: ${{ matrix.type == 'package' && format('update/{0}', matrix.name) || format('update-{0}', matrix.name) }}
+          delete-branch: true
+          title: ${{ matrix.type == 'package' && format('{0}: {1} -> {2}', matrix.name, matrix.current_version, steps.update.outputs.new_version) || format('flake.lock: Update {0}', matrix.name) }}
+          body: ${{ matrix.type == 'package' && format('Automated update of `{0}` from `{1}` to `{2}`.', matrix.name, matrix.current_version, steps.update.outputs.new_version) || format('This PR updates the flake input `{0}` to the latest version.
+
+## Changes
+- {0}: `{1}` → `{2}`', matrix.name, matrix.current_version, steps.update.outputs.new_version) }}
+          labels: ${{ inputs.pr-labels }}
+          committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+          author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+      - name: Enable auto-merge
+        if: steps.update.outputs.updated == 'true' && inputs.auto-merge && steps.cpr.outputs.pull-request-number
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
-          PR_LABELS: ${{ inputs.pr-labels }}
-          AUTO_MERGE: ${{ inputs.auto-merge }}
-        run: |
-          .github/actions/create-pr.sh \
-            "${{ matrix.type }}" \
-            "${{ matrix.name }}" \
-            "${{ matrix.current_version }}" \
-            "${{ steps.update.outputs.new_version }}"
+        run: gh pr merge ${{ steps.cpr.outputs.pull-request-number }} --auto --squash
 
   update-readme:
     needs: [discover, update]
@@ -141,33 +146,20 @@ jobs:
           extra_nix_config: |
             extra-substituters = https://nix-community.cachix.org
             extra-trusted-public-keys = nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=
-      - name: Set up git
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
       - name: Regenerate README
         run: ./scripts/generate-package-docs.py
       - name: Create pull request
-        env:
-          GH_TOKEN: ${{ steps.app-token.outputs.token }}
-        run: |
-          if git diff --quiet README.md; then
-            echo "No README changes"
-            exit 0
-          fi
-          branch="update/readme"
-          # Check if branch exists remotely and delete it
-          if git ls-remote --exit-code --heads origin "$branch" >/dev/null 2>&1; then
-            git push origin --delete "$branch" || true
-          fi
-          git checkout -b "$branch"
-          git add README.md
-          git commit -m "README: regenerate package documentation"
-          git push -u origin "$branch"
-          gh pr create \
-            --title "README: regenerate package documentation" \
-            --body "Automated README regeneration after package updates." \
-            --label "documentation,automated"
+        uses: peter-evans/create-pull-request@v8
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          branch: update/readme
+          delete-branch: true
+          title: "README: regenerate package documentation"
+          body: "Automated README regeneration after package updates."
+          labels: documentation,automated
+          committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+          author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+          add-paths: README.md
 
   summary:
     needs: [discover, update, update-readme]
