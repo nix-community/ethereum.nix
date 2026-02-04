@@ -99,19 +99,35 @@ jobs:
           else
             .github/actions/update.sh "${{ matrix.type }}" "${{ matrix.name }}"
           fi
+      - name: Set PR details
+        id: pr-details
+        run: |
+          if [[ "${{ matrix.type }}" == "package" ]]; then
+            echo "branch=update/${{ matrix.name }}" >> $GITHUB_OUTPUT
+            echo "title=${{ matrix.name }}: ${{ matrix.current_version }} -> ${{ steps.update.outputs.new_version }}" >> $GITHUB_OUTPUT
+            echo "body=Automated update of \`${{ matrix.name }}\` from \`${{ matrix.current_version }}\` to \`${{ steps.update.outputs.new_version }}\`." >> $GITHUB_OUTPUT
+          else
+            echo "branch=update-${{ matrix.name }}" >> $GITHUB_OUTPUT
+            echo "title=flake.lock: Update ${{ matrix.name }}" >> $GITHUB_OUTPUT
+            {
+              echo 'body<<EOF'
+              echo "This PR updates the flake input \`${{ matrix.name }}\` to the latest version."
+              echo ""
+              echo "## Changes"
+              echo "- ${{ matrix.name }}: \`${{ matrix.current_version }}\` → \`${{ steps.update.outputs.new_version }}\`"
+              echo 'EOF'
+            } >> $GITHUB_OUTPUT
+          fi
       - name: Create pull request
         if: steps.update.outputs.updated == 'true'
         uses: peter-evans/create-pull-request@v8
         id: cpr
         with:
           token: ${{ steps.app-token.outputs.token }}
-          branch: ${{ matrix.type == 'package' && format('update/{0}', matrix.name) || format('update-{0}', matrix.name) }}
+          branch: ${{ steps.pr-details.outputs.branch }}
           delete-branch: true
-          title: ${{ matrix.type == 'package' && format('{0}: {1} -> {2}', matrix.name, matrix.current_version, steps.update.outputs.new_version) || format('flake.lock: Update {0}', matrix.name) }}
-          body: ${{ matrix.type == 'package' && format('Automated update of `{0}` from `{1}` to `{2}`.', matrix.name, matrix.current_version, steps.update.outputs.new_version) || format('This PR updates the flake input `{0}` to the latest version.
-
-## Changes
-- {0}: `{1}` → `{2}`', matrix.name, matrix.current_version, steps.update.outputs.new_version) }}
+          title: ${{ steps.pr-details.outputs.title }}
+          body: ${{ steps.pr-details.outputs.body }}
           labels: ${{ inputs.pr-labels }}
           committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
           author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
