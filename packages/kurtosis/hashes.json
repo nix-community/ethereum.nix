@@ -1,18 +1,18 @@
 {
-  "x86_64-linux": {
-    "platformSuffix": "linux_amd64",
-    "hash": "sha256-LOBM9ZmmX6xbzLk4y0/a1/p0Kf3c/uZhxZC0VYEXqq4="
-  },
   "aarch64-linux": {
     "platformSuffix": "linux_arm64",
-    "hash": "sha256-t/arwAnZaM4iU6Cfrj7yS/XqLN9fe7ROL9MDcQRZ0Xc="
+    "hash": "sha256-7qKTDV8lJaOdgB8A9tGix3F1R171m3etEzOsEEsJ3A8="
+  },
+  "x86_64-linux": {
+    "platformSuffix": "linux_amd64",
+    "hash": "sha256-nCQ+t9whtxsbuiDbvg1m9L5neFnDqAqWRx+jeqGV8jY="
   },
   "x86_64-darwin": {
     "platformSuffix": "darwin_amd64",
-    "hash": "sha256-8JA26erRIrQzEIEMbEoMJdJl7YdNOvZwYs3MGXbvFWk="
+    "hash": "sha256-0dQF5rcOlLPh2L8dBP5DITuNINSF7Ol5rXSzBIuOvIk="
   },
   "aarch64-darwin": {
     "platformSuffix": "darwin_arm64",
-    "hash": "sha256-9Qv681k7lMhYTkiZEERoE1dmmlX+HdpYI1fOZqCO62U="
+    "hash": "sha256-O9f9zcp9qnnAnS+kqvTNNNOesuLG44F1SDMZNcNJzGA="
   }
 }
