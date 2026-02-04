@@ -9,7 +9,7 @@
 }:
 let
   pname = "sedge";
-  version = "1.10.0";
+  version = "1.11.0";
 in
 buildGoModule {
   inherit pname version;
@@ -18,7 +18,7 @@ buildGoModule {
     owner = "NethermindEth";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-lZnjWaMyWGfgyqG9+81evzvaGm2DwxlyzUOGl87yesQ=";
+    hash = "sha256-GFYT/ZjNZLgnpmsSIUAhw3U93S5AMrugepr0qnO4lLE=";
   };
   vendorHash = "sha256-UWwhs63U68vuX8iyCE0vwZ0zLa+vukgycaU3Gz+myZI=";
   proxyVendor = true;
