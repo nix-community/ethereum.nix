@@ -11,8 +11,6 @@ This script handles the complex update process for nimbus which requires:
 import json
 import re
 import subprocess
-import sys
-import tempfile
 from pathlib import Path
 from urllib.request import urlopen
 
@@ -84,21 +82,27 @@ def extract_nim_commits(nim_ref: str) -> dict:
 
 def extract_csources_commit(nim_ref: str) -> str:
     """Extract nim_csourcesHash from build_config.txt."""
-    config_content = get_file_content("nim-lang", "Nim", nim_ref, "config/build_config.txt")
+    config_content = get_file_content(
+        "nim-lang", "Nim", nim_ref, "config/build_config.txt"
+    )
 
-    match = re.search(r'nim_csourcesHash=([a-f0-9]+)', config_content)
+    match = re.search(r"nim_csourcesHash=([a-f0-9]+)", config_content)
     if not match:
         raise ValueError("Could not extract csources hash from build_config.txt")
 
     return match.group(1)
 
 
-def prefetch_github(owner: str, repo: str, rev: str, fetch_submodules: bool = False) -> str:
+def prefetch_github(
+    owner: str, repo: str, rev: str, fetch_submodules: bool = False
+) -> str:
     """Prefetch a GitHub repo and return the hash."""
     cmd = [
         "nix-prefetch-git",
-        "--url", f"https://github.com/{owner}/{repo}",
-        "--rev", rev,
+        "--url",
+        f"https://github.com/{owner}/{repo}",
+        "--rev",
+        rev,
         "--quiet",
     ]
     if fetch_submodules:
@@ -141,7 +145,9 @@ def main() -> None:
     print(f"  nimbus-build-system: {nbs_commit[:8]}")
 
     # Step 2: Get the Nim submodule commit from nimbus-build-system
-    nim_commit = get_submodule_commit("status-im", "nimbus-build-system", nbs_commit, "vendor/Nim")
+    nim_commit = get_submodule_commit(
+        "status-im", "nimbus-build-system", nbs_commit, "vendor/Nim"
+    )
     print(f"  Nim: {nim_commit[:8]}")
 
     # Step 3: Extract pinned commits from Nim repo
@@ -160,7 +166,9 @@ def main() -> None:
     print(f"    hash: {nimbus_hash[:20]}...")
 
     print("  Fetching nimble...")
-    nimble_hash = prefetch_github("nim-lang", "nimble", nim_commits["nimble"], fetch_submodules=True)
+    nimble_hash = prefetch_github(
+        "nim-lang", "nimble", nim_commits["nimble"], fetch_submodules=True
+    )
     print(f"    hash: {nimble_hash[:20]}...")
 
     print("  Fetching checksums...")
@@ -174,31 +182,45 @@ def main() -> None:
     # Step 5: Update all .nix files
     print("Updating .nix files...")
 
-    update_nix_file(SCRIPT_DIR / "package.nix", {
-        "version": latest_version,
-        "hash": nimbus_hash,
-    })
+    update_nix_file(
+        SCRIPT_DIR / "package.nix",
+        {
+            "version": latest_version,
+            "hash": nimbus_hash,
+        },
+    )
     print("  Updated package.nix")
 
-    update_nix_file(SCRIPT_DIR / "nimble.nix", {
-        "rev": nim_commits["nimble"],
-        "hash": nimble_hash,
-    })
+    update_nix_file(
+        SCRIPT_DIR / "nimble.nix",
+        {
+            "rev": nim_commits["nimble"],
+            "hash": nimble_hash,
+        },
+    )
     print("  Updated nimble.nix")
 
-    update_nix_file(SCRIPT_DIR / "checksums.nix", {
-        "rev": nim_commits["checksums"],
-        "hash": checksums_hash,
-    })
+    update_nix_file(
+        SCRIPT_DIR / "checksums.nix",
+        {
+            "rev": nim_commits["checksums"],
+            "hash": checksums_hash,
+        },
+    )
     print("  Updated checksums.nix")
 
-    update_nix_file(SCRIPT_DIR / "csources.nix", {
-        "rev": csources_commit,
-        "hash": csources_hash,
-    })
+    update_nix_file(
+        SCRIPT_DIR / "csources.nix",
+        {
+            "rev": csources_commit,
+            "hash": csources_hash,
+        },
+    )
     print("  Updated csources.nix")
 
-    print(f"\nSuccessfully updated nimbus-eth2 from {current_version} to {latest_version}")
+    print(
+        f"\nSuccessfully updated nimbus-eth2 from {current_version} to {latest_version}"
+    )
 
 
 if __name__ == "__main__":

@@ -39,7 +39,7 @@ if [ "$type" = "package" ]; then
       echo "Loading custom nix-update-args..."
       while IFS= read -r line || [ -n "$line" ]; do
         # Skip empty lines and comments
-        [[ -z "$line" || "$line" =~ ^# ]] && continue
+        [[ -z $line || $line =~ ^# ]] && continue
         nix_update_args+=("$line")
       done <"packages/$name/nix-update-args"
     else

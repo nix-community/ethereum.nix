@@ -38,6 +38,11 @@
           modules = blueprintOutputs.nixosModules;
           modulePaths = builtins.attrValues modules;
         in
-        modules // { default = { imports = modulePaths; }; };
+        modules
+        // {
+          default = {
+            imports = modulePaths;
+          };
+        };
     };
 }
