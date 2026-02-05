@@ -24,20 +24,6 @@ let
         type = types.package;
         description = "Package to use for mev-boost binary";
       };
-
-      # mixin backup options
-      backup =
-        let
-          inherit (import ../backup/lib.nix lib) options;
-        in
-        options;
-
-      # mixin restore options
-      restore =
-        let
-          inherit (import ../restore/lib.nix lib) options;
-        in
-        options;
     };
   };
 in
