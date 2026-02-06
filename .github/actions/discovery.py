@@ -143,20 +143,28 @@ def discover_flake_inputs(inputs_filter: str | None) -> list[MatrixItem]:
 def main() -> None:
     """Discover packages and flake inputs, output matrix for GitHub Actions."""
     # Get configuration from environment
+    update_type = os.environ.get("UPDATE_TYPE", "").strip().lower()
     packages = os.environ.get("PACKAGES", "")
     inputs = os.environ.get("INPUTS", "")
     system = os.environ.get("SYSTEM", "x86_64-linux")
     github_output = os.environ.get("GITHUB_OUTPUT")
 
+    # Determine what to update based on UPDATE_TYPE
+    update_packages = update_type in ("", "packages")
+    update_inputs = update_type in ("", "inputs")
+
     print("=== Discovery Configuration ===")
+    print(f"UPDATE_TYPE: {update_type or '<all>'}")
     print(f"PACKAGES: {packages or '<all>'}")
     print(f"INPUTS: {inputs or '<all>'}")
     print()
 
     # Discover items
     matrix_items: list[MatrixItem] = []
-    matrix_items.extend(discover_packages(packages or None, system))
-    matrix_items.extend(discover_flake_inputs(inputs or None))
+    if update_packages:
+        matrix_items.extend(discover_packages(packages or None, system))
+    if update_inputs:
+        matrix_items.extend(discover_flake_inputs(inputs or None))
 
     print()
     print("=== Discovery Results ===")

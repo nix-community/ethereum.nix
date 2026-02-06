@@ -3,6 +3,11 @@ name: Update Flake
 on:
   workflow_call:
     inputs:
+      update-type:
+        description: "What to update: 'packages', 'inputs', or empty for both"
+        required: false
+        type: string
+        default: ""
       packages:
         description: "Space-separated list of specific packages to update (empty for all)"
         required: false
@@ -55,6 +60,7 @@ jobs:
       - name: Build update matrix
         id: build-matrix
         env:
+          UPDATE_TYPE: "${{ inputs.update-type }}"
           PACKAGES: "${{ inputs.packages }}"
           INPUTS: "${{ inputs.inputs }}"
         run: python3 .github/actions/discovery.py
@@ -129,6 +135,7 @@ jobs:
           title: ${{ steps.pr-details.outputs.title }}
           body: ${{ steps.pr-details.outputs.body }}
           labels: ${{ inputs.pr-labels }}
+          sign-commits: true
           committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
           author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
       - name: Enable auto-merge
@@ -173,6 +180,7 @@ jobs:
           title: "README: regenerate package documentation"
           body: "Automated README regeneration after package updates."
           labels: documentation,automated
+          sign-commits: true
           committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
           author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
           add-paths: README.md
