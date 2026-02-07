@@ -491,9 +491,9 @@ nix develop
 
 ```bash
 # Build a specific package
-nix build .#claude-code
-nix build .#opencode
-nix build .#qwen-code
+nix build .#foundry
+nix build .#geth
+nix build .#nimbus
 # etc...
 ```
 
