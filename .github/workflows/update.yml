@@ -5,6 +5,15 @@ on:
     - cron: "0 2,14 * * *"
   workflow_dispatch:
     inputs:
+      update-type:
+        description: "What to update"
+        required: false
+        default: ""
+        type: choice
+        options:
+          - ""
+          - packages
+          - inputs
       packages:
         description: "Specific packages to update (space-separated, empty for all)"
         required: false
@@ -17,6 +26,7 @@ jobs:
   update:
     uses: ./.github/workflows/update-flake.yml
     with:
+      update-type: ${{ github.event.inputs.update-type }}
       packages: ${{ github.event.inputs.packages }}
       inputs: ${{ github.event.inputs.inputs }}
       pr-labels: "dependencies,automated"
