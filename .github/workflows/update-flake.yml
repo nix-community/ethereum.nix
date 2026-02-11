@@ -136,6 +136,7 @@ jobs:
           body: ${{ steps.pr-details.outputs.body }}
           labels: ${{ inputs.pr-labels }}
           sign-commits: true
+          commit-message: ${{ steps.pr-details.outputs.title }}
           committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
           author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
       - name: Enable auto-merge
@@ -181,6 +182,7 @@ jobs:
           body: "Automated README regeneration after package updates."
           labels: documentation,automated
           sign-commits: true
+          commit-message: "README: regenerate package documentation"
           committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
           author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
           add-paths: README.md
