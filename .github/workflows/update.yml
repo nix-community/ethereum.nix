@@ -24,7 +24,7 @@ on:
         default: ""
 jobs:
   update:
-    uses: ./.github/workflows/update-flake.yml
+    uses: ./.github/workflows/_updater.yml
     with:
       update-type: ${{ github.event.inputs.update-type }}
       packages: ${{ github.event.inputs.packages }}

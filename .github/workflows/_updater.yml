@@ -1,4 +1,4 @@
-name: Update Flake
+name: Updater
 
 on:
   workflow_call:
@@ -49,7 +49,8 @@ jobs:
         with:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
-      - uses: actions/checkout@v6
+      - name: Checkout repository
+        uses: actions/checkout@v6
       - name: Setup Nix
         uses: cachix/install-nix-action@v31
         with:
@@ -174,6 +175,7 @@ jobs:
         run: ./scripts/generate-package-docs.py
       - name: Create pull request
         uses: peter-evans/create-pull-request@v8
+        id: cpr
         with:
           token: ${{ steps.app-token.outputs.token }}
           branch: update/readme
@@ -186,6 +188,11 @@ jobs:
           committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
           author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
           add-paths: README.md
+      - name: Enable auto-merge
+        if: inputs.auto-merge && steps.cpr.outputs.pull-request-number
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: gh pr merge ${{ steps.cpr.outputs.pull-request-number }} --auto --squash
 
   summary:
     needs: [discover, update, update-readme]
