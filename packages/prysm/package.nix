@@ -1,5 +1,5 @@
 {
-  bls,
+  bls_1_86,
   blst,
   buildGoModule,
   ckzg,
@@ -22,7 +22,7 @@ buildGoModule rec {
   vendorHash = "sha256-aLfMBumqgUjLl34O/N0lWymag+88T3v63WqJm/U+lMQ=";
 
   buildInputs = [
-    bls
+    bls_1_86
     blst
     ckzg
     libelf

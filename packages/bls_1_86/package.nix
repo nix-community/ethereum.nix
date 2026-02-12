@@ -4,7 +4,6 @@
   fetchFromGitHub,
   gmp,
   lib,
-  nix-update-script,
   stdenv,
 }:
 let
@@ -34,12 +33,12 @@ stdenv.mkDerivation rec {
   CFLAGS = [ "-DBLS_ETH" ];
 
   passthru = {
-    updateScript = nix-update-script { };
     category = "Libraries";
+    skipAutoUpdate = true;
   };
 
   meta = {
-    description = "BLS threshold signature";
+    description = "BLS threshold signature (pinned version for dependent packages)";
     homepage = "https://github.com/herumi/bls";
     license = lib.licenses.bsd3;
     platforms = [

@@ -1,5 +1,5 @@
 {
-  bls,
+  bls_1_86,
   buildGoModule,
   clang,
   fetchFromGitHub,
@@ -24,7 +24,7 @@ buildGoModule rec {
   nativeBuildInputs = [ clang ];
   buildInputs = [
     mcl
-    bls
+    bls_1_86
   ];
 
   doCheck = false;
