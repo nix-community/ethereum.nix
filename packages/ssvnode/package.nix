@@ -1,5 +1,5 @@
 {
-  bls,
+  bls_1_86,
   buildGoModule,
   fetchFromGitHub,
   lib,
@@ -21,7 +21,7 @@ buildGoModule rec {
   vendorHash = "sha256-fbkhy0S53Dy+I8t9X8jR8Fyi5upGnj9OmdtsbzslzoA=";
 
   buildInputs = [
-    bls
+    bls_1_86
     mcl
   ];
 

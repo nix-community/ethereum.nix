@@ -1,5 +1,5 @@
 {
-  bls,
+  bls_1_86,
   buildGoModule,
   fetchFromGitHub,
   lib,
@@ -24,7 +24,7 @@ buildGoModule {
   proxyVendor = true;
 
   buildInputs = [
-    bls
+    bls_1_86
     mcl
   ];
   nativeBuildInputs = [ mockgen ];

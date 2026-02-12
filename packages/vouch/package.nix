@@ -1,5 +1,5 @@
 {
-  bls,
+  bls_1_86,
   buildGoModule,
   fetchFromGitHub,
   lib,
@@ -23,7 +23,7 @@ buildGoModule rec {
 
   buildInputs = [
     mcl
-    bls
+    bls_1_86
   ];
 
   doCheck = false;

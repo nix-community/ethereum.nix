@@ -1,4 +1,4 @@
 { pkgs, perSystem }:
 pkgs.callPackage ./package.nix {
-  inherit (perSystem.self) bls blst ckzg;
+  inherit (perSystem.self) bls_1_86 blst ckzg;
 }

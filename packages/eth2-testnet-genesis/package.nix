@@ -1,5 +1,5 @@
 {
-  bls,
+  bls_1_86,
   buildGoModule,
   fetchFromGitHub,
   lib,
@@ -18,7 +18,7 @@ buildGoModule rec {
 
   vendorHash = "sha256-YGKfJOpzFw9X1z2Q4LyB+0ahEdfv1cJ9fDCzbDFH9Gs=";
 
-  buildInputs = [ bls ];
+  buildInputs = [ bls_1_86 ];
 
   subPackages = [ "." ];
 
