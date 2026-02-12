@@ -36,6 +36,7 @@ stdenv.mkDerivation rec {
   passthru = {
     updateScript = nix-update-script { };
     category = "Libraries";
+    skipAutoUpdate = true;
   };
 
   meta = {
