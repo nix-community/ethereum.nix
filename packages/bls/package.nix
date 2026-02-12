@@ -12,14 +12,14 @@ let
 in
 stdenv.mkDerivation rec {
   pname = "bls";
-  version = "1.86";
+  version = "2.02";
 
   src = fetchFromGitHub {
     owner = "herumi";
     repo = "bls";
     rev = "v${version}";
     fetchSubmodules = true;
-    hash = "sha256-VIJi8sjDq40ecPnEWzFPDR2t5rCOUIWxfI4QAemfPPM=";
+    hash = "sha256-C/qtIjvhKaArBZBmXgUl9uoL1DWoV7vIctNOvRGanDE=";
   };
 
   nativeBuildInputs = [ cmake ] ++ (lib.optionals (system == "aarch64-linux") [ clang ]);
