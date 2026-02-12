@@ -58,6 +58,8 @@ jobs:
           extra_nix_config: |
             extra-substituters = https://nix-community.cachix.org
             extra-trusted-public-keys = nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=
+      - name: Install Python dependencies
+        run: pip install pyyaml
       - name: Build update matrix
         id: build-matrix
         env:

@@ -12,6 +12,13 @@ import subprocess
 from dataclasses import dataclass
 from pathlib import Path
 
+try:
+    import yaml
+
+    HAS_YAML = True
+except ImportError:
+    HAS_YAML = False
+
 
 @dataclass
 class MatrixItem:
@@ -28,6 +35,21 @@ class MatrixItem:
             "name": self.name,
             "current_version": self.current_version,
         }
+
+
+def load_update_config() -> dict:
+    """Load update configuration from .github/config/update-config.yml."""
+    config_path = Path(".github/config/update-config.yml")
+    if not config_path.exists():
+        return {}
+    if not HAS_YAML:
+        print("Warning: pyyaml not installed, skipping update config")
+        return {}
+    try:
+        return yaml.safe_load(config_path.read_text()) or {}
+    except yaml.YAMLError as e:
+        print(f"Warning: Failed to parse update config: {e}")
+        return {}
 
 
 def run_nix(args: list[str]) -> subprocess.CompletedProcess[str]:
@@ -47,6 +69,7 @@ def discover_packages(packages_filter: str | None, system: str) -> list[MatrixIt
     print("Discovering packages...")
 
     # Build a nix expression that evaluates all versions at once
+    # Returns { name: { version, skipAutoUpdate } } for each package
     # Pass data via env var + builtins.fromJSON to avoid string interpolation
     config = json.dumps(
         {
@@ -59,18 +82,21 @@ def discover_packages(packages_filter: str | None, system: str) -> list[MatrixIt
       config = builtins.fromJSON (builtins.getEnv "DISCOVERY_CONFIG");
       flake = builtins.getFlake (toString ./.);
       pkgs = flake.packages.${config.system};
-      getVersion = name:
+      getInfo = pkg:
+        if pkg ? version then {
+          version = pkg.version;
+          skipAutoUpdate = pkg.passthru.skipAutoUpdate or false;
+        } else null;
+      getVersionFiltered = name:
         if pkgs ? ${name} && pkgs.${name} ? version
-        then { inherit name; value = pkgs.${name}.version; }
+        then { inherit name; value = getInfo pkgs.${name}; }
         else null;
     in
       if config.filter == null then
-        builtins.mapAttrs (name: pkg:
-          if pkg ? version then pkg.version else null
-        ) pkgs
+        builtins.mapAttrs (_name: pkg: getInfo pkg) pkgs
       else
         builtins.listToAttrs
-          (builtins.filter (x: x != null) (map getVersion config.filter))
+          (builtins.filter (x: x != null) (map getVersionFiltered config.filter))
     """
     env = {**os.environ, "DISCOVERY_CONFIG": config}
     result = subprocess.run(
@@ -85,18 +111,26 @@ def discover_packages(packages_filter: str | None, system: str) -> list[MatrixIt
         print(f"Failed to evaluate packages: {result.stderr}")
         return items
 
-    versions = json.loads(result.stdout)
+    packages_info = json.loads(result.stdout)
 
-    for name in sorted(versions.keys()):
-        version = versions[name]
-        if version is not None:
-            items.append(MatrixItem(type="package", name=name, current_version=version))
-        elif not packages_filter:
-            print(f"Skipping {name} (no version attribute)")
+    for name in sorted(packages_info.keys()):
+        info = packages_info[name]
+        if info is None:
+            if not packages_filter:
+                print(f"Skipping {name} (no version attribute)")
+            continue
+
+        if info.get("skipAutoUpdate"):
+            print(f"Skipping {name} (skipAutoUpdate = true)")
+            continue
+
+        items.append(
+            MatrixItem(type="package", name=name, current_version=info["version"])
+        )
 
     if packages_filter:
         # Warn about missing packages
-        found = set(versions.keys())
+        found = set(packages_info.keys())
         for pkg in packages_filter.split():
             if pkg not in found:
                 print(f"Warning: Package {pkg} not found or has no version")
@@ -104,7 +138,9 @@ def discover_packages(packages_filter: str | None, system: str) -> list[MatrixIt
     return items
 
 
-def discover_flake_inputs(inputs_filter: str | None) -> list[MatrixItem]:
+def discover_flake_inputs(
+    inputs_filter: str | None, skip_inputs: list[str]
+) -> list[MatrixItem]:
     """Discover flake inputs from flake.lock."""
     items: list[MatrixItem] = []
 
@@ -127,6 +163,11 @@ def discover_flake_inputs(inputs_filter: str | None) -> list[MatrixItem]:
     for input_name in input_names:
         if input_name not in nodes:
             continue
+
+        if input_name in skip_inputs:
+            print(f"Skipping {input_name} (in skip list)")
+            continue
+
         locked = nodes[input_name].get("locked", {})
         rev = locked.get("rev", "unknown")[:8]
         items.append(
@@ -149,6 +190,10 @@ def main() -> None:
     system = os.environ.get("SYSTEM", "x86_64-linux")
     github_output = os.environ.get("GITHUB_OUTPUT")
 
+    # Load update config for skip lists
+    update_config = load_update_config()
+    skip_inputs = update_config.get("skip", {}).get("inputs", [])
+
     # Determine what to update based on UPDATE_TYPE
     update_packages = update_type in ("", "packages")
     update_inputs = update_type in ("", "inputs")
@@ -157,6 +202,8 @@ def main() -> None:
     print(f"UPDATE_TYPE: {update_type or '<all>'}")
     print(f"PACKAGES: {packages or '<all>'}")
     print(f"INPUTS: {inputs or '<all>'}")
+    if skip_inputs:
+        print(f"Skip inputs: {', '.join(skip_inputs)}")
     print()
 
     # Discover items
@@ -164,7 +211,7 @@ def main() -> None:
     if update_packages:
         matrix_items.extend(discover_packages(packages or None, system))
     if update_inputs:
-        matrix_items.extend(discover_flake_inputs(inputs or None))
+        matrix_items.extend(discover_flake_inputs(inputs or None, skip_inputs))
 
     print()
     print("=== Discovery Results ===")
