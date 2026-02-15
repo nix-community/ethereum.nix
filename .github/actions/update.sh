@@ -5,6 +5,8 @@ set -euo pipefail
 # Usage: update.sh <type> <name>
 #   type: "package" or "flake-input"
 #   name: package name or input name
+#
+# Note that we don't build the package within Github Actions since buildbot does it after the PR is opened.
 
 type="$1"
 name="$2"
@@ -78,10 +80,6 @@ if [ "$type" = "package" ]; then
   # Run formatter to update README with mdsh
   echo "Running formatter to update documentation..."
   nix fmt
-
-  # Build the package to verify the update
-  echo "Building package to verify update..."
-  nix build .#"$name" --no-link
 
   echo "updated=true" >>"$output_var"
   echo "new_version=$new_version" >>"$output_var"
