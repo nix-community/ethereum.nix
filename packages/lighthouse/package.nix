@@ -28,13 +28,13 @@ let
 in
 rustPlatform.buildRustPackage rec {
   pname = "lighthouse";
-  version = "8.0.1";
+  version = "8.1.0";
 
   src = fetchFromGitHub {
     owner = "sigp";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-sdoyd1eBDX8AyiFdu6+23k//+vjxxfC6UNixZBeTLJw=";
+    hash = "sha256-+MF3KbyKbaEBsrNHQOOolfhl4uJ1laOL1eGtcWEoaLE=";
   };
 
   cargoLock = {
@@ -44,7 +44,7 @@ rustPlatform.buildRustPackage rec {
       "libmdbx-0.1.4" = "sha256-ONp4uPkVCN84MObjXorCZuSjnM6uFSMXK1vdJiX074o=";
       "lmdb-rkv-0.14.0" = "sha256-sxmguwqqcyOlfXOZogVz1OLxfJPo+Q0+UjkROkbbOCk=";
       "xdelta3-0.1.5" = "sha256-aewSexOZCrQoKZQa+SGP8i6JKXstaxF3W2LVEhCSmPs=";
-      "libp2p-gossipsub-0.50.0" = "sha256-RLPuPUUWlzv8tYyy7rr8wqR5OzP9TFtoz9QTdEHr+MM=";
+      "libp2p-gossipsub-0.50.0" = "sha256-lNTJZuOQMk7SAGxFXIYaAitLKDCIh8R+t3ntf1OHx6c=";
     };
   };
 
