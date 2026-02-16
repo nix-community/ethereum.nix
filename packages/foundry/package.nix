@@ -67,6 +67,7 @@ rustPlatform.buildRustPackage rec {
 
   passthru = {
     category = "Development Tools";
+    svmListsDir = ./svm-lists;
     updateScript = nix-update-script { };
   };
 
