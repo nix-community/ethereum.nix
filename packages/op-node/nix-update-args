@@ -1,0 +1,2 @@
+--version-regex
+^op-node/v([0-9.]+)$
