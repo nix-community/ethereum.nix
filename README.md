@@ -356,6 +356,119 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 
 </details>
 
+### Optimism
+
+<details>
+<summary><strong>op-batcher</strong> - Optimism batcher service that submits L2 transaction batches to L1</summary>
+
+- **Source**: source
+- **License**: MIT
+- **Homepage**: https://github.com/ethereum-optimism/optimism/tree/develop/op-batcher
+- **Usage**: `nix run github:nix-community/ethereum.nix#op-batcher -- --help`
+- **Nix**: [packages/op-batcher/package.nix](packages/op-batcher/package.nix)
+
+</details>
+<details>
+<summary><strong>op-challenger</strong> - Optimism fault proof challenger service that monitors and disputes invalid claims</summary>
+
+- **Source**: source
+- **License**: MIT
+- **Homepage**: https://github.com/ethereum-optimism/optimism/tree/develop/op-challenger
+- **Usage**: `nix run github:nix-community/ethereum.nix#op-challenger -- --help`
+- **Nix**: [packages/op-challenger/package.nix](packages/op-challenger/package.nix)
+
+</details>
+<details>
+<summary><strong>op-conductor</strong> - Optimism sequencer conductor for high-availability setups</summary>
+
+- **Source**: source
+- **License**: MIT
+- **Homepage**: https://github.com/ethereum-optimism/optimism/tree/develop/op-conductor
+- **Usage**: `nix run github:nix-community/ethereum.nix#op-conductor -- --help`
+- **Nix**: [packages/op-conductor/package.nix](packages/op-conductor/package.nix)
+
+</details>
+<details>
+<summary><strong>op-deployer</strong> - Optimism deployer tool for deploying OP Stack chains</summary>
+
+- **Source**: source
+- **License**: MIT
+- **Homepage**: https://github.com/ethereum-optimism/optimism/tree/develop/op-deployer
+- **Usage**: `nix run github:nix-community/ethereum.nix#op-deployer -- --help`
+- **Nix**: [packages/op-deployer/package.nix](packages/op-deployer/package.nix)
+
+</details>
+<details>
+<summary><strong>op-dispute-mon</strong> - Optimism dispute monitor that tracks and reports on fault proof disputes</summary>
+
+- **Source**: source
+- **License**: MIT
+- **Homepage**: https://github.com/ethereum-optimism/optimism/tree/develop/op-dispute-mon
+- **Usage**: `nix run github:nix-community/ethereum.nix#op-dispute-mon -- --help`
+- **Nix**: [packages/op-dispute-mon/package.nix](packages/op-dispute-mon/package.nix)
+
+</details>
+<details>
+<summary><strong>op-geth</strong> - Optimism implementation of the Ethereum protocol</summary>
+
+- **Source**: source
+- **License**: Check package
+- **Homepage**: https://github.com/ethereum-optimism/op-geth
+- **Usage**: `nix run github:nix-community/ethereum.nix#op-geth -- --help`
+- **Nix**: [packages/op-geth/package.nix](packages/op-geth/package.nix)
+
+</details>
+<details>
+<summary><strong>op-node</strong> - Optimism rollup node that derives the L2 chain from L1</summary>
+
+- **Source**: source
+- **License**: MIT
+- **Homepage**: https://github.com/ethereum-optimism/optimism/tree/develop/op-node
+- **Usage**: `nix run github:nix-community/ethereum.nix#op-node -- --help`
+- **Nix**: [packages/op-node/package.nix](packages/op-node/package.nix)
+
+</details>
+<details>
+<summary><strong>op-proposer</strong> - Optimism proposer service that submits L2 output proposals to L1</summary>
+
+- **Source**: source
+- **License**: MIT
+- **Homepage**: https://github.com/ethereum-optimism/optimism/tree/develop/op-proposer
+- **Usage**: `nix run github:nix-community/ethereum.nix#op-proposer -- --help`
+- **Nix**: [packages/op-proposer/package.nix](packages/op-proposer/package.nix)
+
+</details>
+<details>
+<summary><strong>op-supervisor</strong> - Optimism supervisor for cross-chain message verification</summary>
+
+- **Source**: source
+- **License**: MIT
+- **Homepage**: https://github.com/ethereum-optimism/optimism/tree/develop/op-supervisor
+- **Usage**: `nix run github:nix-community/ethereum.nix#op-supervisor -- --help`
+- **Nix**: [packages/op-supervisor/package.nix](packages/op-supervisor/package.nix)
+
+</details>
+<details>
+<summary><strong>op-validator</strong> - Tool for validating Optimism chain configurations and deployments</summary>
+
+- **Source**: source
+- **License**: MIT
+- **Homepage**: https://github.com/ethereum-optimism/optimism/tree/develop/op-validator
+- **Usage**: `nix run github:nix-community/ethereum.nix#op-validator -- --help`
+- **Nix**: [packages/op-validator/package.nix](packages/op-validator/package.nix)
+
+</details>
+<details>
+<summary><strong>supersim</strong> - Local Multi-L2 Development Environment</summary>
+
+- **Source**: source
+- **License**: MIT
+- **Homepage**: https://github.com/ethereum-optimism/supersim
+- **Usage**: `nix run github:nix-community/ethereum.nix#supersim -- --help`
+- **Nix**: [packages/supersim/package.nix](packages/supersim/package.nix)
+
+</details>
+
 ### Staking
 
 <details>
