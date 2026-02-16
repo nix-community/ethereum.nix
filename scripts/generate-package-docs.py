@@ -81,6 +81,7 @@ CATEGORY_ORDER = [
     "Staking Tools",
     "MEV",
     "SSV",
+    "Account Abstraction",
     "Development Tools",
     "Libraries",
     "Utilities",

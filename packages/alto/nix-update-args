@@ -1,0 +1,3 @@
+# alto uses @pimlico/alto@X.Y.Z tag format
+--version-regex
+@pimlico/alto@([0-9.]+)

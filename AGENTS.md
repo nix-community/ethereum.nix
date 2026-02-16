@@ -99,6 +99,7 @@ Available categories (in display order):
 - **Staking Tools** - Staking infrastructure and utilities (rocketpool, rocketpoold, eigenlayer, ethdo, ethstaker-deposit-cli)
 - **MEV** - MEV infrastructure (mev-boost, mev-boost-relay, blutgang)
 - **SSV** - Secret Shared Validators tooling (ssvnode, ssv-dkg)
+- **Account Abstraction** - ERC-4337 bundlers and account abstraction tooling (alto)
 - **Development Tools** - Smart contract development and testing (foundry, slither, heimdall, sedge, tx-fuzz, snarkjs)
 - **Libraries** - Cryptographic and protocol libraries (blst, ckzg, mcl, evmc, bls)
 - **Utilities** - Other Ethereum tools (eth-validator-watcher, kurtosis, rotki-bin, zcli, ethereal)
