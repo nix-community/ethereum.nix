@@ -1,0 +1,2 @@
+--version-regex
+^op-deployer/v([0-9.]+(-rc\.[0-9]+)?)$

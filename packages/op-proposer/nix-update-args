@@ -1,0 +1,2 @@
+--version-regex
+^op-proposer/v([0-9.]+)$
