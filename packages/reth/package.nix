@@ -32,6 +32,12 @@ rustPlatform.buildRustPackage rec {
     "--skip=builder::tests::rpc_handles_none_without_http"
     "--skip=cli::tests::override_trusted_setup_file"
     "--skip=cli::tests::parse_env_filter_directives"
+    # Tests added in 1.11.0 that fail in sandbox
+    "--skip=config_default_valid_toml"
+    "--skip=dev_node_eth_syncing"
+    "--skip=dev_node_send_tx_and_mine"
+    "--skip=dump_genesis_mainnet_valid_json"
+    "--skip=dump_genesis_sepolia_valid_json"
   ];
 
   passthru = {
