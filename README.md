@@ -85,6 +85,16 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 ### Consensus Clients
 
 <details>
+<summary><strong>grandine</strong> - High performance Ethereum consensus client</summary>
+
+- **Source**: binary
+- **License**: GPL-3.0-only
+- **Homepage**: https://github.com/grandinetech/grandine
+- **Usage**: `nix run github:nix-community/ethereum.nix#grandine -- --help`
+- **Nix**: [packages/grandine/package.nix](packages/grandine/package.nix)
+
+</details>
+<details>
 <summary><strong>lighthouse</strong> - Ethereum consensus client in Rust</summary>
 
 - **Source**: source
