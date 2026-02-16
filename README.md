@@ -214,6 +214,19 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 
 </details>
 
+### Account Abstraction
+
+<details>
+<summary><strong>alto</strong> - A performant, reliable, and type-safe ERC-4337 Bundler written in TypeScript</summary>
+
+- **Source**: source
+- **License**: GPL-3.0-only
+- **Homepage**: https://github.com/pimlicolabs/alto
+- **Usage**: `nix run github:nix-community/ethereum.nix#alto -- --help`
+- **Nix**: [packages/alto/package.nix](packages/alto/package.nix)
+
+</details>
+
 ### Development Tools
 
 <details>
