@@ -2,23 +2,24 @@
   buildGoModule,
   fetchFromGitHub,
   lib,
+  nix-update-script,
   versionCheckHook,
 }:
 buildGoModule rec {
   pname = "op-conductor";
-  version = "1.16.6";
+  version = "0.9.2";
 
   src = fetchFromGitHub {
     owner = "ethereum-optimism";
     repo = "optimism";
-    rev = "op-node/v${version}";
-    hash = "sha256-UxpgDtQ6n/iQC4oDPnIlictUmTmUaAKl2RNMGxhYG8Q=";
+    rev = "op-conductor/v${version}";
+    hash = "sha256-9+jdnQE31D7tC2kmd6rLM8XbyEC5Ohu1llIY0fJ42CM=";
   };
 
   sourceRoot = "${src.name}/op-conductor";
 
   proxyVendor = true;
-  vendorHash = "sha256-JcRCpMsTgKoibfKG/0MgvNLyZIHwt01sXZiGSQ48GXs=";
+  vendorHash = "sha256-VNWFfmsjG8eh3qBitxmiHnwH3vj2QQ5vOPUt4RqKOEs=";
 
   subPackages = [ "cmd" ];
 
@@ -42,7 +43,7 @@ buildGoModule rec {
 
   passthru = {
     category = "Optimism";
-    skipAutoUpdate = true;
+    updateScript = nix-update-script { };
   };
 
   meta = with lib; {
