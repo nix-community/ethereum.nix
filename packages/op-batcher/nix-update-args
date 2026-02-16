@@ -1,0 +1,2 @@
+--version-regex
+^op-batcher/v([0-9.]+)$
