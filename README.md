@@ -237,6 +237,16 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 
 </details>
 <details>
+<summary><strong>ethabi</strong> - Encode and decode smart contract invocations</summary>
+
+- **Source**: source
+- **License**: Apache-2.0
+- **Homepage**: https://github.com/rust-ethereum/ethabi
+- **Usage**: `nix run github:nix-community/ethereum.nix#ethabi -- --help`
+- **Nix**: [packages/ethabi/package.nix](packages/ethabi/package.nix)
+
+</details>
+<details>
 <summary><strong>ethdo</strong> - A command-line tool for managing common tasks in Ethereum 2</summary>
 
 - **Source**: source
