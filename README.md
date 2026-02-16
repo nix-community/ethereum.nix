@@ -362,6 +362,16 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 - **Nix**: [packages/rotki-bin/package.nix](packages/rotki-bin/package.nix)
 
 </details>
+<details>
+<summary><strong>tracoor</strong> - Ethereum beacon data and execution trace explorer</summary>
+
+- **Source**: source
+- **License**: GPL-3.0-only
+- **Homepage**: https://github.com/ethpandaops/tracoor
+- **Usage**: `nix run github:nix-community/ethereum.nix#tracoor -- --help`
+- **Nix**: [packages/tracoor/package.nix](packages/tracoor/package.nix)
+
+</details>
 
 ### Uncategorized
 
