@@ -343,6 +343,16 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 
 </details>
 <details>
+<summary><strong>checkpointz</strong> - Ethereum beacon chain checkpoint sync provider</summary>
+
+- **Source**: source
+- **License**: GPL-3.0-only
+- **Homepage**: https://github.com/ethpandaops/checkpointz
+- **Usage**: `nix run github:nix-community/ethereum.nix#checkpointz -- --help`
+- **Nix**: [packages/checkpointz/package.nix](packages/checkpointz/package.nix)
+
+</details>
+<details>
 <summary><strong>rotki-bin</strong> - An open source portfolio tracking tool that respects your privacy</summary>
 
 - **Source**: binary
