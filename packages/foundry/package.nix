@@ -4,11 +4,11 @@
   installShellFiles,
   lib,
   libusb1,
-  nix-update-script,
   pkg-config,
   rustPlatform,
   stdenv,
   solc,
+  svm-lists,
   versionCheckHook,
 }:
 rustPlatform.buildRustPackage rec {
@@ -34,9 +34,7 @@ rustPlatform.buildRustPackage rec {
 
   env = {
     # Make svm-rs use local release list rather than fetching from non-reproducible URL.
-    # Run the `update-svm-lists.sh` script to update these lists.
-    SVM_RELEASES_LIST_JSON =
-      if stdenv.isDarwin then "${./svm-lists/macosx-amd64.json}" else "${./svm-lists/linux-amd64.json}";
+    SVM_RELEASES_LIST_JSON = "${svm-lists}/list.json";
   };
 
   postInstall =
@@ -67,8 +65,6 @@ rustPlatform.buildRustPackage rec {
 
   passthru = {
     category = "Development Tools";
-    svmListsDir = ./svm-lists;
-    updateScript = nix-update-script { };
   };
 
   meta = with lib; {

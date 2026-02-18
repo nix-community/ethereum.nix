@@ -4,7 +4,7 @@
 script_dir=$(dirname "$(realpath "$0")")
 
 # Directory where the files will be downloaded
-dir="${script_dir}/svm-lists"
+dir="${script_dir}"
 
 # URLs of the files
 urls=(
