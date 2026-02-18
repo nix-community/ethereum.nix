@@ -1,0 +1,127 @@
+name: Bot Commands
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  rebase:
+    if: >-
+      github.event.issue.pull_request
+      && contains(github.event.comment.body, '/rebase')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate GitHub App Token
+        id: app-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - name: React with rocket to acknowledge
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          gh api \
+            repos/${{ github.repository }}/issues/comments/${{ github.event.comment.id }}/reactions \
+            -f content='rocket'
+
+      - name: Check permissions
+        id: check-perms
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          permission=$(gh api \
+            repos/${{ github.repository }}/collaborators/${{ github.event.comment.user.login }}/permission \
+            --jq '.permission')
+
+          if [[ "$permission" != "admin" && "$permission" != "write" ]]; then
+            gh api \
+              repos/${{ github.repository }}/issues/comments/${{ github.event.comment.id }}/reactions \
+              -f content='-1'
+            echo "User ${{ github.event.comment.user.login }} has '$permission' permission, need write or admin"
+            exit 1
+          fi
+
+      - name: Get PR details
+        id: pr-details
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          pr_json=$(gh api repos/${{ github.repository }}/pulls/${{ github.event.issue.number }})
+
+          head_ref=$(echo "$pr_json" | jq -r '.head.ref')
+          base_ref=$(echo "$pr_json" | jq -r '.base.ref')
+          head_repo_full_name=$(echo "$pr_json" | jq -r '.head.repo.full_name')
+
+          echo "head_ref=$head_ref" >> "$GITHUB_OUTPUT"
+          echo "base_ref=$base_ref" >> "$GITHUB_OUTPUT"
+          echo "head_repo=$head_repo_full_name" >> "$GITHUB_OUTPUT"
+
+          if [[ "$head_repo_full_name" != "${{ github.repository }}" ]]; then
+            gh api \
+              repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments \
+              -f body="Cannot rebase: this PR is from a fork (\`$head_repo_full_name\`). Please rebase locally."
+            exit 1
+          fi
+
+      - name: Checkout PR branch
+        uses: actions/checkout@v6
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          ref: ${{ steps.pr-details.outputs.head_ref }}
+          fetch-depth: 0
+
+      - name: Rebase onto base branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin ${{ steps.pr-details.outputs.base_ref }}
+          git rebase origin/${{ steps.pr-details.outputs.base_ref }}
+
+      - name: Push signed commits
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          head_ref="${{ steps.pr-details.outputs.head_ref }}"
+          base_ref="${{ steps.pr-details.outputs.base_ref }}"
+
+          # Recreate each rebased commit via the GitHub API so they are signed
+          commits=$(git rev-list --reverse "origin/${base_ref}..HEAD")
+          prev_sha=$(git rev-parse "origin/${base_ref}")
+
+          for sha in $commits; do
+            tree=$(git rev-parse "${sha}^{tree}")
+            message=$(git log -1 --format=%B "$sha")
+
+            prev_sha=$(jq -n \
+              --arg message "$message" \
+              --arg tree "$tree" \
+              --arg parent "$prev_sha" \
+              '{message: $message, tree: $tree, parents: [$parent]}' \
+            | gh api "repos/${{ github.repository }}/git/commits" --input - --jq '.sha')
+          done
+
+          # Force-update the branch ref to the new signed commits
+          gh api "repos/${{ github.repository }}/git/refs/heads/${head_ref}" \
+            -X PATCH \
+            -f "sha=${prev_sha}" \
+            -F "force=true"
+
+      - name: React with success
+        if: success()
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          gh api \
+            repos/${{ github.repository }}/issues/comments/${{ github.event.comment.id }}/reactions \
+            -f content='hooray'
+
+      - name: React with failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          gh api \
+            repos/${{ github.repository }}/issues/comments/${{ github.event.comment.id }}/reactions \
+            -f content='confused'
