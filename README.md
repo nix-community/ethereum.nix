@@ -353,6 +353,16 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 
 </details>
 <details>
+<summary><strong>dora</strong> - Lightweight beaconchain explorer for Ethereum</summary>
+
+- **Source**: source
+- **License**: GPL-3.0-only
+- **Homepage**: https://github.com/ethpandaops/dora
+- **Usage**: `nix run github:nix-community/ethereum.nix#dora -- --help`
+- **Nix**: [packages/dora/package.nix](packages/dora/package.nix)
+
+</details>
+<details>
 <summary><strong>rotki-bin</strong> - An open source portfolio tracking tool that respects your privacy</summary>
 
 - **Source**: binary
