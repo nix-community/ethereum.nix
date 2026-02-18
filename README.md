@@ -227,6 +227,29 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 
 </details>
 
+### Polygon
+
+<details>
+<summary><strong>bor</strong> - Official execution client of the Polygon blockchain</summary>
+
+- **Source**: source
+- **License**: LGPL-3.0-only
+- **Homepage**: https://github.com/maticnetwork/bor
+- **Usage**: `nix run github:nix-community/ethereum.nix#bor -- --help`
+- **Nix**: [packages/bor/package.nix](packages/bor/package.nix)
+
+</details>
+<details>
+<summary><strong>heimdall-v2</strong> - Official consensus client of the Polygon blockchain</summary>
+
+- **Source**: source
+- **License**: GPL-3.0-only
+- **Homepage**: https://github.com/0xPolygon/heimdall-v2
+- **Usage**: `nix run github:nix-community/ethereum.nix#heimdall-v2 -- --help`
+- **Nix**: [packages/heimdall-v2/package.nix](packages/heimdall-v2/package.nix)
+
+</details>
+
 ### Development Tools
 
 <details>

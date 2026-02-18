@@ -82,6 +82,7 @@ CATEGORY_ORDER = [
     "MEV",
     "SSV",
     "Account Abstraction",
+    "Polygon",
     "Development Tools",
     "Libraries",
     "Utilities",
