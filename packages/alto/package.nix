@@ -104,12 +104,7 @@ stdenv.mkDerivation rec {
     homepage = "https://github.com/pimlicolabs/alto";
     license = licenses.gpl3Only;
     mainProgram = "alto";
-    # Limited by foundry's platform support
-    platforms = [
-      "x86_64-linux"
-      "x86_64-darwin"
-      "aarch64-darwin"
-    ];
+    platforms = platforms.unix;
     sourceProvenance = with sourceTypes; [ fromSource ];
   };
 }

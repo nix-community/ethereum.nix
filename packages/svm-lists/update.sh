@@ -10,6 +10,7 @@ dir="${script_dir}"
 urls=(
   "https://binaries.soliditylang.org/macosx-amd64/list.json"
   "https://binaries.soliditylang.org/linux-amd64/list.json"
+  "https://binaries.soliditylang.org/linux-arm64/list.json"
 )
 
 # Create the directory (no error if it already exists)
