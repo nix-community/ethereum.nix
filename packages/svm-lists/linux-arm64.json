@@ -1,0 +1,55 @@
+{
+  "builds": [
+    {
+      "path": "solc-linux-arm64-v0.8.31+commit.fd3a2265",
+      "version": "0.8.31",
+      "build": "commit.fd3a2265",
+      "longVersion": "0.8.31+commit.fd3a2265",
+      "keccak256": "0xa15aefe37ac27f4c8fd409de4829204d86aa428cf5fd7dcdacdef634fc35fb55",
+      "sha256": "0xacf358d82da7db033debb2f4db11e1c9cfcb02b0cb5b5ddbb9635ad817b41bdd",
+      "urls": [
+        "dweb:/ipfs/QmRZtG1zE2b3xMix7sZJSVmzAvyHs845e1WnWTZWBy6Guj"
+      ]
+    },
+    {
+      "path": "solc-linux-arm64-v0.8.32+commit.ebbd65e5",
+      "version": "0.8.32",
+      "build": "commit.ebbd65e5",
+      "longVersion": "0.8.32+commit.ebbd65e5",
+      "keccak256": "0x2c816a68dc3daa495f5b934f45a159c59c0fd38dafb168d28d0e184187902b1b",
+      "sha256": "0xf268aa17d0b770806ceb9072ff54c8970fcf74abf4f9d44fef11b4831ef6414c",
+      "urls": [
+        "dweb:/ipfs/QmaFuqCBLJGo24LnzRSDzW12pfJfJgECVLrVXoNatQSH5T"
+      ]
+    },
+    {
+      "path": "solc-linux-arm64-v0.8.33+commit.64118f21",
+      "version": "0.8.33",
+      "build": "commit.64118f21",
+      "longVersion": "0.8.33+commit.64118f21",
+      "keccak256": "0x37204d5a414287969be1cac19145b9682dfaedad2fc0ff6d0d6e03e54b64868b",
+      "sha256": "0x9e34cfb916a75bdd641b1e706d538afe9fb4471ae6105a9077e7908a058df959",
+      "urls": [
+        "dweb:/ipfs/QmR2h3izQDp5ERw8bGnjWJweeUGxeXh9sLPZby3gmxBUuU"
+      ]
+    },
+    {
+      "path": "solc-linux-arm64-v0.8.34+commit.80d5c536",
+      "version": "0.8.34",
+      "build": "commit.80d5c536",
+      "longVersion": "0.8.34+commit.80d5c536",
+      "keccak256": "0xced65cfd3b6461dda1b4a59a4a29accfe317bdd1adb757a2b852799c6161c701",
+      "sha256": "0xe4260e58f9f653f984c8c072f7262855ca4628570752aabc9a5b358c57d2a6e5",
+      "urls": [
+        "dweb:/ipfs/QmZ6jb9iDLYJtVKL4p5hLUwd93YJF8kf8HMJHcaDqvCs5k"
+      ]
+    }
+  ],
+  "releases": {
+    "0.8.34": "solc-linux-arm64-v0.8.34+commit.80d5c536",
+    "0.8.33": "solc-linux-arm64-v0.8.33+commit.64118f21",
+    "0.8.32": "solc-linux-arm64-v0.8.32+commit.ebbd65e5",
+    "0.8.31": "solc-linux-arm64-v0.8.31+commit.fd3a2265"
+  },
+  "latestRelease": "0.8.34"
+}

@@ -75,13 +75,7 @@ rustPlatform.buildRustPackage rec {
       mit
     ];
     maintainers = with maintainers; [ mitchmindtree ];
-    # TODO: Change this to `platforms = platforms.unix;` when this is resolved:
-    # https://github.com/ethereum/solidity/issues/11351
-    platforms = [
-      "aarch64-darwin"
-      "x86_64-linux"
-      "x86_64-darwin"
-    ];
+    platforms = platforms.unix;
     sourceProvenance = with sourceTypes; [ fromSource ];
   };
 }

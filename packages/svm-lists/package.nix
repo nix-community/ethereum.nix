@@ -2,6 +2,17 @@
   lib,
   stdenvNoCC,
 }:
+
+let
+  archToList = {
+    x86_64-linux = ./linux-amd64.json;
+    aarch64-linux = ./linux-arm64.json;
+    x86_64-darwin = ./macosx-amd64.json;
+
+    # there are no upstream aarch64 binaries, "x86" ones work either thanks to Rosetta, or since 0.8.25 they are universal
+    aarch64-darwin = ./macosx-amd64.json;
+  };
+in
 stdenvNoCC.mkDerivation { 
   pname = "svm-lists";
   version = "unstable";
@@ -9,7 +20,7 @@ stdenvNoCC.mkDerivation {
   dontUnpack = true;
 
   installPhase = ''
-      install -D ${if stdenvNoCC.isDarwin then "${./macosx-amd64.json}" else "${./linux-amd64.json}"} $out/list.json
+      install -D ${archToList.${stdenvNoCC.hostPlatform.system}} $out/list.json
       '';
 
   passthru = {
@@ -23,14 +34,7 @@ stdenvNoCC.mkDerivation {
       gpl3
     ];
 
-    # TODO: Change this to `platforms = platforms.unix;` when this is resolved:
-    # https://github.com/ethereum/solidity/issues/11351
-    platforms = [
-      "aarch64-darwin"
-      "x86_64-linux"
-      "x86_64-darwin"
-    ];
-
+    platforms = platforms.unix;
     sourceProvenance = with sourceTypes; [ binaryNativeCode ];
   };
 }
