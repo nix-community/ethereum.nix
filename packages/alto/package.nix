@@ -2,6 +2,7 @@
   fetchFromGitHub,
   fetchPnpmDeps,
   foundry,
+  svm-lists,
   lib,
   makeWrapper,
   nix-update-script,
@@ -39,11 +40,7 @@ stdenv.mkDerivation rec {
     solc
   ];
 
-  SVM_RELEASES_LIST_JSON =
-    if stdenv.isDarwin then
-      "${foundry.passthru.svmListsDir}/macosx-amd64.json"
-    else
-      "${foundry.passthru.svmListsDir}/linux-amd64.json";
+  SVM_RELEASES_LIST_JSON = "${svm-lists}/list.json";
 
   buildPhase = ''
     runHook preBuild
