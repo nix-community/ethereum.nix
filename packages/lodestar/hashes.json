@@ -1,0 +1,10 @@
+{
+  "x86_64-linux": {
+    "platformSuffix": "linux-amd64",
+    "hash": "sha256-z9Kdurr3/8KIVrYeFxuBNSj28manc+YShkw7dQ2swAk="
+  },
+  "aarch64-linux": {
+    "platformSuffix": "linux-arm64",
+    "hash": "sha256-kIpinmJbdzpUJjblpYzVMEKlCxbt7OaEldxL3DEhl+Y="
+  }
+}
