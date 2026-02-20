@@ -13,15 +13,15 @@ let
     aarch64-darwin = ./macosx-amd64.json;
   };
 in
-stdenvNoCC.mkDerivation { 
+stdenvNoCC.mkDerivation {
   pname = "svm-lists";
   version = "unstable";
 
   dontUnpack = true;
 
   installPhase = ''
-      install -D ${archToList.${stdenvNoCC.hostPlatform.system}} $out/list.json
-      '';
+    install -D ${archToList.${stdenvNoCC.hostPlatform.system}} $out/list.json
+  '';
 
   passthru = {
     category = "Development Tools";
