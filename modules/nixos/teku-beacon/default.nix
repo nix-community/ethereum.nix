@@ -7,109 +7,89 @@
 let
   modulesLib = import ../../../lib/modules.nix lib;
 
-  inherit (lib.lists) optionals findFirst;
-  inherit (lib.strings) hasPrefix;
   inherit (lib.attrsets) zipAttrsWith;
-  inherit (builtins)
-    toString
-    ;
   inherit (lib)
     concatStringsSep
     filterAttrs
     flatten
+    mapAttrs
     mapAttrs'
     mapAttrsToList
     mkIf
     mkMerge
     nameValuePair
+    optionals
+    elem
     ;
-  inherit (modulesLib) mkArgs baseServiceConfig;
+  inherit (builtins) isList;
+  inherit (modulesLib) baseServiceConfig;
 
   eachBeacon = config.services.ethereum.teku-beacon;
+
+  # Convert lists to comma-separated strings for CLI
+  processSettings = mapAttrs (_: v: if isList v then concatStringsSep "," v else v);
 in
 {
   ###### interface
   inherit (import ./options.nix { inherit lib pkgs; }) options;
 
   ###### implementation
-
   config = mkIf (eachBeacon != { }) {
     # configure the firewall for each service
     networking.firewall =
       let
         openFirewall = filterAttrs (_: cfg: cfg.openFirewall) eachBeacon;
         perService = mapAttrsToList (
-          _: cfg: with cfg.args; {
-            allowedUDPPorts = [ udp-port ];
+          _: cfg:
+          let
+            s = cfg.settings;
+          in
+          {
+            allowedUDPPorts = [ (s.p2p-port or 9000) ];
             allowedTCPPorts = [
-              tcp-port
+              (s.p2p-port or 9000)
             ]
-            ++ (optionals rest-api.enable [ rest-api.port ])
-            ++ (optionals metrics.enable [ metrics.port ]);
+            ++ (optionals (s.rest-api-enabled or false) [ (s.rest-api-port or 5051) ])
+            ++ (optionals (s.metrics-enabled or false) [ (s.metrics-port or 8008) ]);
           }
         ) openFirewall;
       in
       zipAttrsWith (_name: flatten) perService;
 
+    # create a service for each instance
     systemd.services = mapAttrs' (
       beaconName:
       let
-        user = "teku-beacon-${beaconName}";
         serviceName = "teku-beacon-${beaconName}";
       in
       cfg:
       let
-        args = mkArgs {
-          inherit (cfg) args;
-          opts = import ./args.nix {
-            inherit lib;
-            name = beaconName;
-            config = cfg;
-          };
-        };
+        s = cfg.settings;
+        dataPath = s.data-path or "%S/${serviceName}";
+        jwtSecret = s.ee-jwt-secret-file or null;
 
-        jwt-secret =
-          if cfg.args.ee-jwt-secret-file != null then "--ee-jwt-secret-file=%d/jwt-secret" else "";
-        data-path = if cfg.args.data-path != null then cfg.args.data-path else "%S/${serviceName}";
-        data-path-arg = "--data-path=${data-path}";
+        # Keys that need special handling
+        skipKeys = [
+          "data-path"
+          "ee-jwt-secret-file"
+        ];
+        normalSettings = filterAttrs (k: _: !elem k skipKeys) s;
 
-        scriptArgs =
-          let
-            # filter out certain args which need to be treated differently
-            specialArgs = [
-              "--ee-jwt-secret-file"
-              "--data-path"
-              "--user" # Not a CLI Flag, only used in systemd service
-              "--rest-api-enable"
-              "--rest-api-address"
-              "--rest-api-port"
-              "--rest-api-cors-origins"
-              "--metrics-enable"
-              "--metrics-address"
-              "--metrics-port"
-              "--payload-builder-enable"
-              "--payload-builder-url"
-            ];
-            isNormalArg = name: (findFirst (arg: hasPrefix arg name) null specialArgs) == null;
-            filteredArgs =
-              (builtins.filter isNormalArg args)
-              ++ (optionals cfg.args.rest-api.enable [
-                "--rest-api-enabled"
-                "--rest-api-interface=${cfg.args.rest-api.address}"
-                "--rest-api-port=${toString cfg.args.rest-api.port}"
-              ])
-              ++ (optionals cfg.args.metrics.enable [
-                "--metrics-enabled"
-                "--metrics-interface=${cfg.args.metrics.address}"
-                "--metrics-port=${toString cfg.args.metrics.port}"
-              ]);
-          in
-          ''
-            ${jwt-secret} \
-            ${data-path-arg} \
-            ${concatStringsSep " \\\n" filteredArgs} \
-            ${lib.escapeShellArgs cfg.extraArgs}
-          '';
+        # Use lib.cli.toGNUCommandLine for RFC 42 settings
+        cliArgs = lib.cli.toGNUCommandLine { } (processSettings normalSettings);
+
+        allArgs = [
+          "--data-path"
+          dataPath
+        ]
+        ++ cliArgs
+        ++ (optionals (jwtSecret != null) [
+          "--ee-jwt-secret-file"
+          "%d/jwt-secret"
+        ])
+        ++ cfg.extraArgs;
+
+        scriptArgs = concatStringsSep " \\\n  " allArgs;
       in
       nameValuePair serviceName (
         mkIf cfg.enable {
@@ -117,12 +97,16 @@ in
           wantedBy = [ "multi-user.target" ];
           description = "Teku Beacon Node (${beaconName})";
 
+          # create service config by merging with the base config
           serviceConfig = mkMerge [
+            baseServiceConfig
             {
-              MemoryDenyWriteExecute = false;
-              User = if cfg.args.user != null then cfg.args.user else user;
-              StateDirectory = user;
+              User = if cfg.user != null then cfg.user else serviceName;
+              StateDirectory = serviceName;
               ExecStart = "${cfg.package}/bin/teku ${scriptArgs}";
+
+              # Teku (JVM) requires write+execute for JIT compilation
+              MemoryDenyWriteExecute = false;
 
               # Teku needs this system call for some reason
               SystemCallFilter = [
@@ -135,9 +119,8 @@ in
               # https://docs.teku.consensys.net/how-to/prevent-slashing/detect-doppelgangers
               RestartPreventExitStatus = 2;
             }
-            baseServiceConfig
-            (mkIf (cfg.args.ee-jwt-secret-file != null) {
-              LoadCredential = [ "jwt-secret:${cfg.args.ee-jwt-secret-file}" ];
+            (mkIf (jwtSecret != null) {
+              LoadCredential = [ "jwt-secret:${jwtSecret}" ];
             })
           ];
         }
