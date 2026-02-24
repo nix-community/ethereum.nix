@@ -3,16 +3,15 @@
   buildNpmPackage,
   fetchFromGitHub,
   lib,
-  nix-update-script,
 }:
 let
-  version = "1.20.2";
+  version = "1.20.3";
 
   src = fetchFromGitHub {
     owner = "ethpandaops";
     repo = "dora";
     rev = "v${version}";
-    hash = "sha256-UEJPndPuVUH27Jold3Bg5320OKfpAfepBOzYHdd09KY=";
+    hash = "sha256-EOaLNhnOdu7z7vOTSbBpDbxFFyPIySZtVCTo6of2mTQ=";
   };
 
   ui = buildNpmPackage {
@@ -21,7 +20,7 @@ let
 
     sourceRoot = "${src.name}/ui-package";
 
-    npmDepsHash = "sha256-OI3rYV/9mDX3zPCwWSQISEYZtWXTBSc//d7S8URzXJM=";
+    npmDepsHash = "sha256-NhZ0olOYrPLnfRn5aaMu9FkMQkScLmDfmHN+5SCwrhU=";
     npmFlags = [ "--legacy-peer-deps" ];
     makeCacheWritable = true;
 
@@ -38,7 +37,7 @@ buildGoModule rec {
   inherit version src;
 
   proxyVendor = true;
-  vendorHash = "sha256-RprXQkH0GBi74jIJty7s+x0cVifSqpcopRSDqMmXIlk=";
+  vendorHash = "sha256-M/UE6HH7jbIPi+F+uF4B0tr9EMqT37c5nCYq4KEfKg8=";
 
   preBuild = ''
     mkdir -p ui-package/dist
@@ -55,7 +54,7 @@ buildGoModule rec {
 
   passthru = {
     category = "Utilities";
-    updateScript = nix-update-script { };
+    updateScript = ./update.py;
   };
 
   meta = {
