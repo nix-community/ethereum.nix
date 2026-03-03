@@ -8,13 +8,13 @@
 }:
 buildGoModule rec {
   pname = "bor";
-  version = "2.6.0";
+  version = "2.8.0-test2";
 
   src = fetchFromGitHub {
     owner = "maticnetwork";
     repo = "bor";
     rev = "v${version}";
-    hash = "sha256-iDmJ/ADq1U4XvgfoVjx9uGpJKed9Gy0unrygMmi0EnY=";
+    hash = "sha256-or0P5zRvLWIiV6lKuH0PbFW4C1H8PRU7wM/13C2JjO0=";
   };
 
   proxyVendor = true;
