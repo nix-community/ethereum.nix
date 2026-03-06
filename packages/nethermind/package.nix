@@ -4,7 +4,6 @@
   fetchFromGitHub,
   lib,
   lz4,
-  nix-update-script,
   rocksdb,
   snappy,
   stdenv,
@@ -48,7 +47,7 @@ buildDotnetModule rec {
 
   passthru = {
     category = "Execution Clients";
-    updateScript = nix-update-script { };
+    updateScript = ./update.py;
   };
 
   meta = {
