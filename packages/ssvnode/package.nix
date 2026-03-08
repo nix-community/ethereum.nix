@@ -9,13 +9,13 @@
 }:
 buildGoModule rec {
   pname = "ssv";
-  version = "2.4.1";
+  version = "2.4.2";
 
   src = fetchFromGitHub {
     owner = "ssvlabs";
     repo = "${pname}";
     rev = "v${version}";
-    hash = "sha256-f1cvdNpPJbMtWmMD5RQRh5iyWdYpai7PB1iTPTrCN/o=";
+    hash = "sha256-XT9aIbhxwliNR4ewH4LWhNQManvmB/tab1lqWGydndo=";
   };
 
   vendorHash = "sha256-fbkhy0S53Dy+I8t9X8jR8Fyi5upGnj9OmdtsbzslzoA=";
