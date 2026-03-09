@@ -28,24 +28,25 @@ let
 in
 rustPlatform.buildRustPackage rec {
   pname = "lighthouse";
-  version = "8.1.1";
+  version = "8.1.2";
 
   src = fetchFromGitHub {
     owner = "sigp";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-vDMmP8eGZc69BLzbFfK7MO+uVU+wf7yT1yUxcVp05M0=";
+    hash = "sha256-Gtx5wowQM9jycy2Bl0FFGkgOZtyRvK3lMuc3K9v9sW4=";
   };
 
   cargoLock = {
     lockFile = "${src}/Cargo.lock";
     outputHashes = {
       "libmdbx-0.1.4" = "sha256-ONp4uPkVCN84MObjXorCZuSjnM6uFSMXK1vdJiX074o=";
-      "libp2p-0.56.1" = "sha256-lNTJZuOQMk7SAGxFXIYaAitLKDCIh8R+t3ntf1OHx6c=";
+      "libp2p-0.56.1" = "sha256-7zN6/dnxQFZSs1MjXsPQgFoSfAFHyEmpLH08gQ/k+1k=";
       "lmdb-rkv-0.14.0" = "sha256-sxmguwqqcyOlfXOZogVz1OLxfJPo+Q0+UjkROkbbOCk=";
-      "quick-protobuf-0.8.1" = "sha256-dgePLYCeoEZz5DGaLifhf3gEIPaL7XB0QT9wRKY8LJg=";
+      "quick-protobuf-0.8.1" = "sha256-y1BoUi8tCybrcWCF5wvy5QixTf7GQOmSrCZr421vhXE=";
+      "quinn-0.11.9" = "sha256-+0DbgxkUmyKEwS9dUScDEhfrYl/4LewT1OCOu79gYVI=";
       "xdelta3-0.1.5" = "sha256-aewSexOZCrQoKZQa+SGP8i6JKXstaxF3W2LVEhCSmPs=";
-      "yamux-0.13.8" = "sha256-VECNTLUnujy7ZJAYVWCkzzL82ZiDS7WZLEqGww/92aw=";
+      "yamux-0.13.8" = "sha256-8TsnvI7TYrWj54TNY3uSSslW85UgoZB0762pBZC1X/I=";
     };
   };
 
