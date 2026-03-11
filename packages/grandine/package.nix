@@ -3,29 +3,20 @@
   fetchurl,
   gcc-unwrapped,
   lib,
-  nix-update-script,
   stdenv,
   versionCheckHook,
 }:
 let
-  selectSystem =
-    attrs:
-    attrs.${stdenv.hostPlatform.system} or (throw "Unsupported system: ${stdenv.hostPlatform.system}");
-  suffix = selectSystem {
-    x86_64-linux = "linux-x64";
-    aarch64-linux = "linux-arm64";
-  };
+  hashes = lib.importJSON ./hashes.json;
+  metadata =
+    hashes.${stdenv.hostPlatform.system} or (throw "Unsupported system: ${stdenv.hostPlatform.system}");
 in
 stdenv.mkDerivation rec {
   pname = "grandine";
   version = "2.0.3";
 
   src = fetchurl {
-    url = "https://github.com/grandinetech/grandine/releases/download/${version}/grandine-${version}-${suffix}";
-    hash = selectSystem {
-      x86_64-linux = "sha256-UOSCmbYvrCjTodkdzOCcyTPvs6G4sTeQoij+9qe5rYc=";
-      aarch64-linux = "sha256-pSv+gIELj+ZwA3mPIIil7pmtiJvGWeyt+cVl/fHHAMY=";
-    };
+    inherit (metadata) url hash;
   };
 
   dontUnpack = true;
@@ -46,7 +37,7 @@ stdenv.mkDerivation rec {
 
   passthru = {
     category = "Consensus Clients";
-    updateScript = nix-update-script { };
+    updateScript = ./update.py;
   };
 
   meta = {
