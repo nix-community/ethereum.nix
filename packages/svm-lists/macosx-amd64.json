@@ -1122,6 +1122,18 @@
       "urls": [
         "dweb:/ipfs/QmPNYucykSsfxiMy9ttzwXUfJ5euFA3tGEvvfN6MgTrCsn"
       ]
+    },
+    {
+      "path": "solc-macosx-amd64-v0.8.35-pre.1+commit.a99b6d8c",
+      "version": "0.8.35",
+      "prerelease": "pre.1",
+      "build": "commit.a99b6d8c",
+      "longVersion": "0.8.35-pre.1+commit.a99b6d8c",
+      "keccak256": "0xdb623eedf94aba05a1f4060ea0dbcdc1449de5c2ba68a50bbd7ccde06a3f0937",
+      "sha256": "0x822b74ff83ff60f47dad9d9640d857b115679b1b024a6586f58a9bd2cf62cd90",
+      "urls": [
+        "dweb:/ipfs/QmWYH9ywNZetJZJsQhZzPWQVvYX8rfxgCNPuCjQARZtgEQ"
+      ]
     }
   ],
   "releases": {
