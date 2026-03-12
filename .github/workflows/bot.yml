@@ -85,44 +85,100 @@ jobs:
         run: |
           head_ref="${{ steps.pr-details.outputs.head_ref }}"
           base_ref="${{ steps.pr-details.outputs.base_ref }}"
+          repo="${{ github.repository }}"
 
-          # Recreate each rebased commit via the GitHub API so they are signed
           commits=$(git rev-list --reverse "origin/${base_ref}..HEAD")
-          prev_sha=$(git rev-parse "origin/${base_ref}")
+
+          if [[ -z "$commits" ]]; then
+            echo "Branch is already up-to-date"
+            exit 0
+          fi
+
+          # Reset the remote branch to the base so we can recreate commits
+          # using the GraphQL API, which produces GitHub-signed commits.
+          # The REST API (git/commits) does NOT sign commits.
+          base_sha=$(git rev-parse "origin/${base_ref}")
+          gh api "repos/${repo}/git/refs/heads/${head_ref}" \
+            -X PATCH -f "sha=${base_sha}" -F "force=true"
+
+          prev_oid="${base_sha}"
 
           for sha in $commits; do
-            tree=$(git rev-parse "${sha}^{tree}")
-            message=$(git log -1 --format=%B "$sha")
+            headline=$(git log -1 --format='%s' "$sha")
+            body=$(git log -1 --format='%b' "$sha")
 
-            # Preserve original author and committer
+            # Preserve original author via Co-authored-by trailer
             author_name=$(git log -1 --format='%an' "$sha")
             author_email=$(git log -1 --format='%ae' "$sha")
-            author_date=$(git log -1 --format='%aI' "$sha")
-            committer_name=$(git log -1 --format='%cn' "$sha")
-            committer_email=$(git log -1 --format='%ce' "$sha")
-            committer_date=$(git log -1 --format='%cI' "$sha")
+            if [[ "$author_email" != *"[bot]@users.noreply.github.com" ]]; then
+              co_author="Co-authored-by: ${author_name} <${author_email}>"
+              if ! printf '%s' "$body" | grep -qF "$co_author"; then
+                if [[ -n "$body" ]]; then
+                  body=$(printf '%s\n%s' "$body" "$co_author")
+                else
+                  body="$co_author"
+                fi
+              fi
+            fi
 
-            prev_sha=$(jq -n \
-              --arg message "$message" \
-              --arg tree "$tree" \
-              --arg parent "$prev_sha" \
-              --arg aname "$author_name" \
-              --arg aemail "$author_email" \
-              --arg adate "$author_date" \
-              --arg cname "$committer_name" \
-              --arg cemail "$committer_email" \
-              --arg cdate "$committer_date" \
-              '{message: $message, tree: $tree, parents: [$parent],
-                author: {name: $aname, email: $aemail, date: $adate},
-                committer: {name: $cname, email: $cemail, date: $cdate}}' \
-            | gh api "repos/${{ github.repository }}/git/commits" --input - --jq '.sha')
+            # Compute file changes for this commit
+            additions="[]"
+            deletions="[]"
+
+            while IFS=$'\t' read -r status path; do
+              case "$status" in
+                D)
+                  deletions=$(jq -nc --argjson d "$deletions" --arg p "$path" \
+                    '$d + [{path: $p}]')
+                  ;;
+                *)
+                  content=$(git show "${sha}:${path}" | base64 -w0)
+                  additions=$(jq -nc --argjson a "$additions" --arg p "$path" --arg c "$content" \
+                    '$a + [{path: $p, contents: $c}]')
+                  ;;
+              esac
+            done < <(git diff-tree --no-commit-id -r --no-renames --name-status "$sha")
+
+            # Create signed commit via GraphQL createCommitOnBranch
+            jq -n \
+              --arg repo "$repo" \
+              --arg branch "$head_ref" \
+              --arg oid "$prev_oid" \
+              --arg headline "$headline" \
+              --arg body "$body" \
+              --argjson additions "$additions" \
+              --argjson deletions "$deletions" \
+              '{
+                query: "mutation($input: CreateCommitOnBranchInput!) { createCommitOnBranch(input: $input) { commit { oid } } }",
+                variables: {
+                  input: {
+                    branch: {
+                      repositoryNameWithOwner: $repo,
+                      branchName: $branch
+                    },
+                    message: (
+                      {headline: $headline}
+                      + if $body != "" then {body: $body} else {} end
+                    ),
+                    expectedHeadOid: $oid,
+                    fileChanges: {
+                      additions: $additions,
+                      deletions: $deletions
+                    }
+                  }
+                }
+              }' > /tmp/mutation.json
+
+            prev_oid=$(gh api graphql --input /tmp/mutation.json --jq '.data.createCommitOnBranch.commit.oid')
+
+            if [[ -z "$prev_oid" || "$prev_oid" == "null" ]]; then
+              echo "::error::Failed to create signed commit for $(git log -1 --format='%h %s' "$sha")"
+              cat /tmp/mutation.json | gh api graphql --input - 2>&1 || true
+              exit 1
+            fi
+
+            echo "Created signed commit: ${prev_oid:0:12} (from $(git log -1 --format='%h' "$sha"))"
           done
-
-          # Force-update the branch ref to the new signed commits
-          gh api "repos/${{ github.repository }}/git/refs/heads/${head_ref}" \
-            -X PATCH \
-            -f "sha=${prev_sha}" \
-            -F "force=true"
 
       - name: React with success
         if: success()
