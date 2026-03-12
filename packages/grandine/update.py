@@ -13,6 +13,7 @@ HASHES_JSON = SCRIPT_DIR / "hashes.json"
 OWNER = "grandinetech"
 REPO = "grandine"
 
+
 def run_nix_update() -> bool:
     """Run nix-update to handle version and source hash."""
     print("Running nix-update...")
@@ -61,7 +62,10 @@ def main():
 
     # Update hashes.json
     hashes = {}
-    for system, suffix in [("x86_64-linux", "linux-x64"), ("aarch64-linux", "linux-arm64")]:
+    for system, suffix in [
+        ("x86_64-linux", "linux-x64"),
+        ("aarch64-linux", "linux-arm64"),
+    ]:
         url = f"https://github.com/{OWNER}/{REPO}/releases/download/{version}/grandine-{version}-{suffix}"
         print(f"Prefetching {url} for {system}...")
         try:
