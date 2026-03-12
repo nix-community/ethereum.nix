@@ -94,11 +94,27 @@ jobs:
             tree=$(git rev-parse "${sha}^{tree}")
             message=$(git log -1 --format=%B "$sha")
 
+            # Preserve original author and committer
+            author_name=$(git log -1 --format='%an' "$sha")
+            author_email=$(git log -1 --format='%ae' "$sha")
+            author_date=$(git log -1 --format='%aI' "$sha")
+            committer_name=$(git log -1 --format='%cn' "$sha")
+            committer_email=$(git log -1 --format='%ce' "$sha")
+            committer_date=$(git log -1 --format='%cI' "$sha")
+
             prev_sha=$(jq -n \
               --arg message "$message" \
               --arg tree "$tree" \
               --arg parent "$prev_sha" \
-              '{message: $message, tree: $tree, parents: [$parent]}' \
+              --arg aname "$author_name" \
+              --arg aemail "$author_email" \
+              --arg adate "$author_date" \
+              --arg cname "$committer_name" \
+              --arg cemail "$committer_email" \
+              --arg cdate "$committer_date" \
+              '{message: $message, tree: $tree, parents: [$parent],
+                author: {name: $aname, email: $aemail, date: $adate},
+                committer: {name: $cname, email: $cemail, date: $cdate}}' \
             | gh api "repos/${{ github.repository }}/git/commits" --input - --jq '.sha')
           done
 
