@@ -1,0 +1,103 @@
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+let
+  inherit (lib.lists) optionals;
+  inherit (lib)
+    filterAttrs
+    mapAttrs'
+    mapAttrsToList
+    mkIf
+    mkMerge
+    nameValuePair
+    ;
+
+  modulesLib = import ../../../lib/modules.nix lib;
+  inherit (modulesLib) baseServiceConfig;
+
+  eachNode = config.services.ethereum.helios;
+in
+{
+  ###### interface
+  inherit (import ./options.nix { inherit lib pkgs; }) options;
+
+  ###### implementation
+  config = mkIf (eachNode != { }) {
+    # configure the firewall for each service
+    networking.firewall =
+      let
+        openFirewall = filterAttrs (_: cfg: cfg.openFirewall) eachNode;
+        perService = mapAttrsToList (
+          _: cfg: with cfg.args; {
+            allowedTCPPorts = optionals rpc.enable [ rpc.port ];
+          }
+        ) openFirewall;
+      in
+      builtins.zipAttrsWith (_name: builtins.concatLists) perService;
+
+    # create a service for each instance
+    systemd.services = mapAttrs' (
+      heliosName:
+      let
+        serviceName = "helios-${heliosName}";
+      in
+      cfg:
+      let
+        # Determine command based on network
+        isOpStack = cfg.args.network != "ethereum";
+        subcommand = if isOpStack then "opstack" else "ethereum";
+
+        # Build argument list
+        execArgs = [
+          subcommand
+        ]
+        ++ (optionals isOpStack [
+          "--network"
+          cfg.args.network
+        ])
+        ++ [
+          "--execution-rpc"
+          cfg.args.executionRpc
+          "--rpc-port"
+          (toString cfg.args.rpc.port)
+          "--rpc-bind-ip"
+          cfg.args.rpc.addr
+        ]
+        ++ (optionals (cfg.args.checkpoint != null) [
+          "--checkpoint"
+          cfg.args.checkpoint
+        ])
+        ++ (optionals (cfg.args.fallbackRpc != null) [
+          "--fallback"
+          cfg.args.fallbackRpc
+        ])
+        ++ (optionals (cfg.args.datadir != null) [
+          "--data-dir"
+          cfg.args.datadir
+        ])
+        ++ cfg.extraArgs;
+
+        datadir = if cfg.args.datadir != null then cfg.args.datadir else "%S/${serviceName}";
+      in
+      nameValuePair serviceName (
+        mkIf cfg.enable {
+          description = "Helios ${cfg.args.network} light client (${heliosName})";
+          wantedBy = [ "multi-user.target" ];
+          after = [ "network.target" ];
+
+          serviceConfig = mkMerge [
+            baseServiceConfig
+            {
+              User = serviceName;
+              StateDirectory = serviceName;
+              ExecStart = "${cfg.package}/bin/helios ${lib.escapeShellArgs execArgs} --data-dir ${datadir}";
+            }
+          ];
+        }
+      )
+    ) eachNode;
+  };
+}
