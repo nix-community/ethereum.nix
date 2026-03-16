@@ -15,6 +15,12 @@ with lib; {
     description = "The execution layer RPC endpoint URL.";
   };
 
+  consensusRpc = mkOption {
+    type = types.nullOr types.str;
+    default = null;
+    description = "The consensus layer RPC endpoint URL.";
+  };
+
   checkpoint = mkOption {
     type = types.nullOr types.str;
     default = null;
