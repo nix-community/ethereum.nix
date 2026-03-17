@@ -7,19 +7,19 @@
 }:
 buildGoModule rec {
   pname = "op-dispute-mon";
-  version = "1.5.0";
+  version = "1.5.1";
 
   src = fetchFromGitHub {
     owner = "ethereum-optimism";
     repo = "optimism";
     rev = "op-dispute-mon/v${version}";
-    hash = "sha256-AIfaiwCTpiOm8o/2qEmeRgaeNo9TSaJi2s3EG9Ed3kQ=";
+    hash = "sha256-9mTsp2nZVtVO5qV0TsxIunHsxSaHzBHQlTGydDMy4SA=";
   };
 
   sourceRoot = "${src.name}/op-dispute-mon";
 
   proxyVendor = true;
-  vendorHash = "sha256-ZkgQ3NRqHk34bTkxuWvp7DAw+a70VTRCa5AbclnyPOg=";
+  vendorHash = "sha256-tujqElX6eHTJW6dXI6IiEA1tHZuWWloHEwIRPrBRfwE=";
 
   subPackages = [ "cmd" ];
 
