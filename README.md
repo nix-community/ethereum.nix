@@ -396,6 +396,16 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 
 </details>
 <details>
+<summary><strong>helios</strong> - A trustless, efficient, and portable multichain light client</summary>
+
+- **Source**: source
+- **License**: MIT
+- **Homepage**: https://github.com/a16z/helios
+- **Usage**: `nix run github:nix-community/ethereum.nix#helios -- --help`
+- **Nix**: [packages/helios/package.nix](packages/helios/package.nix)
+
+</details>
+<details>
 <summary><strong>rotki-bin</strong> - An open source portfolio tracking tool that respects your privacy</summary>
 
 - **Source**: binary
@@ -436,16 +446,6 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 - **Homepage**: https://nimbus.guide/
 - **Usage**: `nix run github:nix-community/ethereum.nix#nimbus -- --help`
 - **Nix**: [packages/nimbus/package.nix](packages/nimbus/package.nix)
-
-</details>
-<details>
-<summary><strong>helios</strong> - A trustless, efficient, and portable multichain light client</summary>
-
-- **Source**: source
-- **License**: MIT
-- **Homepage**: https://github.com/a16z/helios
-- **Usage**: `nix run github:nix-community/ethereum.nix#helios -- --help`
-- **Nix**: [packages/helios/package.nix](packages/helios/package.nix)
 
 </details>
 
