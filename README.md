@@ -438,6 +438,16 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 - **Nix**: [packages/nimbus/package.nix](packages/nimbus/package.nix)
 
 </details>
+<details>
+<summary><strong>helios</strong> - A trustless, efficient, and portable multichain light client</summary>
+
+- **Source**: source
+- **License**: MIT
+- **Homepage**: https://github.com/a16z/helios
+- **Usage**: `nix run github:nix-community/ethereum.nix#helios -- --help`
+- **Nix**: [packages/helios/package.nix](packages/helios/package.nix)
+
+</details>
 
 ### Arbitrum
 
