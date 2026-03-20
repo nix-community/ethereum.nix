@@ -1,5 +1,4 @@
-lib:
-with lib; {
+lib: with lib; {
   network = mkOption {
     type = types.enum [
       "ethereum"
