@@ -13,8 +13,16 @@ rustPlatform.buildRustPackage rec {
     owner = "paradigmxyz";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-CtbM7z7NBU81GB48458CeRqWt97nDXTMZK4OcBL2aWc=";
+    hash = "sha256-6iSfrTIZjwoHpX1C2v8u6CvLxUsPr3hKm5MB3+37fyQ=";
+    leaveDotGit = true;
+    postFetch = ''
+      git -C "$out" rev-parse HEAD > "$out/COMMIT"
+      rm -rf "$out/.git"
+    '';
   };
+  preBuild = ''
+    export VERGEN_GIT_SHA=$(cat COMMIT)
+  '';
 
   cargoLock = {
     lockFile = "${src}/Cargo.lock";
