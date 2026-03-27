@@ -7,15 +7,28 @@
   writeScriptBin,
   callPackage,
   fetchFromGitHub,
+  fetchpatch,
 }:
 let
+  # https://github.com/status-im/nimbus-eth2/pull/8083
+  configs = fetchFromGitHub {
+    owner = "gnosischain";
+    repo = "configs";
+    rev = "b97456feb8279810867f24b15fd4d840f7feba9d";
+    hash = "sha256-ZOTykmhrAJg3zR4WhBdUT6YpD+OoIYmLtIYcHOAF3PY=";
+  };
+
   version = "26.3.0";
   src = fetchFromGitHub {
     owner = "status-im";
     repo = "nimbus-eth2";
     rev = "v${version}";
-    hash = "sha256-D5oJHaa8g/tiBgqLp29bUmKMdId5Mlt2ZAhqtakeun8=";
+    hash = "sha256-1TR0DeW//f7UN+KArDQRSWknK4i0E/DpY+M0mqX4rNA=";
     fetchSubmodules = true;
+    postFetch = ''
+      rm -r $out/vendor/gnosis-chain-configs
+      cp -r ${configs} $out/vendor/gnosis-chain-configs
+    '';
   };
   targets = [
     "nimbus_beacon_node"
@@ -36,6 +49,13 @@ in
 stdenv.mkDerivation rec {
   pname = "nimbus-eth2";
   inherit src version;
+
+  patches = [
+    (fetchpatch {
+      url = "https://github.com/status-im/nimbus-eth2/commit/e51ebefcb205f68aba7b693d8595325cd485f7b0.patch";
+      hash = "sha256-nQzhUBTkVTKGdab89qMhWiF7cjJ0QdvUYVy470o2MIY=";
+    })
+  ];
 
   # Fix for Nim compiler calling 'git rev-parse' and 'lsb_release'.
   nativeBuildInputs =
