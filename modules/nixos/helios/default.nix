@@ -26,6 +26,11 @@ in
 
   ###### implementation
   config = mkIf (eachNode != { }) {
+    assertions = mapAttrsToList (name: cfg: {
+      assertion = !cfg.startWhenNeeded || cfg.args.rpc.enable;
+      message = "services.ethereum.helios.${name}: startWhenNeeded requires rpc.enable to be true.";
+    }) eachNode;
+
     # configure the firewall for each service
     networking.firewall =
       let
@@ -92,7 +97,7 @@ in
       nameValuePair serviceName (
         mkIf cfg.enable {
           description = "Helios ${cfg.args.network} light client (${heliosName})";
-          wantedBy = [ "multi-user.target" ];
+          wantedBy = optionals (!cfg.startWhenNeeded) [ "multi-user.target" ];
           after = [ "network.target" ];
 
           serviceConfig = mkMerge [
@@ -102,7 +107,26 @@ in
               StateDirectory = serviceName;
               ExecStart = "${cfg.package}/bin/helios ${lib.escapeShellArgs execArgs} --data-dir ${datadir}";
             }
+            (mkIf (cfg.startWhenNeeded && cfg.args.rpc.enable) {
+              Sockets = [ "${serviceName}.socket" ];
+            })
           ];
+        }
+      )
+    ) eachNode;
+
+    # create socket units for startWhenNeeded instances
+    systemd.sockets = mapAttrs' (
+      heliosName: cfg:
+      let
+        serviceName = "helios-${heliosName}";
+      in
+      nameValuePair serviceName (
+        mkIf (cfg.enable && cfg.startWhenNeeded && cfg.args.rpc.enable) {
+          wantedBy = [ "sockets.target" ];
+          socketConfig = {
+            ListenStream = "${cfg.args.rpc.addr}:${toString cfg.args.rpc.port}";
+          };
         }
       )
     ) eachNode;

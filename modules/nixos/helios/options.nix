@@ -30,6 +30,12 @@ let
         default = false;
         description = "Open the RPC port in the firewall.";
       };
+
+      startWhenNeeded = mkOption {
+        type = types.bool;
+        default = false;
+        description = "Whether to use socket activation to start Helios when a connection is made to the RPC port. Requires rpc.enable to be true.";
+      };
     };
   };
 in
