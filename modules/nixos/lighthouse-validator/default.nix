@@ -7,44 +7,54 @@
 let
   modulesLib = import ../../../lib/modules.nix lib;
 
-  inherit (lib.lists) optionals findFirst;
-  inherit (lib.strings) hasPrefix;
   inherit (lib.attrsets) hasAttr zipAttrsWith;
   inherit (lib)
     concatStringsSep
     filterAttrs
     flatten
-    length
+    mapAttrs
     mapAttrs'
     mapAttrsToList
     mkIf
     mkMerge
     nameValuePair
+    optionals
+    elem
+    length
     ;
-  inherit (modulesLib) mkArgs baseServiceConfig;
+  inherit (builtins) isList;
+  inherit (modulesLib) baseServiceConfig;
 
   eachValidator = config.services.ethereum.lighthouse-validator;
+
+  # Convert lists to comma-separated strings for CLI
+  processSettings = mapAttrs (_: v: if isList v then concatStringsSep "," v else v);
 in
 {
   ###### interface
   inherit (import ./options.nix { inherit lib pkgs; }) options;
 
   ###### implementation
-
   config = mkIf (eachValidator != { }) {
     # configure the firewall for each service
     networking.firewall =
       let
         openFirewall = filterAttrs (_: cfg: cfg.openFirewall) eachValidator;
         perService = mapAttrsToList (
-          _: cfg: with cfg.args; {
+          _: cfg:
+          let
+            s = cfg.settings;
+          in
+          {
             allowedTCPPorts =
-              (optionals http.enable [ http.port ]) ++ (optionals metrics.enable [ metrics.port ]);
+              (optionals (s.http or false) [ (s."http-port" or 5062) ])
+              ++ (optionals (s.metrics or false) [ (s."metrics-port" or 5064) ]);
           }
         ) openFirewall;
       in
       zipAttrsWith (_name: flatten) perService;
 
+    # create a service for each instance
     systemd.services = mapAttrs' (
       name:
       let
@@ -53,63 +63,43 @@ in
       in
       cfg:
       let
-        scriptArgs =
-          let
-            # generate args
-            args =
-              let
-                opts = import ./args.nix { inherit name lib; };
-              in
-              mkArgs {
-                inherit opts;
-                inherit (cfg) args;
-              };
+        s = cfg.settings;
+        datadir = s.datadir or "%S/${user}";
 
-            # filter out certain args which need to be treated differently
-            specialArgs = [
-              "--datadir"
-              "--http-enable"
-              "--http-address"
-              "--http-port"
-              "--metrics-enable"
-              "--metrics-address"
-              "--metrics-port"
-              "--beacon-nodes"
-              "--user"
-            ];
-            isNormalArg = name: (findFirst (arg: hasPrefix arg name) null specialArgs) == null;
-            filteredArgs =
-              (builtins.filter isNormalArg args)
-              ++ (optionals cfg.args.http.enable [
-                "--http"
-                "--http-address=${cfg.args.http.address}"
-                "--http-port=${toString cfg.args.http.port}"
-              ])
-              ++ (optionals cfg.args.metrics.enable [
-                "--metrics"
-                "--metrics-address=${cfg.args.metrics.address}"
-                "--metrics-port=${toString cfg.args.metrics.port}"
-              ]);
+        # Beacon nodes: use provided value or look up from lighthouse-beacon service
+        beaconNodes =
+          if (s.beacon-nodes or null) != null && length (s.beacon-nodes or [ ]) != 0 then
+            s.beacon-nodes
+          else
+            let
+              beaconCfg = config.services.ethereum.lighthouse-beacon.${name};
+              beaconSettings = beaconCfg.settings;
+              beaconUrl = "http://${beaconSettings.http-address or "127.0.0.1"}:${
+                toString (beaconSettings.http-port or 5052)
+              }";
+            in
+            [ beaconUrl ];
 
-            datadir =
-              if cfg.args.datadir != null then "--datadir ${cfg.args.datadir}" else "--datadir %S/${user}";
+        # Keys that need special handling
+        skipKeys = [
+          "datadir"
+          "beacon-nodes"
+        ];
+        normalSettings = filterAttrs (k: _: !elem k skipKeys) s;
 
-            beaconNodes =
-              if (cfg.args.beacon-nodes != null) && (length cfg.args.beacon-nodes != 0) then
-                "--beacon-nodes ${concatStringsSep "," cfg.args.beacon-nodes}"
-              else
-                let
-                  beaconCfg = config.services.ethereum.lighthouse-beacon.${name};
-                  beaconUrl = "http://${beaconCfg.args.http.address}:${toString beaconCfg.args.http.port}";
-                in
-                "--beacon-nodes ${beaconUrl}";
-          in
-          ''
-            ${datadir} \
-            ${beaconNodes} \
-            ${concatStringsSep " \\\n" filteredArgs} \
-            ${lib.escapeShellArgs cfg.extraArgs}
-          '';
+        # Use lib.cli.toGNUCommandLine for RFC 42 settings
+        cliArgs = lib.cli.toGNUCommandLine { } (processSettings normalSettings);
+
+        allArgs = [
+          "--datadir"
+          datadir
+          "--beacon-nodes"
+          (concatStringsSep "," beaconNodes)
+        ]
+        ++ cliArgs
+        ++ cfg.extraArgs;
+
+        scriptArgs = concatStringsSep " \\\n  " allArgs;
       in
       nameValuePair serviceName (
         mkIf cfg.enable {
@@ -120,7 +110,7 @@ in
           serviceConfig = mkMerge [
             baseServiceConfig
             {
-              User = if cfg.args.user != null then cfg.args.user else user;
+              User = if cfg.user != null then cfg.user else user;
               StateDirectory = user;
               ExecStart = "${cfg.package}/bin/lighthouse validator ${scriptArgs}";
             }
@@ -132,11 +122,11 @@ in
     assertions = mapAttrsToList (name: cfg: {
       assertion =
         !cfg.enable
-        || (cfg.args.beacon-nodes != null)
+        || (cfg.settings.beacon-nodes or null) != null
         || (hasAttr name config.services.ethereum.lighthouse-beacon);
       message = ''
         Lighthouse Validator ${name} could not find a matching beacon.
-        Either set `services.ethereum.lighthouse-beacon.${name}` or `services.ethereum.lighthouse-validator.${name}.args.beacon-nodes`
+        Either set `services.ethereum.lighthouse-beacon.${name}` or `services.ethereum.lighthouse-validator.${name}.settings.beacon-nodes`
       '';
     }) eachValidator;
   };

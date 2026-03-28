@@ -7,20 +7,39 @@
 let
   modulesLib = import ../../../lib/modules.nix lib;
 
-  inherit (lib.lists) findFirst;
-  inherit (lib.strings) hasPrefix;
-  inherit (lib) nameValuePair mapAttrs';
-  inherit (lib) mkIf mkMerge concatStringsSep;
-  inherit (modulesLib) mkArgs baseServiceConfig;
+  inherit (lib)
+    nameValuePair
+    mapAttrs'
+    mkIf
+    mkMerge
+    concatStringsSep
+    filterAttrs
+    optionals
+    elem
+    mapAttrs
+    ;
+  inherit (builtins) isList;
+  inherit (modulesLib) baseServiceConfig;
 
   eachMevBoost = config.services.ethereum.mev-boost;
+
+  # Convert lists to comma-separated strings for CLI
+  processSettings = mapAttrs (_: v: if isList v then concatStringsSep "," v else v);
+
+  # Known network flags that become just --<network>
+  networkFlags = [
+    "mainnet"
+    "holesky"
+    "sepolia"
+    "zhejiang"
+    "hoodi"
+  ];
 in
 {
   ###### interface
   inherit (import ./options.nix { inherit lib pkgs; }) options;
 
   ###### implementation
-
   config = mkIf (eachMevBoost != { }) {
     systemd.services = mapAttrs' (
       mevBoostName:
@@ -29,49 +48,41 @@ in
       in
       cfg:
       let
-        scriptArgs =
+        s = cfg.settings;
+
+        # Keys that need special handling
+        skipKeys = [
+          "relays"
+          "relay-monitors"
+        ]
+        ++ networkFlags;
+        normalSettings = filterAttrs (k: _: !elem k skipKeys) s;
+
+        # Use lib.cli.toGNUCommandLine for RFC 42 settings
+        cliArgs = lib.cli.toGNUCommandLine { } (processSettings normalSettings);
+
+        # Handle network flag (just --holesky, not --holesky=true)
+        networkArg =
           let
-            # generate args
-            args =
-              let
-                opts = import ./args.nix lib;
-              in
-              mkArgs {
-                inherit opts;
-                inherit (cfg) args;
-              };
-
-            # filter out certain args which need to be treated differently
-            specialArgs = [
-              "--network"
-              "--holesky"
-              "--mainnet"
-              "--relay-monitor"
-              "--relay-monitors"
-              "--relay"
-              "--relays"
-              "--sepolia"
-              "--zhejiang"
-            ];
-            isNormalArg = name: (findFirst (arg: hasPrefix arg name) null specialArgs) == null;
-            filteredArgs = builtins.filter isNormalArg args;
-
-            network = if cfg.args.network != null then "--${cfg.args.network}" else "";
-
-            relays = "--relays " + (concatStringsSep "," cfg.args.relays);
-            relayMonitors =
-              if cfg.args.relay-monitors != null then
-                "--relay-monitors" + (concatStringsSep "," cfg.args.relay-monitors)
-              else
-                "";
+            activeNetwork = lib.findFirst (n: s.${n} or false) null networkFlags;
           in
-          ''
-            ${network} \
-            ${concatStringsSep " \\\n" filteredArgs} \
-            ${relays} \
-            ${relayMonitors} \
-            ${lib.escapeShellArgs cfg.extraArgs}
-          '';
+          optionals (activeNetwork != null) [ "--${activeNetwork}" ];
+
+        # Handle relays (required, comma-separated)
+        relaysArg = optionals (s.relays or [ ] != [ ]) [
+          "--relays"
+          (concatStringsSep "," s.relays)
+        ];
+
+        # Handle relay-monitors (optional, comma-separated)
+        relayMonitorsArg = optionals (s.relay-monitors or null != null) [
+          "--relay-monitors"
+          (concatStringsSep "," s.relay-monitors)
+        ];
+
+        allArgs = networkArg ++ cliArgs ++ relaysArg ++ relayMonitorsArg ++ cfg.extraArgs;
+
+        scriptArgs = concatStringsSep " \\\n  " allArgs;
       in
       nameValuePair serviceName (
         mkIf cfg.enable {
