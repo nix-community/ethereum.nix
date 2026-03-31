@@ -1,10 +1,10 @@
 {
   "x86_64-linux": {
-    "url": "https://github.com/grandinetech/grandine/releases/download/2.0.3/grandine-2.0.3-linux-x64",
-    "hash": "sha256-UOSCmbYvrCjTodkdzOCcyTPvs6G4sTeQoij+9qe5rYc="
+    "url": "https://github.com/grandinetech/grandine/releases/download/2.0.4/grandine-2.0.4-linux-x64",
+    "hash": "sha256-xrCTNTvxKSHLsXN0ogtVrGtnzuKcWNhA7tkOLGO/tZc="
   },
   "aarch64-linux": {
-    "url": "https://github.com/grandinetech/grandine/releases/download/2.0.3/grandine-2.0.3-linux-arm64",
-    "hash": "sha256-pSv+gIELj+ZwA3mPIIil7pmtiJvGWeyt+cVl/fHHAMY="
+    "url": "https://github.com/grandinetech/grandine/releases/download/2.0.4/grandine-2.0.4-linux-arm64",
+    "hash": "sha256-GCLYXd1EaR0LYclCmB9cMltm7VbObNIEQz1S81G5w84="
   }
 }
