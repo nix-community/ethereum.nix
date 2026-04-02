@@ -7,7 +7,7 @@
 }:
 buildGoModule rec {
   pname = "op-geth";
-  version = "1.101701.0";
+  version = "1.101702.0";
 
   src = fetchFromGitHub {
     owner = "ethereum-optimism";
