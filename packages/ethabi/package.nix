@@ -6,13 +6,13 @@
 }:
 rustPlatform.buildRustPackage rec {
   pname = "ethabi";
-  version = "16.0.0";
+  version = "18.0.0";
 
   src = fetchFromGitHub {
     owner = "rust-ethereum";
     repo = "ethabi";
     rev = "v${version}";
-    hash = "sha256-FvQe3z4pmuuw+v5BbLtSl0GaQE3uQhDilkBFxOPdJdk=";
+    hash = "sha256-XZ1/hiOR31k1JcbrDRNvtGUy8mmA1v3eaPYwOJfCcIc=";
   };
 
   cargoLock.lockFile = ./Cargo.lock;
