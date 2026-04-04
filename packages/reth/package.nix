@@ -1,5 +1,5 @@
 {
-  fetchFromGitHub,
+  fetchgit,
   lib,
   nix-update-script,
   perl,
@@ -9,12 +9,19 @@ rustPlatform.buildRustPackage rec {
   pname = "reth";
   version = "1.11.3";
 
-  src = fetchFromGitHub {
-    owner = "paradigmxyz";
-    repo = pname;
+  src = fetchgit {
+    url = "https://github.com/paradigmxyz/reth";
     rev = "v${version}";
-    hash = "sha256-ZU19KtZ9ph5yp8/uAuYwkMkYD6DuFXPhYCm3rKVglAQ=";
+    hash = "sha256-D2hhA8Isoqu0nY425Nf2nmd1sAFYIhceUHBMmsWmH3w=";
+    leaveDotGit = true;
+    postFetch = ''
+      git -C "$out" rev-parse HEAD > "$out/COMMIT"
+      rm -rf "$out/.git"
+    '';
   };
+  preBuild = ''
+    export VERGEN_GIT_SHA=$(cat COMMIT)
+  '';
 
   cargoLock = {
     lockFile = "${src}/Cargo.lock";
