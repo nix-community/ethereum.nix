@@ -7,17 +7,17 @@
 }:
 buildGoModule rec {
   pname = "op-geth";
-  version = "1.101702.0";
+  version = "1.101702.1";
 
   src = fetchFromGitHub {
     owner = "ethereum-optimism";
     repo = "op-geth";
     rev = "v${version}";
-    hash = "sha256-oOuzgDS85JLDGhESVlI5VyiruW+05U5FiBl+ya2UqtY=";
+    hash = "sha256-RCVziGnRTD8n+HnYJhUGkLyqpK3X2xhZae2RWWGR6js=";
   };
 
   proxyVendor = true;
-  vendorHash = "sha256-/XsYCgcQsP33/k1tDLHiDc/vxKevZJBMQ3jyUdeZ4no=";
+  vendorHash = "sha256-F8FL3qqSW49/YXRlMyRhmI0Q3Bwu6y8VVDqRFLd87CQ=";
 
   subPackages = [ "cmd/geth" ];
 
