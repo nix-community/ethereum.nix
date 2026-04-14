@@ -7,19 +7,19 @@
 }:
 buildGoModule rec {
   pname = "op-batcher";
-  version = "1.16.6";
+  version = "1.16.7";
 
   src = fetchFromGitHub {
     owner = "ethereum-optimism";
     repo = "optimism";
     rev = "op-batcher/v${version}";
-    hash = "sha256-s6Xk6kHxF0sOl1KPFhPms9zjVRg8CkNUbEsW7WwWblc=";
+    hash = "sha256-Bcy0j/mnM0GZFRtX3GpgboYMUB5C0Mc27chPuKyOjHc=";
   };
 
   sourceRoot = "${src.name}/op-batcher";
 
   proxyVendor = true;
-  vendorHash = "sha256-xmPWst13JApkr8QRplK0cuDZNDfqx7E52vxdx2qA3gE=";
+  vendorHash = "sha256-4mfDRVfKZFFDe+1f2bGx3GrCK8bsSARgPGmOfM8stgA=";
 
   subPackages = [ "cmd" ];
 
