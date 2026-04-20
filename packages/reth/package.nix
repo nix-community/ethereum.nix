@@ -7,13 +7,13 @@
 }:
 rustPlatform.buildRustPackage rec {
   pname = "reth";
-  version = "2.0.0";
+  version = "2.1.0";
 
   src = fetchFromGitHub {
     owner = "paradigmxyz";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-6iSfrTIZjwoHpX1C2v8u6CvLxUsPr3hKm5MB3+37fyQ=";
+    hash = "sha256-7UrZcUq8PmkDshSoApqUe4K8KtOPaRzCEWsTphPclLk=";
     leaveDotGit = true;
     postFetch = ''
       git -C "$out" rev-parse HEAD > "$out/COMMIT"
