@@ -8,11 +8,11 @@
 }:
 stdenv.mkDerivation rec {
   pname = "web3signer";
-  version = "26.4.1";
+  version = "26.4.2";
 
   src = fetchzip {
     url = "https://github.com/Consensys/${pname}/releases/download/${version}/${pname}-${version}.tar.gz";
-    hash = "sha256-fOw9jpWNtMiEKagPD2VdFbr5ZuLmoFo54hDFGQn3Q28=";
+    hash = "sha256-ESbdSCIRDWr13L07LQiuFbPVSSFpKwqmtHEuyMQDMBU=";
   };
 
   nativeBuildInputs = [ makeWrapper ];
