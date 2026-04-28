@@ -4,6 +4,7 @@
   installShellFiles,
   lib,
   libusb1,
+  perl,
   pkg-config,
   rustPlatform,
   stdenv,
@@ -26,6 +27,7 @@ rustPlatform.buildRustPackage rec {
 
   nativeBuildInputs = [
     pkg-config
+    perl # required for building sha3-asm
     installShellFiles
   ]
   ++ lib.optionals stdenv.hostPlatform.isDarwin [ darwin.DarwinTools ];
@@ -35,6 +37,7 @@ rustPlatform.buildRustPackage rec {
   env = {
     # Make svm-rs use local release list rather than fetching from non-reproducible URL.
     SVM_RELEASES_LIST_JSON = "${svm-lists}/list.json";
+    VERGEN_GIT_SHA = "VERGEN_IDEMPOTENT_OUTPUT";
   };
 
   postInstall =
@@ -58,10 +61,12 @@ rustPlatform.buildRustPackage rec {
   # incompatible with the nix build sandbox.
   doCheck = false;
 
+  /* https://github.com/foundry-rs/foundry/issues/14494 should be fixed in 1.7.1
   nativeInstallCheckInputs = [ versionCheckHook ];
   versionCheckProgram = "${placeholder "out"}/bin/forge";
   versionCheckProgramArg = "--version";
   doInstallCheck = true;
+  */
 
   passthru = {
     category = "Development Tools";
