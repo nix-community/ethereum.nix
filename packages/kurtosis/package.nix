@@ -7,7 +7,7 @@
 let
   inherit (stdenvNoCC.hostPlatform) system;
 
-  version = "1.18.1";
+  version = "1.18.2";
 
   kurtosisBinVersions = builtins.fromJSON (builtins.readFile ./hashes.json);
 
