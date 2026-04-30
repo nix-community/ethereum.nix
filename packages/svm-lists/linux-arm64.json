@@ -55,13 +55,25 @@
       "urls": [
         "dweb:/ipfs/QmUmp9hAHK6F3ixuYj9yNdA8prb4Ru1hJwS5Y2rQjzwKXP"
       ]
+    },
+    {
+      "path": "solc-linux-arm64-v0.8.35+commit.47b9dedd",
+      "version": "0.8.35",
+      "build": "commit.47b9dedd",
+      "longVersion": "0.8.35+commit.47b9dedd",
+      "keccak256": "0x33280b10d59bd8b7a14fa5f7e9e222de6183c175a624859836ee804e8f8f1dc6",
+      "sha256": "0x4218d2936d2b582bc5751dac548f97b36a8652b21ded52b60a1c1259143ee0e4",
+      "urls": [
+        "dweb:/ipfs/QmaGJZtRenewu4QErS7qBq6gUBCqbG9BhHGWcDRfM18wAJ"
+      ]
     }
   ],
   "releases": {
+    "0.8.35": "solc-linux-arm64-v0.8.35+commit.47b9dedd",
     "0.8.34": "solc-linux-arm64-v0.8.34+commit.80d5c536",
     "0.8.33": "solc-linux-arm64-v0.8.33+commit.64118f21",
     "0.8.32": "solc-linux-arm64-v0.8.32+commit.ebbd65e5",
     "0.8.31": "solc-linux-arm64-v0.8.31+commit.fd3a2265"
   },
-  "latestRelease": "0.8.34"
+  "latestRelease": "0.8.35"
 }
