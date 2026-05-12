@@ -7,44 +7,62 @@
 let
   modulesLib = import ../../../lib/modules.nix lib;
 
-  inherit (lib.lists) optionals findFirst;
-  inherit (lib.strings) hasPrefix;
   inherit (lib.attrsets) zipAttrsWith;
   inherit (lib)
-    flatten
-    nameValuePair
+    concatStringsSep
+    elem
     filterAttrs
+    flatten
+    mapAttrs
     mapAttrs'
     mapAttrsToList
+    mkIf
+    mkMerge
+    nameValuePair
+    optionals
     ;
-  inherit (lib) mkIf mkMerge concatStringsSep;
-  inherit (modulesLib) mkArgs baseServiceConfig;
+  inherit (builtins) isList;
+  inherit (modulesLib) baseServiceConfig;
 
   eachValidator = config.services.ethereum.prysm-validator;
+
+  # Convert lists to comma-separated strings for CLI
+  processSettings = mapAttrs (_: v: if isList v then concatStringsSep "," v else v);
+
+  # Known network flags that become just --<network>
+  networkFlags = [
+    "holesky"
+    "hoodi"
+    "sepolia"
+  ];
 in
 {
   ###### interface
   inherit (import ./options.nix { inherit lib pkgs; }) options;
 
   ###### implementation
-
   config = mkIf (eachValidator != { }) {
     # configure the firewall for each service
     networking.firewall =
       let
         openFirewall = filterAttrs (_: cfg: cfg.openFirewall) eachValidator;
         perService = mapAttrsToList (
-          _: cfg: with cfg.args; {
+          _: cfg:
+          let
+            s = cfg.settings;
+          in
+          {
             allowedTCPPorts = [
-              grpc-gateway-port
+              (s.grpc-gateway-port or 7500)
             ]
-            ++ (optionals rpc.enable [ rpc.port ])
-            ++ (optionals (!disable-monitoring) [ monitoring-port ]);
+            ++ (optionals (s.rpc or false) [ (s.rpc-port or 7000) ])
+            ++ (optionals (!(s.disable-monitoring or false)) [ (s.monitoring-port or 8081) ]);
           }
         ) openFirewall;
       in
       zipAttrsWith (_name: flatten) perService;
 
+    # create a service for each instance
     systemd.services = mapAttrs' (
       validatorName:
       let
@@ -53,44 +71,38 @@ in
       in
       cfg:
       let
-        scriptArgs =
+        s = cfg.settings;
+        datadir = s.datadir or "%S/${beaconServiceName}";
+
+        # Keys that need special handling
+        skipKeys = [
+          "datadir"
+          "grpc-gateway-host"
+          "grpc-gateway-port"
+        ]
+        ++ networkFlags;
+        normalSettings = filterAttrs (k: _: !elem k skipKeys) s;
+
+        # Use lib.cli.toGNUCommandLine for RFC 42 settings
+        cliArgs = lib.cli.toGNUCommandLine { } (processSettings normalSettings);
+
+        # Handle network flag (just --sepolia, not --sepolia=true)
+        networkArg =
           let
-            # generate args
-            args =
-              let
-                opts = import ./args.nix lib;
-              in
-              mkArgs {
-                inherit opts;
-                inherit (cfg) args;
-              };
-
-            # filter out certain args which need to be treated differently
-            specialArgs = [
-              "--datadir"
-              "--graffiti"
-              "--network"
-              "--rpc-enable"
-              "--user"
-            ];
-            isNormalArg = name: (findFirst (arg: hasPrefix arg name) null specialArgs) == null;
-            filteredArgs = builtins.filter isNormalArg args;
-
-            network = if cfg.args.network != null then "--${cfg.args.network}" else "";
-
-            datadir =
-              if cfg.args.datadir != null then
-                "--datadir ${cfg.args.datadir}"
-              else
-                "--datadir %S/${beaconServiceName}";
+            activeNetwork = lib.findFirst (n: s.${n} or false) null networkFlags;
           in
-          ''
-            --accept-terms-of-use \
-            ${network} \
-            ${datadir} \
-            ${concatStringsSep " \\\n" filteredArgs} \
-            ${lib.escapeShellArgs cfg.extraArgs}
-          '';
+          optionals (activeNetwork != null) [ "--${activeNetwork}" ];
+
+        allArgs = [
+          "--accept-terms-of-use"
+          "--datadir"
+          datadir
+        ]
+        ++ networkArg
+        ++ cliArgs
+        ++ cfg.extraArgs;
+
+        scriptArgs = concatStringsSep " \\\n  " allArgs;
       in
       nameValuePair serviceName (
         mkIf cfg.enable {
@@ -99,15 +111,15 @@ in
           description = "Prysm Validator Node (${validatorName})";
 
           environment = {
-            GRPC_GATEWAY_HOST = cfg.args.grpc-gateway-host;
-            GRPC_GATEWAY_PORT = builtins.toString cfg.args.grpc-gateway-port;
+            GRPC_GATEWAY_HOST = s.grpc-gateway-host or "127.0.0.1";
+            GRPC_GATEWAY_PORT = builtins.toString (s.grpc-gateway-port or 7500);
           };
 
           # create service config by merging with the base config
           serviceConfig = mkMerge [
             baseServiceConfig
             {
-              User = if cfg.args.user != null then cfg.args.user else beaconServiceName;
+              User = if cfg.user != null then cfg.user else beaconServiceName;
               StateDirectory = serviceName;
               ExecStart = "${cfg.package}/bin/validator ${scriptArgs}";
               MemoryDenyWriteExecute = "false"; # causes a library loading error
