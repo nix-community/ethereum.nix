@@ -7,13 +7,13 @@
 }:
 buildGoModule rec {
   pname = "op-node";
-  version = "1.18.0";
+  version = "1.18.1";
 
   src = fetchFromGitHub {
     owner = "ethereum-optimism";
     repo = "optimism";
     rev = "op-node/v${version}";
-    hash = "sha256-W/xlYV05BMZB3xneZDhFKeUWbPBbrgUUdr69vdMssM8=";
+    hash = "sha256-HxflbNqQo3hvJnNrVb0ywVOffJT/Tvyx8XFFxX2XnTU=";
   };
 
   sourceRoot = "${src.name}/op-node";
