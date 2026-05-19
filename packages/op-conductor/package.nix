@@ -7,19 +7,19 @@
 }:
 buildGoModule rec {
   pname = "op-conductor";
-  version = "0.9.3";
+  version = "0.9.4";
 
   src = fetchFromGitHub {
     owner = "ethereum-optimism";
     repo = "optimism";
     rev = "op-conductor/v${version}";
-    hash = "sha256-FBQIGY2tLSMpR3v4629zEeAvvmRfj+K3t0DFo2IrxgY=";
+    hash = "sha256-i872RAkjZr/KN5qCvb0Mj0tGqmULcpFOvOpVDTJS4LY=";
   };
 
   sourceRoot = "${src.name}/op-conductor";
 
   proxyVendor = true;
-  vendorHash = "sha256-QxDMPhRyNDvjyUjHP9xIBrA+ntCQWFGYm85YSjL+LAU=";
+  vendorHash = "sha256-uqOIItBtQ92W9Ikw1jWxzQ/3qkuBAncclLPv7GHr9Gs=";
 
   subPackages = [ "cmd" ];
 
