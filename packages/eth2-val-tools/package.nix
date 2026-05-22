@@ -9,7 +9,7 @@
 }:
 buildGoModule rec {
   pname = "eth2-val-tools";
-  version = "0.2.0";
+  version = "0.2.1";
 
   src = fetchFromGitHub {
     owner = "protolambda";
