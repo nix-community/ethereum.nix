@@ -52,6 +52,16 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 
 </details>
 <details>
+<summary><strong>ethrex</strong> - Modular and ZK-native Ethereum execution client written in Rust</summary>
+
+- **Source**: source
+- **License**: Check package
+- **Homepage**: https://github.com/lambdaclass/ethrex
+- **Usage**: `nix run github:nix-community/ethereum.nix#ethrex -- --help`
+- **Nix**: [packages/ethrex/package.nix](packages/ethrex/package.nix)
+
+</details>
+<details>
 <summary><strong>geth</strong> - Official golang implementation of the Ethereum protocol</summary>
 
 - **Source**: source
