@@ -7,19 +7,19 @@
 }:
 buildGoModule rec {
   pname = "op-challenger";
-  version = "1.9.1";
+  version = "1.9.3";
 
   src = fetchFromGitHub {
     owner = "ethereum-optimism";
     repo = "optimism";
     rev = "op-challenger/v${version}";
-    hash = "sha256-IXeHOiFN3HfTOBiLUuEUYX9lQTW2eknoqlfvJtzjI5g=";
+    hash = "sha256-W/xlYV05BMZB3xneZDhFKeUWbPBbrgUUdr69vdMssM8=";
   };
 
   sourceRoot = "${src.name}/op-challenger";
 
   proxyVendor = true;
-  vendorHash = "sha256-4mfDRVfKZFFDe+1f2bGx3GrCK8bsSARgPGmOfM8stgA=";
+  vendorHash = "sha256-Ajh5FEVtptEJLSBWQpr+pib7XTk2bSHXC5z4bh6xQGs=";
 
   subPackages = [ "cmd" ];
 
