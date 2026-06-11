@@ -7,13 +7,13 @@
 }:
 buildGoModule rec {
   pname = "mev-boost-relay";
-  version = "0.33.2";
+  version = "0.34.2";
 
   src = fetchFromGitHub {
     owner = "flashbots";
     repo = "${pname}";
     rev = "v${version}";
-    hash = "sha256-ziV7eQiAcRddmUQXnByKJ3h4HrgqHzzZukMhVLWNon4=";
+    hash = "sha256-605hfuqze/KWY4FMQ8PlSHO4wIXz+Pl0g4ahpM0zvko=";
   };
 
   vendorHash = "sha256-FbFpub4nVn7UFj4AdlmSI6YSfkd1C3NRPC2tGGOqb80=";
