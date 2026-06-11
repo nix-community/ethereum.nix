@@ -6,13 +6,13 @@
 }:
 buildGoModule rec {
   pname = "proxyd";
-  version = "4.27.5";
+  version = "4.28.0";
 
   src = fetchFromGitHub {
     owner = "ethereum-optimism";
     repo = "infra";
     rev = "proxyd/v${version}";
-    hash = "sha256-3iCRG5Bdic66xGF/bI14kLPAet7pI30RllqhhQvjqX0=";
+    hash = "sha256-datGCU9pNJbZX9Vc7Z7rUezeME54q0qdT2vRwmdXfmM=";
   };
 
   sourceRoot = "${src.name}/proxyd";
