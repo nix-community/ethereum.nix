@@ -8,17 +8,17 @@
 }:
 buildGoModule rec {
   pname = "bor";
-  version = "2.8.2";
+  version = "2.8.3";
 
   src = fetchFromGitHub {
     owner = "maticnetwork";
     repo = "bor";
     rev = "v${version}";
-    hash = "sha256-qh3l0eaJr5sjVZKjKOSX8OvXRVbJX3bSdrISiCCdZJE=";
+    hash = "sha256-MdRi3eKsCTtvwATSDS8P+7PsQoZySQs2a7mLJEDGwL4=";
   };
 
   proxyVendor = true;
-  vendorHash = "sha256-tVJPbrr25cjbfccsR1/snMqaoqXnhQW+BCxhCaa6vJo=";
+  vendorHash = "sha256-u0ZB4ZQWtGIaMAU9NEgQm/iWs0QinJpaB1xVAbREmbk=";
 
   buildInputs = lib.optionals stdenv.hostPlatform.isLinux [ libudev-zero ];
 
