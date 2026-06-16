@@ -7,171 +7,113 @@
 let
   modulesLib = import ../../../lib/modules.nix lib;
 
-  inherit (lib.lists) optionals findFirst;
-  inherit (lib.strings) hasPrefix;
   inherit (lib.attrsets) zipAttrsWith;
-  inherit (lib.trivial) boolToString;
-  inherit (builtins)
-    isBool
-    isList
-    toString
-    ;
   inherit (lib)
     concatStringsSep
     filterAttrs
     flatten
+    mapAttrs
     mapAttrs'
     mapAttrsToList
     mkIf
     mkMerge
     nameValuePair
+    optionals
+    elem
     ;
-  inherit (modulesLib) mkArgs baseServiceConfig;
+  inherit (builtins) isList;
+  inherit (modulesLib) baseServiceConfig;
 
   eachBeacon = config.services.ethereum.nimbus-beacon;
+
+  # Convert lists to comma-separated strings for CLI
+  processSettings = mapAttrs (_: v: if isList v then concatStringsSep "," v else v);
+
+  # Gnosis networks use a different binary
+  gnosisNetworks = [
+    "gnosis"
+    "chiado"
+  ];
 in
 {
   ###### interface
   inherit (import ./options.nix { inherit lib pkgs; }) options;
 
   ###### implementation
-
   config = mkIf (eachBeacon != { }) {
     # configure the firewall for each service
     networking.firewall =
       let
         openFirewall = filterAttrs (_: cfg: cfg.openFirewall) eachBeacon;
         perService = mapAttrsToList (
-          _: cfg: with cfg.args; {
-            allowedUDPPorts = [ udp-port ];
+          _: cfg:
+          let
+            s = cfg.settings;
+          in
+          {
+            allowedUDPPorts = [ (s.udp-port or 9000) ];
             allowedTCPPorts = [
-              tcp-port
+              (s.tcp-port or 9000)
             ]
-            ++ (optionals rest.enable [ rest.port ])
-            ++ (optionals metrics.enable [ metrics.port ]);
+            ++ (optionals (s.rest or false) [ (s.rest-port or 5052) ])
+            ++ (optionals (s.metrics or false) [ (s.metrics-port or 5054) ])
+            ++ (optionals (s.keymanager or false) [ (s.keymanager-port or 5053) ]);
           }
         ) openFirewall;
       in
       zipAttrsWith (_name: flatten) perService;
 
+    # create a service for each instance
     systemd.services = mapAttrs' (
       beaconName:
       let
-        user = "nimbus-beacon-${beaconName}";
         serviceName = "nimbus-beacon-${beaconName}";
       in
       cfg:
       let
-        args = mkArgs {
-          inherit (cfg) args;
-          opts = import ./args.nix {
-            inherit lib;
-            name = beaconName;
-            config = cfg;
-          };
-          argReducer =
-            value:
-            if (isList value) then
-              concatStringsSep "," value
-            else if (isBool value) then
-              boolToString value
-            else
-              toString value;
-          # custom arg formatter for nimbus
-          argFormatter =
-            {
-              path,
-              value,
-              argReducer,
-              pathReducer,
-              ...
-            }:
-            let
-              arg = pathReducer path;
-            in
-            if (value == null) then "" else "${arg}=${argReducer value}";
-        };
+        s = cfg.settings;
+        dataDir = s.data-dir or "%S/${serviceName}";
+        jwtSecret = s.jwt-secret or null;
+        trustedNodeUrl = s.trusted-node-url or null;
+        network = s.network or beaconName;
+        keymanagerTokenFile = s.keymanager-token-file or "api-token.txt";
 
-        jwt-secret = if cfg.args.jwt-secret != null then "--jwt-secret=%d/jwt-secret" else "";
-        data-dir = if cfg.args.data-dir != null then cfg.args.data-dir else "%S/${serviceName}";
-        data-dir-arg = "--data-dir=${data-dir}";
+        # Select appropriate binary based on network
+        bin = if elem network gnosisNetworks then "nimbus_beacon_node_gnosis" else "nimbus_beacon_node";
 
-        scriptArgs =
-          let
-            # filter out certain args which need to be treated differently
-            specialArgs = [
-              "--jwt-secret"
-              "--data-dir"
-              "--user" # Not a CLI Flag, only used in systemd service
-              "--rest-enable"
-              "--rest-address"
-              "--rest-port"
-              "--rest-allow-origin"
-              "--metrics-enable"
-              "--metrics-address"
-              "--metrics-port"
-              "--payload-builder-enable"
-              "--payload-builder-url"
-              "--keymanager-enable"
-              "--keymanager-token-file"
-              "--keymanager-address"
-              "--keymanager-port"
-              "--trusted-node-url" # only needed for checkpoint sync
-            ];
-            isNormalArg = name: (findFirst (arg: hasPrefix arg name) null specialArgs) == null;
-            filteredArgs =
-              (builtins.filter isNormalArg args)
-              ++ (optionals cfg.args.rest.enable [
-                "--rest"
-                "--rest-address=${cfg.args.rest.address}"
-                "--rest-port=${toString cfg.args.rest.port}"
-              ])
-              ++ (optionals (cfg.args.rest.allow-origin != null) [
-                "--rest-allow-origin=${cfg.args.rest.allow-origin}"
-              ])
-              ++ (optionals cfg.args.metrics.enable [
-                "--metrics"
-                "--metrics-address=${cfg.args.metrics.address}"
-                "--metrics-port=${toString cfg.args.metrics.port}"
-              ])
-              ++ (optionals cfg.args.payload-builder.enable [
-                "--payload-builder"
-                "--payload-builder-url=${cfg.args.payload-builder.url}"
-              ])
-              ++ (optionals cfg.args.keymanager.enable [
-                "--keymanager"
-                "--keymanager-address=${cfg.args.keymanager.address}"
-                "--keymanager-port=${toString cfg.args.keymanager.port}"
-                "--keymanager-token-file=${data-dir}/${cfg.args.keymanager.token-file}"
-              ]);
-          in
-          ''
-            ${jwt-secret} \
-            ${data-dir-arg} \
-            ${concatStringsSep " \\\n" filteredArgs} \
-            ${lib.escapeShellArgs cfg.extraArgs}
-          '';
-        checkpointSyncArgs =
-          let
-            # Filter to only include args needed for checkpoint sync
-            checkpointArgs = [
-              "--network"
-              "--trusted-node-url"
-            ];
-            isCheckpointArg = name: (findFirst (arg: hasPrefix arg name) null checkpointArgs) != null;
-            filteredArgs = builtins.filter isCheckpointArg args;
-          in
-          ''
-            --backfill=false \
-            ${data-dir-arg} \
-            ${concatStringsSep " \\\n" filteredArgs}
-          '';
-        bin =
-          let
-            bins.gnosis = "nimbus_beacon_node_gnosis";
-            bins.chiado = "nimbus_beacon_node_gnosis";
-          in
-          bins.${cfg.args.network} or "nimbus_beacon_node";
+        # Keys that need special handling
+        skipKeys = [
+          "data-dir"
+          "jwt-secret"
+          "trusted-node-url"
+          "keymanager-token-file"
+        ];
+        normalSettings = filterAttrs (k: _: !elem k skipKeys) s;
+
+        # Use lib.cli.toGNUCommandLine with custom separator for Nimbus (--key=value format)
+        cliArgs = lib.cli.toGNUCommandLine {
+          mkOptionName = k: "--${k}";
+        } (processSettings normalSettings);
+
+        allArgs = [
+          "--data-dir=${dataDir}"
+        ]
+        ++ cliArgs
+        ++ (optionals (jwtSecret != null) [ "--jwt-secret=%d/jwt-secret" ])
+        ++ (optionals (s.keymanager or false) [
+          "--keymanager-token-file=${dataDir}/${keymanagerTokenFile}"
+        ])
+        ++ cfg.extraArgs;
+
+        scriptArgs = concatStringsSep " \\\n  " allArgs;
+
+        # Arguments for checkpoint sync (trustedNodeSync)
+        checkpointSyncArgs = concatStringsSep " \\\n  " [
+          "--backfill=false"
+          "--data-dir=${dataDir}"
+          "--network=${network}"
+          "--trusted-node-url=${trustedNodeUrl}"
+        ];
       in
       nameValuePair serviceName (
         mkIf cfg.enable {
@@ -180,26 +122,37 @@ in
           description = "Nimbus Beacon Node (${beaconName})";
 
           serviceConfig = mkMerge [
+            baseServiceConfig
             {
+              # Nimbus requires JIT compilation
               MemoryDenyWriteExecute = false;
-              User = if cfg.args.user != null then cfg.args.user else user;
-              StateDirectory = user;
-              TimeoutStartSec = "5min"; # Checkpoint download may take longer than the usual 90s default
-              ExecStartPre = lib.mkBefore [
-                ''
-                  ${pkgs.coreutils-full}/bin/cp --no-preserve=all --update=none \
-                  /proc/sys/kernel/random/uuid ${data-dir}/${cfg.args.keymanager.token-file}''
-                "${cfg.package}/bin/${bin} trustedNodeSync ${checkpointSyncArgs}"
-              ];
+
+              User = if cfg.user != null then cfg.user else serviceName;
+              StateDirectory = serviceName;
+
+              # Checkpoint download may take longer than the usual 90s default
+              TimeoutStartSec = "5min";
+
+              ExecStartPre =
+                lib.mkBefore [
+                  # Create keymanager token file if it doesn't exist
+                  ''
+                    ${pkgs.coreutils-full}/bin/cp --no-preserve=all --update=none \
+                    /proc/sys/kernel/random/uuid ${dataDir}/${keymanagerTokenFile}''
+                ]
+                ++ (optionals (trustedNodeUrl != null) [
+                  # Run checkpoint sync if trusted-node-url is configured
+                  "${cfg.package}/bin/${bin} trustedNodeSync ${checkpointSyncArgs}"
+                ]);
+
               ExecStart = "${cfg.package}/bin/${bin} ${scriptArgs}";
 
               # Used by doppelganger detection to signal we should NOT restart.
               # https://nimbus.guide/doppelganger-detection.html
               RestartPreventExitStatus = 129;
             }
-            baseServiceConfig
-            (mkIf (cfg.args.jwt-secret != null) {
-              LoadCredential = [ "jwt-secret:${cfg.args.jwt-secret}" ];
+            (mkIf (jwtSecret != null) {
+              LoadCredential = [ "jwt-secret:${jwtSecret}" ];
             })
           ];
         }
