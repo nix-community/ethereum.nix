@@ -7,7 +7,7 @@
 }:
 buildGoModule rec {
   pname = "op-deployer";
-  version = "0.7.0";
+  version = "0.7.1";
 
   src = fetchFromGitHub {
     owner = "ethereum-optimism";
