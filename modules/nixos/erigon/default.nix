@@ -129,6 +129,7 @@ in
                 "@system-service"
                 "~@privileged"
                 "mincore"
+                "@chown"
               ];
             }
             (mkIf (cfg.args.authrpc.jwtsecret != null) {
