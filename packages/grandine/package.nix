@@ -13,7 +13,7 @@ let
 in
 stdenv.mkDerivation rec {
   pname = "grandine";
-  version = "2.0.4";
+  version = "2.0.5";
 
   src = fetchurl {
     inherit (metadata) url hash;
