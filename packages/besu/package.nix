@@ -12,11 +12,11 @@
 }:
 stdenv.mkDerivation (finalAttrs: rec {
   pname = "besu";
-  version = "26.5.0";
+  version = "26.6.1";
 
   src = fetchurl {
     url = "https://github.com/hyperledger/${pname}/releases/download/${version}/${pname}-${version}.tar.gz";
-    hash = "sha256-P+2lsv8cro/bFgzXdMyaLWlAI4OWU3BSk2i/4BmGJzM=";
+    hash = "sha256-W/U2ZkNEUlFXq18aIWd5mDBETQWNAkqabSByQfa1s/g=";
   };
 
   buildInputs = lib.optionals stdenv.isLinux [ jemalloc ];
