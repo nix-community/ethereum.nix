@@ -5,13 +5,13 @@
   lib,
 }:
 let
-  version = "1.20.3";
+  version = "1.24.1";
 
   src = fetchFromGitHub {
     owner = "ethpandaops";
     repo = "dora";
     rev = "v${version}";
-    hash = "sha256-EOaLNhnOdu7z7vOTSbBpDbxFFyPIySZtVCTo6of2mTQ=";
+    hash = "sha256-mi2rrTfxaDaJomej9pwWar1BlmiBd8G4354Y8vVAPl4=";
   };
 
   ui = buildNpmPackage {
@@ -20,7 +20,7 @@ let
 
     sourceRoot = "${src.name}/ui-package";
 
-    npmDepsHash = "sha256-NhZ0olOYrPLnfRn5aaMu9FkMQkScLmDfmHN+5SCwrhU=";
+    npmDepsHash = "sha256-S9ljB/9AT7BHEDrIbgHqT9t3Quy+LeDgdj/XDKluI6c=";
     npmFlags = [ "--legacy-peer-deps" ];
     makeCacheWritable = true;
 
@@ -37,7 +37,7 @@ buildGoModule rec {
   inherit version src;
 
   proxyVendor = true;
-  vendorHash = "sha256-M/UE6HH7jbIPi+F+uF4B0tr9EMqT37c5nCYq4KEfKg8=";
+  vendorHash = "sha256-S9ljB/9AT7BHEDrIbgHqT9t3Quy+LeDgdj/XDKluI6c=";
 
   preBuild = ''
     mkdir -p ui-package/dist
