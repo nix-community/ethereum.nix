@@ -12,13 +12,13 @@
 }:
 buildGoModule rec {
   pname = "erigon";
-  version = "3.5.1";
+  version = "3.5.2";
 
   src = fetchFromGitHub {
     owner = "erigontech";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-AyNu8aKQEqky5Q5UHAyjIWLl2ZHTsh2hAx5DxyUjmLg=";
+    hash = "sha256-5NmsWyeig3cib6wwdPw3h2MjNVp1bml+FfYp69szgjs=";
     fetchSubmodules = true;
   };
 
