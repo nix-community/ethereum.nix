@@ -1,9 +1,15 @@
 {
   fetchFromGitHub,
   lib,
+  libffi,
+  libxml2,
+  llvmPackages_22,
+  m4,
+  ncurses,
   nix-update-script,
   perl,
   rustPlatform,
+  zlib,
 }:
 rustPlatform.buildRustPackage rec {
   pname = "reth";
@@ -22,7 +28,16 @@ rustPlatform.buildRustPackage rec {
   };
   preBuild = ''
     export VERGEN_GIT_SHA=$(cat COMMIT)
+    # .git is stripped in postFetch, so vergen-git2 can't derive these; supply
+    # them as overrides for a clean tagged-release build (reth-node-core's
+    # build script reads all three).
+    export VERGEN_GIT_DIRTY=false
+    export VERGEN_GIT_DESCRIBE=v${version}
   '';
+
+  # reth's default features enable "jit" (the revmc EVM compiler), which builds
+  # against LLVM via llvm-sys. llvm-sys 221.x targets LLVM 22.
+  env.LLVM_SYS_221_PREFIX = "${lib.getDev llvmPackages_22.llvm}";
 
   cargoLock = {
     lockFile = "${src}/Cargo.lock";
@@ -35,6 +50,16 @@ rustPlatform.buildRustPackage rec {
   nativeBuildInputs = [
     rustPlatform.bindgenHook
     perl # required for building sha3-asm
+    m4 # required for building gmp-mpfr-sys (bundled GMP, pulled in via the gmp feature)
+    llvmPackages_22.llvm.dev # revmc-llvm's build script runs llvm-config from PATH
+  ];
+
+  # Needed to link llvm-sys against LLVM (revmc/jit feature).
+  buildInputs = [
+    libffi
+    libxml2
+    ncurses
+    zlib
   ];
 
   # Some tests fail due to I/O that is unfriendly with nix sandbox.
