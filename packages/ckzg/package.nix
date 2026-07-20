@@ -7,14 +7,14 @@
 }:
 stdenv.mkDerivation rec {
   pname = "c-kzg";
-  version = "2.1.7";
+  version = "2.1.8";
 
   src = fetchFromGitHub {
     owner = "ethereum";
     repo = "c-kzg-4844";
     rev = "v${version}";
     fetchSubmodules = true;
-    hash = "sha256-tHLrhBgW+HznhcCb1dJcjC1SDByVjSl7H95oZ05uCTc=";
+    hash = "sha256-05ymh853cEF56F5akC8NxW98o/3Oi0zpGprwmVF1P/M=";
   };
 
   nativeBuildInputs = [ clang ];

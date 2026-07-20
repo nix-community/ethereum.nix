@@ -1,19 +1,25 @@
 {
   fetchFromGitHub,
   lib,
+  libffi,
+  libxml2,
+  llvmPackages_22,
+  m4,
+  ncurses,
   nix-update-script,
   perl,
   rustPlatform,
+  zlib,
 }:
 rustPlatform.buildRustPackage rec {
   pname = "reth";
-  version = "2.3.0";
+  version = "2.4.1";
 
   src = fetchFromGitHub {
     owner = "paradigmxyz";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-bmqE7c1dE65M4PGHmRLjCi36+B6BdIBSXkqBDu6h+vg=";
+    hash = "sha256-SR9fnlQ3z/+SvVYfkCVXbbabq6WauyM7FOqRj8Ig0oU=";
     leaveDotGit = true;
     postFetch = ''
       git -C "$out" rev-parse HEAD > "$out/COMMIT"
@@ -22,18 +28,38 @@ rustPlatform.buildRustPackage rec {
   };
   preBuild = ''
     export VERGEN_GIT_SHA=$(cat COMMIT)
+    # .git is stripped in postFetch, so vergen-git2 can't derive these; supply
+    # them as overrides for a clean tagged-release build (reth-node-core's
+    # build script reads all three).
+    export VERGEN_GIT_DIRTY=false
+    export VERGEN_GIT_DESCRIBE=v${version}
   '';
+
+  # reth's default features enable "jit" (the revmc EVM compiler), which builds
+  # against LLVM via llvm-sys. llvm-sys 221.x targets LLVM 22.
+  env.LLVM_SYS_221_PREFIX = "${lib.getDev llvmPackages_22.llvm}";
 
   cargoLock = {
     lockFile = "${src}/Cargo.lock";
     outputHashes = {
       "discv5-0.10.4" = "sha256-hfgBA/Nf77/et/SVeUz9RALAREXp66/CgjuwNcusRJA=";
+      "revmc-0.1.0" = "sha256-aCMlJaDD/23dmRc87Iw0enpXC+BUCfeM+6Nv3TLJxJU=";
     };
   };
 
   nativeBuildInputs = [
     rustPlatform.bindgenHook
     perl # required for building sha3-asm
+    m4 # required for building gmp-mpfr-sys (bundled GMP, pulled in via the gmp feature)
+    llvmPackages_22.llvm.dev # revmc-llvm's build script runs llvm-config from PATH
+  ];
+
+  # Needed to link llvm-sys against LLVM (revmc/jit feature).
+  buildInputs = [
+    libffi
+    libxml2
+    ncurses
+    zlib
   ];
 
   # Some tests fail due to I/O that is unfriendly with nix sandbox.
