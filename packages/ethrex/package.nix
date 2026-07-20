@@ -86,16 +86,20 @@ rustPlatform.buildRustPackage {
   # vergen-git2 needs a .git directory; skip it in nix builds
   env.VERGEN_IDEMPOTENT = "1";
 
-  # sp1-core-machine's build.rs runs cbindgen, which spawns `cargo metadata`
-  # from inside the vendored crate directory. That subprocess discovers the
-  # vendor dir's own .cargo/config.toml, whose `directory = "cargo-vendor-dir"`
-  # is relative and resolves to a nonexistent `cargo-vendor-dir/cargo-vendor-dir`.
-  # Rewrite it to an absolute path so the nested cargo invocation resolves.
+  # sp1-core-machine and sp1-recursion-core enable a `sys` feature by default
+  # whose build.rs runs cbindgen, which spawns a nested `cargo metadata`. That
+  # sub-invocation tries to fully resolve the crate's dependency graph
+  # (including optional deps such as `rug`) against our feature-pruned vendor
+  # dir and fails offline. These crates are designed to build without `sys`
+  # (pure-Rust fallback; build.rs then emits an empty stub lib), and nothing in
+  # the tree requests `sys` explicitly, so drop it from their defaults.
   preBuild = ''
-    find "$NIX_BUILD_TOP" -path '*/cargo-vendor-dir/.cargo/config.toml' | while read -r cfg; do
-      vd=$(dirname "$(dirname "$cfg")")
-      substituteInPlace "$cfg" \
-        --replace-fail 'directory = "cargo-vendor-dir"' "directory = \"$vd\""
+    for crate in sp1-core-machine sp1-recursion-core; do
+      find "$NIX_BUILD_TOP" -maxdepth 3 -path "*/$crate-*/Cargo.toml" -print0 \
+        | while IFS= read -r -d "" manifest; do
+        substituteInPlace "$manifest" \
+          --replace-fail 'default = ["sys"]' 'default = []'
+      done
     done
   '';
 
