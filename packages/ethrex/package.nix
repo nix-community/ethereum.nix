@@ -115,8 +115,9 @@ rustPlatform.buildRustPackage {
 
     # Provide sp1-prover's verification-key map so its build.rs skips the
     # network download (see sp1VkMap above).
-    find "$NIX_BUILD_TOP" -maxdepth 3 -type d -path "*/sp1-prover-*" -print0 \
+    find "$NIX_BUILD_TOP" -maxdepth 2 -type d -name 'sp1-prover-*' -print0 \
       | while IFS= read -r -d "" crate; do
+      mkdir -p "$crate/src"
       cp ${sp1VkMap} "$crate/src/vk_map.bin"
     done
   '';
