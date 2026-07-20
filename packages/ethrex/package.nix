@@ -1,5 +1,6 @@
 {
   fetchFromGitHub,
+  fetchurl,
   lib,
   nix-update-script,
   openssl,
@@ -10,6 +11,16 @@
 let
   pname = "ethrex";
   version = "21.0.0";
+
+  # sp1-prover's build.rs downloads this verification-key map from S3 at build
+  # time; the nix sandbox has no network. Fetch it as a fixed-output derivation
+  # and drop it into the vendored crate's expected src/vk_map.bin (build.rs then
+  # copies it after an SHA256 check instead of downloading). Hash is pinned in
+  # sp1-prover-5.0.8/build.rs as SHA256_HASH.
+  sp1VkMap = fetchurl {
+    url = "https://sp1-circuits.s3.us-east-2.amazonaws.com/vk-map-v5.0.0";
+    hash = "sha256-XnNfbkT1bp7ukeViYlJmOvzFJjKH0cWYA2ez+fkwoOg=";
+  };
 
   src = fetchFromGitHub {
     owner = "lambdaclass";
@@ -100,6 +111,13 @@ rustPlatform.buildRustPackage {
         substituteInPlace "$manifest" \
           --replace-fail 'default = ["sys"]' 'default = []'
       done
+    done
+
+    # Provide sp1-prover's verification-key map so its build.rs skips the
+    # network download (see sp1VkMap above).
+    find "$NIX_BUILD_TOP" -maxdepth 3 -type d -path "*/sp1-prover-*" -print0 \
+      | while IFS= read -r -d "" crate; do
+      cp ${sp1VkMap} "$crate/src/vk_map.bin"
     done
   '';
 
