@@ -9,12 +9,12 @@
   fetchFromGitHub,
 }:
 let
-  version = "26.3.1";
+  version = "26.5.0";
   src = fetchFromGitHub {
     owner = "status-im";
     repo = "nimbus-eth2";
     rev = "v${version}";
-    hash = "sha256-ObShnwwn4rnwl0tGG5Fabhk0g1K4QkU2yqbS04mKtr4=";
+    hash = "sha256-O3DhBkS9/0Dvmo6KTCQUw/hal8PqHZvvRWZPJjZPAhU=";
     fetchSubmodules = true;
   };
   targets = [
@@ -56,6 +56,11 @@ stdenv.mkDerivation rec {
   NIMFLAGS = "-d:disableMarchNative";
   # Avoid Nim cache permission errors.
   XDG_CACHE_HOME = "/tmp";
+  # nimbus-build-system's build_nim.sh otherwise `git clone`s Nimble from its
+  # hardcoded NIMBLE_COMMIT, which fails in the sandboxed (network-less) build.
+  # Defining it empty makes the script build the Nim-bundled Nimble via
+  # `koch nimble` using the vendored dist/nimble we provide in preBuild.
+  NIMBLE_COMMIT = "";
 
   makeFlags = targets ++ [
     "V=${toString verbosity}"
