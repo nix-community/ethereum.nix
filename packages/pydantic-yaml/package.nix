@@ -5,7 +5,7 @@
 }:
 python3.pkgs.buildPythonPackage rec {
   pname = "pydantic-yaml";
-  version = "1.6.0";
+  version = "1.8.0";
 
   pyproject = true;
 
@@ -13,19 +13,19 @@ python3.pkgs.buildPythonPackage rec {
     owner = "NowanIlfideme";
     repo = "pydantic-yaml";
     tag = "v${version}";
-    hash = "sha256-n5QWVHgYAg+Ad7Iv6CBSRQcl8lv4ZtcFMiC2ZHyi414=";
+    hash = "sha256-H4qRYfAGDUhD0pHb+Z5Pi13sXyxv6x+JnW7zPNYHW4s=";
   };
 
   postPatch = ''
     substituteInPlace src/pydantic_yaml/version.py \
       --replace-fail "0.0.0" "${version}"
-
-    # Relax ruamel.yaml upper bound (https://github.com/NowanIlfideme/pydantic-yaml/issues/305)
-    substituteInPlace pyproject.toml \
-      --replace-fail "ruamel.yaml>=0.17.0,<0.19.0" "ruamel.yaml>=0.17.0,<0.20.0"
   '';
 
-  build-system = [ python3.pkgs.setuptools-scm ];
+  build-system = with python3.pkgs; [
+    hatchling
+    hatch-vcs
+    setuptools-scm
+  ];
 
   dependencies = with python3.pkgs; [
     pydantic
