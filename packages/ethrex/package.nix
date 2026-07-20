@@ -86,6 +86,19 @@ rustPlatform.buildRustPackage {
   # vergen-git2 needs a .git directory; skip it in nix builds
   env.VERGEN_IDEMPOTENT = "1";
 
+  # sp1-core-machine's build.rs runs cbindgen, which spawns `cargo metadata`
+  # from inside the vendored crate directory. That subprocess discovers the
+  # vendor dir's own .cargo/config.toml, whose `directory = "cargo-vendor-dir"`
+  # is relative and resolves to a nonexistent `cargo-vendor-dir/cargo-vendor-dir`.
+  # Rewrite it to an absolute path so the nested cargo invocation resolves.
+  preBuild = ''
+    find "$NIX_BUILD_TOP" -path '*/cargo-vendor-dir/.cargo/config.toml' | while read -r cfg; do
+      vd=$(dirname "$(dirname "$cfg")")
+      substituteInPlace "$cfg" \
+        --replace-fail 'directory = "cargo-vendor-dir"' "directory = \"$vd\""
+    done
+  '';
+
   buildAndTestSubdir = "cmd/ethrex";
 
   # Enable L2 feature
