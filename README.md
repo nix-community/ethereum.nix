@@ -343,6 +343,16 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 
 </details>
 <details>
+<summary><strong>solar</strong> - Blazingly fast Solidity compiler</summary>
+
+- **Source**: source
+- **License**: Check package
+- **Homepage**: https://github.com/paradigmxyz/solar
+- **Usage**: `nix run github:nix-community/ethereum.nix#solar -- --help`
+- **Nix**: [packages/solar/package.nix](packages/solar/package.nix)
+
+</details>
+<details>
 <summary><strong>tx-fuzz</strong> - TX-Fuzz is a package containing helpful functions to create random transactions</summary>
 
 - **Source**: source

@@ -4,22 +4,46 @@
   lib,
   nix-update-script,
   versionCheckHook,
+  jq,
+  yq-go,
+  zip,
 }:
 buildGoModule rec {
   pname = "op-node";
-  version = "1.19.0";
+  version = "1.19.3";
 
   src = fetchFromGitHub {
     owner = "ethereum-optimism";
     repo = "optimism";
     rev = "op-node/v${version}";
-    hash = "sha256-fqMmQWodzbCmbDFaRXv3l5SCmdDQ0CtgpMQ1X5JE3rY=";
+    # The superchain configs live in the superchain-registry submodule, which is
+    # needed to regenerate the embedded superchain-configs.zip (see preBuild).
+    fetchSubmodules = true;
+    hash = "sha256-aWg/sNWheUNQerTcqbHN3V6TjHoPH/19Opd8Jb05kvk=";
   };
 
   sourceRoot = "${src.name}/op-node";
 
   proxyVendor = true;
-  vendorHash = "sha256-CYUbESfnrlL0cIuYCBYfdPoZ+X2iCBxEK7A810ewbaQ=";
+  vendorHash = "sha256-2WAgQJ6qJI4gZQSEEi5pOclYApUgnc1IQv6tSmj17xI=";
+
+  # op-core/superchain embeds superchain-configs.zip via //go:embed. The zip is
+  # gitignored and regenerated from the superchain-registry submodule; init()
+  # panics unless the bundle matches the committed .sha256. Rebuild it before
+  # compiling so the embed succeeds (the script asserts the .sha256 match).
+  nativeBuildInputs = [
+    jq
+    yq-go
+    zip
+  ];
+
+  preBuild = ''
+    # unpackPhase only makes sourceRoot (op-node) writable; the script copies
+    # from and writes into these sibling trees, so make them writable too.
+    chmod -R u+w ../op-core ../superchain-registry
+    patchShebangs ../op-core/superchain/sync-superchain.sh
+    bash ../op-core/superchain/sync-superchain.sh
+  '';
 
   subPackages = [ "cmd" ];
 
