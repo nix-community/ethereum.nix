@@ -1,0 +1,3 @@
+# proxyd is in a monorepo with proxyd/vX.Y.Z tag format, skip dev releases
+--version-regex
+proxyd/v([0-9]+\.[0-9]+\.[0-9]+)$

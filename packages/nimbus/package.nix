@@ -9,12 +9,12 @@
   fetchFromGitHub,
 }:
 let
-  version = "26.2.1";
+  version = "26.3.1";
   src = fetchFromGitHub {
     owner = "status-im";
     repo = "nimbus-eth2";
     rev = "v${version}";
-    hash = "sha256-rVI498v8wdrDJTJCN5E41Adph2eZ67H/YB8cPxWZBkU=";
+    hash = "sha256-ObShnwwn4rnwl0tGG5Fabhk0g1K4QkU2yqbS04mKtr4=";
     fetchSubmodules = true;
   };
   targets = [

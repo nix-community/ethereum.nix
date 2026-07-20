@@ -7,17 +7,28 @@
 }:
 rustPlatform.buildRustPackage rec {
   pname = "reth";
-  version = "1.11.0";
+  version = "2.3.0";
 
   src = fetchFromGitHub {
     owner = "paradigmxyz";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-BaStAg29MeJkJf9w/eGvq8LIU9nla/Q/oSpVF0EG1hg=";
+    hash = "sha256-bmqE7c1dE65M4PGHmRLjCi36+B6BdIBSXkqBDu6h+vg=";
+    leaveDotGit = true;
+    postFetch = ''
+      git -C "$out" rev-parse HEAD > "$out/COMMIT"
+      rm -rf "$out/.git"
+    '';
   };
+  preBuild = ''
+    export VERGEN_GIT_SHA=$(cat COMMIT)
+  '';
 
   cargoLock = {
     lockFile = "${src}/Cargo.lock";
+    outputHashes = {
+      "discv5-0.10.4" = "sha256-hfgBA/Nf77/et/SVeUz9RALAREXp66/CgjuwNcusRJA=";
+    };
   };
 
   nativeBuildInputs = [

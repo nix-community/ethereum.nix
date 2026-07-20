@@ -115,6 +115,16 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 
 </details>
 <details>
+<summary><strong>lodestar</strong> - TypeScript implementation of the Ethereum consensus specification</summary>
+
+- **Source**: binary
+- **License**: Apache-2.0
+- **Homepage**: https://lodestar.chainsafe.io
+- **Usage**: `nix run github:nix-community/ethereum.nix#lodestar -- --help`
+- **Nix**: [packages/lodestar/package.nix](packages/lodestar/package.nix)
+
+</details>
+<details>
 <summary><strong>prysm</strong> - Go implementation of Ethereum proof of stake</summary>
 
 - **Source**: source
@@ -396,6 +406,16 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 
 </details>
 <details>
+<summary><strong>helios</strong> - A trustless, efficient, and portable multichain light client</summary>
+
+- **Source**: source
+- **License**: MIT
+- **Homepage**: https://github.com/a16z/helios
+- **Usage**: `nix run github:nix-community/ethereum.nix#helios -- --help`
+- **Nix**: [packages/helios/package.nix](packages/helios/package.nix)
+
+</details>
+<details>
 <summary><strong>rotki-bin</strong> - An open source portfolio tracking tool that respects your privacy</summary>
 
 - **Source**: binary
@@ -436,6 +456,19 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 - **Homepage**: https://nimbus.guide/
 - **Usage**: `nix run github:nix-community/ethereum.nix#nimbus -- --help`
 - **Nix**: [packages/nimbus/package.nix](packages/nimbus/package.nix)
+
+</details>
+
+### Arbitrum
+
+<details>
+<summary><strong>nitro</strong> - Arbitrum Nitro node implementation for Ethereum Layer 2</summary>
+
+- **Source**: source
+- **License**: BUSL-1.1
+- **Homepage**: https://github.com/OffchainLabs/nitro
+- **Usage**: `nix run github:nix-community/ethereum.nix#nitro -- --help`
+- **Nix**: [packages/nitro/package.nix](packages/nitro/package.nix)
 
 </details>
 
@@ -552,6 +585,16 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 - **Homepage**: https://github.com/ethereum-optimism/optimism/tree/develop/op-validator
 - **Usage**: `nix run github:nix-community/ethereum.nix#op-validator -- --help`
 - **Nix**: [packages/op-validator/package.nix](packages/op-validator/package.nix)
+
+</details>
+<details>
+<summary><strong>proxyd</strong> - RPC request router and proxy for Optimism</summary>
+
+- **Source**: source
+- **License**: MIT
+- **Homepage**: https://github.com/ethereum-optimism/infra/tree/main/proxyd
+- **Usage**: `nix run github:nix-community/ethereum.nix#proxyd -- --help`
+- **Nix**: [packages/proxyd/package.nix](packages/proxyd/package.nix)
 
 </details>
 <details>

@@ -4,7 +4,6 @@
   fetchFromGitHub,
   lib,
   lz4,
-  nix-update-script,
   rocksdb,
   snappy,
   stdenv,
@@ -12,13 +11,13 @@
 }:
 buildDotnetModule rec {
   pname = "nethermind";
-  version = "1.36.0";
+  version = "1.39.1";
 
   src = fetchFromGitHub {
     owner = "NethermindEth";
     repo = pname;
     rev = version;
-    hash = "sha256-BhWhmJPDG/C4i8UL1E2j1doHxDlF5JAoWhKlgJbrwPw=";
+    hash = "sha256-KLKbDNHy40iXZHUO+RbwbCj4pN+vKrcpCCjMd7NCb9U=";
     fetchSubmodules = true;
   };
 
@@ -48,7 +47,7 @@ buildDotnetModule rec {
 
   passthru = {
     category = "Execution Clients";
-    updateScript = nix-update-script { };
+    updateScript = ./update.py;
   };
 
   meta = {

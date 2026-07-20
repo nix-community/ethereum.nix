@@ -19,6 +19,10 @@ python3.pkgs.buildPythonPackage rec {
   postPatch = ''
     substituteInPlace src/pydantic_yaml/version.py \
       --replace-fail "0.0.0" "${version}"
+
+    # Relax ruamel.yaml upper bound (https://github.com/NowanIlfideme/pydantic-yaml/issues/305)
+    substituteInPlace pyproject.toml \
+      --replace-fail "ruamel.yaml>=0.17.0,<0.19.0" "ruamel.yaml>=0.17.0,<0.20.0"
   '';
 
   build-system = [ python3.pkgs.setuptools-scm ];

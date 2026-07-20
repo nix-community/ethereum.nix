@@ -4,6 +4,7 @@
   installShellFiles,
   lib,
   libusb1,
+  perl,
   pkg-config,
   rustPlatform,
   stdenv,
@@ -13,19 +14,20 @@
 }:
 rustPlatform.buildRustPackage rec {
   pname = "foundry";
-  version = "1.5.1";
+  version = "1.7.1";
 
   src = fetchFromGitHub {
     owner = "foundry-rs";
     repo = "foundry";
     tag = "v${version}";
-    hash = "sha256-dMYuv5noIn86WuUJkUixnoNGLgByacung/TBU+EYhUw=";
+    hash = "sha256-pS0V7AbSVowKXWfmk4TM9HyEVO1GL+FCZgdmpCfGcmM=";
   };
 
-  cargoHash = "sha256-+5RLCkAQR8UepdUIsq1FnQmjKMg7YNC1Sxu0CVpWcnc=";
+  cargoHash = "sha256-Ka751S1YhUQJCJYqD8bgjSm9IZPaBNg50DNDhmROQzs=";
 
   nativeBuildInputs = [
     pkg-config
+    perl # required for building sha3-asm
     installShellFiles
   ]
   ++ lib.optionals stdenv.hostPlatform.isDarwin [ darwin.DarwinTools ];
@@ -35,6 +37,7 @@ rustPlatform.buildRustPackage rec {
   env = {
     # Make svm-rs use local release list rather than fetching from non-reproducible URL.
     SVM_RELEASES_LIST_JSON = "${svm-lists}/list.json";
+    VERGEN_GIT_SHA = "VERGEN_IDEMPOTENT_OUTPUT";
   };
 
   postInstall =

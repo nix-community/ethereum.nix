@@ -9,17 +9,17 @@
 }:
 buildGoModule rec {
   pname = "eth2-val-tools";
-  version = "0.1.1";
+  version = "0.2.2";
 
   src = fetchFromGitHub {
     owner = "protolambda";
     repo = "eth2-val-tools";
     rev = "v${version}";
-    hash = "sha256-PkdkS0pRu2W2s9We022VzjXWZkIuuBCKMJNVkn12SWE=";
+    hash = "sha256-BZU+x/1CENz6DY2LgLpZKZNinfZIDEv+4u7+wncVF6g=";
   };
 
   runVend = true;
-  vendorHash = "sha256-ICHc5l+hMl6YgAWfwLbY/zLAgGCBjqwwGNydm/UXELM=";
+  vendorHash = "sha256-MrZC7QzZuVVd5QWHXLZZGui1J+35TMgGPFXKGR2sLHg=";
 
   nativeBuildInputs = [ clang ];
   buildInputs = [

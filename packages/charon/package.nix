@@ -8,16 +8,16 @@
 }:
 buildGoModule rec {
   pname = "charon";
-  version = "1.8.2";
+  version = "1.9.4";
 
   src = fetchFromGitHub {
     owner = "ObolNetwork";
     repo = "${pname}";
     rev = "refs/tags/v${version}";
-    hash = "sha256-aTXmtNlnR7dijWCPpAU4EQYDqwU7518XO/+/wa2jHFM=";
+    hash = "sha256-W9zrji6Il5lH8dKQ76YJsFz3hSvCzmMFyq4q/nEFoIk=";
   };
 
-  vendorHash = "sha256-bYIWya90HB5ZF/aA8Yjz//lWOg9D8mxuz5mqyFeXMy0=";
+  vendorHash = "sha256-IgSPJtE692/QFOS2xp21FS+0b6PNS1+62pghQ2FtMPo=";
 
   buildInputs = [
     bls_1_86

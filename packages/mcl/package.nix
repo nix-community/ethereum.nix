@@ -12,13 +12,13 @@ let
 in
 stdenv.mkDerivation rec {
   pname = "mcl";
-  version = "3.04";
+  version = "3.06";
 
   src = fetchFromGitHub {
     owner = "herumi";
     repo = "mcl";
     rev = "v${version}";
-    hash = "sha256-is5P0dhIU1WhAJb7EA085x40Lkw4EA34sgTnCxrcmdE=";
+    hash = "sha256-Nyd8SyURTpExgvB2B/uEfhEBU7YLQgNY6s1saQ1rS1Y=";
   };
 
   nativeBuildInputs = [ cmake ] ++ (lib.optionals (system == "aarch64-linux") [ clang ]);
