@@ -4,6 +4,9 @@
   lib,
   nix-update-script,
   versionCheckHook,
+  jq,
+  yq-go,
+  zip,
 }:
 buildGoModule rec {
   pname = "op-batcher";
@@ -13,13 +16,34 @@ buildGoModule rec {
     owner = "ethereum-optimism";
     repo = "optimism";
     rev = "op-batcher/v${version}";
-    hash = "sha256-gmVD+HSNVUAkcS72uNwwi2gRzJRd4Ulf3YyVLUH/VBo=";
+    # The superchain configs live in the superchain-registry submodule, which is
+    # needed to regenerate the embedded superchain-configs.zip (see preBuild).
+    fetchSubmodules = true;
+    hash = "sha256-3KLD28XJGmQ91LJ7bA/uYTf9mf1zwjoi5CHGpQllXQ8=";
   };
 
   sourceRoot = "${src.name}/op-batcher";
 
   proxyVendor = true;
   vendorHash = "sha256-2WAgQJ6qJI4gZQSEEi5pOclYApUgnc1IQv6tSmj17xI=";
+
+  # op-core/superchain embeds superchain-configs.zip via //go:embed. The zip is
+  # gitignored and regenerated from the superchain-registry submodule; init()
+  # panics unless the bundle matches the committed .sha256. Rebuild it before
+  # compiling so the embed succeeds (the script asserts the .sha256 match).
+  nativeBuildInputs = [
+    jq
+    yq-go
+    zip
+  ];
+
+  preBuild = ''
+    # unpackPhase only makes sourceRoot (op-batcher) writable; the script copies
+    # from and writes into these sibling trees, so make them writable too.
+    chmod -R u+w ../op-core ../superchain-registry
+    patchShebangs ../op-core/superchain/sync-superchain.sh
+    bash ../op-core/superchain/sync-superchain.sh
+  '';
 
   subPackages = [ "cmd" ];
 
