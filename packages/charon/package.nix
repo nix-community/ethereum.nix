@@ -8,16 +8,21 @@
 }:
 buildGoModule rec {
   pname = "charon";
-  version = "1.9.4";
+  version = "1.10.3";
 
   src = fetchFromGitHub {
     owner = "ObolNetwork";
     repo = "${pname}";
     rev = "refs/tags/v${version}";
-    hash = "sha256-W9zrji6Il5lH8dKQ76YJsFz3hSvCzmMFyq4q/nEFoIk=";
+    hash = "sha256-VIFhi1Se78nwF4yJz6eujTg2r9r8bjheqLxvRCZlpVw=";
   };
 
-  vendorHash = "sha256-IgSPJtE692/QFOS2xp21FS+0b6PNS1+62pghQ2FtMPo=";
+  # Use the module cache instead of `go mod vendor`, which strips the prebuilt
+  # static libraries (e.g. libhashtree.a) shipped by
+  # github.com/pk910/hashtree-bindings since 1.10, as they live in directories
+  # without Go source files.
+  proxyVendor = true;
+  vendorHash = "sha256-MbOXPXyuL5Qu/2LKzI2Tn2zHBJVI3V/argVHrE0ujbI=";
 
   buildInputs = [
     bls_1_86
