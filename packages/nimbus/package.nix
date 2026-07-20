@@ -56,6 +56,11 @@ stdenv.mkDerivation rec {
   NIMFLAGS = "-d:disableMarchNative";
   # Avoid Nim cache permission errors.
   XDG_CACHE_HOME = "/tmp";
+  # nimbus-build-system's build_nim.sh otherwise `git clone`s Nimble from its
+  # hardcoded NIMBLE_COMMIT, which fails in the sandboxed (network-less) build.
+  # Defining it empty makes the script build the Nim-bundled Nimble via
+  # `koch nimble` using the vendored dist/nimble we provide in preBuild.
+  NIMBLE_COMMIT = "";
 
   makeFlags = targets ++ [
     "V=${toString verbosity}"
