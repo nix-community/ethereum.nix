@@ -9,13 +9,13 @@
 }:
 let
   pname = "ethrex";
-  version = "9.0.0";
+  version = "21.0.0";
 
   src = fetchFromGitHub {
     owner = "lambdaclass";
     repo = "ethrex";
     rev = "v${version}";
-    hash = "sha256-gQIMAnGDJoLiP6TyJ4Y2kGyNMC2Kl3rxrb2oRBX170w=";
+    hash = "sha256-FUPxbo96ikUP8qQnjSosN52TNixQFMkoFK/P7rOMY9w=";
   };
 
   # Upstream Cargo.lock has crates from both crates.io and git forks with the
@@ -27,7 +27,7 @@ let
     cat >> Cargo.toml <<'PATCH'
 
     [patch.crates-io]
-    bls12_381 = { git = "https://github.com/lambdaclass/bls12_381", branch = "expose-fp-struct" }
+    bls12_381 = { git = "https://github.com/lambdaclass/bls12_381", branch = "expose-affine-constructors" }
     halo2curves-axiom = { git = "https://github.com/axiom-crypto/halo2curves.git", tag = "v0.7.2" }
     zkhash = { git = "https://github.com/HorizenLabs/poseidon2.git", rev = "bb476b9" }
     PATCH
@@ -45,15 +45,18 @@ let
     (rustPlatform.importCargoLock {
       lockFile = ./Cargo.lock;
       outputHashes = {
-        "aligned-sdk-0.1.0" = "sha256-aBU5mgGoKHDG2OYL+qJGSk97hn2AirxQ3soaK9DShpQ=";
-        "bls12_381-0.8.0" = "sha256-8/pXRA7hVAPeMKCZ+PRPfQfxqstw5Ob4MJNp85pv5WQ=";
+        "agg_mode_sdk-0.1.0" = "sha256-19sernICnubqIVIsdt9/oLxq0Ki+BBHA/Hl+yTg6oTw=";
+        "bls12_381-0.8.0" = "sha256-tpKF3wxog7eH1oDbpjoFjYibvH6u2kiR/H2Ysazqeok=";
+        "circuit-0.16.1" = "sha256-4LG9R9CpsP4kLJ6Cvk8Afu7wGYjxTl1ZLIrgFPdTdAM=";
+        "fields-0.16.1" = "sha256-iVBcuUgi8OEPbxQRHHVcSYlhHBcxbHS9F1Rx9Rr73Kg=";
         "halo2curves-axiom-0.7.2" = "sha256-tJtt6rAL70TNzVXjnci04X0oUK3duE7SklBIyBftd+I=";
         "lambdaworks-crypto-0.12.0" = "sha256-4vgW/O85zVLhhFrcZUwcPjavy/rRWB8LGTabAkPNrDw=";
-        "lib-c-0.15.0" = "sha256-hzV4NedLnKV1JN497S7iiUq91NQltyx3M1W33SKWkeE=";
-        "openvm-1.4.1" = "sha256-7f1MaOu/F0W5QyPZtz44h9IkAA94QLMrVOHzZa0yelk=";
-        "openvm-cuda-backend-1.2.1" = "sha256-l9x7beeeXGvz2i7f6cgxet5OiKzur1X3wdkIShxyQlk=";
+        "openvm-1.4.1" = "sha256-alW8dZO7Lw3jQ/4W9DO19+1B/RA2PMc0GSOOnI8T9dY=";
+        "openvm-1.5.0" = "sha256-j+xbsipH6fnFbn+cw1yQd5iJpKafTILns/O+ubseGYk=";
         "openvm-kzg-0.2.0-alpha" = "sha256-nLk0cqKW1IVdWNKm86ZkdSBEt1+kRYeth3xlfI74x28=";
-        "p3-field-0.1.0" = "sha256-KYPhsvXaoQxUM6JH9CpDrVGccOEITp05zbCECa+jOQg=";
+        "openvm-cuda-backend-1.3.0" = "sha256-m+HK8varzuDnyc/E3p13I5tS5l6EjXS3Si7q/c0o5cw=";
+        "openvm-stark-backend-1.2.1" = "sha256-l9x7beeeXGvz2i7f6cgxet5OiKzur1X3wdkIShxyQlk=";
+        "p3-air-0.1.0" = "sha256-KYPhsvXaoQxUM6JH9CpDrVGccOEITp05zbCECa+jOQg=";
         "zkhash-0.2.0" = "sha256-SmfMuw6BKQxzKJyqWt29Gtpu8oHQLRXgf2kR8mZt6X0=";
       };
     }).overrideAttrs
