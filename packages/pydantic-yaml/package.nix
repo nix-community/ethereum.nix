@@ -5,7 +5,7 @@
 }:
 python3.pkgs.buildPythonPackage rec {
   pname = "pydantic-yaml";
-  version = "1.6.0";
+  version = "1.8.0";
 
   pyproject = true;
 
@@ -13,7 +13,7 @@ python3.pkgs.buildPythonPackage rec {
     owner = "NowanIlfideme";
     repo = "pydantic-yaml";
     tag = "v${version}";
-    hash = "sha256-n5QWVHgYAg+Ad7Iv6CBSRQcl8lv4ZtcFMiC2ZHyi414=";
+    hash = "sha256-H4qRYfAGDUhD0pHb+Z5Pi13sXyxv6x+JnW7zPNYHW4s=";
   };
 
   postPatch = ''
