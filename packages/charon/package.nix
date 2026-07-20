@@ -17,7 +17,12 @@ buildGoModule rec {
     hash = "sha256-VIFhi1Se78nwF4yJz6eujTg2r9r8bjheqLxvRCZlpVw=";
   };
 
-  vendorHash = "sha256-CLDYcTDjUjQjmR5/3sDbgt+E1jz9dIx23XqrcLDp92s=";
+  # Use the module cache instead of `go mod vendor`, which strips the prebuilt
+  # static libraries (e.g. libhashtree.a) shipped by
+  # github.com/pk910/hashtree-bindings since 1.10, as they live in directories
+  # without Go source files.
+  proxyVendor = true;
+  vendorHash = "sha256-MbOXPXyuL5Qu/2LKzI2Tn2zHBJVI3V/argVHrE0ujbI=";
 
   buildInputs = [
     bls_1_86
