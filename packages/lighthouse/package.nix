@@ -28,20 +28,20 @@ let
 in
 rustPlatform.buildRustPackage rec {
   pname = "lighthouse";
-  version = "8.2.0";
+  version = "8.2.1";
 
   src = fetchFromGitHub {
     owner = "sigp";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-tLCgjLMv7ea/kNgBFKhp4S4AGcfqggbkdEiuqNpm59Y=";
+    hash = "sha256-o32RgiuMN8m/E1J34QCLjhq8ttTKCqqsvAaOQOxHUjg=";
   };
 
   cargoLock = {
     lockFile = "${src}/Cargo.lock";
     outputHashes = {
       "libmdbx-0.1.4" = "sha256-ONp4uPkVCN84MObjXorCZuSjnM6uFSMXK1vdJiX074o=";
-      "libp2p-0.57.0" = "sha256-D/XFgVyVwS0jGnnj8tj+ke6mpuxjhlbzVO4t2EKSDgg=";
+      "libp2p-0.57.0" = "sha256-Ujy81IdJcfF+dUbAvfS3VNKvKOTq91jSlWeTopPnBXs=";
       "lmdb-rkv-0.14.0" = "sha256-sxmguwqqcyOlfXOZogVz1OLxfJPo+Q0+UjkROkbbOCk=";
       "xdelta3-0.1.5" = "sha256-mWVRIsW/LsiZzQ/ITImb1i6an4EcYy0c1KhQvywhHxQ=";
     };
