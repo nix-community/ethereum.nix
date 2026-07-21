@@ -10,16 +10,25 @@
 }:
 buildGoModule rec {
   pname = "prysm";
-  version = "7.1.4";
+  version = "7.1.7";
 
   src = fetchFromGitHub {
     owner = "prysmaticlabs";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-3ruaiWKY1a4qsDqjBNG5e13f1Oz87+s4Q23/J0sa8DA=";
+    hash = "sha256-077TK2P8ZehUGh1B5CPh+1QiHG4h90YSg+ar3yCTa0U=";
   };
 
-  vendorHash = "sha256-lE0ykZbLQ+fM1FSsxdwkMJzkIPusic1cGa0jYy/+Acs=";
+  # The go.mod pins a newer Go patch release (1.26.4) than the Go version
+  # currently available in nixpkgs (1.26.3). Relax the directive so that both
+  # the goModules (vendor) and main derivations build with the available
+  # toolchain (GOTOOLCHAIN=local).
+  postPatch = ''
+    substituteInPlace go.mod \
+      --replace-fail "go 1.26.4" "go 1.26.3"
+  '';
+
+  vendorHash = "sha256-h17nHNCL9u67THdGzWvzVz+jI3+11MFr8TmER7py6sg=";
 
   buildInputs = [
     bls_1_86
@@ -46,7 +55,7 @@ buildGoModule rec {
   ldflags = [
     "-s"
     "-w"
-    "-X github.com/prysmaticlabs/prysm/v4/runtime/version.gitTag=v${version}"
+    "-X github.com/OffchainLabs/prysm/v7/runtime/version.gitTag=v${version}"
   ];
 
   passthru = {
