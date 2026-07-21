@@ -5,20 +5,27 @@
   ...
 }:
 let
+  modulesLib = import ../../../lib/modules.nix lib;
+
   inherit (lib.lists) optionals;
   inherit (lib)
+    concatStringsSep
     filterAttrs
+    mapAttrs
     mapAttrs'
     mapAttrsToList
     mkIf
     mkMerge
     nameValuePair
+    elem
     ;
-
-  modulesLib = import ../../../lib/modules.nix lib;
+  inherit (builtins) isList;
   inherit (modulesLib) baseServiceConfig;
 
   eachNode = config.services.ethereum.helios;
+
+  # Convert lists to comma-separated strings for CLI
+  processSettings = mapAttrs (_: v: if isList v then concatStringsSep "," v else v);
 in
 {
   ###### interface
@@ -26,20 +33,13 @@ in
 
   ###### implementation
   config = mkIf (eachNode != { }) {
-    assertions = mapAttrsToList (name: cfg: {
-      assertion = !cfg.startWhenNeeded || cfg.args.rpc.enable;
-      message = "services.ethereum.helios.${name}: startWhenNeeded requires rpc.enable to be true.";
-    }) eachNode;
-
     # configure the firewall for each service
     networking.firewall =
       let
         openFirewall = filterAttrs (_: cfg: cfg.openFirewall) eachNode;
-        perService = mapAttrsToList (
-          _: cfg: with cfg.args; {
-            allowedTCPPorts = optionals rpc.enable [ rpc.port ];
-          }
-        ) openFirewall;
+        perService = mapAttrsToList (_: cfg: {
+          allowedTCPPorts = [ (cfg.settings.rpc-port or 8545) ];
+        }) openFirewall;
       in
       builtins.zipAttrsWith (_name: builtins.concatLists) perService;
 
@@ -51,52 +51,47 @@ in
       in
       cfg:
       let
-        # Determine command based on network
-        isOpStack = cfg.args.network != "ethereum";
+        s = cfg.settings;
+        network = s.network or "ethereum";
+        dataDir = s.data-dir or "%S/${serviceName}";
+
+        # Helios uses subcommands: `ethereum` for mainnet, `opstack` for OP Stack
+        # chains (which additionally take `--network <chain>`).
+        isOpStack = network != "ethereum";
         subcommand = if isOpStack then "opstack" else "ethereum";
 
-        # Build argument list
-        execArgs = [
+        # Keys handled explicitly below rather than as generic flags.
+        skipKeys = [
+          "network"
+          "data-dir"
+        ];
+        normalSettings = filterAttrs (k: _: !elem k skipKeys) s;
+
+        # Helios is a clap CLI and accepts space-separated values, so use the
+        # default separator.
+        cliArgs = lib.cli.toCommandLine (name: {
+          option = "--${name}";
+          sep = null;
+          explicitBool = false;
+        }) (processSettings normalSettings);
+
+        allArgs = [
           subcommand
         ]
         ++ (optionals isOpStack [
           "--network"
-          cfg.args.network
+          network
         ])
+        ++ cliArgs
         ++ [
-          "--execution-rpc"
-          cfg.args.executionRpc
-          "--rpc-port"
-          (toString cfg.args.rpc.port)
-          "--rpc-bind-ip"
-          cfg.args.rpc.addr
-        ]
-        ++ (optionals (cfg.args.consensusRpc != null) [
-          "--consensus-rpc"
-          cfg.args.consensusRpc
-        ])
-        ++ (optionals (cfg.args.checkpoint != null) [
-          "--checkpoint"
-          cfg.args.checkpoint
-        ])
-        ++ (optionals (cfg.args.checkpointFallback != null) [
-          "--fallback"
-          cfg.args.checkpointFallback
-        ])
-        ++ (optionals (cfg.args.datadir != null) [
           "--data-dir"
-          cfg.args.datadir
-        ])
-        ++ (optionals cfg.args.loadExternalFallback [
-          "--load-external-fallback"
-        ])
+          dataDir
+        ]
         ++ cfg.extraArgs;
-
-        datadir = if cfg.args.datadir != null then cfg.args.datadir else "%S/${serviceName}";
       in
       nameValuePair serviceName (
         mkIf cfg.enable {
-          description = "Helios ${cfg.args.network} light client (${heliosName})";
+          description = "Helios ${network} light client (${heliosName})";
           wantedBy = optionals (!cfg.startWhenNeeded) [ "multi-user.target" ];
           after = [ "network.target" ];
 
@@ -105,9 +100,9 @@ in
             {
               User = serviceName;
               StateDirectory = serviceName;
-              ExecStart = "${cfg.package}/bin/helios ${lib.escapeShellArgs execArgs} --data-dir ${datadir}";
+              ExecStart = "${cfg.package}/bin/helios ${lib.escapeShellArgs allArgs}";
             }
-            (mkIf (cfg.startWhenNeeded && cfg.args.rpc.enable) {
+            (mkIf cfg.startWhenNeeded {
               Sockets = [ "${serviceName}.socket" ];
             })
           ];
@@ -122,10 +117,12 @@ in
         serviceName = "helios-${heliosName}";
       in
       nameValuePair serviceName (
-        mkIf (cfg.enable && cfg.startWhenNeeded && cfg.args.rpc.enable) {
+        mkIf (cfg.enable && cfg.startWhenNeeded) {
           wantedBy = [ "sockets.target" ];
           socketConfig = {
-            ListenStream = "${cfg.args.rpc.addr}:${toString cfg.args.rpc.port}";
+            ListenStream = "${cfg.settings.rpc-bind-ip or "127.0.0.1"}:${
+              toString (cfg.settings.rpc-port or 8545)
+            }";
           };
         }
       )
