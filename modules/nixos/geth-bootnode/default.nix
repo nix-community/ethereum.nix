@@ -70,10 +70,12 @@ in
         skipKeys = [ "nodekey" ];
         normalSettings = filterAttrs (k: _: !elem k skipKeys) s;
 
-        # Use lib.cli.toGNUCommandLine with single-dash prefix for bootnode
-        cliArgs = lib.cli.toGNUCommandLine {
-          mkOptionName = name: "-${name}";
-        } normalSettings;
+        # Use lib.cli.toCommandLine with single-dash prefix for bootnode
+        cliArgs = lib.cli.toCommandLine (name: {
+          option = "-${name}";
+          sep = null;
+          explicitBool = false;
+        }) normalSettings;
 
         allArgs =
           cliArgs

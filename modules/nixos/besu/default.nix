@@ -82,8 +82,12 @@ in
         ];
         normalSettings = filterAttrs (k: _: !elem k skipKeys) s;
 
-        # Use lib.cli.toGNUCommandLine for RFC 42 settings
-        cliArgs = lib.cli.toGNUCommandLine { } (processSettings normalSettings);
+        # Use lib.cli.toCommandLine for RFC 42 settings
+        cliArgs = lib.cli.toCommandLine (name: {
+          option = "--${name}";
+          sep = null;
+          explicitBool = false;
+        }) (processSettings normalSettings);
 
         allArgs = [
           "--data-path"
