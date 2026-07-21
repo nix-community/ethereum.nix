@@ -380,7 +380,7 @@ in {
 
 1. **RFC 42 freeformType** - Use `types.attrsOf types.anything` for settings to allow any CLI options
 1. **Flat dotted keys** - Use `"http.addr"` instead of nested `http.addr` attributes
-1. **lib.cli.toCommandLine** - Standard nixpkgs function for settings → CLI conversion
+1. **lib.cli.toCommandLine** - Standard nixpkgs function for settings → CLI conversion. Use `sep = null` (space-separated `--key value`) for clients that accept it (geth, erigon, reth, besu, teku, lighthouse, prysm, mev-boost). **Nimbus** (confutils) only accepts `--key=value`, so its modules must use `sep = "="` — a space-separated value is rejected as a positional argument (`does not accept arguments`).
 1. **baseServiceConfig** - Import from `lib/modules.nix` for hardened systemd defaults
 1. **LoadCredential** - Use systemd credentials for secrets (JWT, etc.)
 1. **DynamicUser** - Services run without pre-created users
