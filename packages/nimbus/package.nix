@@ -7,6 +7,7 @@
   writeScriptBin,
   callPackage,
   fetchFromGitHub,
+  versionCheckHook,
 }:
 let
   version = "26.5.0";
@@ -90,6 +91,9 @@ stdenv.mkDerivation rec {
     rm -f build/generate_makefile
     cp build/* $out/bin
   '';
+
+  doInstallCheck = true;
+  nativeInstallCheckInputs = [ versionCheckHook ];
 
   meta = with lib; {
     homepage = "https://nimbus.guide/";

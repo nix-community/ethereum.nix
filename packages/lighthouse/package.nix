@@ -12,6 +12,7 @@
   rustPlatform,
   postgresql,
   foundry,
+  versionCheckHook,
 }:
 let
   slasherContractVersion = "0.12.1";
@@ -329,6 +330,9 @@ rustPlatform.buildRustPackage rec {
     "--skip import_validators::tests::import_duplicates_when_allowed"
     "--skip import_validators::tests::import_duplicates_when_allowed_keystore_format"
   ];
+
+  doInstallCheck = true;
+  nativeInstallCheckInputs = [ versionCheckHook ];
 
   passthru.category = "Consensus Clients";
 
