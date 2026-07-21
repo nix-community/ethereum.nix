@@ -90,10 +90,14 @@ in
         ];
         normalSettings = filterAttrs (k: _: !elem k skipKeys) s;
 
-        # Use lib.cli.toGNUCommandLine with custom separator for Nimbus (--key=value format)
-        cliArgs = lib.cli.toGNUCommandLine {
-          mkOptionName = k: "--${k}";
-        } (processSettings normalSettings);
+        # Nimbus (confutils) only accepts --key=value, never "--key value": a
+        # space-separated value is treated as a positional argument and rejected
+        # ("nimbus_beacon_node does not accept arguments"). Join with "=".
+        cliArgs = lib.cli.toCommandLine (name: {
+          option = "--${name}";
+          sep = "=";
+          explicitBool = false;
+        }) (processSettings normalSettings);
 
         allArgs = [
           "--data-dir=${dataDir}"
@@ -133,8 +137,8 @@ in
               # Checkpoint download may take longer than the usual 90s default
               TimeoutStartSec = "5min";
 
-              ExecStartPre =
-                lib.mkBefore [
+              ExecStartPre = lib.mkBefore (
+                [
                   # Create keymanager token file if it doesn't exist
                   ''
                     ${pkgs.coreutils-full}/bin/cp --no-preserve=all --update=none \
@@ -143,7 +147,8 @@ in
                 ++ (optionals (trustedNodeUrl != null) [
                   # Run checkpoint sync if trusted-node-url is configured
                   "${cfg.package}/bin/${bin} trustedNodeSync ${checkpointSyncArgs}"
-                ]);
+                ])
+              );
 
               ExecStart = "${cfg.package}/bin/${bin} ${scriptArgs}";
 
