@@ -7,7 +7,7 @@
   makeWrapper,
   nix-update-script,
   nodejs,
-  pnpm_8,
+  pnpm,
   pnpmConfigHook,
   solc,
   stdenv,
@@ -24,18 +24,30 @@ stdenv.mkDerivation rec {
     fetchSubmodules = true;
   };
 
+  # The upstream pnpm-lock.yaml is lockfileVersion 6.0 (pnpm 8), which the
+  # pnpm shipped by nixpkgs (pnpm 11) refuses to read. Replace it with a
+  # regenerated lockfileVersion 9.0 lockfile for the same dependency set.
+  postPatch = ''
+    cp ${./pnpm-lock.yaml} pnpm-lock.yaml
+  '';
+
   pnpmDeps = fetchPnpmDeps {
-    inherit pname version src;
-    pnpm = pnpm_8;
-    hash = "sha256-uY7hh/iCwd8gGScO624Bp17UaKD6SzFouCrIekuJM+0=";
-    fetcherVersion = 3;
+    inherit
+      pname
+      version
+      src
+      postPatch
+      ;
+    inherit pnpm;
+    hash = "sha256-pEPIctOHKwYv2DSIuuv9Ln0OKRWguuoP4qTB3AufyoI=";
+    fetcherVersion = 4;
   };
 
   nativeBuildInputs = [
     foundry
     makeWrapper
     nodejs
-    pnpm_8
+    pnpm
     pnpmConfigHook
     solc
   ];
