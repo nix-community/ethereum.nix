@@ -9,6 +9,7 @@
   nix-update-script,
   perl,
   rustPlatform,
+  versionCheckHook,
   zlib,
 }:
 rustPlatform.buildRustPackage rec {
@@ -76,6 +77,9 @@ rustPlatform.buildRustPackage rec {
     "--skip=dump_genesis_mainnet_valid_json"
     "--skip=dump_genesis_sepolia_valid_json"
   ];
+
+  doInstallCheck = true;
+  nativeInstallCheckInputs = [ versionCheckHook ];
 
   passthru = {
     category = "Execution Clients";

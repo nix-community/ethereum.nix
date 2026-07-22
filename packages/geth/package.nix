@@ -3,6 +3,7 @@
   fetchFromGitHub,
   lib,
   nix-update-script,
+  versionCheckHook,
 }:
 let
   # A list of binaries to put into separate outputs
@@ -65,6 +66,9 @@ buildGoModule rec {
 
   # Following upstream: https://github.com/ethereum/go-ethereum/blob/v1.10.23/build/ci.go#L218
   tags = [ "urfave_cli_no_docs" ];
+
+  doInstallCheck = true;
+  nativeInstallCheckInputs = [ versionCheckHook ];
 
   passthru = {
     category = "Execution Clients";

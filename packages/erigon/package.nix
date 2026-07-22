@@ -3,6 +3,7 @@
   fetchFromGitHub,
   lib,
   nix-update-script,
+  versionCheckHook,
   subPackages ? [
     "cmd/erigon"
     "cmd/evm"
@@ -39,6 +40,9 @@ buildGoModule rec {
 
   ldflags = [ "-extldflags \"-Wl,--allow-multiple-definition\"" ];
   inherit subPackages;
+
+  doInstallCheck = true;
+  nativeInstallCheckInputs = [ versionCheckHook ];
 
   passthru = {
     category = "Execution Clients";

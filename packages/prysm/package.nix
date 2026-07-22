@@ -7,6 +7,7 @@
   lib,
   libelf,
   nix-update-script,
+  versionCheckHook,
 }:
 buildGoModule rec {
   pname = "prysm";
@@ -57,6 +58,9 @@ buildGoModule rec {
     "-w"
     "-X github.com/OffchainLabs/prysm/v7/runtime/version.gitTag=v${version}"
   ];
+
+  doInstallCheck = true;
+  nativeInstallCheckInputs = [ versionCheckHook ];
 
   passthru = {
     category = "Consensus Clients";

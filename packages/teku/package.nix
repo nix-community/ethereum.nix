@@ -1,10 +1,14 @@
 {
+  coreutils,
   fetchurl,
+  findutils,
+  gnused,
   jre,
   lib,
   makeWrapper,
   nix-update-script,
   stdenv,
+  versionCheckHook,
 }:
 stdenv.mkDerivation rec {
   pname = "teku";
@@ -22,8 +26,21 @@ stdenv.mkDerivation rec {
     cp -r bin $out/
     mkdir -p $out/lib
     cp -r lib $out/
-    wrapProgram $out/bin/${pname} --set JAVA_HOME "${jre}"
+    # The upstream launcher script relies on `uname` (coreutils), `xargs`
+    # (findutils) and `sed` (gnused) being on PATH to assemble the JVM invocation.
+    wrapProgram $out/bin/${pname} \
+      --set JAVA_HOME "${jre}" \
+      --prefix PATH : ${
+        lib.makeBinPath [
+          coreutils
+          findutils
+          gnused
+        ]
+      }
   '';
+
+  doInstallCheck = true;
+  nativeInstallCheckInputs = [ versionCheckHook ];
 
   passthru = {
     category = "Consensus Clients";
