@@ -37,7 +37,7 @@ buildGoModule rec {
   inherit version src;
 
   proxyVendor = true;
-  vendorHash = "sha256-OY87TtnnDrlW+VlX1nU0Jnru79Yb5wFy1dxLFtYLRoc=";
+  vendorHash = "sha256-Y/w2A1GUx99GZXQObI0i6hYL6NjjYTz4yak0V8NZApU=";
 
   preBuild = ''
     mkdir -p ui-package/dist
