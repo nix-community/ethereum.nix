@@ -21,6 +21,9 @@ python3.pkgs.buildPythonPackage rec {
     poetry-core
     setuptools
     pybind11
+    # Upstream tags v1.0.0 but pyproject.toml still declares 1.0.0-beta.6;
+    # patch the source version so it matches the derivation's version.
+    pyprojectVersionPatchHook
   ];
 
   propagatedBuildInputs = with python3.pkgs; [
