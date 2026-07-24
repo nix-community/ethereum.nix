@@ -28,6 +28,12 @@ let
         description = "Open ports in the firewall for any enabled networking services.";
       };
 
+      user = mkOption {
+        type = types.nullOr types.str;
+        default = null;
+        description = "User to run the systemd service.";
+      };
+
       settings = mkOption {
         type = types.submodule {
           freeformType = types.attrsOf types.anything;

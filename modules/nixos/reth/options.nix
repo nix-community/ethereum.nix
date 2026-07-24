@@ -30,6 +30,12 @@ let
 
       subVolume = mkEnableOption "Use a subvolume for the state directory if the underlying filesystem supports it e.g. btrfs";
 
+      user = mkOption {
+        type = types.nullOr types.str;
+        default = null;
+        description = "User to run the systemd service.";
+      };
+
       settings = mkOption {
         type = types.submodule {
           freeformType = types.attrsOf types.anything;
