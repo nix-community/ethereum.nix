@@ -6,7 +6,8 @@
   makeWrapper,
 }:
 python3.pkgs.buildPythonPackage rec {
-  pname = "slither";
+  # Distribution name is slither-analyzer; the repo is just "slither".
+  pname = "slither-analyzer";
   version = "0.11.5";
   pyproject = true;
 
@@ -14,7 +15,7 @@ python3.pkgs.buildPythonPackage rec {
 
   src = fetchFromGitHub {
     owner = "crytic";
-    repo = pname;
+    repo = "slither";
     rev = "refs/tags/${version}";
     hash = "sha256-sy1vE9XniwyvvZRFnnKhPfmYh2auHHcMel9sZx2YK3c=";
   };
