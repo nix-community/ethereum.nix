@@ -94,6 +94,14 @@ in
           explicitBool = false;
         }) (processSettings normalSettings);
 
+        # Lighthouse refuses to serve the validator HTTP API over plain HTTP
+        # unless --unencrypted-http-transport is passed explicitly. Inject it
+        # automatically when http is enabled so users don't have to add it via
+        # extraArgs, unless they set the flag themselves in settings (#795).
+        httpTransportArgs = optionals ((s.http or false) && !(s ? "unencrypted-http-transport")) [
+          "--unencrypted-http-transport"
+        ];
+
         allArgs = [
           "--datadir"
           datadir
@@ -101,6 +109,7 @@ in
           (concatStringsSep "," beaconNodes)
         ]
         ++ cliArgs
+        ++ httpTransportArgs
         ++ cfg.extraArgs;
 
         scriptArgs = concatStringsSep " \\\n  " allArgs;
