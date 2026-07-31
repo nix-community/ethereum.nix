@@ -23,6 +23,7 @@ appimageTools.wrapType2 rec {
     ''
       mv $out/bin/{rotki-bin,rotki}
       wrapProgram $out/bin/rotki \
+        --set APPIMAGE 1 \
         --add-flags "\''${NIXOS_OZONE_WL:+\''${WAYLAND_DISPLAY:+--ozone-platform-hint=auto --enable-features=WaylandWindowDecorations --enable-wayland-ime=true}}"
       install -Dm444 ${contents}/rotki.desktop -t $out/share/applications/
       install -Dm444 ${contents}/rotki.png -t $out/share/icons/hicolor/1024x1024/apps/
