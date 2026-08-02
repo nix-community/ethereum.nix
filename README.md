@@ -214,6 +214,16 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 ### SSV
 
 <details>
+<summary><strong>anchor</strong> - Rust implementation of the SSV (Secret Shared Validators) protocol</summary>
+
+- **Source**: source
+- **License**: Apache-2.0
+- **Homepage**: https://github.com/sigp/anchor
+- **Usage**: `nix run github:nix-community/ethereum.nix#anchor -- --help`
+- **Nix**: [packages/anchor/package.nix](packages/anchor/package.nix)
+
+</details>
+<details>
 <summary><strong>ssv-dkg</strong> - The ssv-dkg tool enable operators to participate in ceremonies to generate distributed validator keys for Ethereum stakers.</summary>
 
 - **Source**: source
