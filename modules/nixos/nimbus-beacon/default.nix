@@ -15,6 +15,7 @@ let
     mapAttrs
     mapAttrs'
     mapAttrsToList
+    mkForce
     mkIf
     mkMerge
     nameValuePair
@@ -127,6 +128,10 @@ in
 
           serviceConfig = mkMerge [
             baseServiceConfig
+            (mkIf (cfg.user != null) {
+              # A statically-managed user is incompatible with DynamicUser.
+              DynamicUser = mkForce false;
+            })
             {
               # Nimbus requires JIT compilation
               MemoryDenyWriteExecute = false;
