@@ -10,12 +10,12 @@
   versionCheckHook,
 }:
 let
-  version = "26.5.0";
+  version = "26.7.0";
   src = fetchFromGitHub {
     owner = "status-im";
     repo = "nimbus-eth2";
     rev = "v${version}";
-    hash = "sha256-O3DhBkS9/0Dvmo6KTCQUw/hal8PqHZvvRWZPJjZPAhU=";
+    hash = "sha256-ool5CLDQMJphiQMD830EaHtoi1tgmhD6JQIz3d6KUrQ=";
     fetchSubmodules = true;
   };
   targets = [
@@ -82,7 +82,7 @@ stdenv.mkDerivation rec {
     mkdir dist
     cp -r --no-preserve=mode ${callPackage ./nimble.nix { }}    dist/nimble
     cp -r --no-preserve=mode ${callPackage ./checksums.nix { }} dist/checksums
-    cp -r --no-preserve=mode ${callPackage ./csources.nix { }}  csources_v2
+    cp -r --no-preserve=mode ${callPackage ./csources.nix { }}  csources_v3
     popd
   '';
 
