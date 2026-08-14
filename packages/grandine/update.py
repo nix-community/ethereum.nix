@@ -25,6 +25,7 @@ def run_nix_update() -> bool:
             "--version-regex",
             "^([0-9]+\\.[0-9]+\\.[0-9]+)$",
         ],
+        check=False,
         cwd=FLAKE_ROOT,
     )
     return result.returncode == 0
