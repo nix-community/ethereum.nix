@@ -22,6 +22,7 @@ def run_nix_update() -> bool:
     print("Running nix-update...")
     result = subprocess.run(
         ["nix-update", "--flake", "dora"],
+        check=False,
         cwd=FLAKE_ROOT,
     )
     return result.returncode == 0

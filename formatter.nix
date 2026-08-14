@@ -47,6 +47,9 @@ let
       # python
       ruff-check.pipeline = "python";
       ruff-check.priority = 1;
+      ruff-check.options = [
+        "--ignore=EXE005" # allow nix-shell second shebang
+      ];
       ruff-format.pipeline = "python";
       ruff-format.priority = 2;
     };

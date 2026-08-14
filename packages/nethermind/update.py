@@ -29,6 +29,7 @@ def run_nix_update() -> bool:
             # https://github.com/Mic92/nix-update/issues/563
             "--src-only",
         ],
+        check=False,
         cwd=FLAKE_ROOT,
     )
     return result.returncode == 0
