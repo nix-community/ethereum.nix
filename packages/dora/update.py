@@ -3,8 +3,18 @@
 """Update script for dora package.
 
 nix-update handles version, source hash, and vendorHash but cannot update
-npmDepsHash for the UI build. This script runs nix-update first, then
-uses prefetch-npm-deps to compute the correct npmDepsHash.
+npmDepsHash for the UI build, which lives on a separate `ui` derivation
+that isn't exposed as a flake attribute. Worse, `preBuild` on the main
+derivation references `${ui}`, which (due to a known nixpkgs quirk,
+https://github.com/NixOS/nixpkgs/issues/358844) makes the `goModules`
+fixed-output derivation transitively depend on `ui`. If vendorHash is
+recomputed while npmDepsHash is still stale, the `ui` build fails first
+and nix-update mistakenly writes that failure's hash into vendorHash.
+
+To avoid that, this script updates version/src hash first (--src-only,
+skipping vendorHash), fixes npmDepsHash via prefetch-npm-deps, then makes
+a second nix-update pass (--version=skip) to force vendorHash to be
+recomputed now that npmDepsHash is correct.
 """
 
 import re
@@ -17,11 +27,11 @@ PACKAGE_NIX = SCRIPT_DIR / "package.nix"
 FLAKE_ROOT = SCRIPT_DIR.parent.parent
 
 
-def run_nix_update() -> bool:
-    """Run nix-update to handle version, hash, and vendorHash."""
-    print("Running nix-update...")
+def run_nix_update(*extra_args: str) -> bool:
+    """Run nix-update with the given extra arguments."""
+    print(f"Running nix-update {' '.join(extra_args)}...")
     result = subprocess.run(
-        ["nix-update", "--flake", "dora"],
+        ["nix-update", "--flake", "dora", *extra_args],
         check=False,
         cwd=FLAKE_ROOT,
     )
@@ -71,11 +81,16 @@ def update_npm_deps_hash() -> None:
 
 
 def main() -> None:
-    if not run_nix_update():
+    if not run_nix_update("--src-only"):
         print("nix-update failed")
         sys.exit(1)
 
     update_npm_deps_hash()
+
+    if not run_nix_update("--version=skip"):
+        print("nix-update failed")
+        sys.exit(1)
+
     print("Done")
 
 
