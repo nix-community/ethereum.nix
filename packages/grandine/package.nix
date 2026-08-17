@@ -4,7 +4,6 @@
   gcc-unwrapped,
   lib,
   stdenv,
-  versionCheckHook,
 }:
 let
   hashes = lib.importJSON ./hashes.json;
@@ -31,9 +30,16 @@ stdenv.mkDerivation rec {
     runHook postInstall
   '';
 
+  # versionCheckHook cannot be used: upstream forgot to bump
+  # grandine_version/Cargo.toml for the 2.0.6 release, so the published binaries
+  # report "Grandine 2.0.5". Smoke-test that the binary runs and reports some
+  # version instead. See https://github.com/grandinetech/grandine/issues/838
   doInstallCheck = true;
-  nativeInstallCheckInputs = [ versionCheckHook ];
-  versionCheckProgramArg = "--version";
+  installCheckPhase = ''
+    runHook preInstallCheck
+    $out/bin/grandine --version | grep -E '^Grandine [0-9]+\.[0-9]+\.[0-9]+$'
+    runHook postInstallCheck
+  '';
 
   passthru = {
     category = "Consensus Clients";
