@@ -6,16 +6,16 @@
 }:
 buildGoModule rec {
   pname = "rocketpool";
-  version = "1.20.8";
+  version = "1.21.0";
 
   src = fetchFromGitHub {
     owner = "rocket-pool";
     repo = "smartnode";
     rev = "v${version}";
-    hash = "sha256-0FaL/FOIzLBnSQ26ijl/D20xwLbgOdldjSS+CirZRg8=";
+    hash = "sha256-59BbUwVmVJk+ThlyPoX7OMjaoDUajTL8hrbNJjCJFRQ=";
   };
 
-  vendorHash = "sha256-B1o0XOLYk+z7RtaTasUcvHeSZ36O+ihKNyirzM7/5X0=";
+  vendorHash = "sha256-kLLJvQRweIX0G6JaARAFsqspk+kEe+E7ACSoYZlH0J8=";
 
   subPackages = [ "rocketpool-cli" ];
 
