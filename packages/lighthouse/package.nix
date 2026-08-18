@@ -29,13 +29,13 @@ let
 in
 rustPlatform.buildRustPackage rec {
   pname = "lighthouse";
-  version = "8.2.1";
+  version = "8.2.2";
 
   src = fetchFromGitHub {
     owner = "sigp";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-o32RgiuMN8m/E1J34QCLjhq8ttTKCqqsvAaOQOxHUjg=";
+    hash = "sha256-Eb4C6uBJmrb7NOwSDp+Fxkuw7fGcPrtuU8DLGxd2cCM=";
   };
 
   cargoLock = {
