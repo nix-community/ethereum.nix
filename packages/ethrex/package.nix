@@ -10,7 +10,7 @@
 }:
 let
   pname = "ethrex";
-  version = "24.0.0";
+  version = "25.0.0";
 
   # sp1-prover's build.rs downloads this verification-key map from S3 at build
   # time; the nix sandbox has no network. Fetch it as a fixed-output derivation
@@ -26,7 +26,7 @@ let
     owner = "lambdaclass";
     repo = "ethrex";
     rev = "v${version}";
-    hash = "sha256-ZnQ21dZr8XsVYSjQF77J0oG0Aa1xHgWDFs+wyJih3lE=";
+    hash = "sha256-bl4/5UiPHS8jKY1qC3TtAZeR/revYXXxpJBH+704qTg=";
   };
 
   # Upstream Cargo.lock has crates from both crates.io and git forks with the
@@ -58,16 +58,14 @@ let
       outputHashes = {
         "agg_mode_sdk-0.1.0" = "sha256-19sernICnubqIVIsdt9/oLxq0Ki+BBHA/Hl+yTg6oTw=";
         "bls12_381-0.8.0" = "sha256-tpKF3wxog7eH1oDbpjoFjYibvH6u2kiR/H2Ysazqeok=";
-        "circuit-1.0.0-alpha" = "sha256-yuv2iajDUAYsD7IR+MS4UEfWTiIH68rTThEYvVBPDbk=";
-        "fields-1.0.0-alpha" = "sha256-QHI3AsCZzYrgpt6vUAt8uH/dYRjw+/+H+gOJjmg2E+I=";
         "halo2curves-axiom-0.7.2" = "sha256-tJtt6rAL70TNzVXjnci04X0oUK3duE7SklBIyBftd+I=";
         "lambdaworks-crypto-0.12.0" = "sha256-4vgW/O85zVLhhFrcZUwcPjavy/rRWB8LGTabAkPNrDw=";
         "openvm-1.4.1" = "sha256-alW8dZO7Lw3jQ/4W9DO19+1B/RA2PMc0GSOOnI8T9dY=";
         "openvm-1.5.0" = "sha256-j+xbsipH6fnFbn+cw1yQd5iJpKafTILns/O+ubseGYk=";
         "openvm-cuda-backend-1.3.0" = "sha256-m+HK8varzuDnyc/E3p13I5tS5l6EjXS3Si7q/c0o5cw=";
         "openvm-kzg-0.2.0-alpha" = "sha256-nLk0cqKW1IVdWNKm86ZkdSBEt1+kRYeth3xlfI74x28=";
-        "openvm-stark-backend-1.2.1" = "sha256-l9x7beeeXGvz2i7f6cgxet5OiKzur1X3wdkIShxyQlk=";
-        "p3-air-0.1.0" = "sha256-KYPhsvXaoQxUM6JH9CpDrVGccOEITp05zbCECa+jOQg=";
+        "p3-field-0.1.0" = "sha256-KYPhsvXaoQxUM6JH9CpDrVGccOEITp05zbCECa+jOQg=";
+        "zisk-circuit-1.1.0-alpha" = "sha256-H9hDB7r0SiiNm9NsamUb0bCmAe+XIMinRBZ5PelS/Do=";
         "zkhash-0.2.0" = "sha256-SmfMuw6BKQxzKJyqWt29Gtpu8oHQLRXgf2kR8mZt6X0=";
       };
     }).overrideAttrs
