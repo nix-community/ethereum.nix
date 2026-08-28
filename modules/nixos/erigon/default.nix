@@ -15,6 +15,7 @@ let
     mapAttrs
     mapAttrs'
     mapAttrsToList
+    mkForce
     mkIf
     mkMerge
     nameValuePair
@@ -119,8 +120,12 @@ in
           # create service config by merging with the base config
           serviceConfig = mkMerge [
             baseServiceConfig
+            (mkIf (cfg.user != null) {
+              # A statically-managed user is incompatible with DynamicUser.
+              DynamicUser = mkForce false;
+            })
             {
-              User = serviceName;
+              User = if cfg.user != null then cfg.user else serviceName;
               StateDirectory = serviceName;
               SupplementaryGroups = cfg.service.supplementaryGroups;
               ExecStart = "${cfg.package}/bin/erigon ${scriptArgs}";
