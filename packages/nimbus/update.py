@@ -175,8 +175,8 @@ def main() -> None:
     checksums_hash = prefetch_github("nim-lang", "checksums", nim_commits["checksums"])
     print(f"    hash: {checksums_hash[:20]}...")
 
-    print("  Fetching csources_v2...")
-    csources_hash = prefetch_github("nim-lang", "csources_v2", csources_commit)
+    print("  Fetching csources_v3...")
+    csources_hash = prefetch_github("nim-lang", "csources_v3", csources_commit)
     print(f"    hash: {csources_hash[:20]}...")
 
     # Step 5: Update all .nix files
