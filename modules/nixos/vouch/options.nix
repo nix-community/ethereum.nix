@@ -51,6 +51,9 @@ let
           as majordomo references (e.g. `"file:///run/credentials/..."`) rather
           than inline values, since the generated file is world-readable in the
           Nix store.
+
+          See https://github.com/wealdtech/go-majordomo#usage for details about
+          the majordomo URL scheme.
         '';
         example = literalExpression ''
           {
