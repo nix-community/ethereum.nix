@@ -10,7 +10,7 @@
 }:
 let
   pname = "ethrex";
-  version = "25.0.0";
+  version = "26.0.0";
 
   # sp1-prover's build.rs downloads this verification-key map from S3 at build
   # time; the nix sandbox has no network. Fetch it as a fixed-output derivation
@@ -26,7 +26,7 @@ let
     owner = "lambdaclass";
     repo = "ethrex";
     rev = "v${version}";
-    hash = "sha256-bl4/5UiPHS8jKY1qC3TtAZeR/revYXXxpJBH+704qTg=";
+    hash = "sha256-GTI56XpqYb1N/2S+d0V+C+4xzi1b/vrchEX6KvEBnPs=";
   };
 
   # Upstream Cargo.lock has crates from both crates.io and git forks with the
