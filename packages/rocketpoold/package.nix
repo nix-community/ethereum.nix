@@ -1,23 +1,23 @@
 {
   bls_1_86,
   blst,
-  buildGoModule,
+  buildGo127Module,
   fetchFromGitHub,
   lib,
   nix-update-script,
 }:
-buildGoModule rec {
+buildGo127Module rec {
   pname = "rocketpool";
-  version = "1.21.0";
+  version = "1.22.1";
 
   src = fetchFromGitHub {
     owner = "rocket-pool";
     repo = "smartnode";
     rev = "v${version}";
-    hash = "sha256-59BbUwVmVJk+ThlyPoX7OMjaoDUajTL8hrbNJjCJFRQ=";
+    hash = "sha256-hVca3FeuMdyz1V+2zLIfRB/aPsdaGPJ9RyO+1HbBTPU=";
   };
 
-  vendorHash = "sha256-iRHTUelYeIGE4ZgSEOb+h1emEmh6e9KNfl9nAuCPCSU=";
+  vendorHash = "sha256-Iilyztrl747zuG69LHXO5YLvrrl46WMOWxqOxIlpBtk=";
 
   proxyVendor = true;
 
