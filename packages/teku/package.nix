@@ -12,11 +12,11 @@
 }:
 stdenv.mkDerivation rec {
   pname = "teku";
-  version = "26.8.0";
+  version = "26.9.0";
 
   src = fetchurl {
     url = "https://artifacts.consensys.net/public/${pname}/raw/names/${pname}.tar.gz/versions/${version}/${pname}-${version}.tar.gz";
-    hash = "sha256-GdazpeZehgjQgJh3lz6M4rzcqRLBPUPi1BpHLXDZjqQ=";
+    hash = "sha256-XsjQe6of2HDc9rbuVAHC5AQB740sc0bRYsXMa7m0zJY=";
   };
 
   nativeBuildInputs = [ makeWrapper ];
