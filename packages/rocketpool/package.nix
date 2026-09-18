@@ -1,21 +1,21 @@
 {
-  buildGoModule,
+  buildGo127Module,
   fetchFromGitHub,
   lib,
   nix-update-script,
 }:
-buildGoModule rec {
+buildGo127Module rec {
   pname = "rocketpool";
-  version = "1.21.0";
+  version = "1.22.1";
 
   src = fetchFromGitHub {
     owner = "rocket-pool";
     repo = "smartnode";
     rev = "v${version}";
-    hash = "sha256-59BbUwVmVJk+ThlyPoX7OMjaoDUajTL8hrbNJjCJFRQ=";
+    hash = "sha256-hVca3FeuMdyz1V+2zLIfRB/aPsdaGPJ9RyO+1HbBTPU=";
   };
 
-  vendorHash = "sha256-kLLJvQRweIX0G6JaARAFsqspk+kEe+E7ACSoYZlH0J8=";
+  vendorHash = "sha256-PttgYSSuNneT8kgQT84BUagJ1x39wbA7zhYDrH6o3BI=";
 
   subPackages = [ "rocketpool-cli" ];
 
