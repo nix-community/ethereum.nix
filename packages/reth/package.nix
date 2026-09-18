@@ -1,12 +1,14 @@
 {
   fetchFromGitHub,
   lib,
+  stdenv,
   libffi,
   libxml2,
   llvmPackages_22,
   m4,
   ncurses,
   nix-update-script,
+  openssl,
   perl,
   rustPlatform,
   versionCheckHook,
@@ -34,6 +36,16 @@ rustPlatform.buildRustPackage rec {
     # build script reads all three).
     export VERGEN_GIT_DIRTY=false
     export VERGEN_GIT_DESCRIBE=v${version}
+  '';
+
+  preCheck = ''
+    # add a dummy certificate so reqwest::Client can init
+    # taken from nixpkgs/pkgs/development/tools/build-managers/gradle/update-deps.nix
+    pushd "$(mktemp -d)" >/dev/null
+    ${openssl}/bin/openssl genrsa -out ca.key 2048
+    ${openssl}/bin/openssl req -x509 -new -nodes -key ca.key -sha256 -days 1 -out ca.cer -subj "/C=AL/ST=a/L=a/O=a/OU=a/CN=example.org"
+    export SSL_CERT_FILE=$(pwd)/ca.cer
+    popd >/dev/null
   '';
 
   # reth's default features enable "jit" (the revmc EVM compiler), which builds
@@ -76,6 +88,10 @@ rustPlatform.buildRustPackage rec {
     "--skip=dev_node_send_tx_and_mine"
     "--skip=dump_genesis_mainnet_valid_json"
     "--skip=dump_genesis_sepolia_valid_json"
+  ]
+  ++ lib.optionals stdenv.hostPlatform.isDarwin [
+    # Tests added in 2.6.0 that fail on Darwin with PermissionDenied
+    "--skip=download::*"
   ];
 
   doInstallCheck = true;
