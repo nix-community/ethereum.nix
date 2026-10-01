@@ -6,16 +6,16 @@
 }:
 buildGoModule rec {
   pname = "heimdall-v2";
-  version = "0.11.0";
+  version = "0.12.1";
 
   src = fetchFromGitHub {
     owner = "0xPolygon";
     repo = "heimdall-v2";
     rev = "v${version}";
-    hash = "sha256-Z1mHFPAaaojykxRx+CLi3rfTARzpvr4LNDyZf3I7nRI=";
+    hash = "sha256-UEi6ZCRIWjgiCFsAXEgjRZMJ05SPZMbPDeTXgmQ74X0=";
   };
 
-  vendorHash = "sha256-s2r09HXA8IUDr1B6bRBIDHxTuUh6AQmwr5u6Pg4K40k=";
+  vendorHash = "sha256-ISgtFwLaXYE2fGjcbVo3BJcf4fZXqHZjav8a2EbBSz8=";
 
   # Relax Go version requirement (nixpkgs has 1.26.3, project needs 1.26.5)
   postPatch = ''
