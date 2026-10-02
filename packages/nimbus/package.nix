@@ -10,12 +10,12 @@
   versionCheckHook,
 }:
 let
-  version = "26.7.0";
+  version = "26.9.1";
   src = fetchFromGitHub {
     owner = "status-im";
     repo = "nimbus-eth2";
     rev = "v${version}";
-    hash = "sha256-ool5CLDQMJphiQMD830EaHtoi1tgmhD6JQIz3d6KUrQ=";
+    hash = "sha256-UsUcV72Is151zHOUEZEc6AGfgIooAKuid47Uq6YA5n8=";
     fetchSubmodules = true;
   };
   targets = [
