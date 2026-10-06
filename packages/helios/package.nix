@@ -10,13 +10,13 @@
 }:
 rustPlatform.buildRustPackage rec {
   pname = "helios";
-  version = "0.11.1";
+  version = "0.12.0";
 
   src = fetchFromGitHub {
     owner = "a16z";
     repo = "helios";
     rev = version;
-    hash = "sha256-PCDQKoF9EbhPdW0/br725RJgcdkPzt9dGXZIYpFSH7g=";
+    hash = "sha256-H1TUX289e2aAQF+bCNUoMXWH10PPd347qrfMqDtWsfg=";
   };
 
   cargoLock = {
