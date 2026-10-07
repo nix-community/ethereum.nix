@@ -9,7 +9,7 @@ CONFIG = Path(".github/config/update-policy.json")
 NAME = re.compile(r"[a-zA-Z0-9][a-zA-Z0-9._-]*")
 VERSION = re.compile(r"[0-9][a-zA-Z0-9.+_-]*")
 PRERELEASE = re.compile(
-    r"(?:^|[._-])(?:alpha|beta|rc|pre|preview|dev|nightly)(?:[._-]|[0-9]|$)",
+    r"alpha|beta|rc|pre|preview|dev|nightly|unstable|(?<=[0-9])[ab](?=[0-9])",
     re.IGNORECASE,
 )
 
@@ -60,7 +60,7 @@ def validate_version(name, old, new, policy, compare, today=None):
         return
     if not VERSION.fullmatch(old) or not VERSION.fullmatch(new):
         raise ValueError(f"Unrecognised version for {name}: {old!r} -> {new!r}")
-    if channel == "stable" and PRERELEASE.search(new):
+    if channel == "stable" and PRERELEASE.search(new.split("+", 1)[0]):
         raise ValueError(
             f"Prerelease {new} is not allowed on the stable channel for {name}"
         )

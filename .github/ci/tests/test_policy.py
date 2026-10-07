@@ -66,6 +66,9 @@ class PolicyTests(unittest.TestCase):
             "1.0.0-beta.1",
             "1.0.0-dev",
             "1.0.0-nightly",
+            "1.0.0-unstable",
+            "1.0.0rc1",
+            "1.0.0a1",
         ]:
             with (
                 self.subTest(version=version),
