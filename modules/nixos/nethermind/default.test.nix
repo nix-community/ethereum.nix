@@ -1,46 +1,37 @@
 {
   systems = [ "x86_64-linux" ];
-
   module =
     { pkgs, ... }:
     let
-      jwtSecret = pkgs.writeText "jwt-secret" "315228a30b238d15df0bedd570a3e1d21bb3f92588168a26127c2090497cf4b6";
+      jwtSecret = pkgs.writeText "test-jwt-secret" "315228a30b238d15df0bedd570a3e1d21bb3f92588168a26127c2090497cf4b6";
     in
     {
-      name = "basic";
-
-      nodes = {
-        basicConf = {
-          # see: https://docs.nethermind.io/nethermind/first-steps-with-nethermind/system-requirements
-          virtualisation.cores = 2;
-          virtualisation.memorySize = 8192;
-
-          services.ethereum.nethermind.sepolia = {
-            enable = true;
-            args = {
-              config = "sepolia";
-              modules = {
-                JsonRpc.JwtSecretFile = "${jwtSecret}";
-                Metrics.Enabled = true;
-                Metrics.ExposePort = 1313;
-              };
-            };
+      name = "nethermind";
+      nodes.machine = {
+        virtualisation.cores = 2;
+        virtualisation.memorySize = 8192;
+        environment.systemPackages = [ pkgs.curl ];
+        services.ethereum.nethermind.test = {
+          enable = true;
+          settings = {
+            config = "sepolia";
+            "Init.DiscoveryEnabled" = false;
+            "JsonRpc.Enabled" = true;
+            "JsonRpc.JwtSecretFile" = "${jwtSecret}";
+            "Metrics.Enabled" = true;
+            "Metrics.ExposePort" = 1313;
           };
         };
       };
-
       testScript = ''
         start_all()
-
-        with subtest("Minimal (settings = null) config test"):
-            basicConf.wait_for_unit("nethermind-sepolia.service")
-
-            # TODO: Finish properly these tests once PR is merged in upstream https://github.com/NethermindEth/nethermind/pull/4320
-            basicConf.wait_for_open_port(30303)
-            basicConf.wait_for_open_port(8545)
-
-            out = basicConf.succeed("systemctl status nethermind-sepolia.service")
-            print(out)
+        machine.wait_for_unit("nethermind-test.service")
+        machine.wait_for_open_port(30303)
+        machine.wait_for_open_port(8545)
+        machine.wait_for_open_port(1313)
+        machine.wait_until_succeeds("curl -fsS -H 'Content-Type: application/json' --data '{\"jsonrpc\":\"2.0\",\"method\":\"eth_chainId\",\"params\":[],\"id\":1}' http://localhost:8545 | grep -q 0xaa36a7")
+        machine.succeed("test $(systemctl show nethermind-test.service -p NRestarts --value) = 0")
+        machine.succeed("systemctl show nethermind-test.service -p DynamicUser --value | grep -x yes")
       '';
     };
 }

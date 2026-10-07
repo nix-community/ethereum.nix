@@ -87,6 +87,14 @@ def file_changes(state, cwd=None):
         "diff", "--cached", "--name-only", "--no-renames", "-z", state["head"], cwd=cwd
     ).stdout.split("\0")
     allowed = (f"packages/{state['name']}/",)
+    policy_path = Path(__file__).with_name("update-policy.json")
+    if state["kind"] == "package" and policy_path.exists():
+        from policy import group_for, load_policy
+
+        allowed = tuple(
+            f"packages/{name}/"
+            for name in group_for(state["name"], load_policy(policy_path))
+        )
     if state["kind"] == "flake-input":
         allowed = ("flake.lock",)
     elif state["kind"] == "readme":

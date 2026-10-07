@@ -9,8 +9,12 @@ outputting a matrix JSON suitable for GitHub Actions.
 import json
 import os
 import subprocess
+import sys
 from dataclasses import dataclass
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "ci"))
+from policy import group_for, load_policy, primary_for
 
 try:
     import yaml
@@ -74,7 +78,7 @@ def discover_packages(packages_filter: str | None, system: str) -> list[MatrixIt
     config = json.dumps(
         {
             "system": system,
-            "filter": packages_filter.split() if packages_filter else None,
+            "filter": None,
         }
     )
     expr = """
@@ -109,11 +113,23 @@ def discover_packages(packages_filter: str | None, system: str) -> list[MatrixIt
 
     if result.returncode != 0:
         print(f"Failed to evaluate packages: {result.stderr}")
-        return items
+        raise RuntimeError("Package discovery failed")
 
     packages_info = json.loads(result.stdout)
 
-    for name in sorted(packages_info.keys()):
+    policy = load_policy()
+    requested = packages_filter.split() if packages_filter else packages_info
+    selected = {primary_for(name, policy) for name in requested}
+    for name in sorted(selected):
+        members = group_for(name, policy)
+        if any(
+            not packages_info.get(member) or packages_info[member].get("skipAutoUpdate")
+            for member in members
+        ):
+            print(
+                f"Skipping {name}: a group member is missing, unversioned, or opts out"
+            )
+            continue
         info = packages_info[name]
         if info is None:
             if not packages_filter:

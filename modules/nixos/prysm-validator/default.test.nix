@@ -1,74 +1,46 @@
 {
   systems = [ "x86_64-linux" ];
-
   module =
-    {
-      pkgs,
-      lib,
-      ...
-    }:
-    with lib;
+    { pkgs, ethereumPackages, ... }:
     let
-      wallet-generator = pkgs.writers.writeBashBin "wallet-generator" ''
-        set -eu -o errtrace -o pipefail
-
-        mkdir -p /tmp/wallet
-
-        password=12345678
-        echo $password > /tmp/wallet/password.txt
-
-        mnemonic="tooth moon mad fun romance athlete envelope next mix divert tip top symbol resemble stock family melody desk sheriff drift bargain need jaguar method"
-        echo $mnemonic > /tmp/wallet/mnemonic.txt
-
-        ${pkgs.prysm}/bin/validator wallet create \
-          --accept-terms-of-use \
-          --sepolia \
-          --keymanager-kind="direct" \
-          --mnemonic-25th-word-file /tmp/wallet/mnemonic.txt \
-          --skip-mnemonic-25th-word-check true \
-          --wallet-dir /tmp/wallet \
-          --wallet-password-file /tmp/wallet/password.txt
+      password = pkgs.writeText "test-wallet-password" "test-wallet-password-12345678";
+      createWallet = pkgs.writeShellScript "create-test-wallet" ''
+        set -eu
+        export HOME="$STATE_DIRECTORY"
+        if [ ! -d "$STATE_DIRECTORY/wallet" ]; then
+          ${ethereumPackages.prysm}/bin/validator wallet create \
+            --accept-terms-of-use --sepolia --keymanager-kind=imported \
+            --wallet-dir "$STATE_DIRECTORY/wallet" \
+            --wallet-password-file ${password}
+        fi
       '';
     in
     {
       name = "prysm-validator";
-
-      nodes = {
-        machine = {
-          virtualisation = {
-            cores = 2;
-            memorySize = 4096;
-            writableStore = true;
+      nodes.machine = {
+        virtualisation.cores = 2;
+        virtualisation.memorySize = 4096;
+        services.ethereum.prysm-validator.test = {
+          enable = true;
+          settings = {
+            datadir = "%S/prysm-validator-test";
+            sepolia = true;
+            wallet-dir = "%S/prysm-validator-test/wallet";
+            wallet-password-file = "${password}";
+            beacon-rpc-provider = "127.0.0.1:4000";
+            monitoring-host = "127.0.0.1";
+            monitoring-port = 8081;
           };
-
-          environment.systemPackages = [
-            wallet-generator
-            pkgs.ethdo
-            pkgs.prysm
-          ];
-
-          services.ethereum.prysm-validator.test = {
-            enable = true;
-            args = {
-              datadir = "/tmp/prysm-validator";
-              network = "sepolia";
-              rpc = {
-                enable = true;
-                host = "127.0.0.1";
-                port = 7000;
-              };
-              wallet-dir = "/tmp/wallet/";
-              wallet-password-file = "/tmp/wallet/password.txt";
-            };
-          };
-
-          systemd.services.prysm-validator-test.serviceConfig.ExecStartPre =
-            "${wallet-generator}/bin/wallet-generator";
         };
+        systemd.services.prysm-validator-test.serviceConfig.ExecStartPre = createWallet;
       };
-
       testScript = ''
+        start_all()
         machine.wait_for_unit("prysm-validator-test.service")
+        machine.wait_for_open_port(8081)
+        machine.wait_until_succeeds("journalctl -u prysm-validator-test.service | grep -i 'wallet'")
+        machine.succeed("test $(systemctl show prysm-validator-test.service -p NRestarts --value) = 0")
+        machine.succeed("systemctl show prysm-validator-test.service -p DynamicUser --value | grep -x yes")
       '';
     };
 }
