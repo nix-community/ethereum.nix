@@ -67,7 +67,7 @@ if [ "$type" = "package" ]; then
   fi
 
   # Check if there were actual changes
-  if git diff --quiet; then
+  if [[ -z $(git status --porcelain) ]]; then
     echo "No changes detected"
     echo "updated=false" >>"$output_var"
     exit 0
@@ -89,7 +89,7 @@ elif [ "$type" = "flake-input" ]; then
 
   if nix flake update "$name"; then
     # Check if there were actual changes
-    if git diff --quiet; then
+    if [[ -z $(git status --porcelain) ]]; then
       echo "No changes detected"
       echo "updated=false" >>"$output_var"
       exit 0

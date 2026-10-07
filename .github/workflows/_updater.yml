@@ -36,6 +36,9 @@ on:
         description: "GitHub App private key"
         required: true
 
+permissions:
+  contents: read
+
 jobs:
   discover:
     runs-on: ubuntu-slim
@@ -43,176 +46,124 @@ jobs:
       matrix: ${{ steps.build-matrix.outputs.matrix }}
       has-updates: ${{ steps.build-matrix.outputs.has-updates }}
     steps:
-      - name: Generate GitHub App Token
-        id: app-token
-        uses: actions/create-github-app-token@v3
+      - uses: actions/checkout@v7
         with:
-          app-id: ${{ secrets.APP_ID }}
-          private-key: ${{ secrets.APP_PRIVATE_KEY }}
-      - name: Checkout repository
-        uses: actions/checkout@v7
-      - name: Setup Nix
-        uses: cachix/install-nix-action@v31
+          persist-credentials: false
+      - uses: cachix/install-nix-action@v31
         with:
-          github_access_token: ${{ steps.app-token.outputs.token }}
-          extra_nix_config: |
-            extra-substituters = https://nix-community.cachix.org
-            extra-trusted-public-keys = nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=
-      - name: Install Python dependencies
-        run: pip install pyyaml
+          github_access_token: ${{ github.token }}
+      - run: pip install pyyaml
       - name: Build update matrix
         id: build-matrix
         env:
-          UPDATE_TYPE: "${{ inputs.update-type }}"
-          PACKAGES: "${{ inputs.packages }}"
-          INPUTS: "${{ inputs.inputs }}"
+          UPDATE_TYPE: ${{ inputs.update-type }}
+          PACKAGES: ${{ inputs.packages }}
+          INPUTS: ${{ inputs.inputs }}
         run: python3 .github/actions/discovery.py
 
   update:
     needs: discover
     if: needs.discover.outputs.has-updates == 'true'
     runs-on: ubuntu-slim
+    concurrency:
+      group: updater-${{ github.repository }}-${{ matrix.type }}-${{ matrix.name }}
+      cancel-in-progress: false
     strategy:
       fail-fast: false
       matrix: ${{ fromJson(needs.discover.outputs.matrix) }}
-    permissions:
-      contents: write
-      pull-requests: write
     steps:
-      - name: Generate GitHub App Token
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: cachix/install-nix-action@v31
+        with:
+          github_access_token: ${{ github.token }}
+      - name: Keep orchestration from the workflow revision
+        run: |
+          cp -r .github/ci "$RUNNER_TEMP/ci"
+          cp .github/actions/update.sh "$RUNNER_TEMP/update.sh"
+      - name: Preserve update branch
+        env:
+          TYPE: ${{ matrix.type }}
+          NAME: ${{ matrix.name }}
+        run: python3 "$RUNNER_TEMP/ci/branches.py" prepare "$TYPE" "$NAME" "$RUNNER_TEMP/update-state.json"
+      - name: Perform update
+        id: update
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          TYPE: ${{ matrix.type }}
+          NAME: ${{ matrix.name }}
+        run: |
+          if [[ "$TYPE" = package ]]; then
+            nix develop .#ci -c bash "$RUNNER_TEMP/update.sh" "$TYPE" "$NAME"
+          else
+            bash "$RUNNER_TEMP/update.sh" "$TYPE" "$NAME"
+          fi
+      - name: Generate publication token
         id: app-token
         uses: actions/create-github-app-token@v3
         with:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
-      - name: Checkout repository
-        uses: actions/checkout@v7
-        with:
-          token: ${{ steps.app-token.outputs.token }}
-      - name: Setup Nix
-        uses: cachix/install-nix-action@v31
-        with:
-          github_access_token: ${{ steps.app-token.outputs.token }}
-          extra_nix_config: |
-            extra-substituters = https://nix-community.cachix.org
-            extra-trusted-public-keys = nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=
-      - name: Perform update
-        id: update
-        env:
-          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
-        run: |
-          # Use the update script
-          if [[ "${{ matrix.type }}" = package ]]; then
-            # Only load the devshell to update packages
-            nix develop .#ci -c .github/actions/update.sh "${{ matrix.type }}" "${{ matrix.name }}"
-          else
-            .github/actions/update.sh "${{ matrix.type }}" "${{ matrix.name }}"
-          fi
-      - name: Set PR details
-        id: pr-details
-        run: |
-          if [[ "${{ matrix.type }}" == "package" ]]; then
-            echo "branch=update/${{ matrix.name }}" >> $GITHUB_OUTPUT
-            echo "title=${{ matrix.name }}: ${{ matrix.current_version }} -> ${{ steps.update.outputs.new_version }}" >> $GITHUB_OUTPUT
-            echo "body=Automated update of \`${{ matrix.name }}\` from \`${{ matrix.current_version }}\` to \`${{ steps.update.outputs.new_version }}\`." >> $GITHUB_OUTPUT
-          else
-            echo "branch=update-${{ matrix.name }}" >> $GITHUB_OUTPUT
-            echo "title=flake.lock: Update ${{ matrix.name }}" >> $GITHUB_OUTPUT
-            {
-              echo 'body<<EOF'
-              echo "This PR updates the flake input \`${{ matrix.name }}\` to the latest version."
-              echo ""
-              echo "## Changes"
-              echo "- ${{ matrix.name }}: \`${{ matrix.current_version }}\` → \`${{ steps.update.outputs.new_version }}\`"
-              echo 'EOF'
-            } >> $GITHUB_OUTPUT
-          fi
-      - name: Create pull request
-        if: steps.update.outputs.updated == 'true'
-        uses: peter-evans/create-pull-request@v8
-        id: cpr
-        with:
-          token: ${{ steps.app-token.outputs.token }}
-          branch: ${{ steps.pr-details.outputs.branch }}
-          delete-branch: true
-          title: ${{ steps.pr-details.outputs.title }}
-          body: ${{ steps.pr-details.outputs.body }}
-          labels: ${{ inputs.pr-labels }}
-          sign-commits: true
-          commit-message: ${{ steps.pr-details.outputs.title }}
-          committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
-          author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
-      - name: Enable auto-merge
-        if: steps.update.outputs.updated == 'true' && inputs.auto-merge && steps.cpr.outputs.pull-request-number
+      - name: Publish signed update
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
-        run: gh pr merge ${{ steps.cpr.outputs.pull-request-number }} --auto --squash
+          TYPE: ${{ matrix.type }}
+          NAME: ${{ matrix.name }}
+          CURRENT_VERSION: ${{ matrix.current_version }}
+          NEW_VERSION: ${{ steps.update.outputs.new_version }}
+          PR_LABELS: ${{ inputs.pr-labels }}
+          AUTO_MERGE: ${{ inputs.auto-merge }}
+        run: python3 "$RUNNER_TEMP/ci/branches.py" publish "$TYPE" "$NAME" "$RUNNER_TEMP/update-state.json"
 
   update-readme:
     needs: [discover, update]
     runs-on: ubuntu-slim
     if: always() && needs.discover.outputs.has-updates == 'true'
-    permissions:
-      contents: write
-      pull-requests: write
+    concurrency:
+      group: updater-${{ github.repository }}-readme
+      cancel-in-progress: false
     steps:
-      - name: Generate GitHub App Token
+      - uses: actions/checkout@v7
+        with:
+          ref: main
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: cachix/install-nix-action@v31
+      - name: Preserve README branch
+        run: |
+          cp -r .github/ci "$RUNNER_TEMP/ci"
+          python3 "$RUNNER_TEMP/ci/branches.py" prepare readme readme "$RUNNER_TEMP/update-state.json"
+      - name: Regenerate README
+        run: ./scripts/generate-package-docs.py
+      - name: Generate publication token
         id: app-token
         uses: actions/create-github-app-token@v3
         with:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
-      - name: Checkout repository
-        uses: actions/checkout@v7
-        with:
-          token: ${{ steps.app-token.outputs.token }}
-          ref: main
-      - name: Setup Nix
-        uses: cachix/install-nix-action@v31
-        with:
-          extra_nix_config: |
-            extra-substituters = https://nix-community.cachix.org
-            extra-trusted-public-keys = nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=
-      - name: Regenerate README
-        run: ./scripts/generate-package-docs.py
-      - name: Create pull request
-        uses: peter-evans/create-pull-request@v8
-        id: cpr
-        with:
-          token: ${{ steps.app-token.outputs.token }}
-          branch: update/readme
-          delete-branch: true
-          title: "README: regenerate package documentation"
-          body: "Automated README regeneration after package updates."
-          labels: documentation,automated
-          sign-commits: true
-          commit-message: "README: regenerate package documentation"
-          committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
-          author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
-          add-paths: README.md
-      - name: Enable auto-merge
-        if: inputs.auto-merge && steps.cpr.outputs.pull-request-number
+      - name: Publish signed README update
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
-        run: gh pr merge ${{ steps.cpr.outputs.pull-request-number }} --auto --squash
+          PR_LABELS: documentation,automated
+          AUTO_MERGE: ${{ inputs.auto-merge }}
+        run: python3 "$RUNNER_TEMP/ci/branches.py" publish readme readme "$RUNNER_TEMP/update-state.json"
 
   summary:
     needs: [discover, update, update-readme]
     runs-on: ubuntu-slim
-    if: always() && needs.discover.outputs.has-updates == 'true'
+    if: always()
     steps:
-      - name: Generate summary
-        run: |-
-          echo "## Update Summary" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-
-          # Check overall status
-          if [ "${{ contains(needs.update.result, 'failure') }}" = "true" ]; then
-            echo "⚠️ Some updates failed. Check individual job logs for details." >> $GITHUB_STEP_SUMMARY
-          else
-            echo "✅ All update jobs completed." >> $GITHUB_STEP_SUMMARY
-          fi
-
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "Configuration:" >> $GITHUB_STEP_SUMMARY
-          echo "- Auto-merge: ${{ inputs.auto-merge }}" >> $GITHUB_STEP_SUMMARY
+      - name: Summarize job results
+        env:
+          DISCOVERY: ${{ needs.discover.result }}
+          UPDATES: ${{ needs.update.result }}
+          README: ${{ needs.update-readme.result }}
+        run: |
+          {
+            echo "## Update results"
+            echo "Discovery: $DISCOVERY"
+            echo "Packages and inputs: $UPDATES"
+            echo "README: $README"
+          } >> "$GITHUB_STEP_SUMMARY"

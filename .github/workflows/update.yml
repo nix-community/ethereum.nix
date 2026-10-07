@@ -8,10 +8,10 @@ on:
       update-type:
         description: "What to update"
         required: false
-        default: ""
+        default: all
         type: choice
         options:
-          - ""
+          - all
           - packages
           - inputs
       packages:
@@ -35,5 +35,4 @@ jobs:
       APP_ID: ${{ secrets.APP_ID }}
       APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
     permissions:
-      contents: write
-      pull-requests: write
+      contents: read
