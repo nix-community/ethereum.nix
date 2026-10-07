@@ -82,6 +82,7 @@ jobs:
       - name: Keep orchestration from the workflow revision
         run: |
           cp -r .github/ci "$RUNNER_TEMP/ci"
+          cp .github/config/update-policy.json "$RUNNER_TEMP/ci/update-policy.json"
           cp .github/actions/update.sh "$RUNNER_TEMP/update.sh"
       - name: Preserve update branch
         env:
@@ -96,7 +97,7 @@ jobs:
           NAME: ${{ matrix.name }}
         run: |
           if [[ "$TYPE" = package ]]; then
-            nix develop .#ci -c bash "$RUNNER_TEMP/update.sh" "$TYPE" "$NAME"
+            nix develop .#ci -c python3 "$RUNNER_TEMP/ci/update.py" "$NAME"
           else
             bash "$RUNNER_TEMP/update.sh" "$TYPE" "$NAME"
           fi
@@ -134,6 +135,7 @@ jobs:
       - name: Preserve README branch
         run: |
           cp -r .github/ci "$RUNNER_TEMP/ci"
+          cp .github/config/update-policy.json "$RUNNER_TEMP/ci/update-policy.json"
           python3 "$RUNNER_TEMP/ci/branches.py" prepare readme readme "$RUNNER_TEMP/update-state.json"
       - name: Regenerate README
         run: ./scripts/generate-package-docs.py
