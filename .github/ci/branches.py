@@ -207,19 +207,6 @@ def ensure_pr(state, title, repo, sha):
             if s.strip()
         ]
         api(f"repos/{repo}/issues/{number}/labels", {"labels": labels})
-    if os.environ.get("AUTO_MERGE") == "true":
-        run(
-            "gh",
-            "pr",
-            "merge",
-            number,
-            "--repo",
-            repo,
-            "--auto",
-            "--squash",
-            "--match-head-commit",
-            sha,
-        )
     return number
 
 

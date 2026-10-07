@@ -1,0 +1,37 @@
+name: Diagnose and reconcile PRs
+on:
+  pull_request_target:
+    types: [opened, reopened, synchronize, ready_for_review, labeled, unlabeled]
+  check_run:
+    types: [completed]
+  merge_group:
+    types: [checks_requested]
+  schedule:
+    - cron: "17,47 * * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+  pull-requests: write
+  checks: write
+jobs:
+  reconcile:
+    if: >-
+      github.event_name != 'check_run' ||
+      (github.event.check_run.app.id == 4016365 &&
+      contains(fromJSON('["nixbot/nix-build", "nixbot/nix-eval"]'), github.event.check_run.name))
+    runs-on: ubuntu-latest
+    concurrency:
+      group: policy-${{ github.repository }}-${{ github.event.merge_group.head_sha || 'pull-requests' }}
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          # Never execute scripts from the PR or synthetic merge commit.
+          ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: false
+      - uses: cachix/install-nix-action@v31
+      - name: Diagnose, report policy and reconcile eligible PRs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          AUTOMATION_MERGE_ENABLED: ${{ vars.AUTOMATION_MERGE_ENABLED }}
+        run: python3 .github/ci/reconcile.py --apply

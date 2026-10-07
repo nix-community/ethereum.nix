@@ -2,10 +2,13 @@
 
 import json
 import os
+import shutil
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
+from diagnostics import execute as retry_command
 from policy import group_for, load_policy, nix_update_args, validate_version
 
 
@@ -42,7 +45,6 @@ def update_group(
     compare_versions=compare,
     root=Path("."),
 ):
-    execute = execute or (lambda cmd: subprocess.run(cmd, check=True))
     members = group_for(name, policy)
     before = {member: get_version(member) for member in members}
     for member in members:
@@ -60,7 +62,19 @@ def update_group(
             if custom
             else ["nix-update", *nix_update_args(member, policy, root)]
         )
-        execute(command)
+        if execute:
+            execute(command)
+        else:
+            # Retry from the exact package snapshot, not a half-updated hash set.
+            with tempfile.TemporaryDirectory() as temporary:
+                backup = Path(temporary) / "package"
+                shutil.copytree(directory, backup, symlinks=True)
+
+                def restore(directory=directory, backup=backup):
+                    shutil.rmtree(directory)
+                    shutil.copytree(backup, directory, symlinks=True)
+
+                retry_command(command, restore)
     after = {member: get_version(member) for member in members}
     for member in members:
         validate_version(
