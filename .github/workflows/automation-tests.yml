@@ -14,9 +14,9 @@ jobs:
         with:
           persist-credentials: false
       - name: Install updater sandbox
-        run: sudo apt-get update && sudo apt-get install -y bubblewrap
+        run: bash .github/ci/setup-sandbox.sh
       - run: python3 -m unittest discover -s .github/ci/tests -v
         env:
           PYTHONDONTWRITEBYTECODE: "1"
           REQUIRE_UPDATER_SANDBOX: "1"
-          BWRAP: /usr/bin/bwrap
+          BWRAP: /usr/local/bin/ethereum-updater-bwrap

@@ -26,6 +26,7 @@ class SandboxIntegrationTests(unittest.TestCase):
         required = os.environ.get("REQUIRE_UPDATER_SANDBOX") == "1"
         bwrap = shutil.which(os.environ.get("BWRAP", "bwrap"))
         available = sys.platform == "linux" and bwrap
+        detail = "Linux and bubblewrap are required"
         if available:
             result = subprocess.run(
                 [
@@ -42,9 +43,12 @@ class SandboxIntegrationTests(unittest.TestCase):
                 check=False,
             )
             available = result.returncode == 0
+            detail = result.stderr.decode()
         if not available:
             if required:
-                raise RuntimeError("Required bubblewrap namespaces are unavailable")
+                raise RuntimeError(
+                    f"Required bubblewrap namespaces are unavailable: {detail}"
+                )
             raise unittest.SkipTest("Namespace integration runs on the Linux CI host")
 
     def setUp(self):

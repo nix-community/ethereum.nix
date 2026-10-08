@@ -88,8 +88,7 @@ jobs:
         run: python3 "$RUNNER_TEMP/ci/branches.py" prepare "$TYPE" "$NAME" "$RUNNER_TEMP/update-state.json"
       - name: Install updater sandbox
         if: matrix.type == 'package'
-        # Use Ubuntu's binary and associated AppArmor policy, also used in tests.
-        run: sudo apt-get update && sudo apt-get install -y bubblewrap
+        run: bash "$RUNNER_TEMP/ci/setup-sandbox.sh"
       - name: Perform update
         id: update
         env:
@@ -97,7 +96,7 @@ jobs:
           TYPE: ${{ matrix.type }}
           NAME: ${{ matrix.name }}
           TOOLS: ${{ steps.tools.outputs.source }}
-          BWRAP: /usr/bin/bwrap
+          BWRAP: /usr/local/bin/ethereum-updater-bwrap
         run: |
           if [[ "$TYPE" = package ]]; then
             nix develop "$TOOLS#ci" -c python3 "$RUNNER_TEMP/ci/sandbox.py" "$NAME" \
