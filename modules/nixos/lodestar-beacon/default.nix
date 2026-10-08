@@ -37,16 +37,21 @@ let
   #   { metrics = { enable = true; port = 8008; }; }
   #   -> { "metrics" = true; "metrics.port" = 8008; }
   # This matches Lodestar's convention of "metrics: true" (not "metrics.enable: true").
+  #
+  # Null values are dropped so optional options don't appear in the output.
   flattenDotAttrs =
     prefix: attrs:
     lib.foldlAttrs (
       acc: k: v:
-      let
-        key = if prefix == "" then k else "${prefix}.${k}";
-        outputKey = if k == "enable" && prefix != "" then prefix else key;
-      in
-      acc
-      // (if lib.isAttrs v && !lib.isDerivation v then flattenDotAttrs key v else { ${outputKey} = v; })
+      if v == null then
+        acc
+      else
+        let
+          key = if prefix == "" then k else "${prefix}.${k}";
+          outputKey = if k == "enable" && prefix != "" then prefix else key;
+        in
+        acc
+        // (if lib.isAttrs v && !lib.isDerivation v then flattenDotAttrs key v else { ${outputKey} = v; })
     ) { } attrs;
 in
 {
