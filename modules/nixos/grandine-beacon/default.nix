@@ -71,7 +71,11 @@ in
           "data-dir"
           "jwt-secret"
         ];
-        normalSettings = filterAttrs (k: _: !elem k skipKeys) s;
+        # Null-valued settings (e.g. an unset checkpoint-sync-url) must be
+        # dropped entirely, not written as a literal `null` -- grandine
+        # rejects that as an unsupported value instead of treating it as
+        # unset.
+        normalSettings = filterAttrs (k: v: !elem k skipKeys && v != null) s;
 
         argsFile = settingsFormat.generate "${serviceName}-args.yaml" normalSettings;
 
