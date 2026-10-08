@@ -38,6 +38,13 @@ files are private. Git metadata is a disposable copy: an updater can stage a new
 lockfile, but cannot leave hooks, filters or config in the publisher's checkout.
 The original checkout and expected-head state are retained for signed publication.
 
+On GitHub-hosted Ubuntu, setup installs a dedicated copy of the distro bubblewrap
+binary and grants it user-namespace permission through a path-specific AppArmor
+profile when required. It leaves the system-wide namespace restriction enabled
+and probes the sandbox before proceeding. This provisioning script refuses to run
+on developer machines or self-hosted runners; local use takes bubblewrap from the
+Nix CI shell and requires working namespaces on that host.
+
 The sandbox covers version evaluation, custom scripts, nix-update and formatting.
 It requires Linux namespaces, bubblewrap and the Nix daemon; failure to create it
 stops the job. No automatic unsandboxed fallback is provided. Network and the Nix
