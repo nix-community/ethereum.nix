@@ -48,6 +48,7 @@ buildGoModule rec {
   meta = with lib; {
     description = "Optimism implementation of the Ethereum protocol";
     homepage = "https://github.com/ethereum-optimism/op-geth";
+    changelog = "https://github.com/ethereum-optimism/op-geth/releases";
     license = with licenses; [
       lgpl3Plus
       gpl3Plus

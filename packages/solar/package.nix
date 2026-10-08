@@ -38,6 +38,7 @@ rustPlatform.buildRustPackage rec {
   meta = with lib; {
     description = "Blazingly fast Solidity compiler";
     homepage = "https://github.com/paradigmxyz/solar";
+    changelog = "https://github.com/paradigmxyz/solar/releases";
     license = with licenses; [
       mit
       asl20

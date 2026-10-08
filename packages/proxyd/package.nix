@@ -38,6 +38,7 @@ buildGoModule rec {
   meta = with lib; {
     description = "RPC request router and proxy for Optimism";
     homepage = "https://github.com/ethereum-optimism/infra/tree/main/proxyd";
+    changelog = "https://github.com/ethereum-optimism/infra/releases";
     license = licenses.mit;
     mainProgram = "proxyd";
     platforms = platforms.unix;

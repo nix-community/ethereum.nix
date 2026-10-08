@@ -72,6 +72,7 @@ buildGoModule rec {
   meta = with lib; {
     description = "Optimism fault proof challenger service that monitors and disputes invalid claims";
     homepage = "https://github.com/ethereum-optimism/optimism/tree/develop/op-challenger";
+    changelog = "https://github.com/ethereum-optimism/optimism/releases";
     license = licenses.mit;
     mainProgram = "op-challenger";
     platforms = [

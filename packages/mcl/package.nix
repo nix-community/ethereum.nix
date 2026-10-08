@@ -41,6 +41,7 @@ stdenv.mkDerivation rec {
   meta = {
     description = "A portable and fast pairing-based cryptography library";
     homepage = "https://github.com/herumi/mcl";
+    changelog = "https://github.com/herumi/mcl/releases";
     license = lib.licenses.bsd3;
     platforms = [
       "x86_64-linux"

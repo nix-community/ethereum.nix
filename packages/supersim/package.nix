@@ -44,6 +44,7 @@ buildGoModule rec {
   meta = with lib; {
     description = "Local Multi-L2 Development Environment";
     homepage = "https://github.com/ethereum-optimism/supersim";
+    changelog = "https://github.com/ethereum-optimism/supersim/releases";
     license = licenses.mit;
     mainProgram = "supersim";
     platforms = [

@@ -71,6 +71,7 @@ buildGoModule rec {
   meta = with lib; {
     description = "Optimism batcher service that submits L2 transaction batches to L1";
     homepage = "https://github.com/ethereum-optimism/optimism/tree/develop/op-batcher";
+    changelog = "https://github.com/ethereum-optimism/optimism/releases";
     license = licenses.mit;
     mainProgram = "op-batcher";
     platforms = [

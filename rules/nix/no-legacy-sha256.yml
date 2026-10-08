@@ -1,0 +1,23 @@
+id: no-legacy-sha256
+language: nix
+severity: error
+message: Use hash in SRI format for Nix fetchers and builders.
+rule:
+  kind: binding
+  has:
+    field: attrpath
+    regex: '^(sha256|cargoSha256|vendorSha256)$'
+  inside:
+    kind: apply_expression
+    stopBy: end
+    regex: '^(fetch[A-Za-z]+|build[A-Za-z]+|rustPlatform\.buildRustPackage|stdenv\.mkDerivation)\s'
+  not:
+    any:
+      - inside:
+          kind: apply_expression
+          stopBy: end
+          regex: '^builtins\.fetchTarball'
+      - inside:
+          kind: apply_expression
+          stopBy: end
+          regex: '^builtins\.toJSON'

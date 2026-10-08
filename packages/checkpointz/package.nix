@@ -59,6 +59,7 @@ buildGoModule rec {
   meta = {
     description = "Ethereum beacon chain checkpoint sync provider";
     homepage = "https://github.com/ethpandaops/checkpointz";
+    changelog = "https://github.com/ethpandaops/checkpointz/releases";
     license = lib.licenses.gpl3Only;
     mainProgram = "checkpointz";
     platforms = [

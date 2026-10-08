@@ -72,6 +72,7 @@ buildGoModule rec {
   meta = with lib; {
     description = "Optimism rollup node that derives the L2 chain from L1";
     homepage = "https://github.com/ethereum-optimism/optimism/tree/develop/op-node";
+    changelog = "https://github.com/ethereum-optimism/optimism/releases";
     license = licenses.mit;
     mainProgram = "op-node";
     platforms = [

@@ -1,0 +1,25 @@
+name: Package quality
+on:
+  pull_request:
+  merge_group:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check:
+    name: package-quality
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: cachix/install-nix-action@v31
+      - name: Check metadata and Nix packaging rules
+        run: nix build --no-link .#checks.x86_64-linux.package-metadata .#checks.x86_64-linux.package-lint
+      - name: Require maintainers on new packages
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha || 'origin/main' }}
+        run: python3 .github/ci/check_maintainers.py --base "$BASE_SHA"
+      - name: Check generated README
+        run: python3 scripts/generate-package-docs.py --check

@@ -27,6 +27,7 @@ buildGoModule rec {
   meta = {
     description = "Eth2 CLI debugging tool";
     homepage = "https://github.com/protolambda/zcli";
+    changelog = "https://github.com/protolambda/zcli/releases";
     license = lib.licenses.mit;
     mainProgram = "zcli";
     platforms = [ "x86_64-linux" ];

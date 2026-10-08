@@ -46,6 +46,7 @@ rustPlatform.buildRustPackage rec {
   meta = with lib; {
     description = "A trustless, efficient, and portable multichain light client";
     homepage = "https://github.com/a16z/helios";
+    changelog = "https://github.com/a16z/helios/releases";
     license = licenses.mit;
     mainProgram = "helios";
     platforms = platforms.unix;

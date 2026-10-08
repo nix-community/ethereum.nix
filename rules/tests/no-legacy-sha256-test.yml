@@ -1,0 +1,12 @@
+id: no-legacy-sha256
+valid:
+  - 'fetchurl { hash = "sha256-abc="; }'
+  - 'builtins.toJSON { sha256 = "0x123"; }'
+  - 'stdenv.mkDerivation { manifest = builtins.toJSON { sha256 = "0x123"; }; }'
+  - 'writeText "list.json" (builtins.toJSON { builds = [ { sha256 = "0x123"; } ]; })'
+  - 'builtins.fetchTarball { sha256 = "abc"; }'
+invalid:
+  - 'fetchurl { sha256 = "sha256-abc="; }'
+  - 'fetchFromGitHub { sha256 = "abc"; }'
+  - 'rustPlatform.buildRustPackage { cargoSha256 = "abc"; }'
+  - 'buildGoModule { vendorSha256 = "abc"; }'

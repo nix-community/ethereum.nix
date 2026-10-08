@@ -59,7 +59,7 @@ jobs:
   update:
     needs: discover
     if: needs.discover.outputs.has-updates == 'true'
-    runs-on: ubuntu-slim
+    runs-on: ubuntu-latest
     concurrency:
       group: updater-${{ github.repository }}-${{ matrix.type }}-${{ matrix.name }}
       cancel-in-progress: false
@@ -75,7 +75,9 @@ jobs:
         with:
           github_access_token: ${{ github.token }}
       - name: Keep orchestration from the workflow revision
+        id: tools
         run: |
+          echo "source=$(nix flake metadata --json --no-write-lock-file | jq -r .path)" >> "$GITHUB_OUTPUT"
           cp -r .github/ci "$RUNNER_TEMP/ci"
           cp .github/config/update-policy.json "$RUNNER_TEMP/ci/update-policy.json"
           cp .github/actions/update.sh "$RUNNER_TEMP/update.sh"
@@ -84,15 +86,21 @@ jobs:
           TYPE: ${{ matrix.type }}
           NAME: ${{ matrix.name }}
         run: python3 "$RUNNER_TEMP/ci/branches.py" prepare "$TYPE" "$NAME" "$RUNNER_TEMP/update-state.json"
+      - name: Install updater sandbox
+        if: matrix.type == 'package'
+        run: bash "$RUNNER_TEMP/ci/setup-sandbox.sh"
       - name: Perform update
         id: update
         env:
           GITHUB_TOKEN: ${{ github.token }}
           TYPE: ${{ matrix.type }}
           NAME: ${{ matrix.name }}
+          TOOLS: ${{ steps.tools.outputs.source }}
+          BWRAP: /usr/local/bin/ethereum-updater-bwrap
         run: |
           if [[ "$TYPE" = package ]]; then
-            nix develop .#ci -c python3 "$RUNNER_TEMP/ci/update.py" "$NAME"
+            nix develop "$TOOLS#ci" -c python3 "$RUNNER_TEMP/ci/sandbox.py" "$NAME" \
+              python3 "$RUNNER_TEMP/ci/update.py" "$NAME"
           else
             bash "$RUNNER_TEMP/update.sh" "$TYPE" "$NAME"
           fi

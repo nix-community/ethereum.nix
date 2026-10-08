@@ -447,6 +447,7 @@ buildGoModule {
   meta = with lib; {
     description = "Arbitrum Nitro node implementation for Ethereum Layer 2";
     homepage = "https://github.com/OffchainLabs/nitro";
+    changelog = "https://github.com/OffchainLabs/nitro/releases";
     license = licenses.bsl11;
     mainProgram = "nitro";
     platforms = [ "x86_64-linux" ];

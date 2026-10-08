@@ -59,6 +59,7 @@ stdenv.mkDerivation (finalAttrs: rec {
   meta = with lib; {
     description = "Besu is an Apache 2.0 licensed, MainNet compatible, Ethereum client written in Java";
     homepage = "https://github.com/hyperledger/besu";
+    changelog = "https://github.com/hyperledger/besu/releases";
     license = licenses.asl20;
     mainProgram = "besu";
     platforms = [

@@ -24,8 +24,10 @@ buildNpmPackage rec {
   };
 
   meta = with lib; {
+    mainProgram = "snarkjs";
     description = "zkSNARK implementation in JavaScript & WASM";
     homepage = "https://github.com/iden3/snarkjs";
+    changelog = "https://github.com/iden3/snarkjs/releases";
     license = with licenses; [ gpl3Only ];
     inherit (nodejs.meta) platforms;
     sourceProvenance = with sourceTypes; [ fromSource ];

@@ -71,8 +71,16 @@ def update_group(
                 shutil.copytree(directory, backup, symlinks=True)
 
                 def restore(directory=directory, backup=backup):
-                    shutil.rmtree(directory)
-                    shutil.copytree(backup, directory, symlinks=True)
+                    # The directory itself is a sandbox mount point; restore
+                    # its contents without trying to remove the mount.
+                    for child in directory.iterdir():
+                        if child.is_dir() and not child.is_symlink():
+                            shutil.rmtree(child)
+                        else:
+                            child.unlink()
+                    shutil.copytree(
+                        backup, directory, symlinks=True, dirs_exist_ok=True
+                    )
 
                 retry_command(command, restore)
     after = {member: get_version(member) for member in members}

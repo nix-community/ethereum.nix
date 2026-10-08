@@ -35,13 +35,14 @@ buildGoModule rec {
   '';
 
   passthru = {
-    category = "Staking";
+    category = "Staking Tools";
     updateScript = nix-update-script { };
   };
 
   meta = {
     description = "Rocket Pool Daemon";
     homepage = "https://github.com/rocket-pool/smartnode";
+    changelog = "https://github.com/rocket-pool/smartnode/releases";
     license = lib.licenses.gpl3Only;
     mainProgram = "rocketpoold";
     platforms = [
