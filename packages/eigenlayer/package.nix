@@ -24,13 +24,14 @@ buildGoModule rec {
   subPackages = [ "cmd/eigenlayer" ];
 
   passthru = {
-    category = "Staking";
+    category = "Staking Tools";
     updateScript = nix-update-script { };
   };
 
   meta = with lib; {
     description = "Utility manages core operator functionalities like local key management, operator registration and updates";
     homepage = "https://www.eigenlayer.xyz/";
+    changelog = "https://github.com/Layr-Labs/eigenlayer-cli/releases";
     license = licenses.bsl11;
     mainProgram = "eigenlayer";
     platforms = [ "x86_64-linux" ];

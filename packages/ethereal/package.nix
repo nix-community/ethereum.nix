@@ -28,6 +28,7 @@ buildGoModule rec {
   meta = with lib; {
     description = "A command-line tool for managing common tasks in Ethereum";
     homepage = "https://github.com/wealdtech/ethereal/";
+    changelog = "https://github.com/wealdtech/ethereal/releases";
     license = licenses.apsl20;
     mainProgram = "ethereal";
     platforms = [

@@ -1,0 +1,12 @@
+id: no-unpinned-rev
+language: nix
+severity: error
+message: Pin sources to a release tag or commit, rather than a moving branch.
+rule:
+  kind: string_expression
+  regex: '^"(main|master|HEAD|trunk|develop)"$'
+  inside:
+    kind: binding
+    has:
+      field: attrpath
+      regex: '^(rev|ref)$'

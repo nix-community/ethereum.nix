@@ -47,6 +47,7 @@ buildGoModule rec {
   meta = with lib; {
     description = "Optimism proposer service that submits L2 output proposals to L1";
     homepage = "https://github.com/ethereum-optimism/optimism/tree/develop/op-proposer";
+    changelog = "https://github.com/ethereum-optimism/optimism/releases";
     license = licenses.mit;
     mainProgram = "op-proposer";
     platforms = [

@@ -49,6 +49,7 @@ buildGoModule rec {
   meta = with lib; {
     description = "Optimism sequencer conductor for high-availability setups";
     homepage = "https://github.com/ethereum-optimism/optimism/tree/develop/op-conductor";
+    changelog = "https://github.com/ethereum-optimism/optimism/releases";
     license = licenses.mit;
     mainProgram = "op-conductor";
     platforms = [

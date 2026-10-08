@@ -46,6 +46,7 @@ rustPlatform.buildRustPackage rec {
   meta = with lib; {
     description = "A toolkit for EVM bytecode analysis";
     homepage = "https://heimdall.rs";
+    changelog = "https://github.com/Jon-Becker/heimdall-rs/releases";
     license = [ licenses.mit ];
     mainProgram = "heimdall";
     platforms = platforms.unix;

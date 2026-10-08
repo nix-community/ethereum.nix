@@ -40,6 +40,7 @@ stdenv.mkDerivation rec {
   meta = {
     description = "BLS threshold signature (pinned version for dependent packages)";
     homepage = "https://github.com/herumi/bls";
+    changelog = "https://github.com/herumi/bls/releases";
     license = lib.licenses.bsd3;
     platforms = [
       "x86_64-linux"

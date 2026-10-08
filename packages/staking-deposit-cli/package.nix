@@ -29,13 +29,14 @@ stdenv.mkDerivation rec {
   '';
 
   passthru = {
-    category = "Staking";
+    category = "Staking Tools";
     updateScript = nix-update-script { };
   };
 
   meta = {
     description = "Secure key generation for deposits";
     homepage = "https://github.com/ethereum/staking-deposit-cli";
+    changelog = "https://github.com/ethereum/staking-deposit-cli/releases";
     license = lib.licenses.cc0;
     mainProgram = "deposit";
     platforms = [ "x86_64-linux" ];

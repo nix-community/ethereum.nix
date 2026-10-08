@@ -29,6 +29,7 @@ buildGoModule rec {
   meta = {
     description = "MEV-Boost allows proof-of-stake Ethereum consensus clients to source blocks from a competitive builder marketplace";
     homepage = "https://github.com/flashbots/mev-boost";
+    changelog = "https://github.com/flashbots/mev-boost/releases";
     license = lib.licenses.mit;
     mainProgram = "mev-boost";
     platforms = [ "x86_64-linux" ];

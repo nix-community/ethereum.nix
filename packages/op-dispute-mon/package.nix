@@ -72,6 +72,7 @@ buildGoModule rec {
   meta = with lib; {
     description = "Optimism dispute monitor that tracks and reports on fault proof disputes";
     homepage = "https://github.com/ethereum-optimism/optimism/tree/develop/op-dispute-mon";
+    changelog = "https://github.com/ethereum-optimism/optimism/releases";
     license = licenses.mit;
     mainProgram = "op-dispute-mon";
     platforms = [

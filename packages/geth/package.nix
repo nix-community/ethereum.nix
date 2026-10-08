@@ -78,6 +78,7 @@ buildGoModule rec {
   meta = with lib; {
     description = "Official golang implementation of the Ethereum protocol";
     homepage = "https://geth.ethereum.org/";
+    changelog = "https://github.com/ethereum/go-ethereum/releases";
     license = with licenses; [
       lgpl3Plus
       gpl3Plus

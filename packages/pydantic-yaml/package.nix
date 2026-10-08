@@ -40,6 +40,8 @@ python3.pkgs.buildPythonPackage rec {
     pytestCheckHook
   ];
 
+  passthru.hideFromDocs = true;
+
   meta = {
     description = "Small helper library that adds some YAML capabilities to pydantic";
     homepage = "https://github.com/NowanIlfideme/pydantic-yaml";
