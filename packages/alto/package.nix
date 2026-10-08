@@ -114,6 +114,7 @@ stdenv.mkDerivation rec {
   meta = with lib; {
     description = "A performant, reliable, and type-safe ERC-4337 Bundler written in TypeScript";
     homepage = "https://github.com/pimlicolabs/alto";
+    changelog = "https://github.com/pimlicolabs/alto/releases";
     license = licenses.gpl3Only;
     mainProgram = "alto";
     platforms = platforms.unix;

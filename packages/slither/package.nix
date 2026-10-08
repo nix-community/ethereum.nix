@@ -83,8 +83,10 @@ python3.pkgs.buildPythonPackage rec {
   };
 
   meta = with lib; {
+    mainProgram = "slither";
     description = "Static Analyzer for Solidity";
     homepage = "https://github.com/crytic/slither";
+    changelog = "https://github.com/crytic/slither/releases";
     license = licenses.agpl3Only;
     platforms = [ "x86_64-linux" ];
     sourceProvenance = with sourceTypes; [ fromSource ];

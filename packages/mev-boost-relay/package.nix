@@ -36,6 +36,7 @@ buildGoModule rec {
   meta = {
     description = "MEV-Boost Relay for Ethereum proposer/builder separation (PBS)";
     homepage = "https://github.com/flashbots/mev-boost-relay";
+    changelog = "https://github.com/flashbots/mev-boost-relay/releases";
     license = lib.licenses.agpl3Only;
     mainProgram = "mev-boost-relay";
     platforms = [ "x86_64-linux" ];

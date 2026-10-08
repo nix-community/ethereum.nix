@@ -18,13 +18,13 @@ let
   slasherContractVersion = "0.12.1";
   slasherContractSrc = fetchurl {
     url = "https://raw.githubusercontent.com/ethereum/eth2.0-specs/v${slasherContractVersion}/deposit_contract/contracts/validator_registration.json";
-    sha256 = "sha256-ZslAe1wkmkg8Tua/AmmEfBmjqMVcGIiYHwi+WssEwa8=";
+    hash = "sha256-ZslAe1wkmkg8Tua/AmmEfBmjqMVcGIiYHwi+WssEwa8=";
   };
 
   slasherContractTestVersion = "0.9.2.1";
   slasherContractTestnetSrc = fetchurl {
     url = "https://raw.githubusercontent.com/sigp/unsafe-eth2-deposit-contract/v${slasherContractTestVersion}/unsafe_validator_registration.json";
-    sha256 = "sha256-aeTeHRT3QtxBRSNMCITIWmx89vGtox2OzSff8vZ+RYY=";
+    hash = "sha256-aeTeHRT3QtxBRSNMCITIWmx89vGtox2OzSff8vZ+RYY=";
   };
 in
 rustPlatform.buildRustPackage rec {
@@ -339,6 +339,7 @@ rustPlatform.buildRustPackage rec {
   meta = {
     description = "Ethereum consensus client in Rust";
     homepage = "https://github.com/sigp/lighthouse";
+    changelog = "https://github.com/sigp/lighthouse/releases";
     license = lib.licenses.asl20;
     mainProgram = "lighthouse";
     platforms = [ "x86_64-linux" ];

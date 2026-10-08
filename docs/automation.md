@@ -28,6 +28,36 @@ but mints the write token only after updater execution. Checkout credentials
 are not persisted. These steps reduce credential exposure; they are not a
 sandbox for arbitrary hostile package updater code.
 
+### Package updater isolation
+
+The package update step runs inside bubblewrap on a full Linux runner. The
+workflow pins its CI tools to the workflow revision before switching to a reused
+update branch. The repository and host filesystem are read-only, except for the
+declared package group and the step's output/summary files. HOME and temporary
+files are private. Git metadata is a disposable copy: an updater can stage a new
+lockfile, but cannot leave hooks, filters or config in the publisher's checkout.
+The original checkout and expected-head state are retained for signed publication.
+
+The sandbox covers version evaluation, custom scripts, nix-update and formatting.
+It requires Linux namespaces, bubblewrap and the Nix daemon; failure to create it
+stops the job. No automatic unsandboxed fallback is provided. Network and the Nix
+daemon remain accessible for fetching/building dependencies. This confines writes
+and separates publication credentials; it is not a general sandbox for arbitrary
+hostile agents, and it does not hide every host-readable file. Flake-input and
+README jobs still use their existing path checks and signed publisher.
+
+To run a package update with the same isolation locally, from a standalone clone:
+
+```sh
+nix develop .#ci -c python3 .github/ci/sandbox.py geth python3 .github/ci/update.py geth
+```
+
+`automation-tests` requires the real namespace tests on the Linux CI host. They
+verify permitted writes, forbidden writes, symlink confinement, disposable Git
+config, credential-environment filtering and retry restoration. Nix's build
+sandbox may disallow nested namespaces; those integration tests run in the host
+workflow while the remaining regressions also run as a flake check.
+
 Run the branch regression tests with:
 
 ```sh
@@ -124,10 +154,11 @@ approved once by GitHub Actions and auto-merge is requested with the inspected
 head SHA. Ineligible revisions have an existing auto-merge request disabled.
 Creation of update PRs no longer enables auto-merge directly.
 
-### Activation after merging the three PRs
+### Activation after merging the automation PRs
 
 1. Merge the preservation PR, retarget/merge the validation PR, then retarget/merge
-   the controller PR. Keep deletion of merged update branches enabled.
+   the controller PR, then the isolation/quality follow-up. Keep deletion of
+   merged update branches enabled.
 
 1. Run **Diagnose and reconcile PRs** manually. With the variable below unset it
    reports policy checks and diagnoses but does not grant approvals or enable
@@ -142,15 +173,17 @@ Creation of update PRs no longer enables auto-merge directly.
    | `nixbot/nix-build` | `4016365` |
    | `nixbot/nix-eval` | `4016365` |
    | `automation-tests` | `15368` (GitHub Actions) |
+   | `package-quality` | `15368` (GitHub Actions) |
    | `update-policy` | `15368` (GitHub Actions) |
 
-1. Refresh old PR branches so the new `automation-tests` workflow runs on their
+1. Refresh old PR branches so `automation-tests` and `package-quality` run on their
    revisions. The diagnostic will show which PRs are missing it. Confirm nixbot
-   and both new checks report on an actual merge-group SHA before broad rollout.
+   and all three automation checks report on an actual merge-group SHA before
+   broad rollout.
 
 1. Set repository Actions variable `AUTOMATION_MERGE_ENABLED=true`. The controller
    additionally checks the effective ruleset: it refuses to approve or enable
-   merge unless the queue and all four App-bound checks are present.
+   merge unless the queue and all five App-bound checks are present.
 
 The publisher's former `auto-merge` workflow input is replaced by this
 repository-level activation switch. The existing App review bypass is not
@@ -177,3 +210,40 @@ are reported with links to the failing package/platform checks; the controller
 does not guess a build failure's cause from its name or repeatedly request
 external rebuilds. Build diagnostics and PR inspection are read-only in the
 local command above; `--apply` is required for GitHub writes.
+
+## Package quality
+
+`checks.<system>.package-metadata` enforces descriptions, homepages, changelogs,
+licenses, platforms, source provenance, categories and main programs. Libraries
+do not need an executable. Internal helpers use `passthru.hideFromDocs = true`;
+this also excludes them from generated documentation. Maintainer references are
+evaluated even for helpers, so a misspelled custom maintainer fails immediately.
+
+The `package-quality` workflow evaluates new packages on every exposed system.
+New public packages must have a maintainer, and an existing non-empty list cannot
+be emptied. Existing empty lists remain accepted, following the incremental
+adoption policy in llm-agents.nix. It also checks that generated README content is
+current, without writing files. This job runs on PR and merge-group revisions and
+is required by the merge controller.
+
+`checks.<system>.package-lint` runs syntax-aware ast-grep rules and their fixtures.
+They reject common moving-branch revisions and legacy fetcher/builder hash
+attributes. JSON fields named `sha256`, such as Nitro's compiler manifest, remain
+valid. The rule is a guard against common mistakes, not a proof that every Nix
+expression or remote source is immutable.
+
+```sh
+nix build .#checks.x86_64-linux.package-metadata .#checks.x86_64-linux.package-lint
+python3 .github/ci/check_maintainers.py --base origin/main
+python3 scripts/generate-package-docs.py --check
+```
+
+Regenerate documentation with `./scripts/generate-package-docs.py` after changing
+package metadata, then run `nix fmt`. Keep ordinary updates on `nix-update`;
+Nimbus, Dora, Nethermind and Grandine retain their specialized update procedures.
+The upstream declarative flows do not replace those package-specific dependency
+steps.
+
+The metadata and lint checks, README verification and sandbox design adapt ideas
+from [llm-agents.nix at c9ef0fb](https://github.com/numtide/llm-agents.nix/tree/c9ef0fb47c91abf5c637218b69a018d3b37bb8d9).
+The upstream MIT notice is retained in [llm-agents.nix.LICENSE](llm-agents.nix.LICENSE).

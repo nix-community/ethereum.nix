@@ -43,6 +43,7 @@ buildGoModule rec {
   meta = with lib; {
     description = "Optimism deployer tool for deploying OP Stack chains";
     homepage = "https://github.com/ethereum-optimism/optimism/tree/develop/op-deployer";
+    changelog = "https://github.com/ethereum-optimism/optimism/releases";
     license = licenses.mit;
     mainProgram = "op-deployer";
     platforms = [

@@ -89,6 +89,7 @@ rustPlatform.buildRustPackage rec {
   meta = with lib; {
     description = "Modular, contributor-friendly and blazing-fast implementation of the Ethereum protocol, in Rust";
     homepage = "https://github.com/paradigmxyz/reth";
+    changelog = "https://github.com/paradigmxyz/reth/releases";
     license = with licenses; [
       mit
       asl20

@@ -1,0 +1,4 @@
+ruleDirs:
+  - rules/nix
+testConfigs:
+  - testDir: rules/tests

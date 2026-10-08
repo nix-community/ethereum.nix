@@ -58,6 +58,7 @@ buildGoModule rec {
   meta = {
     description = "Ethereum beacon data and execution trace explorer";
     homepage = "https://github.com/ethpandaops/tracoor";
+    changelog = "https://github.com/ethpandaops/tracoor/releases";
     license = lib.licenses.gpl3Only;
     mainProgram = "tracoor";
     platforms = [

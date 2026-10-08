@@ -11,7 +11,7 @@ appimageTools.wrapType2 rec {
 
   src = fetchurl {
     url = "https://github.com/rotki/rotki/releases/download/v${version}/rotki-linux_x86_64-v${version}.AppImage";
-    sha256 = "sha256-kLV8/GbvubQl1J7Id1BC23JhXgwtSGnciVM5ctmINUw=";
+    hash = "sha256-kLV8/GbvubQl1J7Id1BC23JhXgwtSGnciVM5ctmINUw=";
   };
 
   nativeBuildInputs = [ makeWrapper ];
@@ -39,6 +39,7 @@ appimageTools.wrapType2 rec {
   meta = with lib; {
     description = "An open source portfolio tracking tool that respects your privacy";
     homepage = "https://rotki.com/";
+    changelog = "https://github.com/rotki/rotki/releases";
     license = licenses.agpl3Plus;
     maintainers = with maintainers; [ mitchmindtree ];
     platforms = [ "x86_64-linux" ];

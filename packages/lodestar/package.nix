@@ -33,6 +33,7 @@ let
     meta = with lib; {
       description = "TypeScript implementation of the Ethereum consensus specification";
       homepage = "https://lodestar.chainsafe.io";
+      changelog = "https://github.com/ChainSafe/lodestar/releases";
       license = licenses.asl20;
       mainProgram = "lodestar";
       platforms = [

@@ -9,6 +9,7 @@ pkgs.runCommand "automation-tests"
   ''
     cp -r ${flake}/.github github
     cp -r ${flake}/packages packages
+    cp -r ${flake}/scripts scripts
     chmod -R u+w github packages
     export HOME=$TMPDIR
     export PYTHONDONTWRITEBYTECODE=1

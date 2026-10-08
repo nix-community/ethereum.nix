@@ -137,6 +137,7 @@ rustPlatform.buildRustPackage {
   meta = with lib; {
     description = "Modular and ZK-native Ethereum execution client written in Rust";
     homepage = "https://github.com/lambdaclass/ethrex";
+    changelog = "https://github.com/lambdaclass/ethrex/releases";
     license = with licenses; [
       mit
       asl20

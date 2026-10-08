@@ -1,0 +1,10 @@
+id: no-unpinned-rev
+valid:
+  - 'fetchFromGitHub { rev = "v1.2.3"; }'
+  - 'fetchFromGitHub { rev = "0123456789012345678901234567890123456789"; }'
+  - 'fetchFromGitHub { tag = "v${version}"; }'
+  - '"rev = main"'
+invalid:
+  - 'fetchFromGitHub { rev = "main"; }'
+  - 'fetchgit { rev = "master"; }'
+  - 'builtins.fetchGit { ref = "develop"; }'

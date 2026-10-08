@@ -48,6 +48,7 @@ buildGoModule rec {
   meta = with lib; {
     description = "Tool for validating Optimism chain configurations and deployments";
     homepage = "https://github.com/ethereum-optimism/optimism/tree/develop/op-validator";
+    changelog = "https://github.com/ethereum-optimism/optimism/releases";
     license = licenses.mit;
     mainProgram = "op-validator";
     platforms = [
