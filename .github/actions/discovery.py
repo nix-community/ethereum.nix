@@ -195,8 +195,8 @@ def main() -> None:
     skip_inputs = update_config.get("skip", {}).get("inputs", [])
 
     # Determine what to update based on UPDATE_TYPE
-    update_packages = update_type in ("", "packages")
-    update_inputs = update_type in ("", "inputs")
+    update_packages = update_type in ("", "all", "packages")
+    update_inputs = update_type in ("", "all", "inputs")
 
     print("=== Discovery Configuration ===")
     print(f"UPDATE_TYPE: {update_type or '<all>'}")
