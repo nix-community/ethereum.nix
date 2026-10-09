@@ -5,7 +5,7 @@ pkgs.fetchFromGitHub {
   repo = "checksums";
   # NOTE: hardcoded by ethereum.nix
   # ChecksumsStableCommit in ${src}/vendor/nimbus-build-system/vendor/Nim/koch.nim
-  rev = "f8f6bd34bfa3fe12c64b919059ad856a96efcba0";
+  rev = "5c132cd332cce5d64a0da9ac3e4c9664313dccb4";
   # WARNING: Requires manual updates when Nim compiler version changes.
-  hash = "sha256-JZhWqn4SrAgNw/HLzBK0rrj3WzvJ3Tv1nuDMn83KoYY=";
+  hash = "sha256-EwGpWSzWeEt8KLracRUle8KFb/2c6Ndz1Sqm3FhBvRY=";
 }
