@@ -86,6 +86,7 @@ python3.pkgs.buildPythonPackage rec {
     description = "Static Analyzer for Solidity";
     homepage = "https://github.com/crytic/slither";
     license = licenses.agpl3Only;
+    mainProgram = "slither";
     platforms = [ "x86_64-linux" ];
     sourceProvenance = with sourceTypes; [ fromSource ];
   };
