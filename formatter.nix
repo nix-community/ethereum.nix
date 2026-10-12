@@ -1,4 +1,9 @@
-{ pkgs, inputs, ... }:
+{
+  pkgs,
+  inputs,
+  flake,
+  ...
+}:
 let
   treefmt-settings = {
     projectRootFile = "flake.nix";
@@ -54,5 +59,12 @@ let
       ruff-format.priority = 2;
     };
   };
+  evaluated = inputs.treefmt-nix.lib.evalModule pkgs treefmt-settings;
+  wrapper = evaluated.config.build.wrapper;
 in
-inputs.treefmt-nix.lib.mkWrapper pkgs treefmt-settings
+wrapper
+// {
+  passthru = wrapper.passthru // {
+    tests.check = evaluated.config.build.check flake;
+  };
+}
