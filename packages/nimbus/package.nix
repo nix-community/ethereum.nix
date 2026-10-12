@@ -49,7 +49,7 @@ stdenv.mkDerivation rec {
       fakeLsbRelease
       which
     ]
-    ++ lib.optionals stdenv.isDarwin [ darwin.cctools ];
+    ++ lib.optionals stdenv.hostPlatform.isDarwin [ darwin.cctools ];
 
   enableParallelBuilding = true;
 
