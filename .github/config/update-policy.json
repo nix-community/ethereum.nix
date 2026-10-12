@@ -1,0 +1,8 @@
+{
+  "packages": {
+    "supersim": { "channel": "prerelease" },
+    "svm-lists": { "channel": "rolling" }
+  },
+  "groups": { "rocketpool": ["rocketpoold"] },
+  "downgrades": []
+}

@@ -17,72 +17,8 @@ export NIX_PATH=nixpkgs=flake:nixpkgs
 output_var="${GITHUB_OUTPUT:-/dev/stdout}"
 
 if [ "$type" = "package" ]; then
-  echo "Updating package $name..."
-
-  # Check if package has a custom update script
-  update_script=""
-  if [ -f "packages/$name/update.sh" ]; then
-    update_script="packages/$name/update.sh"
-  elif [ -f "packages/$name/update.py" ]; then
-    update_script="packages/$name/update.py"
-  fi
-
-  if [ -n "$update_script" ]; then
-    echo "Running update script: $update_script"
-    if output=$("$update_script" 2>&1); then
-      echo "$output"
-    else
-      echo "::error::Update script failed for package $name"
-      echo "$output"
-      exit 1
-    fi
-  else
-    # Try nix-update as fallback
-    echo "No update script found, trying nix-update..."
-
-    # Build nix-update arguments
-    nix_update_args=(--flake)
-
-    # Check for custom nix-update-args file
-    if [ -f "packages/$name/nix-update-args" ]; then
-      echo "Loading custom nix-update-args..."
-      while IFS= read -r line || [ -n "$line" ]; do
-        # Skip empty lines and comments
-        [[ -z $line || $line =~ ^# ]] && continue
-        nix_update_args+=("$line")
-      done <"packages/$name/nix-update-args"
-    else
-      # Default to stable version if no custom args
-      nix_update_args+=(--version=stable)
-    fi
-
-    echo "Running: nix-update ${nix_update_args[*]} $name"
-    if output=$(nix-update "${nix_update_args[@]}" "$name" 2>&1); then
-      echo "$output"
-    else
-      echo "::error::nix-update failed for package $name"
-      echo "$output"
-      exit 1
-    fi
-  fi
-
-  # Check if there were actual changes
-  if [[ -z $(git status --porcelain) ]]; then
-    echo "No changes detected"
-    echo "updated=false" >>"$output_var"
-    exit 0
-  fi
-
-  # Get the new version
-  new_version=$(nix eval .#packages.x86_64-linux."$name".version --raw 2>/dev/null || echo "unknown")
-  echo "New version: $new_version"
-
-  # Run formatter to update README with mdsh
-  echo "Running formatter to update documentation..."
-  nix fmt
-
-  echo "updated=true" >>"$output_var"
-  echo "new_version=$new_version" >>"$output_var"
+  script_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+  exec python3 "$script_dir/../ci/update.py" "$name"
 
 elif [ "$type" = "flake-input" ]; then
   echo "Updating input $name..."
