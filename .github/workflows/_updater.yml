@@ -23,11 +23,6 @@ on:
         required: false
         type: string
         default: "dependencies,automated"
-      auto-merge:
-        description: "Enable auto-merge for created pull requests"
-        required: false
-        type: boolean
-        default: false
     secrets:
       APP_ID:
         description: "GitHub App ID"
@@ -115,7 +110,6 @@ jobs:
           CURRENT_VERSION: ${{ matrix.current_version }}
           NEW_VERSION: ${{ steps.update.outputs.new_version }}
           PR_LABELS: ${{ inputs.pr-labels }}
-          AUTO_MERGE: ${{ inputs.auto-merge }}
         run: python3 "$RUNNER_TEMP/ci/branches.py" publish "$TYPE" "$NAME" "$RUNNER_TEMP/update-state.json"
 
   update-readme:
@@ -149,7 +143,6 @@ jobs:
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
           PR_LABELS: documentation,automated
-          AUTO_MERGE: ${{ inputs.auto-merge }}
         run: python3 "$RUNNER_TEMP/ci/branches.py" publish readme readme "$RUNNER_TEMP/update-state.json"
 
   summary:
