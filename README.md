@@ -181,7 +181,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 <summary><strong>web3signer</strong> - Web3Signer is an open-source signing service capable of signing on multiple platforms (Ethereum1 and 2, Filecoin) using private keys stored in an external vault, or encrypted on a disk</summary>
 
 - **Source**: bytecode
-- **License**: APSL-2.0
+- **License**: Apache-2.0
 - **Homepage**: https://github.com/ConsenSys/web3signer
 - **Usage**: `nix run github:nix-community/ethereum.nix#web3signer -- --help`
 - **Nix**: [packages/web3signer/package.nix](packages/web3signer/package.nix)
@@ -316,7 +316,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 <summary><strong>ethdo</strong> - A command-line tool for managing common tasks in Ethereum 2</summary>
 
 - **Source**: source
-- **License**: APSL-2.0
+- **License**: Apache-2.0
 - **Homepage**: https://github.com/wealdtech/ethdo
 - **Usage**: `nix run github:nix-community/ethereum.nix#ethdo -- --help`
 - **Nix**: [packages/ethdo/package.nix](packages/ethdo/package.nix)
@@ -326,7 +326,7 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 <summary><strong>ethereal</strong> - A command-line tool for managing common tasks in Ethereum</summary>
 
 - **Source**: source
-- **License**: APSL-2.0
+- **License**: Apache-2.0
 - **Homepage**: https://github.com/wealdtech/ethereal/
 - **Usage**: `nix run github:nix-community/ethereum.nix#ethereal -- --help`
 - **Nix**: [packages/ethereal/package.nix](packages/ethereal/package.nix)
