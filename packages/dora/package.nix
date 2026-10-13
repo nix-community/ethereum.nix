@@ -60,6 +60,7 @@ buildGoModule rec {
   meta = {
     description = "Lightweight beaconchain explorer for Ethereum";
     homepage = "https://github.com/ethpandaops/dora";
+    changelog = "https://github.com/ethpandaops/dora/releases";
     license = lib.licenses.gpl3Only;
     mainProgram = "dora-explorer";
     platforms = [

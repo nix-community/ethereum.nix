@@ -11,7 +11,9 @@ pkgs.mkShellNoCC {
     pkgs.nix-prefetch-scripts
     pkgs.nix-update
     pkgs.nodejs
-  ];
+    pkgs.python3
+  ]
+  ++ pkgs.lib.optionals pkgs.stdenv.hostPlatform.isLinux [ pkgs.bubblewrap ];
 
   shellHook = ''
     export PRJ_ROOT=$PWD

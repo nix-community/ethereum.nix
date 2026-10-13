@@ -40,6 +40,7 @@ stdenvNoCC.mkDerivation {
   meta = with lib; {
     description = "CLI for Kurtosis, a framework for building and running distributed systems";
     homepage = "https://github.com/kurtosis-tech/kurtosis";
+    changelog = "https://github.com/kurtosis-tech/kurtosis/releases";
     license = licenses.asl20;
     platforms = [
       "x86_64-linux"

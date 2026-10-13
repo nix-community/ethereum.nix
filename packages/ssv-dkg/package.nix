@@ -36,6 +36,7 @@ buildGoModule rec {
   meta = with lib; {
     description = "The ssv-dkg tool enable operators to participate in ceremonies to generate distributed validator keys for Ethereum stakers.";
     homepage = "https://github.com/ssvlabs/ssv-dkg";
+    changelog = "https://github.com/ssvlabs/ssv-dkg/releases";
     license = with licenses; [ gpl3Plus ];
     mainProgram = "ssv-dkg";
     platforms = [

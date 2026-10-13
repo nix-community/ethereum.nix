@@ -39,6 +39,7 @@ rustPlatform.buildRustPackage rec {
   meta = with lib; {
     description = "Encode and decode smart contract invocations";
     homepage = "https://github.com/rust-ethereum/ethabi";
+    changelog = "https://github.com/rust-ethereum/ethabi/releases";
     license = licenses.asl20;
     mainProgram = "ethabi";
     platforms = platforms.unix;

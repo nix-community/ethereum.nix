@@ -65,6 +65,7 @@ in
 wrapper
 // {
   passthru = wrapper.passthru // {
+    hideFromDocs = true;
     tests.check = evaluated.config.build.check flake;
   };
 }

@@ -95,6 +95,8 @@ stdenv.mkDerivation rec {
   doInstallCheck = true;
   nativeInstallCheckInputs = [ versionCheckHook ];
 
+  passthru.category = "Consensus Clients";
+
   meta = with lib; {
     homepage = "https://nimbus.guide/";
     downloadPage = "https://github.com/status-im/nimbus-eth2/releases";
@@ -110,6 +112,7 @@ stdenv.mkDerivation rec {
       asl20
       mit
     ];
+    sourceProvenance = with sourceTypes; [ fromSource ];
     mainProgram = "nimbus_beacon_node";
     platforms = stableSystems;
   };

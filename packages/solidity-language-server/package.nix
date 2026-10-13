@@ -50,7 +50,7 @@ buildNpmPackage rec {
   '';
 
   passthru = {
-    category = "LSP";
+    category = "Development Tools";
     updateScript = nix-update-script { };
   };
 
@@ -62,6 +62,7 @@ buildNpmPackage rec {
       code completion, error checking, and intelligent code analysis.
     '';
     homepage = "https://github.com/NomicFoundation/hardhat-vscode";
+    changelog = "https://github.com/NomicFoundation/hardhat-vscode/releases";
     license = lib.licenses.mit;
     mainProgram = "nomicfoundation-solidity-language-server";
     inherit (nodejs.meta) platforms;

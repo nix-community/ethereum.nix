@@ -37,6 +37,7 @@ buildGoModule rec {
   meta = with lib; {
     description = "Some experimental tools to manage validators";
     homepage = "https://github.com/protolambda/eth2-val-tools";
+    changelog = "https://github.com/protolambda/eth2-val-tools/releases";
     license = licenses.mit;
     mainProgram = "eth2-val-tools";
     platforms = [
