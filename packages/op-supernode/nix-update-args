@@ -1,0 +1,3 @@
+--use-github-releases
+--version-regex
+^op-supernode/v([0-9.]+)$
