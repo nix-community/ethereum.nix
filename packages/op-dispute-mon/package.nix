@@ -4,9 +4,7 @@
   lib,
   nix-update-script,
   versionCheckHook,
-  jq,
-  yq-go,
-  zip,
+  superchainConfigsHook,
 }:
 buildGoModule rec {
   pname = "op-dispute-mon";
@@ -17,7 +15,7 @@ buildGoModule rec {
     repo = "optimism";
     rev = "op-dispute-mon/v${version}";
     # The superchain configs live in the superchain-registry submodule, which is
-    # needed to regenerate the embedded superchain-configs.zip (see preBuild).
+    # needed to regenerate the embedded superchain-configs.zip (see superchainConfigsHook).
     fetchSubmodules = true;
     hash = "sha256-89U9JmKfBCmbbm6fo1hsMNb30XND1GM+BGvzUpCX9W0=";
   };
@@ -27,23 +25,7 @@ buildGoModule rec {
   proxyVendor = true;
   vendorHash = "sha256-83tmZ65862etkscseO9teHVxpaC0BSlEqhlfoK93+Fc=";
 
-  # op-core/superchain embeds superchain-configs.zip via //go:embed. The zip is
-  # gitignored and regenerated from the superchain-registry submodule; init()
-  # panics unless the bundle matches the committed .sha256. Rebuild it before
-  # compiling so the embed succeeds (the script asserts the .sha256 match).
-  nativeBuildInputs = [
-    jq
-    yq-go
-    zip
-  ];
-
-  preBuild = ''
-    # unpackPhase only makes sourceRoot (op-dispute-mon) writable; the script copies
-    # from and writes into these sibling trees, so make them writable too.
-    chmod -R u+w ../op-core ../superchain-registry
-    patchShebangs ../op-core/superchain/sync-superchain.sh
-    bash ../op-core/superchain/sync-superchain.sh
-  '';
+  nativeBuildInputs = [ superchainConfigsHook ];
 
   subPackages = [ "cmd" ];
 
