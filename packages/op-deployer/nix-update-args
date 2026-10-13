@@ -1,2 +1,3 @@
+--use-github-releases
 --version-regex
 ^op-deployer/v([0-9.]+)$
