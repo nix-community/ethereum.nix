@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Generate markdown documentation for all packages and update README.md."""
 
+import argparse
+import difflib
 import json
 import subprocess
 import sys
@@ -83,6 +85,8 @@ CATEGORY_ORDER = [
     "SSV",
     "Account Abstraction",
     "Polygon",
+    "Arbitrum",
+    "Optimism",
     "Development Tools",
     "Libraries",
     "Utilities",
@@ -126,7 +130,7 @@ def generate_all_docs() -> str:
     return "\n".join(docs).rstrip()
 
 
-def update_readme(readme_path: Path) -> bool:
+def update_readme(readme_path: Path, *, check: bool = False) -> bool:
     """Update README.md with generated package documentation.
 
     Returns True if the file was modified, False otherwise.
@@ -162,12 +166,27 @@ def update_readme(readme_path: Path) -> bool:
     if new_content == content:
         return False
 
-    readme_path.write_text(new_content)
+    if check:
+        sys.stdout.writelines(
+            difflib.unified_diff(
+                content.splitlines(keepends=True),
+                new_content.splitlines(keepends=True),
+                fromfile="README.md",
+                tofile="generated README.md",
+            )
+        )
+    else:
+        readme_path.write_text(new_content)
     return True
 
 
 def main() -> None:
     """Run the main documentation generation process."""
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--check", action="store_true", help="Fail on drift without modifying README"
+    )
+    args = parser.parse_args()
     # Find README.md relative to this script
     script_dir = Path(__file__).parent
     readme_path = script_dir.parent / "README.md"
@@ -176,7 +195,9 @@ def main() -> None:
         print(f"Error: README.md not found at {readme_path}", file=sys.stderr)
         sys.exit(1)
 
-    modified = update_readme(readme_path)
+    modified = update_readme(readme_path, check=args.check)
+    if args.check and modified:
+        sys.exit("README is stale; run ./scripts/generate-package-docs.py")
     if modified:
         print(f"Updated {readme_path}")
     else:

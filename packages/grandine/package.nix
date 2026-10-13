@@ -49,6 +49,7 @@ stdenv.mkDerivation rec {
   meta = {
     description = "High performance Ethereum consensus client";
     homepage = "https://github.com/grandinetech/grandine";
+    changelog = "https://github.com/grandinetech/grandine/releases";
     license = lib.licenses.gpl3Only;
     mainProgram = "grandine";
     platforms = [

@@ -35,6 +35,7 @@ rustPlatform.buildRustPackage rec {
   meta = {
     description = "the wd40 of ethereum load balancers";
     homepage = "https://github.com/rainshowerLabs/blutgang";
+    changelog = "https://github.com/rainshowerLabs/blutgang/releases";
     license = lib.licenses.gpl2Only;
     mainProgram = "blutgang";
     platforms = [ "x86_64-linux" ];

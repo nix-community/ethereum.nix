@@ -50,6 +50,7 @@ stdenv.mkDerivation rec {
   meta = with lib; {
     description = "Java Implementation of the Ethereum 2.0 Beacon Chain";
     homepage = "https://github.com/ConsenSys/teku";
+    changelog = "https://github.com/ConsenSys/teku/releases";
     license = licenses.asl20;
     mainProgram = "teku";
     platforms = [ "x86_64-linux" ];

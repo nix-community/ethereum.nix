@@ -36,6 +36,7 @@ buildGoModule rec {
   meta = {
     description = "An Ethereum 2 multi-node validator client";
     homepage = "https://github.com/attestantio/vouch";
+    changelog = "https://github.com/attestantio/vouch/releases";
     license = lib.licenses.asl20;
     mainProgram = "vouch";
     platforms = [ "x86_64-linux" ];

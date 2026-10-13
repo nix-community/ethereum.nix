@@ -59,6 +59,7 @@ rustPlatform.buildRustPackage rec {
   meta = {
     description = "Rust implementation of the SSV (Secret Shared Validators) protocol";
     homepage = "https://github.com/sigp/anchor";
+    changelog = "https://github.com/sigp/anchor/releases";
     license = lib.licenses.asl20;
     mainProgram = "anchor";
     platforms = [ "x86_64-linux" ];

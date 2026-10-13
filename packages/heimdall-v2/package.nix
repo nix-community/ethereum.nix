@@ -42,6 +42,7 @@ buildGoModule rec {
   meta = with lib; {
     description = "Official consensus client of the Polygon blockchain";
     homepage = "https://github.com/0xPolygon/heimdall-v2";
+    changelog = "https://github.com/0xPolygon/heimdall-v2/releases";
     license = licenses.gpl3Only;
     mainProgram = "heimdalld";
     platforms = platforms.unix;

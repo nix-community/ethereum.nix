@@ -48,6 +48,7 @@ buildGoModule rec {
   meta = {
     description = "Secret-Shared-Validator(SSV) for ethereum staking";
     homepage = "https://github.com/ssvlabs/ssv";
+    changelog = "https://github.com/ssvlabs/ssv/releases";
     license = lib.licenses.gpl3Only;
     mainProgram = "ssvnode";
     platforms = [ "x86_64-linux" ];

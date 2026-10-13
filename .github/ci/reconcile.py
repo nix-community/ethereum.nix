@@ -25,6 +25,7 @@ REQUIRED = {
     "nixbot/nix-build": 4016365,
     "nixbot/nix-eval": 4016365,
     "automation-tests": 15368,
+    "package-quality": 15368,
 }
 
 
