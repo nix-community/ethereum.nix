@@ -49,6 +49,7 @@ buildGoModule rec {
   meta = with lib; {
     description = "Official execution client of the Polygon blockchain";
     homepage = "https://github.com/maticnetwork/bor";
+    changelog = "https://github.com/maticnetwork/bor/releases";
     license = licenses.lgpl3Only;
     mainProgram = "bor";
     platforms = platforms.unix;

@@ -48,6 +48,7 @@ buildGoModule rec {
   meta = with lib; {
     description = "Optimism supervisor for cross-chain message verification";
     homepage = "https://github.com/ethereum-optimism/optimism/tree/develop/op-supervisor";
+    changelog = "https://github.com/ethereum-optimism/optimism/releases";
     license = licenses.mit;
     mainProgram = "op-supervisor";
     platforms = [

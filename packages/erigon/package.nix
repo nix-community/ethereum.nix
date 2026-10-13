@@ -52,6 +52,7 @@ buildGoModule rec {
   meta = {
     description = "Ethereum node implementation focused on scalability and modularity";
     homepage = "https://github.com/erigontech/erigon/";
+    changelog = "https://github.com/erigontech/erigon/releases";
     license = lib.licenses.lgpl3Only;
     mainProgram = "erigon";
     platforms = [ "x86_64-linux" ];

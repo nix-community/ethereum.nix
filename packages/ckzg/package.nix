@@ -67,6 +67,7 @@ stdenv.mkDerivation rec {
   meta = {
     description = "A minimal implementation of the Polynomial Commitments API";
     homepage = "https://github.com/ethereum/c-kzg-4844";
+    changelog = "https://github.com/ethereum/c-kzg-4844/releases";
     license = lib.licenses.asl20;
     platforms = [
       "x86_64-linux"

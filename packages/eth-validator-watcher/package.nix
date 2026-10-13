@@ -52,11 +52,13 @@ python3.pkgs.buildPythonPackage rec {
   };
 
   meta = with lib; {
+    mainProgram = "eth-validator-watcher";
     description = "Ethereum validator monitor";
     longDescription = ''
       Ethereum Validator Watcher monitors the Ethereum beacon
       chain in real-time and notifies you when your validators perform certain actions. '';
     homepage = "https://github.com/kilnfi/eth-validator-watcher";
+    changelog = "https://github.com/kilnfi/eth-validator-watcher/releases";
     license = licenses.mit;
     platforms = [ "x86_64-linux" ];
     sourceProvenance = with sourceTypes; [ fromSource ];

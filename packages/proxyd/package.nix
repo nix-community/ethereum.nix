@@ -6,13 +6,13 @@
 }:
 buildGoModule rec {
   pname = "proxyd";
-  version = "4.32.3";
+  version = "4.33.0";
 
   src = fetchFromGitHub {
     owner = "ethereum-optimism";
     repo = "infra";
     rev = "proxyd/v${version}";
-    hash = "sha256-ON4zvfyHKELMacCJI2glMM4sHlJ4snsRKSQQdt8pPpc=";
+    hash = "sha256-rSANDl0tmeLs8Ru47sfHcaRFc6mYCEswnPnxThrGHb8=";
   };
 
   sourceRoot = "${src.name}/proxyd";
@@ -38,6 +38,7 @@ buildGoModule rec {
   meta = with lib; {
     description = "RPC request router and proxy for Optimism";
     homepage = "https://github.com/ethereum-optimism/infra/tree/main/proxyd";
+    changelog = "https://github.com/ethereum-optimism/infra/releases";
     license = licenses.mit;
     mainProgram = "proxyd";
     platforms = platforms.unix;

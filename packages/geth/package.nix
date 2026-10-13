@@ -22,17 +22,17 @@ let
 in
 buildGoModule rec {
   pname = "geth";
-  version = "1.17.7";
+  version = "1.17.8";
 
   src = fetchFromGitHub {
     owner = "ethereum";
     repo = "go-ethereum";
     rev = "v${version}";
-    hash = "sha256-FaVO1p7eZsXQN1Ikq2CcgiugHkSyETGagZLw6hIF7to=";
+    hash = "sha256-Ev+Sb4YehsdrcYrnStmTk+jeh9idoUTLi+M3f4RERSg=";
   };
 
   proxyVendor = true;
-  vendorHash = "sha256-AsKicppcvr7xZ2sZ1pvsu8inXBRM1W3lFMlWAvV/EL0=";
+  vendorHash = "sha256-ExyJ/GTzhN2YxEmUZGYd6dZst1eSPV1VvZkNaxpG9ro=";
 
   ldflags = [
     "-s"
@@ -78,6 +78,7 @@ buildGoModule rec {
   meta = with lib; {
     description = "Official golang implementation of the Ethereum protocol";
     homepage = "https://geth.ethereum.org/";
+    changelog = "https://github.com/ethereum/go-ethereum/releases";
     license = with licenses; [
       lgpl3Plus
       gpl3Plus

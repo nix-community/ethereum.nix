@@ -12,11 +12,11 @@
 }:
 stdenv.mkDerivation rec {
   pname = "teku";
-  version = "26.9.1";
+  version = "26.10.0";
 
   src = fetchurl {
     url = "https://artifacts.consensys.net/public/${pname}/raw/names/${pname}.tar.gz/versions/${version}/${pname}-${version}.tar.gz";
-    hash = "sha256-JRCBexrRKOYu73kSnboTFY11D1hKEZFCTWFoYuWdUj8=";
+    hash = "sha256-p3CVaYLG8CdrW4zgVYnnRdjTQRe2wyC8zyrb6VmCJ8U=";
   };
 
   nativeBuildInputs = [ makeWrapper ];
@@ -50,6 +50,7 @@ stdenv.mkDerivation rec {
   meta = with lib; {
     description = "Java Implementation of the Ethereum 2.0 Beacon Chain";
     homepage = "https://github.com/ConsenSys/teku";
+    changelog = "https://github.com/ConsenSys/teku/releases";
     license = licenses.asl20;
     mainProgram = "teku";
     platforms = [ "x86_64-linux" ];

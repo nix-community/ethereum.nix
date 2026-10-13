@@ -45,6 +45,10 @@ let
 
           When beacon-nodes is not set, the module will automatically look up the HTTP address
           from a lighthouse-beacon service with the same instance name.
+
+          When http is enabled, the module automatically passes
+          --unencrypted-http-transport, which Lighthouse requires to serve the
+          validator HTTP API over plain HTTP.
         '';
         example = literalExpression ''
           {

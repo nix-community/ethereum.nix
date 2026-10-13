@@ -10,12 +10,12 @@
   versionCheckHook,
 }:
 let
-  version = "26.7.0";
+  version = "26.10.0";
   src = fetchFromGitHub {
     owner = "status-im";
     repo = "nimbus-eth2";
     rev = "v${version}";
-    hash = "sha256-ool5CLDQMJphiQMD830EaHtoi1tgmhD6JQIz3d6KUrQ=";
+    hash = "sha256-rBUWZZmX2VNEBdOTrtFw0zvjmH9FYqLEAPyV8Vz+1IY=";
     fetchSubmodules = true;
   };
   targets = [
@@ -49,7 +49,7 @@ stdenv.mkDerivation rec {
       fakeLsbRelease
       which
     ]
-    ++ lib.optionals stdenv.isDarwin [ darwin.cctools ];
+    ++ lib.optionals stdenv.hostPlatform.isDarwin [ darwin.cctools ];
 
   enableParallelBuilding = true;
 
@@ -95,6 +95,8 @@ stdenv.mkDerivation rec {
   doInstallCheck = true;
   nativeInstallCheckInputs = [ versionCheckHook ];
 
+  passthru.category = "Consensus Clients";
+
   meta = with lib; {
     homepage = "https://nimbus.guide/";
     downloadPage = "https://github.com/status-im/nimbus-eth2/releases";
@@ -110,6 +112,7 @@ stdenv.mkDerivation rec {
       asl20
       mit
     ];
+    sourceProvenance = with sourceTypes; [ fromSource ];
     mainProgram = "nimbus_beacon_node";
     platforms = stableSystems;
   };

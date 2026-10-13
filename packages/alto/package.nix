@@ -87,8 +87,15 @@ stdenv.mkDerivation rec {
       fi
     done
 
-    # Build the TypeScript
-    pnpm run build
+    # Build the TypeScript. Equivalent to `pnpm run build` (clean + the src
+    # workspace's `tsc && tsc-alias`), but invokes the JS entrypoints with node
+    # directly: on darwin, pnpm 12.9's recursive run drops sed from PATH and the
+    # generated node_modules/.bin shims fail with "sed: command not found".
+    rm -rf src/esm src/*.tsbuildinfo
+    pushd src
+    node node_modules/typescript/bin/tsc -p ./tsconfig.json
+    node node_modules/tsc-alias/dist/bin/index.js -p tsconfig.json
+    popd
 
     runHook postBuild
   '';
@@ -114,6 +121,7 @@ stdenv.mkDerivation rec {
   meta = with lib; {
     description = "A performant, reliable, and type-safe ERC-4337 Bundler written in TypeScript";
     homepage = "https://github.com/pimlicolabs/alto";
+    changelog = "https://github.com/pimlicolabs/alto/releases";
     license = licenses.gpl3Only;
     mainProgram = "alto";
     platforms = platforms.unix;

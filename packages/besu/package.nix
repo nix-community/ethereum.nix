@@ -19,7 +19,7 @@ stdenv.mkDerivation (finalAttrs: rec {
     hash = "sha256-FyspBpg38TQ2ogvXyCNK7KZ5F9ijeOgeK9SiBcV1QOo=";
   };
 
-  buildInputs = lib.optionals stdenv.isLinux [ jemalloc ];
+  buildInputs = lib.optionals stdenv.hostPlatform.isLinux [ jemalloc ];
   nativeBuildInputs = [ makeWrapper ];
   installPhase = ''
     mkdir -p $out/bin
@@ -27,9 +27,9 @@ stdenv.mkDerivation (finalAttrs: rec {
     mkdir -p $out/lib
     cp -r lib $out/
     wrapProgram $out/bin/${pname} --set JAVA_HOME "${jre}" --suffix ${
-      if stdenv.isDarwin then "DYLD_LIBRARY_PATH" else "LD_LIBRARY_PATH"
+      if stdenv.hostPlatform.isDarwin then "DYLD_LIBRARY_PATH" else "LD_LIBRARY_PATH"
     } : ${lib.makeLibraryPath buildInputs} ${
-      if stdenv.isLinux then (" --prefix PATH : " + lib.makeBinPath [ gawk ]) else ""
+      if stdenv.hostPlatform.isLinux then (" --prefix PATH : " + lib.makeBinPath [ gawk ]) else ""
     }
   '';
   passthru = {
@@ -59,6 +59,7 @@ stdenv.mkDerivation (finalAttrs: rec {
   meta = with lib; {
     description = "Besu is an Apache 2.0 licensed, MainNet compatible, Ethereum client written in Java";
     homepage = "https://github.com/hyperledger/besu";
+    changelog = "https://github.com/hyperledger/besu/releases";
     license = licenses.asl20;
     mainProgram = "besu";
     platforms = [

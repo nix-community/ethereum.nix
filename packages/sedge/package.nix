@@ -48,6 +48,7 @@ buildGoModule {
   meta = {
     description = "A one-click setup tool for PoS network/chain validators and nodes.";
     homepage = "https://docs.sedge.nethermind.io/";
+    changelog = "https://github.com/NethermindEth/sedge/releases";
     license = lib.licenses.asl20;
     mainProgram = "sedge";
     platforms = [ "x86_64-linux" ];

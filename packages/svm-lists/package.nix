@@ -24,6 +24,7 @@ stdenvNoCC.mkDerivation {
   '';
 
   passthru = {
+    hideFromDocs = true;
     category = "Development Tools";
   };
 

@@ -1,0 +1,22 @@
+name: Automation tests
+on:
+  pull_request:
+  merge_group:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    name: automation-tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Install updater sandbox
+        run: bash .github/ci/setup-sandbox.sh
+      - run: python3 -m unittest discover -s .github/ci/tests -v
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+          REQUIRE_UPDATER_SANDBOX: "1"
+          BWRAP: /usr/local/bin/ethereum-updater-bwrap
