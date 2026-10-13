@@ -163,6 +163,9 @@ Creation of update PRs no longer enables auto-merge directly.
 
 ### Activation after merging the automation PRs
 
+Use GitHub's native merge queue as the sole merge queue for this repository.
+Complete the [Mergify removal](#removing-mergify) before enabling the controller.
+
 1. Merge the preservation PR, retarget/merge the validation PR, then retarget/merge
    the controller PR, then the isolation/quality follow-up. Keep deletion of
    merged update branches enabled.
@@ -196,8 +199,43 @@ The publisher's former `auto-merge` workflow input is replaced by this
 repository-level activation switch. The existing App review bypass is not
 needed by the controller (which uses GitHub Actions); consider removing that
 bypass during activation. Do not remove required checks to unblock a PR.
-Mergify may still report statuses through organization configuration; keep one
-queue authority and audit that configuration before enabling another writer.
+
+### Removing Mergify
+
+Mergify is connected through its GitHub App, not a configuration file in this
+repository. There is no tracked `.mergify.yml` or equivalent to delete. Merging
+this documentation does not revoke the App's access or stop its checks.
+
+An administrator of the organization installation must complete the removal:
+
+1. Keep `AUTOMATION_MERGE_ENABLED` unset during the transition. Check Mergify for
+   queued entries and cancel any for `ethereum.nix` before disabling its products.
+1. In Mergify's **Configure repositories** screen, disable all enabled products
+   for `nix-community/ethereum.nix` and save. See the
+   [Mergify integration documentation](https://docs.mergify.com/integrations/github/).
+1. In the organization's
+   [GitHub App installation settings](https://docs.github.com/en/apps/using-github-apps/reviewing-and-modifying-installed-github-apps#modifying-repository-access), remove only
+   `ethereum.nix` from Mergify's repository access. If the installation grants
+   access to all repositories, an organization administrator must arrange a
+   repository-specific exclusion by switching to selected repositories while
+   preserving access for the other projects. Do not uninstall the organization's
+   shared App to remove this single repository.
+1. Keep the existing GitHub **Merge Queue** ruleset and nixbot checks. Neither
+   depends on Mergify. Check both branch protection and rulesets for required
+   checks issued by Mergify and remove any such requirements. Preserve the five
+   App-bound checks listed above for the new controller.
+1. Verify a new PR revision receives no new Mergify checks or actions. Historical
+   `Mergify Merge Queue` and `Summary` results remain part of past revisions;
+   their presence does not mean the integration is still active.
+1. Run **Diagnose and reconcile PRs** with automatic merging disabled, then test
+   one approved PR through GitHub's native queue. Verify all five checks on its
+   synthetic `merge_group` SHA before setting `AUTOMATION_MERGE_ENABLED=true`.
+
+Repository-scoped credentials may not grant access to the organization's App
+installation settings. If so, hand off the installation change to an organization
+administrator; a repository PR cannot substitute for that change.
+
+### Stopping automatic merges
 
 To stop new automatic approvals/merge requests, unset the variable. Cancel any
 already queued entries or enabled requests separately; unsetting the variable
