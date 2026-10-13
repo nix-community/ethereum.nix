@@ -439,23 +439,13 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 
 </details>
 <details>
-<summary><strong>op-supervisor</strong> - Optimism supervisor for cross-chain message verification</summary>
+<summary><strong>op-supernode</strong> - Optimism supernode that runs multiple OP Stack chains in a single process</summary>
 
 - **Source**: source
 - **License**: MIT
-- **Homepage**: https://github.com/ethereum-optimism/optimism/tree/develop/op-supervisor
-- **Usage**: `nix run github:nix-community/ethereum.nix#op-supervisor -- --help`
-- **Nix**: [packages/op-supervisor/package.nix](packages/op-supervisor/package.nix)
-
-</details>
-<details>
-<summary><strong>op-validator</strong> - Tool for validating Optimism chain configurations and deployments</summary>
-
-- **Source**: source
-- **License**: MIT
-- **Homepage**: https://github.com/ethereum-optimism/optimism/tree/develop/op-validator
-- **Usage**: `nix run github:nix-community/ethereum.nix#op-validator -- --help`
-- **Nix**: [packages/op-validator/package.nix](packages/op-validator/package.nix)
+- **Homepage**: https://github.com/ethereum-optimism/optimism/tree/develop/op-supernode
+- **Usage**: `nix run github:nix-community/ethereum.nix#op-supernode -- --help`
+- **Nix**: [packages/op-supernode/package.nix](packages/op-supernode/package.nix)
 
 </details>
 <details>
