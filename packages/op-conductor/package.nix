@@ -4,22 +4,26 @@
   lib,
   nix-update-script,
   versionCheckHook,
+  superchainConfigsHook,
 }:
 buildGoModule rec {
   pname = "op-conductor";
-  version = "0.9.4";
+  version = "0.9.5";
 
   src = fetchFromGitHub {
     owner = "ethereum-optimism";
     repo = "optimism";
     rev = "op-conductor/v${version}";
-    hash = "sha256-i872RAkjZr/KN5qCvb0Mj0tGqmULcpFOvOpVDTJS4LY=";
+    fetchSubmodules = true;
+    hash = "sha256-GVIJ77a5NehNjYuVt+IWXZLrHK32oxeTw1U1SrhGPqw=";
   };
 
   sourceRoot = "${src.name}/op-conductor";
 
   proxyVendor = true;
-  vendorHash = "sha256-uqOIItBtQ92W9Ikw1jWxzQ/3qkuBAncclLPv7GHr9Gs=";
+  vendorHash = "sha256-igCd1pje0js2MJXT/ZgX+IgURO7L/Cg5IV7UyUtFLV4=";
+
+  nativeBuildInputs = [ superchainConfigsHook ];
 
   subPackages = [ "cmd" ];
 
