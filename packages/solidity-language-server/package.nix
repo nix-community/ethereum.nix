@@ -1,52 +1,75 @@
 {
   lib,
-  buildNpmPackage,
+  stdenv,
+  fetchPnpmDeps,
+  pnpm_11,
+  pnpmConfigHook,
+  autoPatchelfHook,
   fetchFromGitHub,
   nodejs,
   makeWrapper,
   nix-update-script,
 }:
-buildNpmPackage rec {
+stdenv.mkDerivation (finalAttrs: {
   pname = "solidity-language-server";
-  version = "0.8.29";
+  version = "0.9.3";
 
   src = fetchFromGitHub {
     owner = "NomicFoundation";
     repo = "hardhat-vscode";
-    rev = "v${version}";
-    hash = "sha256-lRujS/Ps56U9q201Fj952huNH+vJZYI/KPjjv/ZjNOk=";
+    rev = "v${finalAttrs.version}";
+    hash = "sha256-IHKYIIkP+iyX0NiyEwrlYcQ4IwhIPp2rS9KRdtMixUA=";
   };
 
-  npmDepsHash = "sha256-FXp9ii4irSSg+nrHVl8Pcbrr5kuVGU23QSAZHwNDYnk=";
+  pnpmDeps = fetchPnpmDeps {
+    inherit (finalAttrs) pname version src;
+    pnpm = pnpm_11;
+    fetcherVersion = 4;
+    hash = "sha256-Brl3UG/rZKSskhW3IUU1pj5/G2EDzZUJsuVYapweZ80=";
+  };
 
-  makeCacheWritable = true;
-  npmFlags = [ "--ignore-scripts" ];
+  nativeBuildInputs = [
+    nodejs
+    pnpm_11
+    pnpmConfigHook
+    makeWrapper
+  ]
+  ++ lib.optionals stdenv.hostPlatform.isLinux [ autoPatchelfHook ];
+  buildInputs = lib.optionals stdenv.hostPlatform.isLinux [ stdenv.cc.cc.lib ];
+  pnpmInstallFlags = [ "--ignore-scripts" ];
 
-  nativeBuildInputs = [ makeWrapper ];
+  # Release telemetry credentials are private; build with empty values.
+  env = {
+    SOLIDITY_GA_SECRET = "";
+    SOLIDITY_GOOGLE_TRACKING_ID = "";
+    SOLIDITY_SENTRY_DSN = "";
+  };
+  postPatch = ''
+    substituteInPlace scripts/bundle/utils/env.ts \
+      --replace-fail 'value === undefined || value === ""' 'value === undefined'
+  '';
 
   buildPhase = ''
     runHook preBuild
-    npx tsc -b ./server/tsconfig.build.json
+    pnpm --filter @nomicfoundation/solidity-language-server run bundle
     runHook postBuild
   '';
 
   installPhase = ''
     runHook preInstall
 
-    mkdir -p $out/lib/solidity-language-server/node_modules
+    pnpm config set --location=project inject-workspace-packages true
+    pnpm --filter @nomicfoundation/solidity-language-server deploy \
+      --prod --offline --ignore-scripts $out/lib/solidity-language-server
 
-    cp -r server/out $out/lib/solidity-language-server/
-
-    for item in node_modules/*; do
-      if [ -d "$item" ] && [ ! -L "$item" ]; then
-        cp -rL "$item" "$out/lib/solidity-language-server/node_modules/"
-      fi
-    done
-
-    makeWrapper ${lib.getExe' nodejs "node"} $out/bin/nomicfoundation-solidity-language-server \
+    makeWrapper ${lib.getExe nodejs} $out/bin/nomicfoundation-solidity-language-server \
       --add-flags $out/lib/solidity-language-server/out/index.js
 
     runHook postInstall
+  '';
+
+  preFixup = ''
+    stripExclude+=("*.js" "*.ts" "*.map" "*.json" "*.md")
   '';
 
   passthru = {
@@ -68,4 +91,4 @@ buildNpmPackage rec {
     inherit (nodejs.meta) platforms;
     sourceProvenance = with lib.sourceTypes; [ fromSource ];
   };
-}
+})
