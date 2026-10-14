@@ -1,2 +1,3 @@
+--use-github-releases
 --version-regex
 ^op-conductor/v([0-9.]+)$
