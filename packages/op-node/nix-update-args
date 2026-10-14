@@ -1,2 +1,3 @@
+--use-github-releases
 --version-regex
 ^op-node/v([0-9.]+)$
