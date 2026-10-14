@@ -4,19 +4,35 @@
   lib,
   nix-update-script,
   versionCheckHook,
+  jq,
+  yq-go,
+  zip,
 }:
 buildGoModule rec {
   pname = "supersim";
-  version = "0.1.0-alpha.59";
+  version = "0.1.0-alpha.60";
 
   src = fetchFromGitHub {
     owner = "ethereum-optimism";
     repo = "supersim";
     rev = version;
-    hash = "sha256-oWQ1OJI3WE1W5Hxz5qnmRDrP79is4R/t0584QGWoPr8=";
+    fetchSubmodules = true;
+    hash = "sha256-oNA6KmqRP36wNnufXxmFyd3wYKnVLy/eE2Ph42KaTAs=";
   };
 
-  vendorHash = "sha256-ENr4xKASnF2uWkpJoxHcaM2Tbq6L4lbZPp7v5ucFxiI=";
+  vendorHash = "sha256-RjOuLl9+6FNmvvJQLo0lblG1Ors/N9IDBCQD7Pt1jKk=";
+
+  nativeBuildInputs = [
+    jq
+    yq-go
+    zip
+  ];
+
+  # Go vendoring resolves go:embed files from the local Optimism replacement.
+  # Generate the ignored bundle before both vendoring and compilation.
+  preBuild = ''
+    bash contracts/lib/optimism/op-core/superchain/sync-superchain.sh
+  '';
 
   subPackages = [ "cmd" ];
 
