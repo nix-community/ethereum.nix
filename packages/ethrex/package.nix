@@ -1,12 +1,15 @@
 {
+  aws-lc,
   fetchFromGitHub,
   fetchurl,
   lib,
+  libgit2,
   nix-update-script,
   openssl,
   perl,
   pkg-config,
   rustPlatform,
+  zlib,
 }:
 let
   pname = "ethrex";
@@ -74,7 +77,10 @@ rustPlatform.buildRustPackage {
   ];
 
   buildInputs = [
+    aws-lc
+    libgit2
     openssl
+    zlib
   ];
 
   # vergen-git2 needs a .git directory; skip it in nix builds
@@ -88,6 +94,12 @@ rustPlatform.buildRustPackage {
   # (pure-Rust fallback; build.rs then emits an empty stub lib), and nothing in
   # the tree requests `sys` explicitly, so drop it from their defaults.
   preBuild = ''
+    # nixpkgs' cargoSetupHook points JEMALLOC_OVERRIDE at a system jemalloc.
+    # tikv-jemalloc-sys expects its own static, unprefixed jemalloc 5.3 build;
+    # linking the shared nixpkgs one crashes at runtime (SIGSEGV in
+    # libjemalloc.so), so let it build the vendored copy as before.
+    unset JEMALLOC_OVERRIDE
+
     # sp1 6.x no longer has a `sys` feature, so only patch manifests that still
     # have it (the 5.x crates).
     for crate in sp1-core-machine sp1-recursion-core; do

@@ -39,7 +39,7 @@ stdenv.mkDerivation rec {
       postPatch
       ;
     inherit pnpm;
-    hash = "sha256-pEPIctOHKwYv2DSIuuv9Ln0OKRWguuoP4qTB3AufyoI=";
+    hash = "sha256-ciwPbzTFYDNMniNv6zis+c2bvwSML2cA4kgnLuS+JZI=";
     fetcherVersion = 4;
   };
 
