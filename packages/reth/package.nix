@@ -13,8 +13,6 @@
   openssl,
   perl,
   pkg-config,
-  rust-jemalloc-sys,
-  rust-jemalloc-sys-unprefixed,
   rustPlatform,
   versionCheckHook,
   zlib,
@@ -36,6 +34,11 @@ rustPlatform.buildRustPackage rec {
     '';
   };
   preBuild = ''
+    # nixpkgs' cargoSetupHook points JEMALLOC_OVERRIDE at a system jemalloc.
+    # tikv-jemalloc-sys expects its own static, unprefixed jemalloc 5.3 build;
+    # linking the shared nixpkgs one crashes at runtime (SIGSEGV in
+    # libjemalloc.so), so let it build the vendored copy as before.
+    unset JEMALLOC_OVERRIDE
     export VERGEN_GIT_SHA=$(cat COMMIT)
     # .git is stripped in postFetch, so vergen-git2 can't derive these; supply
     # them as overrides for a clean tagged-release build (reth-node-core's
@@ -83,8 +86,6 @@ rustPlatform.buildRustPackage rec {
     ncurses
     zlib
     zstd
-    # tikv-jemallocator calls unprefixed symbols (mallocx, sdallocx) on Linux.
-    (if stdenv.hostPlatform.isLinux then rust-jemalloc-sys-unprefixed else rust-jemalloc-sys)
   ];
 
   # Some tests fail due to I/O that is unfriendly with nix sandbox.

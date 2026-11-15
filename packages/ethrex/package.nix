@@ -8,9 +8,6 @@
   openssl,
   perl,
   pkg-config,
-  rust-jemalloc-sys,
-  rust-jemalloc-sys-unprefixed,
-  stdenv,
   rustPlatform,
   zlib,
 }:
@@ -99,8 +96,6 @@ rustPlatform.buildRustPackage {
     libgit2
     openssl
     zlib
-    # tikv-jemallocator calls unprefixed symbols (mallocx, sdallocx) on Linux.
-    (if stdenv.hostPlatform.isLinux then rust-jemalloc-sys-unprefixed else rust-jemalloc-sys)
   ];
 
   # vergen-git2 needs a .git directory; skip it in nix builds
@@ -114,6 +109,11 @@ rustPlatform.buildRustPackage {
   # (pure-Rust fallback; build.rs then emits an empty stub lib), and nothing in
   # the tree requests `sys` explicitly, so drop it from their defaults.
   preBuild = ''
+    # nixpkgs' cargoSetupHook points JEMALLOC_OVERRIDE at a system jemalloc.
+    # tikv-jemalloc-sys expects its own static, unprefixed jemalloc 5.3 build;
+    # linking the shared nixpkgs one crashes at runtime (SIGSEGV in
+    # libjemalloc.so), so let it build the vendored copy as before.
+    unset JEMALLOC_OVERRIDE
     for crate in sp1-core-machine sp1-recursion-core; do
       find "$NIX_BUILD_TOP" -maxdepth 3 -path "*/$crate-*/Cargo.toml" -print0 \
         | while IFS= read -r -d "" manifest; do
