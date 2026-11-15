@@ -1,8 +1,10 @@
 {
+  aws-lc,
   fetchFromGitHub,
   lib,
   stdenv,
   libffi,
+  libgit2,
   libxml2,
   llvmPackages_23,
   m4,
@@ -10,9 +12,11 @@
   nix-update-script,
   openssl,
   perl,
+  pkg-config,
   rustPlatform,
   versionCheckHook,
   zlib,
+  zstd,
 }:
 rustPlatform.buildRustPackage rec {
   pname = "reth";
@@ -30,6 +34,11 @@ rustPlatform.buildRustPackage rec {
     '';
   };
   preBuild = ''
+    # nixpkgs' cargoSetupHook points JEMALLOC_OVERRIDE at a system jemalloc.
+    # tikv-jemalloc-sys expects its own static, unprefixed jemalloc 5.3 build;
+    # linking the shared nixpkgs one crashes at runtime (SIGSEGV in
+    # libjemalloc.so), so let it build the vendored copy as before.
+    unset JEMALLOC_OVERRIDE
     export VERGEN_GIT_SHA=$(cat COMMIT)
     # .git is stripped in postFetch, so vergen-git2 can't derive these; supply
     # them as overrides for a clean tagged-release build (reth-node-core's
@@ -63,17 +72,21 @@ rustPlatform.buildRustPackage rec {
 
   nativeBuildInputs = [
     rustPlatform.bindgenHook
+    pkg-config
     perl # required for building sha3-asm
     m4 # required for building gmp-mpfr-sys (bundled GMP, pulled in via the gmp feature)
     llvmPackages_23.llvm.dev # llvm-sys needs llvm-config (LLVM 23) on PATH
   ];
 
-  # Needed to link llvm-sys against LLVM (evm2 jit feature).
+  # libffi, libxml2, ncurses, zlib: needed to link llvm-sys against LLVM (evm2 jit feature).
   buildInputs = [
+    aws-lc
     libffi
+    libgit2
     libxml2
     ncurses
     zlib
+    zstd
   ];
 
   # Some tests fail due to I/O that is unfriendly with nix sandbox.
