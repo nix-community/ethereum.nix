@@ -34,6 +34,15 @@ rustPlatform.buildRustPackage rec {
   # build info instead of reading it from git.
   preBuild = ''
     export SILVER_BUILD_COMMIT=$(cat COMMIT)
+
+    # protobuf-build (raft-proto's build script) only accepts protoc 3.x and
+    # otherwise falls back to a bundled binary that cannot run here. The
+    # protoc from nixpkgs (>= 22) handles raft's proto files fine.
+    find "$NIX_BUILD_TOP" -maxdepth 3 -type d -name 'protobuf-build-*' -print0 \
+      | while IFS= read -r -d "" crate; do
+      substituteInPlace "$crate/src/protobuf_impl.rs" \
+        --replace-fail 'if major == 3 && minor >= 1 {' 'if major > 3 || (major == 3 && minor >= 1) {'
+    done
   '';
 
   # Same binaries as upstream's Docker image. Its `release-prod` profile is
@@ -51,7 +60,7 @@ rustPlatform.buildRustPackage rec {
   nativeBuildInputs = [
     perl # sha3-asm
     pkg-config
-    protobuf # protoc for raft-proto (the bundled binary does not run on NixOS)
+    protobuf # protoc for raft-proto
     rustPlatform.bindgenHook
   ];
 
