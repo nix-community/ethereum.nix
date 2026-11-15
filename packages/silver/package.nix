@@ -35,8 +35,11 @@ rustPlatform.buildRustPackage rec {
     export SILVER_BUILD_COMMIT=$(cat COMMIT)
   '';
 
-  # Same binaries and profile as upstream's Docker image.
-  buildType = "release-prod";
+  # Same binaries as upstream's Docker image. Its `release-prod` profile is
+  # `release` plus panic = "abort"; nixpkgs' cargo hooks cannot take a profile
+  # name with a dash (they export CARGO_PROFILE_<NAME>_STRIP), so build
+  # `release` with that one override.
+  env.CARGO_PROFILE_RELEASE_PANIC = "abort";
   cargoBuildFlags = [
     "--bin"
     "silver"
