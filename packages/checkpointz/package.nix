@@ -6,13 +6,13 @@
   nix-update-script,
 }:
 let
-  version = "0.31.0";
+  version = "0.32.0";
 
   src = fetchFromGitHub {
     owner = "ethpandaops";
     repo = "checkpointz";
     rev = "v${version}";
-    hash = "sha256-nKXX72MKhSbq9xkdqnzq8sQCBt5xsdcUK6pEnqzi0co=";
+    hash = "sha256-zZ+/jDSw95xOAVKhED6SjJqXAE6H0py5+VU4XbpRrOg=";
   };
 
   ui = buildNpmPackage {
@@ -35,7 +35,7 @@ buildGoModule rec {
   pname = "checkpointz";
   inherit version src;
 
-  vendorHash = "sha256-7vV4kKHFMeQqLuOtSRArxH0yKdfUBGB/gqF4iAXi9aw=";
+  vendorHash = "sha256-oWi/UL/Vtq4gspWmP6ryFsFBO5X17N/3yCXSpz2JIRE=";
 
   preBuild = ''
     mkdir -p web/build
