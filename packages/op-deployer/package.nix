@@ -8,7 +8,7 @@
 }:
 buildGoModule rec {
   pname = "op-deployer";
-  version = "0.8.0";
+  version = "0.9.0";
 
   src = fetchFromGitHub {
     owner = "ethereum-optimism";
@@ -17,13 +17,13 @@ buildGoModule rec {
     # The superchain configs live in the superchain-registry submodule, which is
     # needed to regenerate the embedded superchain-configs.zip (see superchainConfigsHook).
     fetchSubmodules = true;
-    hash = "sha256-uChBJr2In5YG85XuIFhYShjAnoMuTE9AjUI62xA8XHs=";
+    hash = "sha256-6fmfq6wWgWBIrOsg4Ufk/RCfXkvFg0tp6xy8bk4Fz1M=";
   };
 
   sourceRoot = "${src.name}/op-deployer";
 
   proxyVendor = true;
-  vendorHash = "sha256-+RSlcvjgo+Wu87bW3BiIiCPNumqTUUFK0mfXNShuP8k=";
+  vendorHash = "sha256-KfQAgTbGKeezr6rzZNjqnbEmC/vPP4jUyJVNksEnVak=";
 
   nativeBuildInputs = [ superchainConfigsHook ];
 

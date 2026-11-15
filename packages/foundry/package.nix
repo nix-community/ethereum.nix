@@ -1,4 +1,5 @@
 {
+  aws-lc,
   darwin,
   fetchFromGitHub,
   installShellFiles,
@@ -6,24 +7,27 @@
   libusb1,
   perl,
   pkg-config,
+  rust-jemalloc-sys,
   rustPlatform,
+  sqlite,
   stdenv,
   solc,
   svm-lists,
   versionCheckHook,
+  zstd,
 }:
 rustPlatform.buildRustPackage rec {
   pname = "foundry";
-  version = "1.8.5";
+  version = "1.8.7";
 
   src = fetchFromGitHub {
     owner = "foundry-rs";
     repo = "foundry";
     tag = "v${version}";
-    hash = "sha256-9z0Mz2oTxDt3AeJm8wrSmNRgKhds5TD57nVEFsZH0y4=";
+    hash = "sha256-JgEmxsb3xCfCpRo5fReKG9rBWiom28mcbq9jjOouFlE=";
   };
 
-  cargoHash = "sha256-gy/XDPN2Jxqw7TQsXo2YY8WKxm0n+g9tmsLhfQl977k=";
+  cargoHash = "sha256-kDiJJFXfRUk50alFJ82jlr0n/bTmAhLigTdS8fWLQUc=";
 
   nativeBuildInputs = [
     pkg-config
@@ -32,7 +36,15 @@ rustPlatform.buildRustPackage rec {
   ]
   ++ lib.optionals stdenv.hostPlatform.isDarwin [ darwin.DarwinTools ];
 
-  buildInputs = [ solc ] ++ lib.optionals stdenv.hostPlatform.isDarwin [ libusb1 ];
+  # nixpkgs cargoSetupHook forces *-sys crates onto system libraries.
+  buildInputs = [
+    aws-lc
+    rust-jemalloc-sys
+    solc
+    sqlite
+    zstd
+  ]
+  ++ lib.optionals stdenv.hostPlatform.isDarwin [ libusb1 ];
 
   env = {
     # Make svm-rs use local release list rather than fetching from non-reproducible URL.
