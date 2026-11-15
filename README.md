@@ -145,6 +145,16 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 
 </details>
 <details>
+<summary><strong>silver</strong> - Ethereum consensus client by Gattaca</summary>
+
+- **Source**: source
+- **License**: MIT
+- **Homepage**: https://github.com/gattaca-com/silver
+- **Usage**: `nix run github:nix-community/ethereum.nix#silver -- --help`
+- **Nix**: [packages/silver/package.nix](packages/silver/package.nix)
+
+</details>
+<details>
 <summary><strong>teku</strong> - Java Implementation of the Ethereum 2.0 Beacon Chain</summary>
 
 - **Source**: bytecode
