@@ -10,20 +10,24 @@
 }:
 rustPlatform.buildRustPackage rec {
   pname = "anchor";
-  version = "1.3.2";
+  version = "1.4.1";
 
   src = fetchFromGitHub {
     owner = "sigp";
     repo = "anchor";
     rev = "v${version}";
-    hash = "sha256-21B7hiVZstrwswvjT3C37x/2PPWpwzV0077ujqIEZU8=";
+    hash = "sha256-XOzM7DwVBPkSwX09C3epw+23WhtZ6ku5Zqy4djuU8Ds=";
   };
 
   cargoLock = {
     lockFile = "${src}/Cargo.lock";
     outputHashes = {
-      "beacon_node_fallback-0.1.0" = "sha256-MOaXIJRrbaY2qXhoh1wT1ZAFntNZahAHT3C7vT4ZTBg=";
-      "libp2p-0.57.0" = "sha256-Ujy81IdJcfF+dUbAvfS3VNKvKOTq91jSlWeTopPnBXs=";
+      "account_utils-0.1.0" = "sha256-EFt8cwC2NrM/Med0qOuyDvZlRxzk4pmch4f49CqOEPs=";
+      "ethereum_ssz-0.10.4" = "sha256-mnoExiIEiurjK2F1C4BRe7ATqO3n53yhuZjLd5hqpS0=";
+      "libp2p-0.57.0" = "sha256-Gu+kFyxlV7FsH8+GRP3POlGVMvm2ZN94tlBc15ZlP5g=";
+      "milhouse-0.9.0" = "sha256-pcoXhOkqjypqwyiDHB5E/dTwy01GBhD/ze+vt90u1qM=";
+      "ssz_types-0.14.1" = "sha256-S1KL21Lc0eFaYB4Ehlrpy9tj2rU+iNR6ELx2nuCJa+g=";
+      "tree_hash-0.12.1" = "sha256-pUbQkTm/P4bC63E9gNIksV3rhbr6TvIOS9uU61lCK2Y=";
     };
   };
 
