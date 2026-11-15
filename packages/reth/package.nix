@@ -14,6 +14,7 @@
   perl,
   pkg-config,
   rust-jemalloc-sys,
+  rust-jemalloc-sys-unprefixed,
   rustPlatform,
   versionCheckHook,
   zlib,
@@ -73,16 +74,17 @@ rustPlatform.buildRustPackage rec {
     llvmPackages_22.llvm.dev # revmc-llvm's build script runs llvm-config from PATH
   ];
 
-  # Needed to link llvm-sys against LLVM (revmc/jit feature).
+  # libffi, libxml2, ncurses, zlib: needed to link llvm-sys against LLVM (revmc/jit feature).
   buildInputs = [
     aws-lc
     libffi
     libgit2
     libxml2
     ncurses
-    rust-jemalloc-sys
     zlib
     zstd
+    # tikv-jemallocator calls unprefixed symbols (mallocx, sdallocx) on Linux.
+    (if stdenv.hostPlatform.isLinux then rust-jemalloc-sys-unprefixed else rust-jemalloc-sys)
   ];
 
   # Some tests fail due to I/O that is unfriendly with nix sandbox.

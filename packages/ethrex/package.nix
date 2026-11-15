@@ -9,6 +9,8 @@
   perl,
   pkg-config,
   rust-jemalloc-sys,
+  rust-jemalloc-sys-unprefixed,
+  stdenv,
   rustPlatform,
   zlib,
 }:
@@ -96,8 +98,9 @@ rustPlatform.buildRustPackage {
     aws-lc
     libgit2
     openssl
-    rust-jemalloc-sys
     zlib
+    # tikv-jemallocator calls unprefixed symbols (mallocx, sdallocx) on Linux.
+    (if stdenv.hostPlatform.isLinux then rust-jemalloc-sys-unprefixed else rust-jemalloc-sys)
   ];
 
   # vergen-git2 needs a .git directory; skip it in nix builds
