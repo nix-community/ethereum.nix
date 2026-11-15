@@ -18,7 +18,10 @@ buildGoModule rec {
     hash = "sha256-xA2F4vsX/qXupRrpyZI82HGUlqpHzYTnCCOfXz6iEek=";
   };
 
-  vendorHash = "sha256-BpbZnrZ5aowLn/43uZ7RlgoAlnfXeNox3xCot53/Csg=";
+  # Module cache keeps non-Go files, e.g. the prebuilt libhashtree.a of
+  # pk910/hashtree-bindings that `go mod vendor` would drop.
+  proxyVendor = true;
+  vendorHash = "sha256-r+E+8uh8rGu1dX5PJLd2y7ip3na+ZOkAt6tZQW6FB14=";
 
   buildInputs = [
     bls_1_86
