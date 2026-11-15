@@ -16,13 +16,13 @@
 }:
 rustPlatform.buildRustPackage rec {
   pname = "reth";
-  version = "2.7.0";
+  version = "2.11.0";
 
   src = fetchFromGitHub {
     owner = "paradigmxyz";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-Z52fXBI5My/xdmjxpW6hVLAQk9QXxv5Dk6FhBGFmSas=";
+    hash = "sha256-DZL2bDxCvzYIC3cHQbT9loo0tX/UYLjaTPwXNalVj5k=";
     leaveDotGit = true;
     postFetch = ''
       git -C "$out" rev-parse HEAD > "$out/COMMIT"
@@ -55,8 +55,9 @@ rustPlatform.buildRustPackage rec {
   cargoLock = {
     lockFile = "${src}/Cargo.lock";
     outputHashes = {
-      "discv5-0.10.4" = "sha256-hfgBA/Nf77/et/SVeUz9RALAREXp66/CgjuwNcusRJA=";
-      "revmc-0.1.0" = "sha256-1op6PBjSULsvpGxRlVS+xcZ8Fq3QbnFNzJ1mmaMpdO0=";
+      "bedrock-assertions-0.1.0" = "sha256-mYq11aX8QUOrWBfypD+xZGeWg1a9vGjRiUokjCMovWQ=";
+      "evm2-0.1.0" = "sha256-T848lt3vrDVWq8JoMtv2JMkIyryB18+0r0cEC2KSDAQ=";
+      "reth-codecs-0.8.2" = "sha256-xUGM6YD5A8aWrTD0+hATmL4aeMJ4nQGuS/FLbucTV2U=";
     };
   };
 
