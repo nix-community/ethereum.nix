@@ -1,6 +1,7 @@
 {
   cmake,
   fetchFromGitHub,
+  fetchurl,
   lib,
   openssl,
   pkg-config,
@@ -8,6 +9,17 @@
   sqlite,
   versionCheckHook,
 }:
+let
+  # deposit_contract's build.rs downloads these ABIs at build time
+  depositContractSrc = fetchurl {
+    url = "https://raw.githubusercontent.com/ethereum/eth2.0-specs/v0.12.1/deposit_contract/contracts/validator_registration.json";
+    hash = "sha256-ZslAe1wkmkg8Tua/AmmEfBmjqMVcGIiYHwi+WssEwa8=";
+  };
+  depositContractTestnetSrc = fetchurl {
+    url = "https://raw.githubusercontent.com/sigp/unsafe-eth2-deposit-contract/v0.9.2.1/unsafe_validator_registration.json";
+    hash = "sha256-aeTeHRT3QtxBRSNMCITIWmx89vGtox2OzSff8vZ+RYY=";
+  };
+in
 rustPlatform.buildRustPackage rec {
   pname = "anchor";
   version = "1.4.1";
@@ -50,6 +62,10 @@ rustPlatform.buildRustPackage rec {
 
   # Use pkg-config to locate the system OpenSSL instead of vendoring it.
   OPENSSL_NO_VENDOR = 1;
+
+  # deposit_contract's build.rs would otherwise download the ABIs (no network in sandbox)
+  LIGHTHOUSE_DEPOSIT_CONTRACT_SPEC_URL = "file:${depositContractSrc}";
+  LIGHTHOUSE_DEPOSIT_CONTRACT_TESTNET_URL = "file:${depositContractTestnetSrc}";
 
   # Workspace tests need network access and fixtures; the version check below
   # exercises the built binary instead.
