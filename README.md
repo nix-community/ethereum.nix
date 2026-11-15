@@ -95,6 +95,16 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 ### Consensus Clients
 
 <details>
+<summary><strong>ethlambda</strong> - Minimalist and fast Ethereum consensus client by LambdaClass, for the Beacon and Lean chains</summary>
+
+- **Source**: source
+- **License**: MIT
+- **Homepage**: https://github.com/lambdaclass/ethlambda
+- **Usage**: `nix run github:nix-community/ethereum.nix#ethlambda -- --help`
+- **Nix**: [packages/ethlambda/package.nix](packages/ethlambda/package.nix)
+
+</details>
+<details>
 <summary><strong>grandine</strong> - High performance Ethereum consensus client</summary>
 
 - **Source**: binary
