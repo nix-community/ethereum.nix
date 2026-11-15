@@ -29,20 +29,10 @@ let
     hash = "sha256-yMAZvH2ehTrFhLK0TV2VEJ87lODmCr9/VwtjLYUZo3s=";
   };
 
-  # Upstream Cargo.lock has crates from both crates.io and git forks with the
-  # same name-version (bls12_381, halo2curves-axiom, zkhash). We unify them
-  # via [patch.crates-io]. It also has openvm crates from two git refs of the
-  # same repo; we pin both to a single commit via `cargo update --precise` in
-  # our shipped Cargo.lock.
+  # Upstream's Cargo.lock no longer has name-version collisions between
+  # crates.io and git sources (the old [patch.crates-io] workaround is gone);
+  # we ship it as-is.
   patchCargo = ''
-    cat >> Cargo.toml <<'PATCH'
-
-    [patch.crates-io]
-    bls12_381 = { git = "https://github.com/lambdaclass/bls12_381", branch = "expose-affine-constructors" }
-    halo2curves-axiom = { git = "https://github.com/axiom-crypto/halo2curves.git", tag = "v0.7.2" }
-    zkhash = { git = "https://github.com/HorizenLabs/poseidon2.git", rev = "bb476b9" }
-    PATCH
-
     cp ${./Cargo.lock} Cargo.lock
   '';
 
@@ -98,11 +88,15 @@ rustPlatform.buildRustPackage {
   # (pure-Rust fallback; build.rs then emits an empty stub lib), and nothing in
   # the tree requests `sys` explicitly, so drop it from their defaults.
   preBuild = ''
+    # sp1 6.x no longer has a `sys` feature, so only patch manifests that still
+    # have it (the 5.x crates).
     for crate in sp1-core-machine sp1-recursion-core; do
       find "$NIX_BUILD_TOP" -maxdepth 3 -path "*/$crate-*/Cargo.toml" -print0 \
         | while IFS= read -r -d "" manifest; do
-        substituteInPlace "$manifest" \
-          --replace-fail 'default = ["sys"]' 'default = []'
+        if grep -qF 'default = ["sys"]' "$manifest"; then
+          substituteInPlace "$manifest" \
+            --replace-fail 'default = ["sys"]' 'default = []'
+        fi
       done
     done
 
