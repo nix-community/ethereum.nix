@@ -35,7 +35,10 @@ buildGoModule rec {
   pname = "checkpointz";
   inherit version src;
 
-  vendorHash = "sha256-oWi/UL/Vtq4gspWmP6ryFsFBO5X17N/3yCXSpz2JIRE=";
+  # Module cache keeps non-Go files, e.g. the prebuilt libhashtree.a of
+  # pk910/hashtree-bindings that `go mod vendor` would drop.
+  proxyVendor = true;
+  vendorHash = "sha256-+N/0h6EITAGxtJhC/CwtviOU/AHCgBBGJqTOh7oU5fk=";
 
   preBuild = ''
     mkdir -p web/build
