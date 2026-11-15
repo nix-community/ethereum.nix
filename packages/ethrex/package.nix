@@ -2,6 +2,7 @@
   fetchFromGitHub,
   fetchurl,
   lib,
+  libgit2,
   nix-update-script,
   openssl,
   perl,
@@ -89,6 +90,7 @@ rustPlatform.buildRustPackage {
   ];
 
   buildInputs = [
+    libgit2
     openssl
   ];
 

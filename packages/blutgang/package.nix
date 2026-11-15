@@ -4,6 +4,7 @@
   nix-update-script,
   openssl,
   pkg-config,
+  rust-jemalloc-sys,
   rustPlatform,
 }:
 rustPlatform.buildRustPackage rec {
@@ -23,6 +24,7 @@ rustPlatform.buildRustPackage rec {
 
   buildInputs = [
     openssl
+    rust-jemalloc-sys
   ];
 
   cargoHash = "sha256-kkfIcx8sDQkPWzcTii8NHRq8S8gi+rZYSxaJptEL1QM=";

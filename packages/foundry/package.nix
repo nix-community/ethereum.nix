@@ -1,4 +1,5 @@
 {
+  aws-lc,
   darwin,
   fetchFromGitHub,
   installShellFiles,
@@ -32,7 +33,12 @@ rustPlatform.buildRustPackage rec {
   ]
   ++ lib.optionals stdenv.hostPlatform.isDarwin [ darwin.DarwinTools ];
 
-  buildInputs = [ solc ] ++ lib.optionals stdenv.hostPlatform.isDarwin [ libusb1 ];
+  # aws-lc-sys is forced onto the system library by nixpkgs (AWS_LC_SYS_USE_SYSTEM=1).
+  buildInputs = [
+    aws-lc
+    solc
+  ]
+  ++ lib.optionals stdenv.hostPlatform.isDarwin [ libusb1 ];
 
   env = {
     # Make svm-rs use local release list rather than fetching from non-reproducible URL.

@@ -10,9 +10,11 @@
   nix-update-script,
   openssl,
   perl,
+  pkg-config,
   rustPlatform,
   versionCheckHook,
   zlib,
+  zstd,
 }:
 rustPlatform.buildRustPackage rec {
   pname = "reth";
@@ -62,6 +64,7 @@ rustPlatform.buildRustPackage rec {
 
   nativeBuildInputs = [
     rustPlatform.bindgenHook
+    pkg-config
     perl # required for building sha3-asm
     m4 # required for building gmp-mpfr-sys (bundled GMP, pulled in via the gmp feature)
     llvmPackages_22.llvm.dev # revmc-llvm's build script runs llvm-config from PATH
@@ -73,6 +76,7 @@ rustPlatform.buildRustPackage rec {
     libxml2
     ncurses
     zlib
+    zstd
   ];
 
   # Some tests fail due to I/O that is unfriendly with nix sandbox.

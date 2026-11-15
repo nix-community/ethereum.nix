@@ -8,11 +8,13 @@
   openssl,
   sqlite,
   rust-jemalloc-sys,
+  pkg-config,
   protobuf,
   rustPlatform,
   postgresql,
   foundry,
   versionCheckHook,
+  zstd,
 }:
 let
   slasherContractVersion = "0.12.1";
@@ -55,12 +57,14 @@ rustPlatform.buildRustPackage rec {
   nativeBuildInputs = [
     cmake
     clang
+    pkg-config
   ];
   buildInputs = [
     openssl
     protobuf
     sqlite
     rust-jemalloc-sys
+    zstd
   ];
 
   buildNoDefaultFeatures = true;
