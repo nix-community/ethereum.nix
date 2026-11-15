@@ -1,4 +1,5 @@
 {
+  aws-lc,
   clang,
   cmake,
   fetchFromGitHub,
@@ -15,6 +16,7 @@
   foundry,
   versionCheckHook,
   writeText,
+  zlib,
   zstd,
 }:
 let
@@ -66,10 +68,12 @@ rustPlatform.buildRustPackage rec {
     pkg-config
   ];
   buildInputs = [
+    aws-lc
     openssl
     protobuf
     sqlite
     rust-jemalloc-sys
+    zlib
     zstd
   ];
 

@@ -1,4 +1,5 @@
 {
+  aws-lc,
   cmake,
   fetchFromGitHub,
   fetchurl,
@@ -56,6 +57,7 @@ rustPlatform.buildRustPackage rec {
   ];
 
   buildInputs = [
+    aws-lc
     openssl
     sqlite
   ];
