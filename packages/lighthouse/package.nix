@@ -84,10 +84,9 @@ rustPlatform.buildRustPackage rec {
     "slasher-lmdb"
   ];
 
-  # Needed to get openssl-sys to use pkg-config.
+  # openssl-sys finds openssl via pkg-config. Do not set OPENSSL_DIR: aws-lc-sys
+  # would take it as its AWS-LC install candidate and never find aws-lc.
   OPENSSL_NO_VENDOR = 1;
-  OPENSSL_LIB_DIR = "${lib.getLib openssl}/lib";
-  OPENSSL_DIR = "${lib.getDev openssl}";
 
   # Needed to get prost-build to use protobuf
   PROTOC = "${protobuf}/bin/protoc";
