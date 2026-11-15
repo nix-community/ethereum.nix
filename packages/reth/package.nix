@@ -4,7 +4,7 @@
   stdenv,
   libffi,
   libxml2,
-  llvmPackages_22,
+  llvmPackages_23,
   m4,
   ncurses,
   nix-update-script,
@@ -48,9 +48,9 @@ rustPlatform.buildRustPackage rec {
     popd >/dev/null
   '';
 
-  # reth's default features enable "jit" (the revmc EVM compiler), which builds
-  # against LLVM via llvm-sys. llvm-sys 221.x targets LLVM 22.
-  env.LLVM_SYS_221_PREFIX = "${lib.getDev llvmPackages_22.llvm}";
+  # reth's default features enable "jit" (the evm2 EVM JIT), which builds
+  # against LLVM via llvm-sys. llvm-sys 231.x targets LLVM 23.
+  env.LLVM_SYS_231_PREFIX = "${lib.getDev llvmPackages_23.llvm}";
 
   cargoLock = {
     lockFile = "${src}/Cargo.lock";
@@ -65,10 +65,10 @@ rustPlatform.buildRustPackage rec {
     rustPlatform.bindgenHook
     perl # required for building sha3-asm
     m4 # required for building gmp-mpfr-sys (bundled GMP, pulled in via the gmp feature)
-    llvmPackages_22.llvm.dev # revmc-llvm's build script runs llvm-config from PATH
+    llvmPackages_23.llvm.dev # llvm-sys needs llvm-config (LLVM 23) on PATH
   ];
 
-  # Needed to link llvm-sys against LLVM (revmc/jit feature).
+  # Needed to link llvm-sys against LLVM (evm2 jit feature).
   buildInputs = [
     libffi
     libxml2
