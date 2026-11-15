@@ -1,28 +1,32 @@
 {
+  aws-lc,
   fetchFromGitHub,
   lib,
   stdenv,
   libffi,
+  libgit2,
   libxml2,
-  llvmPackages_22,
+  llvmPackages_23,
   m4,
   ncurses,
   nix-update-script,
   openssl,
   perl,
+  pkg-config,
   rustPlatform,
   versionCheckHook,
   zlib,
+  zstd,
 }:
 rustPlatform.buildRustPackage rec {
   pname = "reth";
-  version = "2.7.0";
+  version = "2.11.0";
 
   src = fetchFromGitHub {
     owner = "paradigmxyz";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-Z52fXBI5My/xdmjxpW6hVLAQk9QXxv5Dk6FhBGFmSas=";
+    hash = "sha256-DZL2bDxCvzYIC3cHQbT9loo0tX/UYLjaTPwXNalVj5k=";
     leaveDotGit = true;
     postFetch = ''
       git -C "$out" rev-parse HEAD > "$out/COMMIT"
@@ -30,6 +34,11 @@ rustPlatform.buildRustPackage rec {
     '';
   };
   preBuild = ''
+    # nixpkgs' cargoSetupHook points JEMALLOC_OVERRIDE at a system jemalloc.
+    # tikv-jemalloc-sys expects its own static, unprefixed jemalloc 5.3 build;
+    # linking the shared nixpkgs one crashes at runtime (SIGSEGV in
+    # libjemalloc.so), so let it build the vendored copy as before.
+    unset JEMALLOC_OVERRIDE
     export VERGEN_GIT_SHA=$(cat COMMIT)
     # .git is stripped in postFetch, so vergen-git2 can't derive these; supply
     # them as overrides for a clean tagged-release build (reth-node-core's
@@ -48,31 +57,36 @@ rustPlatform.buildRustPackage rec {
     popd >/dev/null
   '';
 
-  # reth's default features enable "jit" (the revmc EVM compiler), which builds
-  # against LLVM via llvm-sys. llvm-sys 221.x targets LLVM 22.
-  env.LLVM_SYS_221_PREFIX = "${lib.getDev llvmPackages_22.llvm}";
+  # reth's default features enable "jit" (the evm2 EVM JIT), which builds
+  # against LLVM via llvm-sys. llvm-sys 231.x targets LLVM 23.
+  env.LLVM_SYS_231_PREFIX = "${lib.getDev llvmPackages_23.llvm}";
 
   cargoLock = {
     lockFile = "${src}/Cargo.lock";
     outputHashes = {
-      "discv5-0.10.4" = "sha256-hfgBA/Nf77/et/SVeUz9RALAREXp66/CgjuwNcusRJA=";
-      "revmc-0.1.0" = "sha256-1op6PBjSULsvpGxRlVS+xcZ8Fq3QbnFNzJ1mmaMpdO0=";
+      "bedrock-assertions-0.1.0" = "sha256-mYq11aX8QUOrWBfypD+xZGeWg1a9vGjRiUokjCMovWQ=";
+      "evm2-0.1.0" = "sha256-T848lt3vrDVWq8JoMtv2JMkIyryB18+0r0cEC2KSDAQ=";
+      "reth-codecs-0.8.2" = "sha256-xUGM6YD5A8aWrTD0+hATmL4aeMJ4nQGuS/FLbucTV2U=";
     };
   };
 
   nativeBuildInputs = [
     rustPlatform.bindgenHook
+    pkg-config
     perl # required for building sha3-asm
     m4 # required for building gmp-mpfr-sys (bundled GMP, pulled in via the gmp feature)
-    llvmPackages_22.llvm.dev # revmc-llvm's build script runs llvm-config from PATH
+    llvmPackages_23.llvm.dev # llvm-sys needs llvm-config (LLVM 23) on PATH
   ];
 
-  # Needed to link llvm-sys against LLVM (revmc/jit feature).
+  # libffi, libxml2, ncurses, zlib: needed to link llvm-sys against LLVM (evm2 jit feature).
   buildInputs = [
+    aws-lc
     libffi
+    libgit2
     libxml2
     ncurses
     zlib
+    zstd
   ];
 
   # Some tests fail due to I/O that is unfriendly with nix sandbox.

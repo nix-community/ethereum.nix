@@ -7,6 +7,7 @@
   openssl,
   rustPlatform,
   versionCheckHook,
+  zstd,
 }:
 rustPlatform.buildRustPackage rec {
   pname = "helios";
@@ -33,6 +34,7 @@ rustPlatform.buildRustPackage rec {
 
   buildInputs = [
     openssl
+    zstd
   ];
 
   doInstallCheck = true;
