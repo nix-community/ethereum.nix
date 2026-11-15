@@ -6,13 +6,13 @@
   nix-update-script,
 }:
 let
-  version = "0.31.0";
+  version = "0.32.0";
 
   src = fetchFromGitHub {
     owner = "ethpandaops";
     repo = "checkpointz";
     rev = "v${version}";
-    hash = "sha256-nKXX72MKhSbq9xkdqnzq8sQCBt5xsdcUK6pEnqzi0co=";
+    hash = "sha256-zZ+/jDSw95xOAVKhED6SjJqXAE6H0py5+VU4XbpRrOg=";
   };
 
   ui = buildNpmPackage {
@@ -35,7 +35,10 @@ buildGoModule rec {
   pname = "checkpointz";
   inherit version src;
 
-  vendorHash = "sha256-7vV4kKHFMeQqLuOtSRArxH0yKdfUBGB/gqF4iAXi9aw=";
+  # Module cache keeps non-Go files, e.g. the prebuilt libhashtree.a of
+  # pk910/hashtree-bindings that `go mod vendor` would drop.
+  proxyVendor = true;
+  vendorHash = "sha256-+N/0h6EITAGxtJhC/CwtviOU/AHCgBBGJqTOh7oU5fk=";
 
   preBuild = ''
     mkdir -p web/build
