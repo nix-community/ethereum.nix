@@ -6,6 +6,7 @@
   nix-update-script,
   perl,
   pkg-config,
+  protobuf,
   rustPlatform,
   versionCheckHook,
   zlib,
@@ -50,6 +51,7 @@ rustPlatform.buildRustPackage rec {
   nativeBuildInputs = [
     perl # sha3-asm
     pkg-config
+    protobuf # protoc for raft-proto (the bundled binary does not run on NixOS)
     rustPlatform.bindgenHook
   ];
 
