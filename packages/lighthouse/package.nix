@@ -14,6 +14,7 @@
   postgresql,
   foundry,
   versionCheckHook,
+  writeText,
   zstd,
 }:
 let
@@ -31,21 +32,26 @@ let
 in
 rustPlatform.buildRustPackage rec {
   pname = "lighthouse";
-  version = "8.2.3";
+  version = "8.3.3";
 
   src = fetchFromGitHub {
     owner = "sigp";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-eTPhi5nlzZ7QSoUuGiDea+0E7GOqLTs40OcX8zc0jkU=";
+    hash = "sha256-K1CC1tfB8xuEF9IxIHrk4UFH0f0SyXRYaZcdtU08Jv0=";
   };
 
   cargoLock = {
     lockFile = "${src}/Cargo.lock";
     outputHashes = {
+      "ethereum_ssz-0.10.4" = "sha256-mnoExiIEiurjK2F1C4BRe7ATqO3n53yhuZjLd5hqpS0=";
       "libmdbx-0.1.4" = "sha256-ONp4uPkVCN84MObjXorCZuSjnM6uFSMXK1vdJiX074o=";
-      "libp2p-0.57.0" = "sha256-Ujy81IdJcfF+dUbAvfS3VNKvKOTq91jSlWeTopPnBXs=";
+      "libp2p-0.58.0" = "sha256-HFrQZcJLiTCjBRcXP95ZoMDr0lSrFeVdBwIgBfyaW8s=";
       "lmdb-rkv-0.14.0" = "sha256-sxmguwqqcyOlfXOZogVz1OLxfJPo+Q0+UjkROkbbOCk=";
+      "milhouse-0.9.0" = "sha256-pcoXhOkqjypqwyiDHB5E/dTwy01GBhD/ze+vt90u1qM=";
+      "ssz_types-0.14.1" = "sha256-S1KL21Lc0eFaYB4Ehlrpy9tj2rU+iNR6ELx2nuCJa+g=";
+      "tree_hash-0.12.1" = "sha256-pUbQkTm/P4bC63E9gNIksV3rhbr6TvIOS9uU61lCK2Y=";
+      "warp-0.4.2" = "sha256-lzpWpI5a6JRdkU0oCUoYQAjXB1uKfPViMrRK/C79MxA=";
       "xdelta3-0.1.5" = "sha256-mWVRIsW/LsiZzQ/ITImb1i6an4EcYy0c1KhQvywhHxQ=";
     };
   };
@@ -81,6 +87,16 @@ rustPlatform.buildRustPackage rec {
 
   # Needed to get prost-build to use protobuf
   PROTOC = "${protobuf}/bin/protoc";
+
+  # leveldb-sys builds leveldb through the cmake crate. cc >= 1.6 makes the
+  # crate pass `-w` in CMAKE_CXX_FLAGS, which silences the unknown-attribute
+  # warnings that leveldb's `-Werror -Wthread-safety` probe relies on, so the
+  # probe falsely succeeds with GCC and the clang-only `-Wthread-safety` flag
+  # then breaks the real build. Pre-seed the result in a toolchain file.
+  # (cmake-rs honours CMAKE_TOOLCHAIN_FILE from the environment.)
+  CMAKE_TOOLCHAIN_FILE = writeText "leveldb-no-thread-safety.cmake" ''
+    set(HAVE_CLANG_THREAD_SAFETY OFF CACHE BOOL "" FORCE)
+  '';
 
   # Needed by libmdx
   LIBCLANG_PATH = "${llvmPackages.libclang.lib}/lib";

@@ -8,14 +8,14 @@
 }:
 buildGoModule rec {
   pname = "op-conductor";
-  version = "0.9.5";
+  version = "0.9.6";
 
   src = fetchFromGitHub {
     owner = "ethereum-optimism";
     repo = "optimism";
     rev = "op-conductor/v${version}";
     fetchSubmodules = true;
-    hash = "sha256-GVIJ77a5NehNjYuVt+IWXZLrHK32oxeTw1U1SrhGPqw=";
+    hash = "sha256-qlNBTBzFhgGCeG2f91xzaPahNgyv9ircu8IemjQAwGE=";
   };
 
   sourceRoot = "${src.name}/op-conductor";
