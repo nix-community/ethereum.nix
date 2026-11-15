@@ -1,8 +1,10 @@
 {
+  aws-lc,
   fetchFromGitHub,
   lib,
   stdenv,
   libffi,
+  libgit2,
   libxml2,
   llvmPackages_22,
   m4,
@@ -11,6 +13,7 @@
   openssl,
   perl,
   pkg-config,
+  rust-jemalloc-sys,
   rustPlatform,
   versionCheckHook,
   zlib,
@@ -72,9 +75,12 @@ rustPlatform.buildRustPackage rec {
 
   # Needed to link llvm-sys against LLVM (revmc/jit feature).
   buildInputs = [
+    aws-lc
     libffi
+    libgit2
     libxml2
     ncurses
+    rust-jemalloc-sys
     zlib
     zstd
   ];

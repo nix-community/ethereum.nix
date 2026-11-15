@@ -7,11 +7,14 @@
   libusb1,
   perl,
   pkg-config,
+  rust-jemalloc-sys,
   rustPlatform,
+  sqlite,
   stdenv,
   solc,
   svm-lists,
   versionCheckHook,
+  zstd,
 }:
 rustPlatform.buildRustPackage rec {
   pname = "foundry";
@@ -33,10 +36,13 @@ rustPlatform.buildRustPackage rec {
   ]
   ++ lib.optionals stdenv.hostPlatform.isDarwin [ darwin.DarwinTools ];
 
-  # aws-lc-sys is forced onto the system library by nixpkgs (AWS_LC_SYS_USE_SYSTEM=1).
+  # nixpkgs cargoSetupHook forces *-sys crates onto system libraries.
   buildInputs = [
     aws-lc
+    rust-jemalloc-sys
     solc
+    sqlite
+    zstd
   ]
   ++ lib.optionals stdenv.hostPlatform.isDarwin [ libusb1 ];
 

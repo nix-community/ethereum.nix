@@ -1,4 +1,5 @@
 {
+  aws-lc,
   fetchFromGitHub,
   fetchurl,
   lib,
@@ -7,7 +8,9 @@
   openssl,
   perl,
   pkg-config,
+  rust-jemalloc-sys,
   rustPlatform,
+  zlib,
 }:
 let
   pname = "ethrex";
@@ -90,8 +93,11 @@ rustPlatform.buildRustPackage {
   ];
 
   buildInputs = [
+    aws-lc
     libgit2
     openssl
+    rust-jemalloc-sys
+    zlib
   ];
 
   # vergen-git2 needs a .git directory; skip it in nix builds
