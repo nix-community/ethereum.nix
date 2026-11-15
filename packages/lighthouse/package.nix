@@ -13,6 +13,7 @@
   postgresql,
   foundry,
   versionCheckHook,
+  writeText,
 }:
 let
   slasherContractVersion = "0.12.1";
@@ -82,6 +83,16 @@ rustPlatform.buildRustPackage rec {
 
   # Needed to get prost-build to use protobuf
   PROTOC = "${protobuf}/bin/protoc";
+
+  # leveldb-sys builds leveldb through the cmake crate. cc >= 1.6 makes the
+  # crate pass `-w` in CMAKE_CXX_FLAGS, which silences the unknown-attribute
+  # warnings that leveldb's `-Werror -Wthread-safety` probe relies on, so the
+  # probe falsely succeeds with GCC and the clang-only `-Wthread-safety` flag
+  # then breaks the real build. Pre-seed the result in a toolchain file.
+  # (cmake-rs honours CMAKE_TOOLCHAIN_FILE from the environment.)
+  CMAKE_TOOLCHAIN_FILE = writeText "leveldb-no-thread-safety.cmake" ''
+    set(HAVE_CLANG_THREAD_SAFETY OFF CACHE BOOL "" FORCE)
+  '';
 
   # Needed by libmdx
   LIBCLANG_PATH = "${llvmPackages.libclang.lib}/lib";
