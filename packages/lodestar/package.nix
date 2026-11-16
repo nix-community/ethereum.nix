@@ -7,7 +7,7 @@
 let
   inherit (stdenvNoCC.hostPlatform) system;
 
-  version = "1.40.0";
+  version = "1.50.1";
 
   hashes = builtins.fromJSON (builtins.readFile ./hashes.json);
 
