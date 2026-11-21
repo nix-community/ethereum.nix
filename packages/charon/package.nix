@@ -8,13 +8,13 @@
 }:
 buildGoModule rec {
   pname = "charon";
-  version = "1.11.0";
+  version = "1.11.4";
 
   src = fetchFromGitHub {
     owner = "ObolNetwork";
     repo = "${pname}";
     rev = "refs/tags/v${version}";
-    hash = "sha256-EyuXn1nP5+H/lr6pY1qVBT0uNbwBLb7OaBoIizJK9UY=";
+    hash = "sha256-cg6bjynnYqfES7cytXxtw1ZwS1GtVpQepgTGZmHFecs=";
   };
 
   # Use the module cache instead of `go mod vendor`, which strips the prebuilt
@@ -22,7 +22,7 @@ buildGoModule rec {
   # github.com/pk910/hashtree-bindings since 1.10, as they live in directories
   # without Go source files.
   proxyVendor = true;
-  vendorHash = "sha256-hCrd5Fvw7ozLfqiVklPrwN2wzY7Rc6bmNvufdkKKWj8=";
+  vendorHash = "sha256-a6Fu7Q3zNux5vCI+F5KsDlZjbkjtFocAPyFWZMhxgeI=";
 
   buildInputs = [
     bls_1_86
