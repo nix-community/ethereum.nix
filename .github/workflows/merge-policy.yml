@@ -29,7 +29,7 @@ jobs:
           # Never execute scripts from the PR or synthetic merge commit.
           ref: ${{ github.event.repository.default_branch }}
           persist-credentials: false
-      - uses: cachix/install-nix-action@v31
+      - uses: cachix/install-nix-action@v32
       - name: Diagnose, report policy and reconcile eligible PRs
         env:
           GH_TOKEN: ${{ github.token }}
