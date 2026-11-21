@@ -35,16 +35,16 @@ let
 in
 rustPlatform.buildRustPackage rec {
   pname = "foundry";
-  version = "1.9.0";
+  version = "1.10.0";
 
   src = fetchFromGitHub {
     owner = "foundry-rs";
     repo = "foundry";
     tag = "v${version}";
-    hash = "sha256-qX7tq3Pu7X7ZQNucMWvGRokdN1XqkUOmZw4+wVvI7vg=";
+    hash = "sha256-9k+78ednqFo8/rdGDOWqS8Y+eZ/6kxFd5Ojit/pjeJM=";
   };
 
-  cargoHash = "sha256-+d1UiXAL/TZiJN2+Shx1N2w48RT+QHBY8QidJJS8W1o=";
+  cargoHash = "sha256-LBhRrQ1N6ygZZ6hApX+WOtZmKypmO95fOThIo+tyZks=";
 
   nativeBuildInputs = [
     pkg-config
