@@ -4,6 +4,9 @@ on:
   issue_comment:
     types: [created]
 
+# Every API call and push uses the GitHub App token, not GITHUB_TOKEN.
+permissions: {}
+
 jobs:
   rebase:
     if: >-
@@ -13,10 +16,12 @@ jobs:
     steps:
       - name: Generate GitHub App Token
         id: app-token
-        uses: actions/create-github-app-token@v3
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
         with:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          permission-contents: write
+          permission-pull-requests: write
 
       - name: React with rocket to acknowledge
         env:
@@ -30,16 +35,17 @@ jobs:
         id: check-perms
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          COMMENTER: ${{ github.event.comment.user.login }}
         run: |
           permission=$(gh api \
-            repos/${{ github.repository }}/collaborators/${{ github.event.comment.user.login }}/permission \
+            "repos/${{ github.repository }}/collaborators/${COMMENTER}/permission" \
             --jq '.permission')
 
           if [[ "$permission" != "admin" && "$permission" != "write" ]]; then
             gh api \
               repos/${{ github.repository }}/issues/comments/${{ github.event.comment.id }}/reactions \
               -f content='-1'
-            echo "User ${{ github.event.comment.user.login }} has '$permission' permission, need write or admin"
+            echo "User ${COMMENTER} has '$permission' permission, need write or admin"
             exit 1
           fi
 
@@ -66,25 +72,30 @@ jobs:
           fi
 
       - name: Checkout PR branch
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          token: ${{ steps.app-token.outputs.token }}
           ref: ${{ steps.pr-details.outputs.head_ref }}
           fetch-depth: 0
+          # Commits are recreated and the ref is moved through the API below.
+          persist-credentials: false
 
       - name: Rebase onto base branch
+        env:
+          BASE_REF: ${{ steps.pr-details.outputs.base_ref }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git fetch origin ${{ steps.pr-details.outputs.base_ref }}
-          git rebase origin/${{ steps.pr-details.outputs.base_ref }}
+          git fetch origin "$BASE_REF"
+          git rebase "origin/$BASE_REF"
 
       - name: Push signed commits
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          HEAD_REF: ${{ steps.pr-details.outputs.head_ref }}
+          BASE_REF: ${{ steps.pr-details.outputs.base_ref }}
         run: |
-          head_ref="${{ steps.pr-details.outputs.head_ref }}"
-          base_ref="${{ steps.pr-details.outputs.base_ref }}"
+          head_ref="$HEAD_REF"
+          base_ref="$BASE_REF"
 
           # Recreate each rebased commit via the GitHub API so they are signed
           commits=$(git rev-list --reverse "origin/${base_ref}..HEAD")
