@@ -13,17 +13,17 @@
 }:
 buildGoModule rec {
   pname = "erigon";
-  version = "3.8.1";
+  version = "3.8.2";
 
   src = fetchFromGitHub {
     owner = "erigontech";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-cA2pNeHgcdezweJRKK7zJEWg/IkJrGi+3NarDajFZFw=";
+    hash = "sha256-Qds2aWJFucvrwNJeUXa15WUN9GM9geNMNFHbyYXpPHk=";
     fetchSubmodules = true;
   };
 
-  vendorHash = "sha256-nZnUz7uP83XZ9d2yTQ2TTC9XEbpSZC9UBucUMHBVnPk=";
+  vendorHash = "sha256-JbltIwRC0/Yjp08qW2JylFYN3jdvDlIS3d6ET4i3Bnw=";
   proxyVendor = true;
 
   # Silkworm's .so fails to find libgmp when linking
