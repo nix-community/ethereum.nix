@@ -1,5 +1,6 @@
 {
   "packages": {
+    "silver": { "channel": "prerelease" },
     "supersim": { "channel": "prerelease" },
     "svm-lists": { "channel": "rolling" }
   },
