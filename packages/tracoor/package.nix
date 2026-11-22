@@ -6,13 +6,13 @@
   nix-update-script,
 }:
 let
-  version = "0.1.0";
+  version = "0.1.3";
 
   src = fetchFromGitHub {
     owner = "ethpandaops";
     repo = "tracoor";
     rev = "v${version}";
-    hash = "sha256-gu2yX7KBCiG7WPQPHRxxwJQpnue8m5Dy3z0jR8frMZ4=";
+    hash = "sha256-RJamr/jJUqnTmxlKf9IpZbeX55MJHXwwU3gflEgSbAo=";
   };
 
   ui = buildNpmPackage {
@@ -40,7 +40,7 @@ buildGoModule rec {
   # github.com/pk910/hashtree-bindings, as they live in directories without Go
   # source files.
   proxyVendor = true;
-  vendorHash = "sha256-lBb8GRTC82KyobZUtY2zsM2ED6h+E5KDOaViZeR8RzU=";
+  vendorHash = "sha256-FaywYuVpBOj+pfQhxukZ4K2WypE3TDzaoSHiwk4hub4=";
 
   preBuild = ''
     mkdir -p web/build
