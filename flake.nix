@@ -32,6 +32,19 @@
           "x86_64-linux"
         ];
         nixpkgs.config.allowUnfree = true;
+        nixpkgs.overlays = [
+          (final: prev: {
+            nix-update = prev.nix-update.overrideAttrs (prevAttrs: {
+              patches = [
+                (final.fetchpatch {
+                  url = "https://github.com/Mic92/nix-update/pull/692.patch";
+                  hash = "sha256-CVSihQevWIwKSnjKo9ilw1hdi4a1t0xr6DunAUKSBFA=";
+                })
+              ]
+              ++ prevAttrs.patches or [ ];
+            });
+          })
+        ];
       };
     in
     blueprintOutputs
