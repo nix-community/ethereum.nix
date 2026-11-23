@@ -44,7 +44,7 @@ jobs:
       - uses: actions/checkout@v7
         with:
           persist-credentials: false
-      - uses: cachix/install-nix-action@v31
+      - uses: cachix/install-nix-action@v32
         with:
           github_access_token: ${{ github.token }}
       - run: pip install pyyaml
@@ -71,7 +71,7 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-      - uses: cachix/install-nix-action@v31
+      - uses: cachix/install-nix-action@v32
         with:
           github_access_token: ${{ github.token }}
       - name: Keep orchestration from the workflow revision
@@ -134,7 +134,7 @@ jobs:
           ref: main
           fetch-depth: 0
           persist-credentials: false
-      - uses: cachix/install-nix-action@v31
+      - uses: cachix/install-nix-action@v32
       - name: Preserve README branch
         run: |
           cp -r .github/ci "$RUNNER_TEMP/ci"
