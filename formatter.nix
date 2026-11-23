@@ -16,6 +16,7 @@ let
       # shell
       shellcheck.enable = true;
       shfmt.enable = true;
+      shfmt.indent_size = 2;
 
       # markdown
       mdformat.enable = true;
