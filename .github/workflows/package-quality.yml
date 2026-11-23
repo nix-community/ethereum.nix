@@ -14,7 +14,7 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-      - uses: cachix/install-nix-action@v31
+      - uses: cachix/install-nix-action@v32
       - name: Check metadata and Nix packaging rules
         run: nix build --no-link .#checks.x86_64-linux.package-metadata .#checks.x86_64-linux.package-lint
       - name: Require maintainers on new packages
