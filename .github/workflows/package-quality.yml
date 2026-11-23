@@ -10,11 +10,11 @@ jobs:
     name: package-quality
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           persist-credentials: false
-      - uses: cachix/install-nix-action@v31
+      - uses: cachix/install-nix-action@3dc140bfc76c49fbd4dd958429132e3746bcb086 # v31.11.5
       - name: Check metadata and Nix packaging rules
         run: nix build --no-link .#checks.x86_64-linux.package-metadata .#checks.x86_64-linux.package-lint
       - name: Require maintainers on new packages

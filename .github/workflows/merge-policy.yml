@@ -24,12 +24,12 @@ jobs:
       group: policy-${{ github.repository }}-${{ github.event.merge_group.head_sha || 'pull-requests' }}
       cancel-in-progress: false
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           # Never execute scripts from the PR or synthetic merge commit.
           ref: ${{ github.event.repository.default_branch }}
           persist-credentials: false
-      - uses: cachix/install-nix-action@v31
+      - uses: cachix/install-nix-action@3dc140bfc76c49fbd4dd958429132e3746bcb086 # v31.11.5
       - name: Diagnose, report policy and reconcile eligible PRs
         env:
           GH_TOKEN: ${{ github.token }}
