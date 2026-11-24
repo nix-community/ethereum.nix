@@ -7,16 +7,16 @@
 }:
 rustPlatform.buildRustPackage rec {
   pname = "solar";
-  version = "0.3.0";
+  version = "0.3.1";
 
   src = fetchFromGitHub {
     owner = "paradigmxyz";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-HEd5L9fRIaFDg1DCaeOZQbBkw1XRmuKKm4udK3QpR4Y=";
+    hash = "sha256-+/BXXtnAHINRdesI/07bYuDmquTy1E0cmsc+8rnAgvc=";
   };
 
-  cargoHash = "sha256-Cv95IY/wFMhKAhpwZkrrF9KD0k451/vjKvADiuVqyec=";
+  cargoHash = "sha256-/FjQVfl+7IlbUai/DilKpPRGAdqIeSoM3f+HL6rXc2A=";
 
   cargoBuildFlags = [
     "--package"
