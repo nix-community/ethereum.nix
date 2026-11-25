@@ -33,7 +33,8 @@ let
   # Convert lists to comma-separated strings for CLI
   processSettings = mapAttrs (_: v: if isList v then concatStringsSep "," v else v);
 
-  # Known network flags that become just --<network>
+  # Boolean shorthands (`settings.sepolia = true`) for `--network <name>`.
+  # Lighthouse has no `--<network>` flags, only `--network <name>`.
   networkFlags = [
     "mainnet"
     "prater"
@@ -91,6 +92,7 @@ in
         skipKeys = [
           "datadir"
           "execution-jwt"
+          "network"
         ]
         ++ networkFlags;
         normalSettings = filterAttrs (k: _: !elem k skipKeys) s;
@@ -102,21 +104,17 @@ in
           explicitBool = false;
         }) (processSettings normalSettings);
 
-        # Handle network flag (just --mainnet, not --network=mainnet for standard networks)
+        # Emit `--network <name>` once, from either `settings.network` or a
+        # boolean shorthand such as `settings.sepolia = true`.
         networkArg =
           let
             activeNetwork = lib.findFirst (n: s.${n} or false) null networkFlags;
-            explicitNetwork = s.network or null;
+            network = if activeNetwork != null then activeNetwork else s.network or null;
           in
-          if activeNetwork != null then
-            [ "--${activeNetwork}" ]
-          else if explicitNetwork != null then
-            [
-              "--network"
-              explicitNetwork
-            ]
-          else
-            [ ];
+          optionals (network != null) [
+            "--network"
+            network
+          ];
 
         allArgs = [
           "--datadir"
