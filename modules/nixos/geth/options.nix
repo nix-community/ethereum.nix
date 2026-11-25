@@ -1,4 +1,5 @@
 {
+  flake,
   lib,
   pkgs,
   ...
@@ -17,8 +18,8 @@ let
 
       package = mkOption {
         type = types.package;
-        default = pkgs.geth;
-        defaultText = literalExpression "pkgs.geth";
+        default = flake.packages.${pkgs.stdenv.hostPlatform.system}.geth;
+        defaultText = literalExpression "ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.geth";
         description = "Package to use as Go Ethereum node.";
       };
 

@@ -1,4 +1,5 @@
 {
+  flake,
   lib,
   pkgs,
   ...
@@ -17,8 +18,8 @@ let
 
       package = mkOption {
         type = types.package;
-        default = pkgs.nimbus;
-        defaultText = literalExpression "pkgs.nimbus";
+        default = flake.packages.${pkgs.stdenv.hostPlatform.system}.nimbus;
+        defaultText = literalExpression "ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.nimbus";
         description = "Package to use for Nimbus binary.";
       };
 

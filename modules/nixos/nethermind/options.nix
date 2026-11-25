@@ -1,4 +1,5 @@
 {
+  flake,
   lib,
   pkgs,
   ...
@@ -17,8 +18,8 @@ let
 
       package = mkOption {
         type = types.package;
-        default = pkgs.nethermind;
-        defaultText = literalExpression "pkgs.nethermind";
+        default = flake.packages.${pkgs.stdenv.hostPlatform.system}.nethermind;
+        defaultText = literalExpression "ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.nethermind";
         description = "Package to use as Nethermind.";
       };
 

@@ -1,4 +1,5 @@
 {
+  flake,
   lib,
   pkgs,
   ...
@@ -17,8 +18,8 @@ let
 
       package = mkOption {
         type = types.package;
-        default = pkgs.besu;
-        defaultText = literalExpression "pkgs.besu";
+        default = flake.packages.${pkgs.stdenv.hostPlatform.system}.besu;
+        defaultText = literalExpression "ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.besu";
         description = "Package to use as Besu node.";
       };
 

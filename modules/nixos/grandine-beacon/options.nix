@@ -1,4 +1,5 @@
 {
+  flake,
   lib,
   pkgs,
   ...
@@ -17,8 +18,8 @@ let
 
       package = mkOption {
         type = types.package;
-        default = pkgs.grandine;
-        defaultText = literalExpression "pkgs.grandine";
+        default = flake.packages.${pkgs.stdenv.hostPlatform.system}.grandine;
+        defaultText = literalExpression "ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.grandine";
         description = "Package to use for Grandine binary.";
       };
 

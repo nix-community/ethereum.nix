@@ -1,4 +1,5 @@
 {
+  flake,
   lib,
   pkgs,
   ...
@@ -17,8 +18,8 @@ let
 
       package = mkOption {
         type = types.package;
-        default = pkgs.erigon;
-        defaultText = literalExpression "pkgs.erigon";
+        default = flake.packages.${pkgs.stdenv.hostPlatform.system}.erigon;
+        defaultText = literalExpression "ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.erigon";
         description = "Package to use as Erigon node.";
       };
 

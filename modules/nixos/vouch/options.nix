@@ -1,4 +1,5 @@
 {
+  flake,
   lib,
   pkgs,
   ...
@@ -17,8 +18,8 @@ let
 
       package = mkOption {
         type = types.package;
-        default = pkgs.vouch;
-        defaultText = literalExpression "pkgs.vouch";
+        default = flake.packages.${pkgs.stdenv.hostPlatform.system}.vouch;
+        defaultText = literalExpression "ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.vouch";
         description = "Package to use for the Vouch binary.";
       };
 

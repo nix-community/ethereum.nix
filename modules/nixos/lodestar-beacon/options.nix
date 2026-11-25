@@ -1,4 +1,5 @@
 {
+  flake,
   lib,
   pkgs,
   ...
@@ -17,8 +18,8 @@ let
 
       package = mkOption {
         type = types.package;
-        default = pkgs.lodestar;
-        defaultText = literalExpression "pkgs.lodestar";
+        default = flake.packages.${pkgs.stdenv.hostPlatform.system}.lodestar;
+        defaultText = literalExpression "ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.lodestar";
         description = "Package to use for Lodestar binary.";
       };
 

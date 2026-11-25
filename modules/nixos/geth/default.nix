@@ -1,4 +1,7 @@
 # Derived from https://github.com/NixOS/nixpkgs/blob/45b92369d6fafcf9e462789e98fbc735f23b5f64/nixos/modules/services/blockchain/ethereum/geth.nix
+# `flake` is injected by blueprint and always refers to ethereum.nix, not the
+# consuming flake (see blueprint publisherArgs).
+{ flake, ... }:
 {
   config,
   lib,
@@ -45,7 +48,7 @@ in
   disabledModules = [ "services/blockchain/ethereum/geth.nix" ];
 
   ###### interface
-  inherit (import ./options.nix { inherit lib pkgs; }) options;
+  inherit (import ./options.nix { inherit flake lib pkgs; }) options;
 
   ###### implementation
   config = mkIf (eachGeth != { }) {

@@ -1,4 +1,5 @@
 {
+  flake,
   lib,
   pkgs,
   ...
@@ -17,8 +18,8 @@ let
 
       package = mkOption {
         type = types.package;
-        default = pkgs.reth;
-        defaultText = literalExpression "pkgs.reth";
+        default = flake.packages.${pkgs.stdenv.hostPlatform.system}.reth;
+        defaultText = literalExpression "ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.reth";
         description = "Package to use as Reth node.";
       };
 

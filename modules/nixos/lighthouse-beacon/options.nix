@@ -1,4 +1,5 @@
 {
+  flake,
   lib,
   pkgs,
   ...
@@ -17,8 +18,8 @@ let
 
       package = mkOption {
         type = types.package;
-        default = pkgs.lighthouse;
-        defaultText = literalExpression "pkgs.lighthouse";
+        default = flake.packages.${pkgs.stdenv.hostPlatform.system}.lighthouse;
+        defaultText = literalExpression "ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.lighthouse";
         description = "Package to use for Lighthouse binary.";
       };
 

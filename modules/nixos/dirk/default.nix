@@ -1,3 +1,6 @@
+# `flake` is injected by blueprint and always refers to ethereum.nix, not the
+# consuming flake (see blueprint publisherArgs).
+{ flake, ... }:
 {
   config,
   lib,
@@ -33,7 +36,7 @@ let
 in
 {
   ###### interface
-  inherit (import ./options.nix { inherit lib pkgs; }) options;
+  inherit (import ./options.nix { inherit flake lib pkgs; }) options;
 
   ###### implementation
   config = mkIf (eachDirk != { }) {

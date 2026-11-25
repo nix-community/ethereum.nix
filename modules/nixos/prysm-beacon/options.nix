@@ -1,4 +1,5 @@
 {
+  flake,
   lib,
   pkgs,
   ...
@@ -17,8 +18,8 @@ let
 
       package = mkOption {
         type = types.package;
-        default = pkgs.prysm;
-        defaultText = literalExpression "pkgs.prysm";
+        default = flake.packages.${pkgs.stdenv.hostPlatform.system}.prysm;
+        defaultText = literalExpression "ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.prysm";
         description = "Package to use for Prysm binary.";
       };
 

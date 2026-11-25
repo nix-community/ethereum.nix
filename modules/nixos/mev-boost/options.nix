@@ -1,4 +1,5 @@
 {
+  flake,
   lib,
   pkgs,
   ...
@@ -16,8 +17,8 @@ let
       enable = mkEnableOption "MEV-Boost from Flashbots";
 
       package = mkOption {
-        default = pkgs.mev-boost;
-        defaultText = literalExpression "pkgs.mev-boost";
+        default = flake.packages.${pkgs.stdenv.hostPlatform.system}.mev-boost;
+        defaultText = literalExpression "ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.mev-boost";
         type = types.package;
         description = "Package to use for mev-boost binary";
       };
