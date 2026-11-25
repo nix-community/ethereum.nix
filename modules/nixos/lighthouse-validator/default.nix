@@ -4,7 +4,6 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }:
 let
@@ -36,7 +35,7 @@ let
 in
 {
   ###### interface
-  inherit (import ./options.nix { inherit flake lib pkgs; }) options;
+  imports = [ (lib.modules.importApply ./options.nix { inherit flake; }) ];
 
   ###### implementation
   config = mkIf (eachValidator != { }) {

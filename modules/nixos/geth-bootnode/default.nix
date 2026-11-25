@@ -5,7 +5,6 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }:
 let
@@ -36,7 +35,7 @@ in
   disabledModules = [ "services/blockchain/ethereum/geth.nix" ];
 
   ###### interface
-  inherit (import ./options.nix { inherit flake lib pkgs; }) options;
+  imports = [ (lib.modules.importApply ./options.nix { inherit flake; }) ];
 
   ###### implementation
   config = mkIf (eachBootnode != { }) {

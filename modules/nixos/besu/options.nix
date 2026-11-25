@@ -1,5 +1,5 @@
+{ flake }:
 {
-  flake,
   lib,
   pkgs,
   ...
