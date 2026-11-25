@@ -9,19 +9,19 @@
 }:
 buildGoModule rec {
   pname = "ssv";
-  version = "2.5.1";
+  version = "2.5.2";
 
   src = fetchFromGitHub {
     owner = "ssvlabs";
     repo = "${pname}";
     rev = "v${version}";
-    hash = "sha256-xA2F4vsX/qXupRrpyZI82HGUlqpHzYTnCCOfXz6iEek=";
+    hash = "sha256-HVFujURNN8k47Kx/s6ebG4mcKYE4DYsS7NbG6mCXnVI=";
   };
 
   # Module cache keeps non-Go files, e.g. the prebuilt libhashtree.a of
   # pk910/hashtree-bindings that `go mod vendor` would drop.
   proxyVendor = true;
-  vendorHash = "sha256-r+E+8uh8rGu1dX5PJLd2y7ip3na+ZOkAt6tZQW6FB14=";
+  vendorHash = "sha256-kkZ3QKL4NGRbRjBKYYm7yeo71SScrD5kFqAUQOcJNMU=";
 
   buildInputs = [
     bls_1_86
