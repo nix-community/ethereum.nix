@@ -13,7 +13,7 @@
 }:
 let
   pname = "ethrex";
-  version = "31.0.0";
+  version = "32.0.0";
 
   # sp1-prover's build.rs downloads this verification-key map from S3 at build
   # time; the nix sandbox has no network. Fetch it as a fixed-output derivation
@@ -29,7 +29,7 @@ let
     owner = "lambdaclass";
     repo = "ethrex";
     rev = "v${version}";
-    hash = "sha256-yMAZvH2ehTrFhLK0TV2VEJ87lODmCr9/VwtjLYUZo3s=";
+    hash = "sha256-Dcpdav8sDId2BmlgPMKaKKacxQzz3+nfCghQDrEyb6Q=";
   };
 
   # Upstream's Cargo.lock no longer has name-version collisions between
