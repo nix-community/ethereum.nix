@@ -9,8 +9,10 @@ let
 
   inherit (lib.attrsets) zipAttrsWith;
   inherit (lib)
+    concatMap
     concatStringsSep
     elem
+    filter
     filterAttrs
     flatten
     mapAttrs
@@ -20,7 +22,9 @@ let
     mkIf
     mkMerge
     nameValuePair
+    optional
     optionals
+    unique
     ;
   inherit (builtins) isList;
   inherit (modulesLib) baseServiceConfig;
@@ -31,17 +35,23 @@ let
   processSettings = mapAttrs (_: v: if isList v then concatStringsSep "," v else v);
 
   # Boolean shorthands (`settings.sepolia = true`) for `--network <name>`.
-  # Lighthouse has no `--<network>` flags, only `--network <name>`.
+  # Lighthouse has no `--<network>` flags, only `--network <name>`. Keep this
+  # equal to the possible values listed by `lighthouse bn --help`.
   networkFlags = [
     "mainnet"
-    "prater"
-    "goerli"
     "gnosis"
     "chiado"
     "sepolia"
     "holesky"
     "hoodi"
   ];
+
+  # Distinct networks selected by `settings.network` and the shorthands.
+  selectedNetworks =
+    s:
+    unique (
+      filter (n: s.${n} or false) networkFlags ++ optional ((s.network or null) != null) s.network
+    );
 in
 {
   ###### interface
@@ -102,16 +112,12 @@ in
         }) (processSettings normalSettings);
 
         # Emit `--network <name>` once, from either `settings.network` or a
-        # boolean shorthand such as `settings.sepolia = true`.
-        networkArg =
-          let
-            activeNetwork = lib.findFirst (n: s.${n} or false) null networkFlags;
-            network = if activeNetwork != null then activeNetwork else s.network or null;
-          in
-          optionals (network != null) [
-            "--network"
-            network
-          ];
+        # boolean shorthand such as `settings.sepolia = true`. The assertion
+        # below rejects settings that select more than one network.
+        networkArg = concatMap (n: [
+          "--network"
+          n
+        ]) (selectedNetworks s);
 
         allArgs = [
           "--datadir"
@@ -152,5 +158,13 @@ in
         }
       )
     ) eachBeacon;
+
+    assertions = mapAttrsToList (name: cfg: {
+      assertion = lib.length (selectedNetworks cfg.settings) <= 1;
+      message = ''
+        Lighthouse Beacon ${name} selects more than one network (${concatStringsSep ", " (selectedNetworks cfg.settings)}).
+        Set either `services.ethereum.lighthouse-beacon.${name}.settings.network` or a single boolean shorthand such as `settings.sepolia = true`.
+      '';
+    }) eachBeacon;
   };
 }
