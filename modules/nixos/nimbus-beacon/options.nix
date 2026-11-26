@@ -5,6 +5,8 @@
   ...
 }:
 let
+  modulesLib = import ../../../lib/modules.nix lib;
+
   inherit (lib)
     mkEnableOption
     mkOption
@@ -16,12 +18,10 @@ let
     options = {
       enable = mkEnableOption "Nimbus, Nim implementation of the Ethereum Beacon Chain";
 
-      package = mkOption {
-        type = types.package;
-        default =
-          flake.packages.${pkgs.stdenv.hostPlatform.system}.nimbus
-            or (throw "ethereum.nix does not build nimbus for ${pkgs.stdenv.hostPlatform.system}; set services.ethereum.nimbus-beacon.<name>.package");
-        defaultText = literalExpression "inputs.ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.nimbus";
+      package = modulesLib.mkFlakePackageOption {
+        inherit flake pkgs;
+        package = "nimbus";
+        optionPath = "services.ethereum.nimbus-beacon";
         description = "Package to use for Nimbus binary.";
       };
 

@@ -5,6 +5,8 @@
   ...
 }:
 let
+  modulesLib = import ../../../lib/modules.nix lib;
+
   inherit (lib)
     mkEnableOption
     mkOption
@@ -16,12 +18,10 @@ let
     options = {
       enable = mkEnableOption "Grandine Ethereum Beacon Chain Node";
 
-      package = mkOption {
-        type = types.package;
-        default =
-          flake.packages.${pkgs.stdenv.hostPlatform.system}.grandine
-            or (throw "ethereum.nix does not build grandine for ${pkgs.stdenv.hostPlatform.system}; set services.ethereum.grandine-beacon.<name>.package");
-        defaultText = literalExpression "inputs.ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.grandine";
+      package = modulesLib.mkFlakePackageOption {
+        inherit flake pkgs;
+        package = "grandine";
+        optionPath = "services.ethereum.grandine-beacon";
         description = "Package to use for Grandine binary.";
       };
 

@@ -5,6 +5,8 @@
   ...
 }:
 let
+  modulesLib = import ../../../lib/modules.nix lib;
+
   inherit (lib)
     mkEnableOption
     mkOption
@@ -16,12 +18,10 @@ let
     options = {
       enable = mkEnableOption "MEV-Boost from Flashbots";
 
-      package = mkOption {
-        default =
-          flake.packages.${pkgs.stdenv.hostPlatform.system}.mev-boost
-            or (throw "ethereum.nix does not build mev-boost for ${pkgs.stdenv.hostPlatform.system}; set services.ethereum.mev-boost.<name>.package");
-        defaultText = literalExpression "inputs.ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.mev-boost";
-        type = types.package;
+      package = modulesLib.mkFlakePackageOption {
+        inherit flake pkgs;
+        package = "mev-boost";
+        optionPath = "services.ethereum.mev-boost";
         description = "Package to use for mev-boost binary";
       };
 

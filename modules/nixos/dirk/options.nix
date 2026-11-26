@@ -5,6 +5,8 @@
   ...
 }:
 let
+  modulesLib = import ../../../lib/modules.nix lib;
+
   inherit (lib)
     mkEnableOption
     mkOption
@@ -16,12 +18,10 @@ let
     options = {
       enable = mkEnableOption "Dirk, a distributed remote keymanager from Attestant";
 
-      package = mkOption {
-        type = types.package;
-        default =
-          flake.packages.${pkgs.stdenv.hostPlatform.system}.dirk
-            or (throw "ethereum.nix does not build dirk for ${pkgs.stdenv.hostPlatform.system}; set services.ethereum.dirk.<name>.package");
-        defaultText = literalExpression "inputs.ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.dirk";
+      package = modulesLib.mkFlakePackageOption {
+        inherit flake pkgs;
+        package = "dirk";
+        optionPath = "services.ethereum.dirk";
         description = "Package to use for the Dirk binary.";
       };
 

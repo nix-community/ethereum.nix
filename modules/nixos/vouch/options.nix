@@ -5,6 +5,8 @@
   ...
 }:
 let
+  modulesLib = import ../../../lib/modules.nix lib;
+
   inherit (lib)
     mkEnableOption
     mkOption
@@ -16,12 +18,10 @@ let
     options = {
       enable = mkEnableOption "Vouch, an Ethereum multi-node validator client from Attestant";
 
-      package = mkOption {
-        type = types.package;
-        default =
-          flake.packages.${pkgs.stdenv.hostPlatform.system}.vouch
-            or (throw "ethereum.nix does not build vouch for ${pkgs.stdenv.hostPlatform.system}; set services.ethereum.vouch.<name>.package");
-        defaultText = literalExpression "inputs.ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.vouch";
+      package = modulesLib.mkFlakePackageOption {
+        inherit flake pkgs;
+        package = "vouch";
+        optionPath = "services.ethereum.vouch";
         description = "Package to use for the Vouch binary.";
       };
 

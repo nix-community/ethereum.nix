@@ -5,6 +5,8 @@
   ...
 }:
 let
+  modulesLib = import ../../../lib/modules.nix lib;
+
   inherit (lib)
     mkEnableOption
     mkOption
@@ -16,12 +18,10 @@ let
     options = {
       enable = mkEnableOption "Lighthouse Ethereum Validator Client written in Rust from Sigma Prime";
 
-      package = mkOption {
-        type = types.package;
-        default =
-          flake.packages.${pkgs.stdenv.hostPlatform.system}.lighthouse
-            or (throw "ethereum.nix does not build lighthouse for ${pkgs.stdenv.hostPlatform.system}; set services.ethereum.lighthouse-validator.<name>.package");
-        defaultText = literalExpression "inputs.ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.lighthouse";
+      package = modulesLib.mkFlakePackageOption {
+        inherit flake pkgs;
+        package = "lighthouse";
+        optionPath = "services.ethereum.lighthouse-validator";
         description = "Package to use for Lighthouse binary.";
       };
 

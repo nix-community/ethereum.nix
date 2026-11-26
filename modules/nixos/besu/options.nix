@@ -5,6 +5,8 @@
   ...
 }:
 let
+  modulesLib = import ../../../lib/modules.nix lib;
+
   inherit (lib)
     mkEnableOption
     mkOption
@@ -16,12 +18,10 @@ let
     options = {
       enable = mkEnableOption "Besu Ethereum Execution Client";
 
-      package = mkOption {
-        type = types.package;
-        default =
-          flake.packages.${pkgs.stdenv.hostPlatform.system}.besu
-            or (throw "ethereum.nix does not build besu for ${pkgs.stdenv.hostPlatform.system}; set services.ethereum.besu.<name>.package");
-        defaultText = literalExpression "inputs.ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.besu";
+      package = modulesLib.mkFlakePackageOption {
+        inherit flake pkgs;
+        package = "besu";
+        optionPath = "services.ethereum.besu";
         description = "Package to use as Besu node.";
       };
 

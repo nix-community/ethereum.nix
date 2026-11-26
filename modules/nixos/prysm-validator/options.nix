@@ -5,6 +5,8 @@
   ...
 }:
 let
+  modulesLib = import ../../../lib/modules.nix lib;
+
   inherit (lib)
     mkEnableOption
     mkOption
@@ -16,12 +18,10 @@ let
     options = {
       enable = mkEnableOption "Ethereum Prysm validator client";
 
-      package = mkOption {
-        type = types.package;
-        default =
-          flake.packages.${pkgs.stdenv.hostPlatform.system}.prysm
-            or (throw "ethereum.nix does not build prysm for ${pkgs.stdenv.hostPlatform.system}; set services.ethereum.prysm-validator.<name>.package");
-        defaultText = literalExpression "inputs.ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.prysm";
+      package = modulesLib.mkFlakePackageOption {
+        inherit flake pkgs;
+        package = "prysm";
+        optionPath = "services.ethereum.prysm-validator";
         description = "Package to use for Prysm binary.";
       };
 

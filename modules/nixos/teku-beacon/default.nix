@@ -1,5 +1,3 @@
-# `flake` is injected by blueprint and always refers to ethereum.nix, not the
-# consuming flake (see blueprint publisherArgs).
 { flake, ... }:
 {
   config,

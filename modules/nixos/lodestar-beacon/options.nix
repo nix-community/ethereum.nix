@@ -5,6 +5,8 @@
   ...
 }:
 let
+  modulesLib = import ../../../lib/modules.nix lib;
+
   inherit (lib)
     mkEnableOption
     mkOption
@@ -16,12 +18,10 @@ let
     options = {
       enable = mkEnableOption "Lodestar Ethereum Beacon Chain Node";
 
-      package = mkOption {
-        type = types.package;
-        default =
-          flake.packages.${pkgs.stdenv.hostPlatform.system}.lodestar
-            or (throw "ethereum.nix does not build lodestar for ${pkgs.stdenv.hostPlatform.system}; set services.ethereum.lodestar-beacon.<name>.package");
-        defaultText = literalExpression "inputs.ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.lodestar";
+      package = modulesLib.mkFlakePackageOption {
+        inherit flake pkgs;
+        package = "lodestar";
+        optionPath = "services.ethereum.lodestar-beacon";
         description = "Package to use for Lodestar binary.";
       };
 

@@ -5,6 +5,8 @@
   ...
 }:
 let
+  modulesLib = import ../../../lib/modules.nix lib;
+
   inherit (lib)
     mkEnableOption
     mkOption
@@ -16,12 +18,10 @@ let
     options = {
       enable = mkEnableOption "Erigon Ethereum Node";
 
-      package = mkOption {
-        type = types.package;
-        default =
-          flake.packages.${pkgs.stdenv.hostPlatform.system}.erigon
-            or (throw "ethereum.nix does not build erigon for ${pkgs.stdenv.hostPlatform.system}; set services.ethereum.erigon.<name>.package");
-        defaultText = literalExpression "inputs.ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.erigon";
+      package = modulesLib.mkFlakePackageOption {
+        inherit flake pkgs;
+        package = "erigon";
+        optionPath = "services.ethereum.erigon";
         description = "Package to use as Erigon node.";
       };
 

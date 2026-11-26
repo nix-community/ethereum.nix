@@ -1,6 +1,4 @@
 # Derived from https://github.com/NixOS/nixpkgs/blob/45b92369d6fafcf9e462789e98fbc735f23b5f64/nixos/modules/services/blockchain/ethereum/geth.nix
-# `flake` is injected by blueprint and always refers to ethereum.nix, not the
-# consuming flake (see blueprint publisherArgs).
 { flake, ... }:
 {
   config,

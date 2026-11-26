@@ -5,6 +5,8 @@
   ...
 }:
 let
+  modulesLib = import ../../../lib/modules.nix lib;
+
   inherit (lib)
     mkEnableOption
     mkOption
@@ -16,12 +18,10 @@ let
     options = {
       enable = mkEnableOption "Nethermind Ethereum Node";
 
-      package = mkOption {
-        type = types.package;
-        default =
-          flake.packages.${pkgs.stdenv.hostPlatform.system}.nethermind
-            or (throw "ethereum.nix does not build nethermind for ${pkgs.stdenv.hostPlatform.system}; set services.ethereum.nethermind.<name>.package");
-        defaultText = literalExpression "inputs.ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.nethermind";
+      package = modulesLib.mkFlakePackageOption {
+        inherit flake pkgs;
+        package = "nethermind";
+        optionPath = "services.ethereum.nethermind";
         description = "Package to use as Nethermind.";
       };
 

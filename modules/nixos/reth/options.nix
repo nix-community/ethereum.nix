@@ -5,6 +5,8 @@
   ...
 }:
 let
+  modulesLib = import ../../../lib/modules.nix lib;
+
   inherit (lib)
     mkEnableOption
     mkOption
@@ -16,12 +18,10 @@ let
     options = {
       enable = mkEnableOption "Reth Ethereum Node";
 
-      package = mkOption {
-        type = types.package;
-        default =
-          flake.packages.${pkgs.stdenv.hostPlatform.system}.reth
-            or (throw "ethereum.nix does not build reth for ${pkgs.stdenv.hostPlatform.system}; set services.ethereum.reth.<name>.package");
-        defaultText = literalExpression "inputs.ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.reth";
+      package = modulesLib.mkFlakePackageOption {
+        inherit flake pkgs;
+        package = "reth";
+        optionPath = "services.ethereum.reth";
         description = "Package to use as Reth node.";
       };
 
