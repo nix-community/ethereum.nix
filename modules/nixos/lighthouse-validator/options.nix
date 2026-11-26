@@ -18,8 +18,10 @@ let
 
       package = mkOption {
         type = types.package;
-        default = flake.packages.${pkgs.stdenv.hostPlatform.system}.lighthouse;
-        defaultText = literalExpression "ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.lighthouse";
+        default =
+          flake.packages.${pkgs.stdenv.hostPlatform.system}.lighthouse
+            or (throw "ethereum.nix does not build lighthouse for ${pkgs.stdenv.hostPlatform.system}; set services.ethereum.lighthouse-validator.<name>.package");
+        defaultText = literalExpression "inputs.ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.lighthouse";
         description = "Package to use for Lighthouse binary.";
       };
 

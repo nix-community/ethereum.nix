@@ -18,8 +18,10 @@ let
 
       package = mkOption {
         type = types.package;
-        default = flake.packages.${pkgs.stdenv.hostPlatform.system}.teku;
-        defaultText = literalExpression "ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.teku";
+        default =
+          flake.packages.${pkgs.stdenv.hostPlatform.system}.teku
+            or (throw "ethereum.nix does not build teku for ${pkgs.stdenv.hostPlatform.system}; set services.ethereum.teku-beacon.<name>.package");
+        defaultText = literalExpression "inputs.ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.teku";
         description = "Package to use as Teku binary.";
       };
 

@@ -18,8 +18,10 @@ let
 
       package = mkOption {
         type = types.package;
-        default = flake.packages.${pkgs.stdenv.hostPlatform.system}.dirk;
-        defaultText = literalExpression "ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.dirk";
+        default =
+          flake.packages.${pkgs.stdenv.hostPlatform.system}.dirk
+            or (throw "ethereum.nix does not build dirk for ${pkgs.stdenv.hostPlatform.system}; set services.ethereum.dirk.<name>.package");
+        defaultText = literalExpression "inputs.ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.dirk";
         description = "Package to use for the Dirk binary.";
       };
 

@@ -18,8 +18,10 @@ let
 
       package = mkOption {
         type = types.package;
-        default = flake.packages.${pkgs.stdenv.hostPlatform.system}.besu;
-        defaultText = literalExpression "ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.besu";
+        default =
+          flake.packages.${pkgs.stdenv.hostPlatform.system}.besu
+            or (throw "ethereum.nix does not build besu for ${pkgs.stdenv.hostPlatform.system}; set services.ethereum.besu.<name>.package");
+        defaultText = literalExpression "inputs.ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.besu";
         description = "Package to use as Besu node.";
       };
 

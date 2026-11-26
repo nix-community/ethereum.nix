@@ -18,8 +18,10 @@ let
 
       package = mkOption {
         type = types.package;
-        default = flake.packages.${pkgs.stdenv.hostPlatform.system}.lodestar;
-        defaultText = literalExpression "ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.lodestar";
+        default =
+          flake.packages.${pkgs.stdenv.hostPlatform.system}.lodestar
+            or (throw "ethereum.nix does not build lodestar for ${pkgs.stdenv.hostPlatform.system}; set services.ethereum.lodestar-beacon.<name>.package");
+        defaultText = literalExpression "inputs.ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.lodestar";
         description = "Package to use for Lodestar binary.";
       };
 

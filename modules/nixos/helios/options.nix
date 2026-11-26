@@ -18,8 +18,10 @@ let
 
       package = mkOption {
         type = types.package;
-        default = flake.packages.${pkgs.stdenv.hostPlatform.system}.helios;
-        defaultText = literalExpression "ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.helios";
+        default =
+          flake.packages.${pkgs.stdenv.hostPlatform.system}.helios
+            or (throw "ethereum.nix does not build helios for ${pkgs.stdenv.hostPlatform.system}; set services.ethereum.helios.<name>.package");
+        defaultText = literalExpression "inputs.ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.helios";
         description = "Package to use for the Helios binary.";
       };
 

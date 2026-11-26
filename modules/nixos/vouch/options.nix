@@ -18,8 +18,10 @@ let
 
       package = mkOption {
         type = types.package;
-        default = flake.packages.${pkgs.stdenv.hostPlatform.system}.vouch;
-        defaultText = literalExpression "ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.vouch";
+        default =
+          flake.packages.${pkgs.stdenv.hostPlatform.system}.vouch
+            or (throw "ethereum.nix does not build vouch for ${pkgs.stdenv.hostPlatform.system}; set services.ethereum.vouch.<name>.package");
+        defaultText = literalExpression "inputs.ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.vouch";
         description = "Package to use for the Vouch binary.";
       };
 

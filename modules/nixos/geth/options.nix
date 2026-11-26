@@ -18,8 +18,10 @@ let
 
       package = mkOption {
         type = types.package;
-        default = flake.packages.${pkgs.stdenv.hostPlatform.system}.geth;
-        defaultText = literalExpression "ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.geth";
+        default =
+          flake.packages.${pkgs.stdenv.hostPlatform.system}.geth
+            or (throw "ethereum.nix does not build geth for ${pkgs.stdenv.hostPlatform.system}; set services.ethereum.geth.<name>.package");
+        defaultText = literalExpression "inputs.ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.geth";
         description = "Package to use as Go Ethereum node.";
       };
 

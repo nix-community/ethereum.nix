@@ -18,8 +18,10 @@ let
 
       package = mkOption {
         type = types.package;
-        default = flake.packages.${pkgs.stdenv.hostPlatform.system}.nethermind;
-        defaultText = literalExpression "ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.nethermind";
+        default =
+          flake.packages.${pkgs.stdenv.hostPlatform.system}.nethermind
+            or (throw "ethereum.nix does not build nethermind for ${pkgs.stdenv.hostPlatform.system}; set services.ethereum.nethermind.<name>.package");
+        defaultText = literalExpression "inputs.ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.nethermind";
         description = "Package to use as Nethermind.";
       };
 

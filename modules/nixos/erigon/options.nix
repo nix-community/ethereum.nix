@@ -18,8 +18,10 @@ let
 
       package = mkOption {
         type = types.package;
-        default = flake.packages.${pkgs.stdenv.hostPlatform.system}.erigon;
-        defaultText = literalExpression "ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.erigon";
+        default =
+          flake.packages.${pkgs.stdenv.hostPlatform.system}.erigon
+            or (throw "ethereum.nix does not build erigon for ${pkgs.stdenv.hostPlatform.system}; set services.ethereum.erigon.<name>.package");
+        defaultText = literalExpression "inputs.ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.erigon";
         description = "Package to use as Erigon node.";
       };
 

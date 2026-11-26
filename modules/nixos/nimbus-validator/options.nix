@@ -18,8 +18,10 @@ let
 
       package = mkOption {
         type = types.package;
-        default = flake.packages.${pkgs.stdenv.hostPlatform.system}.nimbus;
-        defaultText = literalExpression "ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.nimbus";
+        default =
+          flake.packages.${pkgs.stdenv.hostPlatform.system}.nimbus
+            or (throw "ethereum.nix does not build nimbus for ${pkgs.stdenv.hostPlatform.system}; set services.ethereum.nimbus-validator.<name>.package");
+        defaultText = literalExpression "inputs.ethereum-nix.packages.\${pkgs.stdenv.hostPlatform.system}.nimbus";
         description = "Package to use for Nimbus binary.";
       };
 
