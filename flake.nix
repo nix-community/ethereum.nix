@@ -54,13 +54,20 @@
       };
       nixosModules =
         let
-          modules = blueprintOutputs.nixosModules;
-          modulePaths = builtins.attrValues modules;
+          # blueprint applies publisher args to each module, so the module
+          # system can't derive a key from its path. Without a stable key,
+          # importing a module twice (e.g. `default` and `geth`) declares
+          # its options twice and fails.
+          modules = builtins.mapAttrs (name: module: {
+            key = "ethereum.nix#nixosModules.${name}";
+            imports = [ module ];
+          }) blueprintOutputs.nixosModules;
         in
         modules
         // {
           default = {
-            imports = modulePaths;
+            key = "ethereum.nix#nixosModules.default";
+            imports = builtins.attrValues modules;
           };
         };
     };
