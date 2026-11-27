@@ -14,13 +14,13 @@
 }:
 rustPlatform.buildRustPackage rec {
   pname = "silver";
-  version = "0.1.0-alpha.21";
+  version = "0.1.0-alpha.23";
 
   src = fetchFromGitHub {
     owner = "gattaca-com";
     repo = "silver";
     tag = "v${version}";
-    hash = "sha256-JAaqUhROHXB4bh1/65D6BnOIQYbIBRXrjrRXDVH1F+M=";
+    hash = "sha256-5ycSFU28DRyjpTkOEr1v21391PndpMmky34twj1S4N8=";
     leaveDotGit = true;
     postFetch = ''
       git -C "$out" rev-parse --short=7 HEAD > "$out/COMMIT"
@@ -28,7 +28,7 @@ rustPlatform.buildRustPackage rec {
     '';
   };
 
-  cargoHash = "sha256-SuaScRU+BwJ1BU/AmtXju+3mnc/n5aGxfDxvq08ltfc=";
+  cargoHash = "sha256-T5vDsRgSyOHAAcXBpOQW1RG9YEuHAtMUqqGLXCVscy8=";
 
   # .git is stripped in postFetch; the build script embeds this commit in the
   # build info instead of reading it from git.
