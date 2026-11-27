@@ -6,13 +6,13 @@
   nix-update-script,
 }:
 let
-  version = "0.1.5";
+  version = "0.2.1";
 
   src = fetchFromGitHub {
     owner = "ethpandaops";
     repo = "tracoor";
     rev = "v${version}";
-    hash = "sha256-zHb9ZEPgzMeaKq9H50p5Cmm6lP8ZluKmkQjl/XfGPrU=";
+    hash = "sha256-ptD4fjn8owDb9zHFnnfPbyUn+uxM6oBb9VaxpqGpvc0=";
   };
 
   ui = buildNpmPackage {
