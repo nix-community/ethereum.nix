@@ -1,9 +1,12 @@
+{ flake }:
 {
   lib,
   pkgs,
   ...
 }:
 let
+  modulesLib = import ../../../lib/modules.nix lib;
+
   inherit (lib)
     mkEnableOption
     mkOption
@@ -15,10 +18,10 @@ let
     options = {
       enable = mkEnableOption "Teku Beacon Node";
 
-      package = mkOption {
-        type = types.package;
-        default = pkgs.teku;
-        defaultText = literalExpression "pkgs.teku";
+      package = modulesLib.mkFlakePackageOption {
+        inherit flake pkgs;
+        package = "teku";
+        optionPath = "services.ethereum.teku-beacon";
         description = "Package to use as Teku binary.";
       };
 

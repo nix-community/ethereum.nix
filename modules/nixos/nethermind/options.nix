@@ -1,9 +1,12 @@
+{ flake }:
 {
   lib,
   pkgs,
   ...
 }:
 let
+  modulesLib = import ../../../lib/modules.nix lib;
+
   inherit (lib)
     mkEnableOption
     mkOption
@@ -15,10 +18,10 @@ let
     options = {
       enable = mkEnableOption "Nethermind Ethereum Node";
 
-      package = mkOption {
-        type = types.package;
-        default = pkgs.nethermind;
-        defaultText = literalExpression "pkgs.nethermind";
+      package = modulesLib.mkFlakePackageOption {
+        inherit flake pkgs;
+        package = "nethermind";
+        optionPath = "services.ethereum.nethermind";
         description = "Package to use as Nethermind.";
       };
 

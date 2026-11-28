@@ -1,9 +1,12 @@
+{ flake }:
 {
   lib,
   pkgs,
   ...
 }:
 let
+  modulesLib = import ../../../lib/modules.nix lib;
+
   inherit (lib)
     mkEnableOption
     mkOption
@@ -15,10 +18,10 @@ let
     options = {
       enable = mkEnableOption "MEV-Boost from Flashbots";
 
-      package = mkOption {
-        default = pkgs.mev-boost;
-        defaultText = literalExpression "pkgs.mev-boost";
-        type = types.package;
+      package = modulesLib.mkFlakePackageOption {
+        inherit flake pkgs;
+        package = "mev-boost";
+        optionPath = "services.ethereum.mev-boost";
         description = "Package to use for mev-boost binary";
       };
 

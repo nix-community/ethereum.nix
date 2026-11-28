@@ -1,7 +1,7 @@
+{ flake, ... }:
 {
   config,
   lib,
-  pkgs,
   ...
 }:
 let
@@ -9,8 +9,10 @@ let
 
   inherit (lib.attrsets) zipAttrsWith;
   inherit (lib)
+    concatMap
     concatStringsSep
     elem
+    filter
     filterAttrs
     flatten
     mapAttrs
@@ -20,7 +22,9 @@ let
     mkIf
     mkMerge
     nameValuePair
+    optional
     optionals
+    unique
     ;
   inherit (builtins) isList;
   inherit (modulesLib) baseServiceConfig;
@@ -30,21 +34,28 @@ let
   # Convert lists to comma-separated strings for CLI
   processSettings = mapAttrs (_: v: if isList v then concatStringsSep "," v else v);
 
-  # Known network flags that become just --<network>
+  # Boolean shorthands (`settings.sepolia = true`) for `--network <name>`.
+  # Lighthouse has no `--<network>` flags, only `--network <name>`. Keep this
+  # equal to the possible values listed by `lighthouse bn --help`.
   networkFlags = [
     "mainnet"
-    "prater"
-    "goerli"
     "gnosis"
     "chiado"
     "sepolia"
     "holesky"
     "hoodi"
   ];
+
+  # Distinct networks selected by `settings.network` and the shorthands.
+  selectedNetworks =
+    s:
+    unique (
+      filter (n: s.${n} or false) networkFlags ++ optional ((s.network or null) != null) s.network
+    );
 in
 {
   ###### interface
-  inherit (import ./options.nix { inherit lib pkgs; }) options;
+  imports = [ (lib.modules.importApply ./options.nix { inherit flake; }) ];
 
   ###### implementation
   config = mkIf (eachBeacon != { }) {
@@ -88,6 +99,7 @@ in
         skipKeys = [
           "datadir"
           "execution-jwt"
+          "network"
         ]
         ++ networkFlags;
         normalSettings = filterAttrs (k: _: !elem k skipKeys) s;
@@ -99,21 +111,13 @@ in
           explicitBool = false;
         }) (processSettings normalSettings);
 
-        # Handle network flag (just --mainnet, not --network=mainnet for standard networks)
-        networkArg =
-          let
-            activeNetwork = lib.findFirst (n: s.${n} or false) null networkFlags;
-            explicitNetwork = s.network or null;
-          in
-          if activeNetwork != null then
-            [ "--${activeNetwork}" ]
-          else if explicitNetwork != null then
-            [
-              "--network"
-              explicitNetwork
-            ]
-          else
-            [ ];
+        # Emit `--network <name>` once, from either `settings.network` or a
+        # boolean shorthand such as `settings.sepolia = true`. The assertion
+        # below rejects settings that select more than one network.
+        networkArg = concatMap (n: [
+          "--network"
+          n
+        ]) (selectedNetworks s);
 
         allArgs = [
           "--datadir"
@@ -154,5 +158,13 @@ in
         }
       )
     ) eachBeacon;
+
+    assertions = mapAttrsToList (name: cfg: {
+      assertion = lib.length (selectedNetworks cfg.settings) <= 1;
+      message = ''
+        Lighthouse Beacon ${name} selects more than one network (${concatStringsSep ", " (selectedNetworks cfg.settings)}).
+        Set either `services.ethereum.lighthouse-beacon.${name}.settings.network` or a single boolean shorthand such as `settings.sepolia = true`.
+      '';
+    }) eachBeacon;
   };
 }

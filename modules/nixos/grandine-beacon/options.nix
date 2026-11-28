@@ -1,9 +1,12 @@
+{ flake }:
 {
   lib,
   pkgs,
   ...
 }:
 let
+  modulesLib = import ../../../lib/modules.nix lib;
+
   inherit (lib)
     mkEnableOption
     mkOption
@@ -15,10 +18,10 @@ let
     options = {
       enable = mkEnableOption "Grandine Ethereum Beacon Chain Node";
 
-      package = mkOption {
-        type = types.package;
-        default = pkgs.grandine;
-        defaultText = literalExpression "pkgs.grandine";
+      package = modulesLib.mkFlakePackageOption {
+        inherit flake pkgs;
+        package = "grandine";
+        optionPath = "services.ethereum.grandine-beacon";
         description = "Package to use for Grandine binary.";
       };
 

@@ -1,7 +1,7 @@
+{ flake, ... }:
 {
   config,
   lib,
-  pkgs,
   ...
 }:
 let
@@ -43,7 +43,7 @@ in
   disabledModules = [ "services/blockchain/ethereum/reth.nix" ];
 
   ###### interface
-  inherit (import ./options.nix { inherit lib pkgs; }) options;
+  imports = [ (lib.modules.importApply ./options.nix { inherit flake; }) ];
 
   ###### implementation
   config = mkIf (eachReth != { }) {

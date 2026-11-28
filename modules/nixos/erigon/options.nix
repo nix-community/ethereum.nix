@@ -1,9 +1,12 @@
+{ flake }:
 {
   lib,
   pkgs,
   ...
 }:
 let
+  modulesLib = import ../../../lib/modules.nix lib;
+
   inherit (lib)
     mkEnableOption
     mkOption
@@ -15,10 +18,10 @@ let
     options = {
       enable = mkEnableOption "Erigon Ethereum Node";
 
-      package = mkOption {
-        type = types.package;
-        default = pkgs.erigon;
-        defaultText = literalExpression "pkgs.erigon";
+      package = modulesLib.mkFlakePackageOption {
+        inherit flake pkgs;
+        package = "erigon";
+        optionPath = "services.ethereum.erigon";
         description = "Package to use as Erigon node.";
       };
 

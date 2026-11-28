@@ -1,9 +1,12 @@
+{ flake }:
 {
   lib,
   pkgs,
   ...
 }:
 let
+  modulesLib = import ../../../lib/modules.nix lib;
+
   inherit (lib)
     mkEnableOption
     mkOption
@@ -15,10 +18,10 @@ let
     options = {
       enable = mkEnableOption "Lodestar Ethereum Beacon Chain Node";
 
-      package = mkOption {
-        type = types.package;
-        default = pkgs.lodestar;
-        defaultText = literalExpression "pkgs.lodestar";
+      package = modulesLib.mkFlakePackageOption {
+        inherit flake pkgs;
+        package = "lodestar";
+        optionPath = "services.ethereum.lodestar-beacon";
         description = "Package to use for Lodestar binary.";
       };
 

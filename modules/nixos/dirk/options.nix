@@ -1,9 +1,12 @@
+{ flake }:
 {
   lib,
   pkgs,
   ...
 }:
 let
+  modulesLib = import ../../../lib/modules.nix lib;
+
   inherit (lib)
     mkEnableOption
     mkOption
@@ -15,10 +18,10 @@ let
     options = {
       enable = mkEnableOption "Dirk, a distributed remote keymanager from Attestant";
 
-      package = mkOption {
-        type = types.package;
-        default = pkgs.dirk;
-        defaultText = literalExpression "pkgs.dirk";
+      package = modulesLib.mkFlakePackageOption {
+        inherit flake pkgs;
+        package = "dirk";
+        optionPath = "services.ethereum.dirk";
         description = "Package to use for the Dirk binary.";
       };
 

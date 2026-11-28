@@ -1,9 +1,12 @@
+{ flake }:
 {
   lib,
   pkgs,
   ...
 }:
 let
+  modulesLib = import ../../../lib/modules.nix lib;
+
   inherit (lib)
     mkEnableOption
     mkOption
@@ -15,10 +18,10 @@ let
     options = {
       enable = mkEnableOption "Ethereum Prysm validator client";
 
-      package = mkOption {
-        type = types.package;
-        default = pkgs.prysm;
-        defaultText = literalExpression "pkgs.prysm";
+      package = modulesLib.mkFlakePackageOption {
+        inherit flake pkgs;
+        package = "prysm";
+        optionPath = "services.ethereum.prysm-validator";
         description = "Package to use for Prysm binary.";
       };
 

@@ -1,9 +1,12 @@
+{ flake }:
 {
   lib,
   pkgs,
   ...
 }:
 let
+  modulesLib = import ../../../lib/modules.nix lib;
+
   inherit (lib)
     mkEnableOption
     mkOption
@@ -15,10 +18,10 @@ let
     options = {
       enable = mkEnableOption "Go Ethereum Node";
 
-      package = mkOption {
-        type = types.package;
-        default = pkgs.geth;
-        defaultText = literalExpression "pkgs.geth";
+      package = modulesLib.mkFlakePackageOption {
+        inherit flake pkgs;
+        package = "geth";
+        optionPath = "services.ethereum.geth";
         description = "Package to use as Go Ethereum node.";
       };
 

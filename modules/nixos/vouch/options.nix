@@ -1,9 +1,12 @@
+{ flake }:
 {
   lib,
   pkgs,
   ...
 }:
 let
+  modulesLib = import ../../../lib/modules.nix lib;
+
   inherit (lib)
     mkEnableOption
     mkOption
@@ -15,10 +18,10 @@ let
     options = {
       enable = mkEnableOption "Vouch, an Ethereum multi-node validator client from Attestant";
 
-      package = mkOption {
-        type = types.package;
-        default = pkgs.vouch;
-        defaultText = literalExpression "pkgs.vouch";
+      package = modulesLib.mkFlakePackageOption {
+        inherit flake pkgs;
+        package = "vouch";
+        optionPath = "services.ethereum.vouch";
         description = "Package to use for the Vouch binary.";
       };
 

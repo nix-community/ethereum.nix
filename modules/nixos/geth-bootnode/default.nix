@@ -1,8 +1,8 @@
 # Derived from https://github.com/NixOS/nixpkgs/blob/45b92369d6fafcf9e462789e98fbc735f23b5f64/nixos/modules/services/blockchain/ethereum/geth.nix
+{ flake, ... }:
 {
   config,
   lib,
-  pkgs,
   ...
 }:
 let
@@ -33,7 +33,7 @@ in
   disabledModules = [ "services/blockchain/ethereum/geth.nix" ];
 
   ###### interface
-  inherit (import ./options.nix { inherit lib pkgs; }) options;
+  imports = [ (lib.modules.importApply ./options.nix { inherit flake; }) ];
 
   ###### implementation
   config = mkIf (eachBootnode != { }) {

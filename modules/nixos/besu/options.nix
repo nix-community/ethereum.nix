@@ -1,9 +1,12 @@
+{ flake }:
 {
   lib,
   pkgs,
   ...
 }:
 let
+  modulesLib = import ../../../lib/modules.nix lib;
+
   inherit (lib)
     mkEnableOption
     mkOption
@@ -15,10 +18,10 @@ let
     options = {
       enable = mkEnableOption "Besu Ethereum Execution Client";
 
-      package = mkOption {
-        type = types.package;
-        default = pkgs.besu;
-        defaultText = literalExpression "pkgs.besu";
+      package = modulesLib.mkFlakePackageOption {
+        inherit flake pkgs;
+        package = "besu";
+        optionPath = "services.ethereum.besu";
         description = "Package to use as Besu node.";
       };
 
