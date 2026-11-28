@@ -1,6 +1,6 @@
-<div align="center" style="margin-top: 1em; margin-bottom: 3em;">
-  <h1>Ethereum.nix = Ethereum 🫶 Nix</h1>
-</div>
+<p align="center">
+  <img src="docs/assets/header.svg" alt="Ethereum.nix: Ethereum clients, tools and NixOS modules, packaged with Nix" width="100%"/>
+</p>
 
 <p align="center">
   <a href="https://ethereum.org/">
@@ -10,22 +10,123 @@
     <img src="https://img.shields.io/static/v1?logo=nixos&logoColor=white&label=&message=Built%20with%20Nix&color=41439a&style=for-the-badge" alt="Built with nix" />
   </a>
   <a href="https://github.com/nix-community/ethereum.nix/blob/main/LICENSE.md">
-    <img src="https://img.shields.io/badge/license-MIT%20v3.0-brightgreen.svg?style=for-the-badge" alt="License" />
+    <img src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=for-the-badge" alt="License" />
   </a>
 </p>
 
-Ethereum.nix is a collection of [Nix](https://nixos.org) packages and [NixOS](https://wiki.nixos.org/wiki/NixOS_modules) modules
-designed to make it easier to operate [Ethereum](https://ethereum.org) related services and infrastructure.
+Ethereum.nix packages Ethereum execution and consensus clients, validators, MEV and staking tools, and smart contract development tools for [Nix](https://nixos.org). It also ships [NixOS modules](https://wiki.nixos.org/wiki/NixOS_modules) that run the main clients as hardened systemd services.
 
-For the uninitiated, using Ethereum.nix will give you the following benefits:
+Most packages are built from source with every dependency pinned, so a build gives the same result on any machine. A few upstream projects only publish binaries or JVM bytecode; the package list below says which. Updates arrive automatically as upstream projects release.
 
-- Access to a wide range of Ethereum applications packaged with Nix, ready to run without fuss. Nix guarantees you don't have to worry about version conflicts, missing dependencies or even what state your OS is in.
-- We aim that every Ethereum application stored in the repository is constructed from its source, including all input dependencies. This approach guarantees the code's reproducibility and trustworthiness. Furthermore, with Nix, expert users can tweak and adjust the build process to any degree of detail as required.
-- We develop custom NixOS modules to streamline operations with applications such as Execution and Consensus clients (including performing backups). Moreover, we aim to introduce further abstractions that simplify everyday tasks, such as running a development environment effortlessly without needing docker.
+## Quick start
 
-This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/Flakes).
+Run any tool without installing it:
 
-## Available Tools
+```bash
+nix run github:nix-community/ethereum.nix#geth -- --help
+nix run github:nix-community/ethereum.nix#lighthouse -- --help
+nix run github:nix-community/ethereum.nix#foundry -- --help
+```
+
+You need Nix with [flakes enabled](https://wiki.nixos.org/wiki/Flakes). The flake points to the `nix-community` binary cache, so most packages download prebuilt instead of compiling. Accept the cache when Nix asks, or add it yourself:
+
+```nix
+nix.settings = {
+  extra-substituters = [ "https://nix-community.cachix.org" ];
+  extra-trusted-public-keys = [ "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=" ];
+};
+```
+
+## Installation
+
+Add the flake as an input:
+
+```nix
+{
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    ethereum-nix.url = "github:nix-community/ethereum.nix";
+  };
+}
+```
+
+### Packages
+
+Take packages straight from the flake:
+
+```nix
+{ pkgs, inputs, ... }:
+{
+  environment.systemPackages = with inputs.ethereum-nix.packages.${pkgs.stdenv.hostPlatform.system}; [
+    geth
+    lighthouse
+    mev-boost
+  ];
+}
+```
+
+Or apply the overlay, which puts every package under `pkgs.ethereum-nix`:
+
+```nix
+{ pkgs, inputs, ... }:
+{
+  nixpkgs.overlays = [ inputs.ethereum-nix.overlays.default ];
+  environment.systemPackages = [
+    pkgs.ethereum-nix.geth
+    pkgs.ethereum-nix.lighthouse
+  ];
+}
+```
+
+### NixOS modules
+
+Import `nixosModules.default` to get all modules, or a single one such as `nixosModules.geth`. Each module lives under `services.ethereum.<client>` and takes one or more named instances. The `settings` attribute set turns into command line flags, so any flag the client accepts works without a dedicated option.
+
+Set each instance's `package` from this flake. The modules default to the package of the same name in `pkgs`, which nixpkgs may not have or may ship at a different version.
+
+This runs Geth and a Lighthouse beacon node on Sepolia, sharing a JWT secret:
+
+```nix
+{ pkgs, inputs, ... }:
+let
+  ethPkgs = inputs.ethereum-nix.packages.${pkgs.stdenv.hostPlatform.system};
+in
+{
+  imports = [ inputs.ethereum-nix.nixosModules.default ];
+
+  services.ethereum.geth.sepolia = {
+    enable = true;
+    package = ethPkgs.geth;
+    openFirewall = true;
+    settings = {
+      sepolia = true;
+      "authrpc.jwtsecret" = "/etc/ethereum/jwtsecret";
+    };
+  };
+
+  services.ethereum.lighthouse-beacon.sepolia = {
+    enable = true;
+    package = ethPkgs.lighthouse;
+    openFirewall = true;
+    settings = {
+      network = "sepolia";
+      execution-endpoint = "http://127.0.0.1:8551";
+      execution-jwt = "/etc/ethereum/jwtsecret";
+    };
+  };
+}
+```
+
+Services run with `DynamicUser` and read secrets through systemd credentials. Modules are available for:
+
+| Role | Modules |
+| --- | --- |
+| Execution | `besu`, `erigon`, `geth`, `nethermind`, `reth` |
+| Consensus | `grandine-beacon`, `lighthouse-beacon`, `lodestar-beacon`, `nimbus-beacon`, `prysm-beacon`, `teku-beacon` |
+| Validator | `dirk`, `lighthouse-validator`, `nimbus-validator`, `prysm-validator`, `vouch` |
+| Other | `geth-bootnode`, `helios`, `mev-boost` |
+
+## Available packages
 
 <!-- BEGIN GENERATED PACKAGE DOCS -->
 
@@ -716,130 +817,27 @@ This project is developed entirely in [Nix Flakes](https://wiki.nixos.org/wiki/F
 </details>
 <!-- END GENERATED PACKAGE DOCS -->
 
-## Installation
-
-### Using Nix Flakes (Recommended)
-
-Add to your system configuration:
-
-```nix
-{
-  inputs = {
-    ethereum.url = "github:nix-community/ethereum.nix";
-  };
-
-  # In your system packages:
-  environment.systemPackages = with inputs.ethereum.packages.${pkgs.stdenv.hostPlatform.system}; [
-    geth
-    lighthouse
-    reth
-    mev-boost
-    # ... other tools
-  ];
-}
-```
-
-### Using Overlay
-
-Alternatively, use the overlay to access packages under the `ethereum` namespace:
-
-```nix
-{
-  inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    ethereum.url = "github:nix-community/ethereum.nix";
-  };
-
-  outputs = { nixpkgs, ethereum, ... }: {
-    # NixOS configuration
-    nixosConfigurations.myhost = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      modules = [{
-        nixpkgs.overlays = [ ethereum.overlays.default ];
-        environment.systemPackages = [
-          pkgs.ethereum.geth
-          pkgs.ethereum.lighthouse
-          pkgs.ethereum.prysm
-        ];
-      }];
-    };
-  };
-}
-```
-
-### Try Without Installing
-
-```bash
-# Try Geth (Execution Client)
-nix run github:nix-community/ethereum.nix#geth -- --help
-
-# Try Lighthouse (Consensus Client)
-nix run github:nix-community/ethereum.nix#lighthouse -- --help
-
-# Try Reth (Execution Client)
-nix run github:nix-community/ethereum.nix#reth -- --help
-
-# Try MEV-Boost
-nix run github:nix-community/ethereum.nix#mev-boost -- --help
-
-# etc...
-```
-
 ## Development
 
-We use [`devshell`](https://github.com/numtide/devshell) to have nice development environments. Otherwise:
+`nix develop` opens a shell with the formatters and linters the repository uses.
 
 ```bash
-nix develop
+nix build .#geth      # build one package
+nix flake check       # build everything and run lints and NixOS tests
+nix fmt               # format all files
 ```
 
-### Building Packages
+The package list above is generated from each package's metadata. Regenerate it with `./scripts/generate-package-docs.py` after adding a package or changing its description. [`docs/automation.md`](docs/automation.md) describes how update PRs are created, checked and merged.
 
-```bash
-# Build a specific package
-nix build .#foundry
-nix build .#geth
-nix build .#nimbus
-# etc...
-```
+## Contributing
 
-### Running checks
-
-To run all tests:
-
-```bash
-nix flake check
-```
-
-### Formatting
-
-You can manually format the source:
-
-```bash
-nix fmt
-```
-
-## Contribute
-
-We welcome any contribution or support to this project, but before doing so:
-
-- Make sure you have read the [contribution guide](/.github/CONTRIBUTING.md) for more details on how to submit a good PR (pull request).
-
-In addition, you can always:
-
-- Add a [GitHub Star 🌟](https://github.com/nix-community/ethereum.nix/stargazers) to the project.
-- Tweet about this project.
+Read the [contribution guide](.github/CONTRIBUTING.md) before opening a pull request. New packages should build from source where upstream allows it and include `meta` and `passthru.category`; [`AGENTS.md`](AGENTS.md) lists the conventions.
 
 ## Acknowledgements
 
-This project has been inspired by the awesome work of:
-
-- [`cosmos.nix`](https://github.com/informalsystems/cosmos.nix) by [Informal Systems](https://github.com/informalsystems), which this repository takes inspiration from its README and several other places.
-
-- [willruggiano](https://github.com/willruggiano) on his work done in [`eth-nix`](https://github.com/willruggiano/eth-nix) repository that served as the initial kick-start for working on this project.
+- [`cosmos.nix`](https://github.com/informalsystems/cosmos.nix) by [Informal Systems](https://github.com/informalsystems) inspired this README and parts of the repository layout.
+- [willruggiano](https://github.com/willruggiano)'s [`eth-nix`](https://github.com/willruggiano/eth-nix) was the starting point for this project.
 
 ## License
 
-Individual tools are licensed under their respective licenses.
-
-The Nix packaging code in this repository is licensed under MIT.
+The Nix code in this repository is licensed under [MIT](LICENSE.md). Each packaged tool keeps its own upstream license, shown in the package list.
